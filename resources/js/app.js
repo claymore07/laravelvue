@@ -19,6 +19,9 @@ let routes = [
 ];
 
 const router = new VueRouter({
+    mode: 'history',
+    linkActiveClass: "active",
+    linkExactActiveClass: "exact-active",
     routes // short for `routes: routes`
 });
 
@@ -43,5 +46,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+
 });

@@ -13,7 +13,7 @@
         </li>
 
         <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
                 <p>
                     Management
@@ -36,11 +36,11 @@
             </ul>
         </li>
         <li class="nav-item ">
-            <router-link to="/profile" class="nav-link">
+            <router-link to="/profile" class="nav-link ">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                     Profile
-                    <i class="right fa fa-angle-left"></i>
+                    <!-- <i class="right fa fa-angle-left"></i>-->
                 </p>
 
             </router-link>

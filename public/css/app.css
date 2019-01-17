@@ -31084,3 +31084,10 @@ readers do not read off random characters that represent icons */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+/*
+.router-link-exact-active{
+    color: #ffffff;
+    background-color: #007bff;
+}
+*/
+
