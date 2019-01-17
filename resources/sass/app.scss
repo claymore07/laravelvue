@@ -4,9 +4,18 @@
 
 // Variables
 @import 'variables';
-
+$fa-font-path: "../webfonts";
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~admin-lte/dist/css/adminlte.css';
+@import '~admin-lte/dist/css/adminlte.css';
+
+@import "~font-awesome/scss/fontawesome";
+@import "~font-awesome/scss/light";
+@import "~font-awesome/scss/regular";
+@import "~font-awesome/scss/brands";
+@import "~font-awesome/scss/solid";
+
 
 .navbar-laravel {
   background-color: #fff;
