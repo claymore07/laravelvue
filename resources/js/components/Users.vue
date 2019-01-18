@@ -6,7 +6,7 @@
                     <h3 class="card-title">Users Table</h3>
 
                     <div class="card-tools">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#addNew"><i class="fas fa-user-plus fa-fw" ></i> Add New User</button>
+                        <button class="btn btn-success" @click="newModal"><i class="fas fa-user-plus fa-fw" ></i> Add New User</button>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -28,7 +28,7 @@
                             <td>{{ user.type | upText }}</td>
                             <td>{{ user.created_at | myDate  }}</td>
                             <td>
-                                <a href="#">
+                                <a href="#" @click="editModal(user)">
                                     <i class="fa fa-edit blue"></i>
                                 </a>
                                 /
@@ -49,12 +49,13 @@
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-plus fa-fw"></i> Add New User</h5>
+                        <h5 class="modal-title" v-if="!editMode" id="exampleModalLabel"><i class="fas fa-user-plus fa-fw"></i> Add New User</h5>
+                        <h5 class="modal-title" v-else="editMode" id="exampleModalLabel"><i class="fas fa-user-cog fa-fw"></i> Update User: {{form.name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form @submit.prevent="createUser" @keydown="form.onKeydown($event)">
+                    <form @submit.prevent="editMode ? updateUser():createUser()" @keydown="form.onKeydown($event)">
                     <div class="modal-body">
 
                             <div class="form-group">
@@ -94,7 +95,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button :disabled="form.busy" type="submit"   class="btn btn-primary">Create User</button>
+                        <button :disabled="form.busy" v-if="!editMode" type="submit"   class="btn btn-primary">Create User</button>
+                        <button :disabled="form.busy" v-else="editMode" type="submit"   class="btn btn-success">Update User</button>
                     </div>
                     </form>
                 </div>
@@ -112,8 +114,10 @@
         name: "Users",
         data(){
             return{
+                editMode: false,
                 users: {},
                 form: new Form({
+                    id:'',
                     name:'',
                     email:'',
                     type:'',
@@ -124,8 +128,35 @@
             }
         },
         methods:{
+            newModal(){
+                this.form.reset();
+                this.editMode = false;
+                $('#addNew').modal('show');
+            },
+            editModal(user){
+                this.editMode = true;
+                this.form.reset();
+                this.form.fill(user);
+                $('#addNew').modal('show');
+            },
             loadUsers(){
                 axios.get('api/user').then(({data})=>(this.users  = data.data));
+            },
+            updateUser(){
+                this.$Progress.start();
+                this.form.put('api/user/'+this.form.id)
+                    .then(()=>{
+                        Fire.$emit('AfterCreate');
+                        $('#addNew').modal('hide');
+                        toast({
+                            type: 'success',
+                            title: 'User updated in successfully'
+                        });
+                        this.$Progress.finish();
+                    })
+                    .catch(()=>{
+                        this.$Progress.fail();
+                    })
             },
             deleteUser(id){
                 swal({

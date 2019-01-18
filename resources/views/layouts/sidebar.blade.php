@@ -59,6 +59,17 @@
                 </li>
             </ul>-->
         </li>
+
+        <li class="nav-item">
+            <router-link to="/developer" class="nav-link">
+                <i class="nav-icon fas fa-cogs yellow"></i>
+                <p>
+                    Developer
+                    <!--<span class="right badge badge-danger">New</span>-->
+                </p>
+            </router-link>
+        </li>
+
         <li class="nav-item">
             <a href="{{ route('logout') }}"
                onclick="event.preventDefault();
