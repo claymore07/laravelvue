@@ -29,7 +29,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     protected $dates=['created_at'];
-    public function getCreatedAtAttribute($value){
+   /* public function getCreatedAtAttribute($value){
         return  Carbon::parse($value)->diffForHumans();
-    }
+    }*/
 }

@@ -29,7 +29,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         //
-
+       // sleep(8);
         return User::create([
             'name'=> $request['name'],
             'email'=>$request['email'],
