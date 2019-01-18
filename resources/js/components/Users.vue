@@ -32,9 +32,9 @@
                                     <i class="fa fa-edit blue"></i>
                                 </a>
                                 /
-                                <a href="#">
+                                <button href="#" @click="deleteUser(user.id)">
                                     <i class="fa fa-trash red"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         </tbody>
@@ -127,8 +127,40 @@
             loadUsers(){
                 axios.get('api/user').then(({data})=>(this.users  = data.data));
             },
+            deleteUser(id){
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    // send ajax request to server
+                    if (result.value) {
+                        this.form.delete('api/user/'+id).then(()=>{
+
+                                swal(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                );
+
+                            Fire.$emit('AfterCreate');
+                        }).catch(()=>{
+                            swal("Failed!", "There was something wronge.", "error");
+                        });
+                    }else{
+                        swal("Canceled!", "You have canceled the action.", "warning");
+                    }
+
+
+                })
+            },
             createUser(){
                 this.$Progress.start();
+                this.form.busy;
                 this.form.post('api/user')
                     .then(()=>{
                         Fire.$emit('AfterCreate');
@@ -138,6 +170,7 @@
                             title: 'User Created in successfully'
                         });
                         this.$Progress.finish();
+                        this.form.reset();
                     })
                     .catch(()=>{
                         this.$Progress.fail();
