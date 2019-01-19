@@ -31,11 +31,12 @@ class UserRequest extends FormRequest
             'type' => 'required',
             'password' => 'required|string|min:6'
         ];
+
         switch($this->method()) {
             case 'PUT':
             case 'PATCH':
-                $rules['email']    = 'email|required|unique:users,email,' . $this->route("user");
-                $rules['password'] = 'sometimes|string|min:6';
+                $rules['email']    = 'email|required|unique:users,email,' . $this->id;
+                $rules['password'] = 'sometimes|required|string|min:6';
                 break;
         }
 

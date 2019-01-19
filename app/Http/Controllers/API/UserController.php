@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\UserRequest;
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -60,6 +61,50 @@ class UserController extends Controller
         //
 
     }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function profile()
+    {
+        //
+        return auth('api')->user();
+
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfile(UserRequest $request)
+    {
+        //
+        $user = auth('api')->user();
+        $currentPhoto = $user->photo;
+
+        if($request->photo != $currentPhoto){
+
+            $name = time().'.' . explode('/',
+                    explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+            Image::make($request->photo)->save(public_path('img/profile/').$name);
+            $request->merge(['photo' => $name]);
+            $userPhoto = public_path('img/profile/').$currentPhoto;
+            if(file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
+        }
+
+        if(!empty($request->password)){
+            $request->merge(['password' => bcrypt($request['password'])]);
+        }
+        $user->update($request->all());
+        return $request['photo'];
+
+    }
+
 
     /**
      * Update the specified resource in storage.
