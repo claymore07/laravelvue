@@ -63,10 +63,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <img src="/img//profile/{{auth()->user()->photo}}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                    <span style="color: white;">{{auth()->user()->type}}</span>
                 </div>
             </div>
 
@@ -132,7 +133,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
+@auth
+    <script>
+        window.user = @json(auth()->user())
+    </script>
+@endauth
 <script src="{{ asset('js/app.js') }}" ></script>
 <script>
 

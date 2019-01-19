@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="col-md-12 mt-3">
+        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()||$gate.isAuthor()">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Users Table</h3>
@@ -45,7 +45,7 @@
             <!-- /.card -->
         </div>
         <!-- Modal -->
-        <div class="modal  fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div  v-if="$gate.isAdmin()||$gate.isAuthor()" class="modal  fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -102,6 +102,10 @@
                 </div>
             </div>
         </div>
+        <div v-if="!$gate.isAdmin()&&!$gate.isAuthor()">
+            <not-found></not-found>
+        </div>
+
     </div>
 
 
@@ -179,8 +183,9 @@
                                 );
 
                             Fire.$emit('AfterCreate');
-                        }).catch(()=>{
-                            swal("Failed!", "There was something wronge.", "error");
+                        }).catch((e)=>{
+                          //  console.log(e.response.data['message']);
+                            swal("Failed!", e.response.data['message'], "error");
                         });
                     }else{
                         swal("Canceled!", "You have canceled the action.", "warning");
@@ -209,11 +214,14 @@
             }
         },
         created() {
-            this.loadUsers();
-            Fire.$on('AfterCreate',() => {
-                this.loadUsers();
-            });
-            //    setInterval(() => this.loadUsers(), 3000);
+           if( this.$gate.isAdmin()||this.$gate.isAuthor()){
+               this.loadUsers();
+               Fire.$on('AfterCreate',() => {
+                   this.loadUsers();
+               });
+               //    setInterval(() => this.loadUsers(), 3000);
+           }
+
         }
     }
 </script>

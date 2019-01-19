@@ -11,7 +11,7 @@
                 </p>
             </router-link>
         </li>
-
+        @can('isAdmin')
         <li class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs green"></i>
@@ -35,6 +35,7 @@
                 </li>
             </ul>
         </li>
+        @endcan
         <li class="nav-item ">
             <router-link to="/profile" class="nav-link ">
                 <i class="nav-icon fas fa-user orange"></i>
@@ -59,7 +60,7 @@
                 </li>
             </ul>-->
         </li>
-
+        @can('isAdmin')
         <li class="nav-item">
             <router-link to="/developer" class="nav-link">
                 <i class="nav-icon fas fa-cogs yellow"></i>
@@ -69,7 +70,7 @@
                 </p>
             </router-link>
         </li>
-
+        @endcan
         <li class="nav-item">
             <a href="{{ route('logout') }}"
                onclick="event.preventDefault();

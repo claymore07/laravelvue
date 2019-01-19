@@ -163,6 +163,11 @@
                 }
                 this.form.put('api/profile/')
                     .then(()=>{
+                        Fire.$emit('AfterCreate');
+                        toast({
+                            type: 'success',
+                            title: 'profile Updated successfully'
+                        });
                         this.$Progress.finish();
                     })
                     .catch(()=>{
@@ -193,6 +198,9 @@
         },
         created(){
             axios.get("api/profile").then(({data})=>this.form.fill(data));
+            Fire.$on('AfterCreate',() => {
+                axios.get("api/profile").then(({data})=>this.form.fill(data));
+            });
         }
     }
 </script>
