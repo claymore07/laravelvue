@@ -29,12 +29,22 @@ class UserController extends Controller
     {
         //
         if(Gate::allows('isAdmin')||Gate::allows('isAuthor')){
-            return User::latest()->paginate(10);
+            return User::latest()->paginate(2);
         }
         //$this->authorize('isAdmin');
 
     }
-
+    public function search(){
+        if ($search = \Request::get('q')) {
+            $users = User::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%")
+                    ->orWhere('email','LIKE',"%$search%");
+            })->paginate(2);
+        }else{
+            $users = User::latest()->paginate(2);
+        }
+        return $users;
+    }
     /**
      * Store a newly created resource in storage.
      *

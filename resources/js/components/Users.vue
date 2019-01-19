@@ -21,7 +21,7 @@
                             <th>Register At</th>
                             <th>Modify</th>
                         </tr>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="user in users.data" :key="user.id">
                             <td>{{ user.id }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
@@ -41,6 +41,13 @@
                     </table>
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer">
+                    <pagination v-if="" :data="users" @pagination-change-page="getResults" :show-disabled="true">
+                        <span slot="prev-nav">&lt; قبلی</span>
+                        <span slot="next-nav">بعدی &gt;</span>
+                    </pagination>
+
+                </div>
             </div>
             <!-- /.card -->
         </div>
@@ -118,7 +125,9 @@
         name: "Users",
         data(){
             return{
+                laravelData: {},
                 editMode: false,
+                searchResult: false,
                 users: {},
                 form: new Form({
                     id:'',
@@ -132,6 +141,23 @@
             }
         },
         methods:{
+            getResults( page = 1) {
+
+                if(this.searchResult){
+                    let query = this.$parent.search;
+                    axios.get('api/findUser?q='+query + '&page=' + page)
+                        .then(response => {
+                            this.users = response.data;
+                        });
+                }else{
+                    axios.get('api/user?page=' + page)
+                        .then(response => {
+                            this.users = response.data;
+                        });
+                }
+
+
+            },
             newModal(){
                 this.form.reset();
                 this.editMode = false;
@@ -144,7 +170,7 @@
                 $('#addNew').modal('show');
             },
             loadUsers(){
-                axios.get('api/user').then(({data})=>(this.users  = data.data));
+                axios.get('api/user').then(({data})=>(this.users  = data));
             },
             updateUser(){
                 this.$Progress.start();
@@ -215,10 +241,20 @@
         },
         created() {
            if( this.$gate.isAdmin()||this.$gate.isAuthor()){
+               Fire.$on('searching',()=>{
+                   let query = this.$parent.search;
+                    axios.get('api/findUser?q='+query)
+                        .then((data) => {
+                            this.searchResult= true;
+                            this.users = data.data;
+
+                    }).catch(()=>{});
+               });
                this.loadUsers();
                Fire.$on('AfterCreate',() => {
                    this.loadUsers();
                });
+               this.getResults();
                //    setInterval(() => this.loadUsers(), 3000);
            }
 

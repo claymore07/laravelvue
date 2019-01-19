@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 // To handle routeless vue routes
 // Should be the last route
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]*)?');
