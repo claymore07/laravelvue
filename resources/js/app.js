@@ -8,11 +8,14 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+require('./jquery.html5cvm.min');
+
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import VueProgressBar from 'vue-progressbar';
 import { Form, HasError, AlertError } from 'vform';
 import VueRouter from 'vue-router';
+import VueFloatLabel from "vue-float-label";
 import Gate from "./Gate";
 
 Vue.prototype.$gate = new Gate(window.user);
@@ -24,6 +27,7 @@ const toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000
 });
+
 window.toast = toast;
 
 window.Form = Form;
@@ -31,7 +35,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.use(VueRouter);
-
+Vue.use(VueFloatLabel);
 let routes = [
     { path: '/home', component: require('./components/Dashboard.vue').default },
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },

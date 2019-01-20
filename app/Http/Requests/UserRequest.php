@@ -27,9 +27,24 @@ class UserRequest extends FormRequest
             //
             'name' =>'required|string|max:191',
             'email' => 'required|email|string|max:191|unique:users',
-            'bio' => 'required',
+
             'type' => 'required',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+
+            'Fname'=>'required',
+            'Lname'=>'required',
+            'siba'=>'required|numeric',
+            'phone'=>'required|numeric',
+            'personal_id'=>'required|numeric',
+            //'role_id'=>'required',
+            'position_id'=>'required',
+            'member_id'=>'required',
+            'faculty_id'=>'required',
+            'rank_id'=>'required',
+            'degree_id'=>'required',
+            'department_id'=>'required',
+
+
         ];
 
         switch($this->method()) {

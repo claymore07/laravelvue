@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Degree;
+use App\Department;
+use App\Faculty;
 use App\Http\Requests\UserRequest;
+use App\Member;
+use App\Position;
+use App\Profile;
+use App\Rank;
+use DB;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Response;
+use Session;
 
 class UserController extends Controller
 {
@@ -29,21 +39,41 @@ class UserController extends Controller
     {
         //
         if(Gate::allows('isAdmin')||Gate::allows('isAuthor')){
-            return User::latest()->paginate(2);
+            $order = \Request::get('order');
+            $users =User::with('profile')->orderBy('created_at', $order)->paginate(10);
+
+            $degrees = Degree::pluck('name', 'id')->all();
+            $departments = Department::pluck('name', 'id')->all();
+            $faculties = Faculty::pluck('name', 'id')->all();
+            $positions = Position::pluck('name', 'id')->all();
+            $members = Member::pluck('name', 'id')->all();
+            $ranks = Rank::pluck('name', 'id')->all();
+            return Response::json(array('users'=>$users,'degrees'=>$degrees,
+                'departments'=>$departments, 'ranks'=>$ranks,'members'=>$members,
+                'positions'=>$positions, 'faculties' => $faculties
+                ));
+
         }
         //$this->authorize('isAdmin');
 
     }
     public function search(){
+        $order = \Request::get('order');
         if ($search = \Request::get('q')) {
             $users = User::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%")
                     ->orWhere('email','LIKE',"%$search%");
-            })->paginate(2);
+            })->orderBy('created_at', $order)->paginate(2);
         }else{
-            $users = User::latest()->paginate(2);
+            $users = User::orderBy('created_at', $order)->paginate(2);
         }
-        return $users;
+        $degrees = Degree::pluck('name', 'id')->all();
+        $departments = Department::pluck('name', 'id')->all();
+        $faculties = Faculty::pluck('name', 'id')->all();
+        $positions = Position::pluck('name', 'id')->all();
+        $members = Member::pluck('name', 'id')->all();
+        $ranks = Rank::pluck('name', 'id')->all();
+        return Response::json(array('users'=>$users,'degrees'=>$degrees,'departments'=>$departments));
     }
     /**
      * Store a newly created resource in storage.
@@ -55,14 +85,47 @@ class UserController extends Controller
     {
         //
        // sleep(8);
-        return User::create([
-            'name'=> $request['name'],
-            'email'=>$request['email'],
-            'type'=>$request['type'],
-            'password'=>bcrypt($request['password']),
-            'bio'=>$request['bio'],
-            'photo'=>$request['photo']
-        ]);
+        //
+
+        $input = $request->all();
+        DB::beginTransaction();
+        try {
+            $user['name'] = $input['name'];
+            $user['password'] = bcrypt($input['password']);
+            $user['email']=$input['email'];
+            $user['type']=$input['type'];
+            $user['bio']=$input['bio'];
+
+            $users = User::create($user);
+
+            $profile['user_id'] = $users->id;
+            $profile['Fname'] = $input['Fname'];
+            $profile['Lname'] = $input['Lname'];
+            $profile['base'] = $input['base'];
+            $profile['siba'] = $input['siba'];
+            $profile['personal_id'] = $input['personal_id'];
+            $profile['phone'] = $input['phone'];
+            $profile['degree_id'] = $input['degree_id'];
+            $profile['rank_id'] = $input['rank_id'];
+            $profile['faculty_id'] = $input['faculty_id'];
+            $profile['department_id'] = $input['department_id'];
+            $profile['position_id'] = $input['position_id'];
+            $profile['member_id'] = $input['member_id'];
+
+            $profiles = Profile::create($profile);
+        }catch (\Exception $e){
+
+            DB::rollback();
+           return Response::json(['old_password'=> ["Your old password is not correct."] ], 403);
+           // return redirect('admin/home')->with('fail','عملیات ثبت کاربر ناموفق بود، از ابتدا شروع نمایید.');
+        }
+
+        DB::commit();
+
+        Session::flash('success', 'اطلاعات کاربر جدید با موفقیت ثبت شده است.');
+
+        return $users;
+
     }
 
     /**

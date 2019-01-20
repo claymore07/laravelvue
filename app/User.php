@@ -33,4 +33,24 @@ class User extends Authenticatable
    /* public function getCreatedAtAttribute($value){
         return  Carbon::parse($value)->diffForHumans();
     }*/
+    // Forward
+    public function profile(){
+        return $this->hasOne('App\Profile');
+    }
+    public function papers(){
+        return $this->hasManyThrough(
+            'App\Paper','App\Profile','user_id','profile_id');
+    }
+
+    // Backward
+    public function role(){
+        return $this->belongsTo('App\Role');
+    }
+    /**
+     * Send a password reset email to the user
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MailResetPasswordToken($token));
+    }
 }
