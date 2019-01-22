@@ -15,7 +15,8 @@ $fa-font-path: "../webfonts";
 @import "~font-awesome/scss/regular";
 @import "~font-awesome/scss/brands";
 @import "~font-awesome/scss/solid";
-
+@import "select2.min.css";
+@import "select2-bootstrap4.css";
 @font-face {
     font-family: IRANSans;
     font-style: normal;
@@ -152,3 +153,27 @@ h1, h2, h3, h4, h5, h6,input, textarea, body, table, tr, td, p, a, select{
     bottom: 30px;
 }
 
+.select2-form-control{
+    padding: 0 !important;
+    height: auto !important;
+    border: none !important;
+}
+
+input, select, textarea, .select2-container--bootstrap4 .select2-selection{
+    padding-left: 0 !important;
+    font-size: 100% !important;
+    border: 0  !important;
+    border-bottom: 2px solid #aaa  !important;
+    transition: border 0.2s !important;
+}
+input:focus ,  select:focus , textarea:focus , .select2-container--bootstrap4 .select2-selection:focus{
+    border-bottom: 2px solid #559bff !important;
+}
+
+div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selection{
+    border-color: #e3342f !important;
+}
+.select2-selection__rendered {
+    padding-right: 8px !important;
+    padding-left: 20px !important;
+}

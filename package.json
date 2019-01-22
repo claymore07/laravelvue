@@ -28,9 +28,15 @@
         "admin-lte": "^3.0.0-alpha.2",
         "laravel-vue-pagination": "^2.2.0",
         "moment": "^2.23.0",
+        "moment-jalaali": "^0.8.3",
+        "persian": "^1.0.1",
+        "select2": "^4.0.6-rc.1",
         "sweetalert2": "^7.33.1",
+        "ttskch/select2-bootstrap4-theme": "^1.0.5",
+        "v-select2-component": "^0.3.2",
         "vform": "^1.0.0",
         "vue-float-label": "^1.6.1",
+        "vue-persianjs-helper": "0.0.3",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2"
     }

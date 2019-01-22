@@ -9,13 +9,15 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 require('./jquery.html5cvm.min');
+require('./jquery.SimpleMask.min');
 
 import moment from 'moment';
+import jmoment from 'moment-jalaali';
+
 import Swal from 'sweetalert2'
 import VueProgressBar from 'vue-progressbar';
 import { Form, HasError, AlertError } from 'vform';
 import VueRouter from 'vue-router';
-import VueFloatLabel from "vue-float-label";
 import Gate from "./Gate";
 
 Vue.prototype.$gate = new Gate(window.user);
@@ -35,7 +37,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.use(VueRouter);
-Vue.use(VueFloatLabel);
+
 let routes = [
     { path: '/home', component: require('./components/Dashboard.vue').default },
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
@@ -49,8 +51,20 @@ Vue.filter('upText', function (text) {
     return text.charAt(0).toUpperCase() + text.substr(1);
 });
 Vue.filter('myDate', function (created) {
-    return moment(created).format('MMMM Do YYYY');
+    jmoment.loadPersian({dialect: 'persian-modern', usePersianDigits: true});
+    return jmoment(created).format('jDo jMMMM jYYYY    ');
 });
+Vue.filter('faDigit', function (value) {
+    if (!value) return '';
+    value = value.toString();
+    const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+
+    return value
+        .toString()
+        .split('')
+        .map(x => farsiDigits[x])
+        .join('');
+})
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
     failedColor: 'red',
@@ -67,7 +81,8 @@ const router = new VueRouter({
 let Fire = new Vue();
 window.Fire =Fire;
 
-Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('pagination', require('./components/LaravelVuePagination').default);
+
 
 //passport
 

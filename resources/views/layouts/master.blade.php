@@ -12,12 +12,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>AdminLTE 3 | Starter</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link  type="text/css"  href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
 
-    </style>
 </head>
 <body class="hold-transition sidebar-mini" style="direction: rtl">
 <div class="wrapper"  id="app">
@@ -149,10 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 <script>
-    $('#Form').html5cvm({
-        generic: 'Forgotten something?',
-        typeMismatch: "Please enter a valid email!"
-    });
+
 </script>
 </body>
 </html>

@@ -42,12 +42,25 @@ class UserController extends Controller
             $order = \Request::get('order');
             $users =User::with('profile')->orderBy('created_at', $order)->paginate(10);
 
-            $degrees = Degree::pluck('name', 'id')->all();
-            $departments = Department::pluck('name', 'id')->all();
-            $faculties = Faculty::pluck('name', 'id')->all();
-            $positions = Position::pluck('name', 'id')->all();
-            $members = Member::pluck('name', 'id')->all();
-            $ranks = Rank::pluck('name', 'id')->all();
+            $degrees = Degree::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $positions = Position::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $members = Member::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $ranks = Rank::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
             return Response::json(array('users'=>$users,'degrees'=>$degrees,
                 'departments'=>$departments, 'ranks'=>$ranks,'members'=>$members,
                 'positions'=>$positions, 'faculties' => $faculties
@@ -116,7 +129,7 @@ class UserController extends Controller
         }catch (\Exception $e){
 
             DB::rollback();
-           return Response::json(['old_password'=> ["Your old password is not correct."] ], 403);
+           return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 403);
            // return redirect('admin/home')->with('fail','عملیات ثبت کاربر ناموفق بود، از ابتدا شروع نمایید.');
         }
 
@@ -194,10 +207,56 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         //
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        return ['message'=>'this a update'];
+        $user_db = User::findOrFail($id);
+        $input = $request->all();
+        DB::beginTransaction();
+        try {
+            $user['name'] = $input['name'];
+            if(/*$request->has('password')*/is_null($input['password'])){
+
+                $user['password'] = bcrypt($input['password']);
+            }
+            $user['email']=$input['email'];
+            $user['type']=$input['type'];
+            $user['bio']=$input['bio'];
+            /*
+            if(empty($input['role_id'])){
+                $user['role_id']=2;
+            }else{
+                $user['role_id']=$input['role_id'];
+            }*/
+            $users = $user_db->update($user);
+
+            $profile['user_id'] = $user_db->id;
+            $profile['Fname'] = $input['Fname'];
+            $profile['Lname'] = $input['Lname'];
+            $profile['base'] = $input['base'];
+            $profile['siba'] = $input['siba'];
+            $profile['personal_id'] = $input['personal_id'];
+            $profile['phone'] = $input['phone'];
+            $profile['degree_id'] = $input['degree_id'];
+            $profile['rank_id'] = $input['rank_id'];
+            $profile['faculty_id'] = $input['faculty_id'];
+            $profile['department_id'] = $input['department_id'];
+            $profile['position_id'] = $input['position_id'];
+            $profile['member_id'] = $input['member_id'];
+            if($user_db->profile==''){
+                $profiles = Profile::create($profile);
+            }else{
+                $profiles = $user_db->profile->update($profile);
+            }
+        }catch (\Exception $e){
+
+            DB::rollback();
+           // dd($e);
+            return Response::json(['message'=> ["خطای در پایگاه داده رخ داده است"] ], 403);
+        }
+
+        DB::commit();
+
+        return Response::json(['success'=> ["با موققیت انجام شد!"] ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -208,12 +267,32 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        $this->authorize('isAdmin');
+        //$this->authorize('isAdmin');
         $user = User::findOrFail($id);
+        DB::beginTransaction();
+        try {
+            if($user->profile != '') {
+                $profile = $user->profile;
+                /* $papers = $profile->papers;
+                 foreach ($papers as $paper) {
+                     $paper->authors()->delete();
+                     $paper->journal()->delete();
+                     $paper->delete();
+                 }*/
+                $profile->delete();
+            }
+            $user->delete();
+        } catch (\Exception $e) {
 
+            DB::rollback();
+            return Response::json(['message'=> ["خطای در پایگاه داده رخ داده است"] ], 403);
+        }
+
+        DB::commit();
+       // Session::flash('success', 'اطلاعات کاربر با موفقیت حذف شد.');
         // delete the user
-        $user->delete();
+       // $user->delete();
 
-        return ['message'=>'User is Deleted'];
+        return Response::json(['success'=> ["اطلاعات کاربر با موفقیت حذف شد."] ], 200);
     }
 }
