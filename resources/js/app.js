@@ -128,11 +128,12 @@ const app = new Vue({
     el: '#app',
     router,
     data:{
-        search:''
+        search:'',
+        pageName:'داشبورد',
     },
     methods:{
-        searchit: _.debounce(()=>{
+        searchit: _.debounce(() => {
             Fire.$emit('searching');
-        }, 1000),
+        },500),
     }
 });

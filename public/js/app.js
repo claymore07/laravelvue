@@ -1904,6 +1904,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1966,6 +1967,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var v_select2_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-select2-component */ "./node_modules/v-select2-component/src/Select2.vue");
 //
 //
 //
@@ -2100,31 +2102,218 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Profile",
   data: function data() {
     return {
+      baseMode: true,
+      degrees: [],
+      ranks: [],
+      members: [],
+      departments: [],
+      faculties: [],
+      positions: [],
+      photoName: '',
       form: new Form({
+        hasProfile: true,
         id: '',
         name: '',
+        Fname: '',
+        Lname: '',
         email: '',
         type: '',
         bio: '',
         photo: '',
-        password: ''
+        password: '',
+        siba: '',
+        phone: '',
+        personal_id: '',
+        degree_id: '',
+        rank_id: '',
+        member_id: '',
+        position_id: '',
+        faculty_id: '',
+        department_id: '',
+        base: ''
       })
     };
   },
   mounted: function mounted() {
+    $('#Form').html5cvm({
+      generic: 'این گزینه باید تکمیل شود!',
+      typeMismatch: "نوع داده ورودی همخوانی ندارد."
+    });
+    $('#siba').simpleMask({
+      'mask': '#############'
+    });
+    $('#phone').simpleMask({
+      'mask': '###########'
+    });
     console.log('Profile Component mounted.');
   },
   methods: {
+    baseToggle: function baseToggle() {
+      if (this.form.position_id == 1 || this.form.position_id == 2 || this.form.position_id == 3) {
+        this.baseMode = true;
+      } else {
+        this.baseMode = false;
+        this.form.base = 0;
+      }
+
+      console.log(this.baseMode);
+    },
+    farsiTypeInputSetter: function farsiTypeInputSetter(e, field) {
+      switch (field) {
+        case 'Fname':
+          this.form.Fname = e;
+          break;
+
+        case 'Lname':
+          this.form.Lname = e;
+          break;
+      }
+    },
     getProfilePhoto: function getProfilePhoto() {
       var photo = this.form.photo.length > 200 ? this.form.photo : "img/profile/" + this.form.photo;
       return photo;
     },
-    updateInfo: function updateInfo() {
+    getProfileRation: function getProfileRation() {
       var _this = this;
+
+      axios.get('api/profileRelation').then(function (response) {
+        _this.degrees = response.data.degrees;
+        _this.ranks = response.data.ranks;
+        _this.members = response.data.members;
+        _this.departments = response.data.departments;
+        _this.faculties = response.data.faculties;
+        _this.positions = response.data.positions;
+      }).catch(function (e) {
+        console.log(e);
+      });
+    },
+    updateInfo: function updateInfo() {
+      var _this2 = this;
 
       this.$Progress.start();
 
@@ -2135,19 +2324,21 @@ __webpack_require__.r(__webpack_exports__);
       this.form.put('api/profile/').then(function () {
         Fire.$emit('AfterCreate');
         toast({
+          position: 'top-start',
           type: 'success',
-          title: 'profile Updated successfully'
+          title: 'برزوزسانی پروفایل با موفقیت انجام شد.'
         });
 
-        _this.$Progress.finish();
+        _this2.$Progress.finish();
       }).catch(function () {
-        _this.$Progress.fail();
+        _this2.$Progress.fail();
       });
     },
     updateProfile: function updateProfile(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       var file = e.target.files[0];
+      this.photoName = file.name;
       var reader = new FileReader();
       var limit = 1024 * 1024 * 2;
 
@@ -2161,26 +2352,59 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       reader.onloadend = function (file) {
-        _this2.form.photo = reader.result;
-        console.log(_this2.form.photo);
+        _this3.form.photo = reader.result;
       };
 
       reader.readAsDataURL(file);
+    },
+    fillForm: function fillForm(user) {
+      this.baseMode = true;
+      this.form.reset();
+
+      if (user.profile) {
+        user.base = user.profile.base;
+        user.degree_id = user.profile.degree_id;
+        user.rank_id = user.profile.rank_id;
+        user.member_id = user.profile.member_id;
+        user.department_id = user.profile.department_id;
+        user.faculty_id = user.profile.faculty_id;
+        user.position_id = user.profile.position_id;
+        user.Fname = user.profile.Fname;
+        user.Lname = user.profile.Lname;
+        user.siba = user.profile.siba;
+        user.phone = user.profile.phone;
+        user.personal_id = user.profile.personal_id;
+        user.hasProfile = true;
+
+        if (user.position_id == 1 || user.position_id == 2 || user.position_id == 3) {
+          this.baseMode = true;
+        } else {
+          this.baseMode = false;
+          this.form.base = 0;
+        }
+      } else {
+        user.hasProfile = false;
+      }
+
+      this.form.fill(user);
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
-    axios.get("api/profile").then(function (_ref) {
-      var data = _ref.data;
-      return _this3.form.fill(data);
+    this.$parent.pageName = 'پروفایل شما';
+    this.getProfileRation();
+    axios.get("api/profile").then(function (response) {
+      _this4.fillForm(response.data.user);
     });
     Fire.$on('AfterCreate', function () {
-      axios.get("api/profile").then(function (_ref2) {
-        var data = _ref2.data;
-        return _this3.form.fill(data);
+      axios.get("api/profile").then(function (response) {
+        _this4.fillForm(response.data.user);
       });
     });
+  },
+  components: {
+    Select2: v_select2_component__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -2357,8 +2581,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_select2_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-select2-component */ "./node_modules/v-select2-component/src/Select2.vue");
-var _this5 = undefined;
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2624,6 +2857,7 @@ var _this5 = undefined;
   name: "Users",
   data: function data() {
     return {
+      search: '',
       modalID: '',
       order: 1,
       total: 0,
@@ -2640,14 +2874,6 @@ var _this5 = undefined;
       departments: [],
       faculties: [],
       positions: [],
-      myValue: '',
-      myOptions: [],
-
-      /* selected: 2,
-       options: [
-           { id: 1, text: 'Hello' },
-           { id: 2, text: 'World' }
-       ],*/
       form: new Form({
         hasProfile: true,
         id: '',
@@ -2673,6 +2899,12 @@ var _this5 = undefined;
     };
   },
   methods: {
+    searchit: function searchit() {
+      this.$parent.searchit();
+    },
+    farsi: function farsi() {
+      this.form.personal_id = this.$options.filters.faDigit(this.form.personal_id);
+    },
     toggle: function toggle() {
       this.order *= -1;
       this.getResults();
@@ -2687,49 +2919,64 @@ var _this5 = undefined;
 
       console.log(this.baseMode);
     },
-    getResults: function getResults() {
+    newModal: function newModal() {
+      this.form.reset();
+      this.editMode = false;
+      $('#addNew').modal('show');
+    },
+    farsiTypeInputSetter: function farsiTypeInputSetter(e, field) {
+      switch (field) {
+        case 'Fname':
+          this.form.Fname = e;
+          break;
+
+        case 'Lname':
+          this.form.Lname = e;
+          break;
+      }
+    },
+    counter: function counter(i) {
+      return this.numStart + i;
+    },
+    getProfileRation: function getProfileRation() {
       var _this = this;
+
+      axios.get('api/profileRelation').then(function (response) {
+        _this.degrees = response.data.degrees;
+        _this.ranks = response.data.ranks;
+        _this.members = response.data.members;
+        _this.departments = response.data.departments;
+        _this.faculties = response.data.faculties;
+        _this.positions = response.data.positions;
+      }).catch(function (e) {
+        console.log(e);
+      });
+    },
+    getResults: function getResults() {
+      var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       var que = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
       var sortOrder = this.order === 1 ? 'asc' : 'desc';
 
       if (this.searchResult) {
-        var query = this.$parent.search;
-        axios.get('api/findUser?order=' + sortOrder + '&q=' + query + '&page=' + page).then(function (response) {
-          _this.users = response.data.users;
-          _this.degrees = response.data.degrees;
-          _this.ranks = response.data.ranks;
-          _this.members = response.data.members;
-          _this.departments = response.data.departments;
-          _this.faculties = response.data.faculties;
-          _this.positions = response.data.positions;
-          _this.total = response.data.users.total;
-          _this.numToShow = response.data.users.per_page;
-          _this.numStart = response.data.users.from;
-          _this.numTo = response.data.users.to;
+        que = this.search;
+        axios.get('api/findUser?order=' + sortOrder + '&q=' + que + '&page=' + page).then(function (response) {
+          _this2.users = response.data.users;
+          _this2.total = response.data.users.total;
+          _this2.numToShow = response.data.users.per_page;
+          _this2.numStart = response.data.users.from;
+          _this2.numTo = response.data.users.to;
         });
       } else {
-        console.log('sss11');
         axios.get('api/user?order=' + sortOrder + '&page=' + page).then(function (response) {
-          _this.users = response.data.users;
-          _this.degrees = response.data.degrees;
-          _this.ranks = response.data.ranks;
-          _this.members = response.data.members;
-          _this.departments = response.data.departments;
-          _this.faculties = response.data.faculties;
-          _this.positions = response.data.positions;
-          _this.total = response.data.users.total;
-          _this.numToShow = response.data.users.per_page;
-          _this.numStart = response.data.users.from;
-          _this.numTo = response.data.users.to;
+          _this2.users = response.data.users;
+          _this2.total = response.data.users.total;
+          _this2.numToShow = response.data.users.per_page;
+          _this2.numStart = response.data.users.from;
+          _this2.numTo = response.data.users.to;
         });
       }
-    },
-    newModal: function newModal() {
-      this.form.reset();
-      this.editMode = false;
-      $('#addNew').modal('show');
     },
     editModal: function editModal(user) {
       this.editMode = true;
@@ -2765,7 +3012,7 @@ var _this5 = undefined;
       $('#addNew').modal('show');
     },
     updateUser: function updateUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.form.put('api/user/' + this.form.id).then(function () {
@@ -2777,9 +3024,9 @@ var _this5 = undefined;
           title: 'برزوزسانی کاربر با موفقیت انجام شد.'
         });
 
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
       }).catch(function (e) {
-        _this2.$Progress.fail();
+        _this3.$Progress.fail();
 
         swal.fire({
           title: 'خطا!',
@@ -2792,7 +3039,7 @@ var _this5 = undefined;
       });
     },
     deleteUser: function deleteUser(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       swal({
         title: 'آیا از حذف کاربر مورد نظر مطمئن هستید؟',
@@ -2806,7 +3053,7 @@ var _this5 = undefined;
       }).then(function (result) {
         // send ajax request to server
         if (result.value) {
-          _this3.form.delete('api/user/' + id).then(function () {
+          _this4.form.delete('api/user/' + id).then(function () {
             swal('Deleted!', 'کاربر مورد نظر با موفقیت حذف شد.', 'success');
             Fire.$emit('AfterCreate');
           }).catch(function (e) {
@@ -2832,7 +3079,7 @@ var _this5 = undefined;
       });
     },
     createUser: function createUser() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.$Progress.start();
       this.form.busy;
@@ -2845,43 +3092,17 @@ var _this5 = undefined;
           title: 'User Created in successfully'
         });
 
-        _this4.$Progress.finish();
+        _this5.$Progress.finish();
 
-        _this4.form.reset();
+        _this5.form.reset();
       }).catch(function () {
-        _this4.$Progress.fail();
+        _this5.$Progress.fail();
       });
-    },
-    farsiTypeInputSetter: function farsiTypeInputSetter(e, field) {
-      switch (field) {
-        case 'Fname':
-          this.form.Fname = e;
-          break;
-
-        case 'Lname':
-          this.form.Lname = e;
-          break;
-      }
-    },
-    counter: function counter(i) {
-      return this.numStart + i;
     }
   },
   computed: {
     sortType: function sortType() {
       return this.order === 1 ? 'ascending' : 'descending';
-    }
-  },
-  watch: {
-    firstName: function firstName(val) {
-      if (_this5.form.Fname === 'undefined') {
-        _this5.fullName = val + ' ' + _this5.form.Lname;
-      }
-    },
-    lastName: function lastName(val) {
-      if (_this5.form.Fname === 'undefined') {
-        _this5.fullName = _this5.form.Fname + ' ' + val;
-      }
     }
   },
   mounted: function mounted() {
@@ -2900,10 +3121,12 @@ var _this5 = undefined;
   created: function created() {
     var _this6 = this;
 
+    this.$parent.pageName = 'کاربران';
+
     if (this.$gate.isAdmin() || this.$gate.isAuthor()) {
       Fire.$on('searching', function () {
         var page = 1;
-        var query = _this6.$parent.search;
+        var query = _this6.search;
         _this6.searchResult = true;
 
         _this6.getResults(page, query);
@@ -2912,6 +3135,7 @@ var _this5 = undefined;
         _this6.getResults();
       });
       this.getResults();
+      this.getProfileRation();
     }
   },
   components: {
@@ -67508,7 +67732,7 @@ __webpack_require__.r(__webpack_exports__);
       .select2({
         ...this.settings,
         data: this.options,
-          dropdownParent: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#addNew .modal-content'),
+          //dropdownParent: $('#addNew .modal-content'),
       })
       .on('select2:select select2:unselect', ev => {
         this.$emit('change', this.select2.val());
@@ -67777,14 +68001,29 @@ var render = function() {
                         class: { active: page == computed.currentPage }
                       },
                       [
-                        _c(
-                          "a",
-                          _vm._g(
-                            { staticClass: "page-link", attrs: { href: "#" } },
-                            pageButtonEvents(page)
-                          ),
-                          [_vm._v(_vm._s(_vm._f("faDigit")(page)))]
-                        )
+                        page !== "..."
+                          ? _c(
+                              "a",
+                              _vm._g(
+                                {
+                                  staticClass: "page-link",
+                                  attrs: { href: "#" }
+                                },
+                                pageButtonEvents(page)
+                              ),
+                              [_vm._v(_vm._s(_vm._f("faDigit")(page)))]
+                            )
+                          : _c(
+                              "a",
+                              _vm._g(
+                                {
+                                  staticClass: "page-link",
+                                  attrs: { href: "#" }
+                                },
+                                pageButtonEvents(page)
+                              ),
+                              [_vm._v(_vm._s(page))]
+                            )
                       ]
                     )
                   }),
@@ -68255,7 +68494,7 @@ var render = function() {
           _c(
             "div",
             {
-              staticClass: "widget-user-header text-white",
+              staticClass: "widget-user-header text-white text-right",
               staticStyle: {
                 height: "250px",
                 background: "url('/img/photo1.png') center center"
@@ -68263,7 +68502,14 @@ var render = function() {
             },
             [
               _c("h3", { staticClass: "widget-user-username" }, [
-                _vm._v(_vm._s(this.form.name))
+                _vm._v("پروفایل: "),
+                _vm.form.hasProfile
+                  ? _c("span", [
+                      _vm._v(_vm._s(_vm.form.Fname + " " + _vm.form.Lname))
+                    ])
+                  : _c("span", [
+                      _vm._v(_vm._s(_vm.form.name) + " پروفایل ناقص")
+                    ])
               ]),
               _vm._v(" "),
               _c("h5", { staticClass: "widget-user-desc" }, [
@@ -68279,17 +68525,55 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "card-footer" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-4 border-right" }, [
+                _c("div", { staticClass: "description-block" }, [
+                  _c("h5", { staticClass: "description-header" }, [
+                    _vm._v(_vm._s(_vm._f("faDigit")(32)))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "description-text" }, [
+                    _vm._v("تعداد مقالات")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-4 border-right" }, [
+                _c("div", { staticClass: "description-block" }, [
+                  _c("h5", { staticClass: "description-header" }, [
+                    _vm._v(_vm._s(_vm._f("faDigit")(32)))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "description-text" }, [
+                    _vm._v("تایید شده")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-4" }, [
+                _c("div", { staticClass: "description-block" }, [
+                  _c("h5", { staticClass: "description-header" }, [
+                    _vm._v(_vm._s(_vm._f("faDigit")(32)))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "description-text" }, [
+                    _vm._v("دوره ها")
+                  ])
+                ])
+              ])
+            ])
+          ])
         ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(1),
+          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "tab-content" }, [
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "div",
@@ -68298,21 +68582,136 @@ var render = function() {
                   attrs: { id: "settings" }
                 },
                 [
-                  _c("form", { staticClass: "form-horizontal" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-sm-2 control-label",
-                          attrs: { for: "inputName" }
+                  _c(
+                    "form",
+                    {
+                      staticClass: "form-horizontal",
+                      attrs: { id: "Form" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.updateInfo($event)
                         },
-                        [_vm._v("Name")]
+                        keydown: function($event) {
+                          _vm.form.onKeydown($event)
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "form-group mt-4 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نام:")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.lazy",
+                                value: _vm.form.Fname,
+                                expression: "form.Fname",
+                                modifiers: { lazy: true }
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("Fname")
+                            },
+                            attrs: {
+                              lang: "fa-IR",
+                              type: "text",
+                              name: "Fname",
+                              placeholder: "نام",
+                              pattern: "[^A-Za-z0-9.-_+*/×-]{1,30}",
+                              "data-error-pattern-mismatch":
+                                "نام باید فارسی باشد!"
+                            },
+                            domProps: { value: _vm.form.Fname },
+                            on: {
+                              keyup: function($event) {
+                                _vm.farsiTypeInputSetter(
+                                  $event.target.value,
+                                  "Fname"
+                                )
+                              },
+                              input: function() {},
+                              change: function($event) {
+                                _vm.$set(_vm.form, "Fname", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "Fname" }
+                          })
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "col-sm-12" },
+                        { staticClass: "form-group my-5 text-right" },
                         [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نام خانوادگی:")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.lazy",
+                                value: _vm.form.Lname,
+                                expression: "form.Lname",
+                                modifiers: { lazy: true }
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("Lname")
+                            },
+                            attrs: {
+                              lang: "fa-IR",
+                              type: "text",
+                              name: "Lname",
+                              placeholder: "نام خانوادگی",
+                              pattern: "[^A-Za-z0-9.-_+*/×-]{1,30}",
+                              "data-error-pattern-mismatch":
+                                "نام خانوادگی باید فارسی باشد!",
+                              required: ""
+                            },
+                            domProps: { value: _vm.form.Lname },
+                            on: {
+                              keyup: function($event) {
+                                _vm.farsiTypeInputSetter(
+                                  $event.target.value,
+                                  "Lname"
+                                )
+                              },
+                              change: function($event) {
+                                _vm.$set(_vm.form, "Lname", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "Lname" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نام کاربری:")
+                          ]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -68327,9 +68726,14 @@ var render = function() {
                               "is-invalid": _vm.form.errors.has("name")
                             },
                             attrs: {
-                              type: "",
-                              id: "inputName",
-                              placeholder: "Name"
+                              type: "text",
+                              name: "name",
+                              placeholder: "نام کاربری",
+                              pattern: "[A-Za-z]{6,}",
+                              "data-error-pattern-mismatch":
+                                "نام کاربری باید به زبان انگلیسی به طول بیش از 6 کاراکتر باشد!",
+                              "data-error-generic": "این فیلد باید تکمیل شود.",
+                              required: ""
                             },
                             domProps: { value: _vm.form.name },
                             on: {
@@ -68347,23 +68751,16 @@ var render = function() {
                           })
                         ],
                         1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-sm-2 control-label",
-                          attrs: { for: "inputEmail" }
-                        },
-                        [_vm._v("Email")]
                       ),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "col-sm-12" },
+                        { staticClass: "form-group my-5 text-right" },
                         [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("رایان نامه:")
+                          ]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -68379,8 +68776,9 @@ var render = function() {
                             },
                             attrs: {
                               type: "email",
-                              id: "inputEmail",
-                              placeholder: "Email"
+                              name: "email",
+                              placeholder: "example@gmail.com",
+                              required: ""
                             },
                             domProps: { value: _vm.form.email },
                             on: {
@@ -68398,90 +68796,16 @@ var render = function() {
                           })
                         ],
                         1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-sm-2 control-label",
-                          attrs: { for: "inputExperience" }
-                        },
-                        [_vm._v("Experience")]
                       ),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "col-sm-12" },
+                        { staticClass: "form-group my-5 text-right" },
                         [
-                          _c("textarea", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.bio,
-                                expression: "form.bio"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: { "is-invalid": _vm.form.errors.has("bio") },
-                            attrs: {
-                              id: "inputExperience",
-                              placeholder: "Experience"
-                            },
-                            domProps: { value: _vm.form.bio },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(_vm.form, "bio", $event.target.value)
-                              }
-                            }
-                          }),
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("کلمه عبور:")
+                          ]),
                           _vm._v(" "),
-                          _c("has-error", {
-                            attrs: { form: _vm.form, field: "bio" }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-sm-2 control-label",
-                          attrs: { for: "photo" }
-                        },
-                        [_vm._v("Profile Photo")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-12" }, [
-                        _c("input", {
-                          staticClass: "form-input",
-                          attrs: { type: "file", name: "photo" },
-                          on: { change: _vm.updateProfile }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-sm-12 control-label",
-                          attrs: { for: "password" }
-                        },
-                        [_vm._v("Passport (leave empty if not changing)")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-sm-12" },
-                        [
                           _c("input", {
                             directives: [
                               {
@@ -68497,8 +68821,8 @@ var render = function() {
                             },
                             attrs: {
                               type: "password",
-                              id: "password",
-                              placeholder: "Passport"
+                              name: "password",
+                              placeholder: "کلمه عبور ( حداقل 6 کاراکتر)"
                             },
                             domProps: { value: _vm.form.password },
                             on: {
@@ -68520,28 +68844,614 @@ var render = function() {
                           })
                         ],
                         1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("div", { staticClass: "col-sm-offset-2 col-sm-12" }, [
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("شماره سیبا:")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.siba,
+                                expression: "form.siba"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("siba")
+                            },
+                            attrs: {
+                              type: "text",
+                              maxlength: "13",
+                              name: "siba",
+                              id: "siba",
+                              placeholder: "0000000000000",
+                              pattern: "[0-9]{13}",
+                              "data-error-pattern-mismatch":
+                                "شماره حساب سیبا باید عدد و بطول 13 باشد!",
+                              required: ""
+                            },
+                            domProps: { value: _vm.form.siba },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "siba", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "siba" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نشماره موبایل:")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.phone,
+                                expression: "form.phone"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("phone")
+                            },
+                            attrs: {
+                              type: "tel",
+                              maxlength: "11",
+                              name: "phone",
+                              id: "phone",
+                              placeholder: "09111111111",
+                              pattern: "[0-9]{11}",
+                              "data-error-pattern-mismatch":
+                                "شماره موبایل باید عدد و بطول 11 باشد!",
+                              required: ""
+                            },
+                            domProps: { value: _vm.form.phone },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "phone", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "phone" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("شماره پرسنلی:")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.lazy",
+                                value: _vm.form.personal_id,
+                                expression: "form.personal_id",
+                                modifiers: { lazy: true }
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("personal_id")
+                            },
+                            attrs: {
+                              type: "text",
+                              name: "personal_id",
+                              placeholder: "111",
+                              pattern: "[0-9]{3,12}",
+                              "data-error-pattern-mismatch":
+                                "شماره پرسنلی باید عدد و حداقل به طول 3  باشد!",
+                              required: ""
+                            },
+                            domProps: { value: _vm.form.personal_id },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.$set(
+                                    _vm.form,
+                                    "personal_id",
+                                    $event.target.value
+                                  )
+                                },
+                                function($event) {
+                                  _vm.farsi()
+                                }
+                              ]
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "personal_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("خلاصه بیوگرافی:")
+                          ]),
+                          _vm._v(" "),
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.bio,
+                                expression: "form.bio"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: { "is-invalid": _vm.form.errors.has("bio") },
+                            attrs: {
+                              name: "bio",
+                              id: "bio",
+                              placeholder: "خلاصه بیوگرافی:"
+                            },
+                            domProps: { value: _vm.form.bio },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "bio", $event.target.value)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "bio" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نوع دسترسی به سامانه:")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.type,
+                                  expression: "form.type"
+                                }
+                              ],
+                              staticClass: "form-control test1",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("type")
+                              },
+                              attrs: { name: "type", id: "type" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "type",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                {
+                                  attrs: {
+                                    selected: "",
+                                    disabled: "",
+                                    value: ""
+                                  }
+                                },
+                                [_vm._v("نوع دسترسی به سامانه")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "admin" } }, [
+                                _vm._v("Admin")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "user" } }, [
+                                _vm._v("Standard User")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "author" } }, [
+                                _vm._v("Author")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "type" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("آخرین مدرک تحصیلی:")
+                          ]),
+                          _vm._v(" "),
+                          _c("Select2", {
+                            staticClass: "form-control select2-form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("degree_id")
+                            },
+                            attrs: {
+                              options: _vm.degrees,
+                              settings: {
+                                theme: "bootstrap4",
+                                placeholder: "آخرین مدرک تحصیلی",
+                                width: "100%"
+                              }
+                            },
+                            model: {
+                              value: _vm.form.degree_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "degree_id", $$v)
+                              },
+                              expression: "form.degree_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "degree_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5  text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("مرتبه علمی:")
+                          ]),
+                          _vm._v(" "),
+                          _c("Select2", {
+                            staticClass: "form-control select2-form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("rank_id")
+                            },
+                            attrs: {
+                              options: _vm.ranks,
+                              settings: {
+                                theme: "bootstrap4",
+                                placeholder: "مرتبه علمی",
+                                width: "100%"
+                              }
+                            },
+                            model: {
+                              value: _vm.form.rank_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "rank_id", $$v)
+                              },
+                              expression: "form.rank_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "rank_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نوع عضویت در باشگاه پژوهشگران:")
+                          ]),
+                          _vm._v(" "),
+                          _c("Select2", {
+                            staticClass: "form-control select2-form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("member_id")
+                            },
+                            attrs: {
+                              id: "member_id",
+                              options: _vm.members,
+                              settings: {
+                                theme: "bootstrap4",
+                                placeholder: "نوع عضویت در باشگاه پژوهشگران",
+                                width: "100%"
+                              }
+                            },
+                            model: {
+                              value: _vm.form.member_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "member_id", $$v)
+                              },
+                              expression: "form.member_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "member_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("گروه آموزشی:")
+                          ]),
+                          _vm._v(" "),
+                          _c("Select2", {
+                            staticClass: "form-control select2-form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("department_id")
+                            },
+                            attrs: {
+                              id: "department_id",
+                              options: _vm.departments,
+                              settings: {
+                                theme: "bootstrap4",
+                                placeholder: "گروه آموزشی",
+                                width: "100%"
+                              }
+                            },
+                            model: {
+                              value: _vm.form.department_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "department_id", $$v)
+                              },
+                              expression: "form.department_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "department_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نام دانشکده:")
+                          ]),
+                          _vm._v(" "),
+                          _c("Select2", {
+                            staticClass: "form-control select2-form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("faculty_id")
+                            },
+                            attrs: {
+                              id: "faculty_id",
+                              options: _vm.faculties,
+                              settings: {
+                                theme: "bootstrap4",
+                                placeholder: "نام دانشکده",
+                                width: "100%"
+                              }
+                            },
+                            model: {
+                              value: _vm.form.faculty_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "faculty_id", $$v)
+                              },
+                              expression: "form.faculty_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "faculty_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group my-5 text-right" },
+                        [
+                          _c("label", { staticClass: "blue" }, [
+                            _vm._v("نوع همکاری با دانشگاه:")
+                          ]),
+                          _vm._v(" "),
+                          _c("Select2", {
+                            staticClass: "form-control select2-form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("position_id")
+                            },
+                            attrs: {
+                              id: "position_id",
+                              options: _vm.positions,
+                              settings: {
+                                theme: "bootstrap4",
+                                placeholder: "نوع همکاری با دانشگاه",
+                                width: "100%"
+                              }
+                            },
+                            on: { change: _vm.baseToggle },
+                            model: {
+                              value: _vm.form.position_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "position_id", $$v)
+                              },
+                              expression: "form.position_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "position_id" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.baseMode
+                        ? _c(
+                            "div",
+                            { staticClass: "form-group my-5 text-right" },
+                            [
+                              _c("label", { staticClass: "blue" }, [
+                                _vm._v("پایه:")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.base,
+                                    expression: "form.base"
+                                  }
+                                ],
+                                staticClass:
+                                  "form-control text-ltr text-left addon",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has("base")
+                                },
+                                staticStyle: {
+                                  direction: "rtl",
+                                  "text-align": "right !important"
+                                },
+                                attrs: {
+                                  id: "base1",
+                                  placeholder: "1",
+                                  pattern: "[0-9]{1,2}",
+                                  "data-error-pattern-mismatch":
+                                    "شماره پرسنلی باید عدد و حداقل به طول 3  باشد!",
+                                  required: "",
+                                  name: "base",
+                                  type: "text"
+                                },
+                                domProps: { value: _vm.form.base },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "base",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("has-error", {
+                                attrs: { form: _vm.form, field: "base" }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: {
+                            name: "photo",
+                            type: "file",
+                            id: "customFile",
+                            "data-browse": "Bestand kiezen"
+                          },
+                          on: { change: _vm.updateProfile }
+                        }),
+                        _vm._v(" "),
+                        _vm.photoName === ""
+                          ? _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "customFile" }
+                              },
+                              [_vm._v("انتخاب فایل تصویر")]
+                            )
+                          : _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "customFile" }
+                              },
+                              [_vm._v(_vm._s(_vm.photoName))]
+                            )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group mt-5" }, [
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.updateInfo($event)
-                              }
-                            }
+                            staticClass: "btn btn-lg btn-block btn-success",
+                            attrs: { disabled: _vm.form.busy, type: "submit" }
                           },
-                          [_vm._v("Update")]
+                          [_vm._v("برروزرسانی")]
                         )
                       ])
-                    ])
-                  ])
+                    ]
+                  )
                 ]
               )
             ])
@@ -68556,66 +69466,37 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-4 border-right" }, [
-          _c("div", { staticClass: "description-block" }, [
-            _c("h5", { staticClass: "description-header" }, [_vm._v("3,200")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "description-text" }, [_vm._v("SALES")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-4 border-right" }, [
-          _c("div", { staticClass: "description-block" }, [
-            _c("h5", { staticClass: "description-header" }, [_vm._v("13,000")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "description-text" }, [
-              _vm._v("FOLLOWERS")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-4" }, [
-          _c("div", { staticClass: "description-block" }, [
-            _c("h5", { staticClass: "description-header" }, [_vm._v("35")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "description-text" }, [
-              _vm._v("PRODUCTS")
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header p-2" }, [
-      _c("ul", { staticClass: "nav nav-pills" }, [
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: { href: "#activity", "data-toggle": "tab" }
-            },
-            [_vm._v("Activity")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active show",
-              attrs: { href: "#settings", "data-toggle": "tab" }
-            },
-            [_vm._v("Settings")]
-          )
-        ])
-      ])
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-pills text-right",
+          staticStyle: { direction: "rtl!important" }
+        },
+        [
+          _c("li", { staticClass: "nav-item order-1" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: { href: "#activity", "data-toggle": "tab" }
+              },
+              [_vm._v("فعالیت ها")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item order-0" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link active show",
+                attrs: { href: "#settings", "data-toggle": "tab" }
+              },
+              [_vm._v("تنظیمات")]
+            )
+          ])
+        ]
+      )
     ])
   },
   function() {
@@ -68654,39 +69535,81 @@ var render = function() {
     _vm.$gate.isAdmin() || _vm.$gate.isAuthor()
       ? _c("div", { staticClass: "col-md-12 mt-3" }, [
           _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("h3", { staticClass: "card-title" }, [_vm._v("Users Table")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-tools" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-success",
-                    on: { click: _vm.newModal }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-user-plus fa-fw" }),
-                    _vm._v(" Add New User")
-                  ]
-                )
-              ])
-            ]),
+            _c(
+              "div",
+              {
+                staticClass: "card-header justify-content-around d-flex ",
+                staticStyle: { direction: "rtl" }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "col w-50" }, [
+                  _c("div", { staticClass: "input-group input-group-sm" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search,
+                          expression: "search"
+                        }
+                      ],
+                      staticClass: "w-75",
+                      attrs: {
+                        type: "search",
+                        placeholder: "جستجو...",
+                        "aria-label": "جستجو"
+                      },
+                      domProps: { value: _vm.search },
+                      on: {
+                        keyup: function($event) {
+                          _vm.searchit()
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.search = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.newModal }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-user-plus fa-fw" }),
+                      _vm._v(" افزودن کاربر جدید")
+                    ]
+                  )
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "card-body table-responsive p-0" }, [
-              _c("table", { staticClass: "table table-hover" }, [
+              _c("table", { staticClass: "table table-hover text-right" }, [
                 _c(
                   "tbody",
                   [
                     _c("tr", [
                       _c("th", [_vm._v("شماره")]),
                       _vm._v(" "),
-                      _c("th", [_vm._v("ID")]),
+                      _c("th", [_vm._v("شناسه")]),
                       _vm._v(" "),
-                      _c("th", [_vm._v("Name")]),
+                      _c("th", [_vm._v("نام")]),
                       _vm._v(" "),
-                      _c("th", [_vm._v("Email")]),
+                      _c("th", [_vm._v("رایان نامه")]),
                       _vm._v(" "),
-                      _c("th", [_vm._v("Type")]),
+                      _c("th", [_vm._v("نوع دسترسی")]),
                       _vm._v(" "),
                       _c(
                         "th",
@@ -68698,10 +69621,10 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Register At")]
+                        [_vm._v("تاریخ ثبت نام")]
                       ),
                       _vm._v(" "),
-                      _c("th", [_vm._v("Modify")])
+                      _c("th", [_vm._v("ابزارهای ویرایشی")])
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.users.data, function(user, index) {
@@ -68712,7 +69635,17 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(_vm._f("faDigit")(user.id)))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(user.name))]),
+                        user.profile
+                          ? _c("td", { class: { blue: user.profile } }, [
+                              _vm._v(
+                                _vm._s(
+                                  user.profile.Fname + " " + user.profile.Lname
+                                ) + "\n                           "
+                              )
+                            ])
+                          : _c("td", { class: { red: !user.profile } }, [
+                              _vm._v(_vm._s("پروفایل ناقص"))
+                            ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(user.email))]),
                         _vm._v(" "),
@@ -68739,7 +69672,7 @@ var render = function() {
                             "\n                               /\n                               "
                           ),
                           _c(
-                            "button",
+                            "a",
                             {
                               attrs: { href: "#" },
                               on: {
@@ -68870,7 +69803,7 @@ var render = function() {
                           ]
                         ),
                     _vm._v(" "),
-                    _vm._m(0)
+                    _vm._m(2)
                   ]),
                   _vm._v(" "),
                   _c(
@@ -69316,9 +70249,10 @@ var render = function() {
                               directives: [
                                 {
                                   name: "model",
-                                  rawName: "v-model",
+                                  rawName: "v-model.lazy",
                                   value: _vm.form.personal_id,
-                                  expression: "form.personal_id"
+                                  expression: "form.personal_id",
+                                  modifiers: { lazy: true }
                                 }
                               ],
                               staticClass: "form-control",
@@ -69336,16 +70270,18 @@ var render = function() {
                               },
                               domProps: { value: _vm.form.personal_id },
                               on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                change: [
+                                  function($event) {
+                                    _vm.$set(
+                                      _vm.form,
+                                      "personal_id",
+                                      $event.target.value
+                                    )
+                                  },
+                                  function($event) {
+                                    _vm.farsi()
                                   }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "personal_id",
-                                    $event.target.value
-                                  )
-                                }
+                                ]
                               }
                             }),
                             _vm._v(" "),
@@ -69770,38 +70706,40 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-footer" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            attrs: { type: "button", "data-dismiss": "modal" }
-                          },
-                          [_vm._v("Close")]
-                        ),
-                        _vm._v(" "),
                         !_vm.editMode
                           ? _c(
                               "button",
                               {
-                                staticClass: "btn btn-primary",
+                                staticClass:
+                                  "btn btn-lg btn-block btn-primary mx-3",
                                 attrs: {
                                   disabled: _vm.form.busy,
                                   type: "submit"
                                 }
                               },
-                              [_vm._v("Create User")]
+                              [_vm._v("ثبت اطلاعات")]
                             )
                           : _c(
                               "button",
                               {
-                                staticClass: "btn btn-success",
+                                staticClass:
+                                  "btn btn-lg btn-block btn-success mx-3",
                                 attrs: {
                                   disabled: _vm.form.busy,
                                   type: "submit"
                                 }
                               },
-                              [_vm._v("Update User")]
-                            )
+                              [_vm._v("بروزرسانی اطلاعات")]
+                            ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-lg btn-block",
+                            attrs: { type: "button", "data-dismiss": "modal" }
+                          },
+                          [_vm._v("لغو عملیات")]
+                        )
                       ])
                     ]
                   )
@@ -69818,6 +70756,26 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("h3", { staticClass: " text-right" }, [_vm._v("جدول کاربران")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-navbar", attrs: { type: "submit" } },
+        [_c("i", { staticClass: "fa fa-search" })]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -84996,12 +85954,13 @@ var app = new Vue({
   el: '#app',
   router: router,
   data: {
-    search: ''
+    search: '',
+    pageName: 'داشبورد'
   },
   methods: {
     searchit: _.debounce(function () {
       Fire.$emit('searching');
-    }, 1000)
+    }, 500)
   }
 });
 

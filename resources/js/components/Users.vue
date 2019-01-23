@@ -2,63 +2,77 @@
     <div class="container-fluid">
         <div class="col-md-12 mt-3" v-if="$gate.isAdmin()||$gate.isAuthor()">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Users Table</h3>
-
-                    <div class="card-tools">
-                        <button class="btn btn-success" @click="newModal"><i class="fas fa-user-plus fa-fw" ></i> Add New User</button>
+                <div class="card-header justify-content-around d-flex " style="direction: rtl">
+                    <div class="col">
+                        <h3 class=" text-right">جدول کاربران</h3>
                     </div>
-                </div>
-                <!-- /.card-header -->
+                    <div class="col w-50">
+                        <div class="input-group input-group-sm">
+                            <input v-model="search" @keyup="searchit()" class="w-75"   type="search" placeholder="جستجو..." aria-label="جستجو">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar"  type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <button class="btn btn-success" @click="newModal"><i class="fas fa-user-plus fa-fw" ></i> افزودن کاربر جدید</button>
+                    </div><!-- /card-tools -->
+                </div><!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover">
+                    <table class="table table-hover text-right">
                         <tbody>
                         <tr>
                             <th>شماره</th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Type</th>
-                            <th @click="toggle()" :class="['sort-control', sortType]">Register At</th>
-                            <th>Modify</th>
+                            <th>شناسه</th>
+                            <th>نام</th>
+                            <th>رایان نامه</th>
+                            <th>نوع دسترسی</th>
+                            <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت نام</th>
+                            <th>ابزارهای ویرایشی</th>
                         </tr>
 
                         <tr v-for="(user, index) in users.data" :key="user.id">
                             <td>{{counter(index) | faDigit}}</td>
-                            <td>{{ user.id  | faDigit}}</td>
-                            <td>{{ user.name }}</td>
+                            <td>{{ user.id | faDigit}}</td>
+                            <td v-if="user.profile" :class="{'blue': user.profile}">{{user.profile.Fname +' ' +
+                                user.profile.Lname }}
+                            </td>
+                            <td v-else :class="{'red': !user.profile}">{{'پروفایل ناقص' }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.type | upText }}</td>
-                            <td >{{ user.created_at | myDate  }}</td>
+                            <td>{{ user.created_at | myDate }}</td>
                             <td>
                                 <a href="#" @click="editModal(user)">
                                     <i class="fa fa-edit blue"></i>
                                 </a>
                                 /
-                                <button href="#" @click="deleteUser(user.id)">
+                                <a href="#" @click="deleteUser(user.id)">
                                     <i class="fa fa-trash red"></i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                </div>
+                </div><!--- /card-body -->
                 <!-- /.card-body -->
                 <div class="card-footer d-flex flex-row justify-content-md-center" style="min-height: 60px">
-                    <pagination  v-if="" :data="users" @pagination-change-page="getResults" :limit="1" :show-disabled="true">
+                    <pagination v-if="" :data="users" @pagination-change-page="getResults" :limit="1"
+                                :show-disabled="true">
                         <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                         <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                     </pagination>
-
                     <span class="table-detail">
                         تعداد
                         {{(this.numTo - this.numStart + 1) | faDigit  }}
                         از
  {{this.total | faDigit}}                   </span>
-                </div>
-            </div>
-            <!-- /.card -->
-        </div>
+                </div><!-- /card-footer --->
+            </div> <!-- /.card -->
+        </div><!--- col-md-12 --->
 
 
 
@@ -145,7 +159,7 @@
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">شماره پرسنلی:</label>
-                           <input v-model="form.personal_id" type="text" name="personal_id" placeholder="111"
+                           <input @change="farsi()"  v-model.lazy="form.personal_id" type="text" name="personal_id" placeholder="111"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('personal_id') }"
                                   pattern="[0-9]{3,12}"
                                   data-error-pattern-mismatch="شماره پرسنلی باید عدد و حداقل به طول 3  باشد!"
@@ -239,9 +253,9 @@
                        </div>
                   </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button :disabled="form.busy" v-if="!editMode" type="submit"   class="btn btn-primary">Create User</button>
-                        <button :disabled="form.busy" v-else="editMode" type="submit"   class="btn btn-success">Update User</button>
+                        <button :disabled="form.busy" v-if="!editMode" type="submit"   class="btn btn-lg btn-block btn-primary mx-3">ثبت اطلاعات</button>
+                        <button :disabled="form.busy" v-else="editMode" type="submit"  class="btn btn-lg btn-block btn-success mx-3">بروزرسانی اطلاعات</button>
+                        <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">لغو عملیات</button>
                     </div>
                     </form>
                 </div>
@@ -249,11 +263,8 @@
         </div>
         <div v-if="!$gate.isAdmin()&&!$gate.isAuthor()">
             <not-found></not-found>
-        </div>
-
-    </div>
-
-
+        </div><!-- /404 page -->
+    </div><!-- /container-fluid -->
 
 </template>
 
@@ -261,121 +272,133 @@
 <script>
 
     import Select2 from 'v-select2-component';
+
     export default {
         name: "Users",
-        data(){
-            return{
-
-                modalID:'',
+        data() {
+            return {
+                search: '',
+                modalID: '',
                 order: 1,
-                total:0,
-                numToShow:0,
-                numStart:0,
-                numTo:0,
+                total: 0,
+                numToShow: 0,
+                numStart: 0,
+                numTo: 0,
                 editMode: false,
                 searchResult: false,
                 baseMode: true,
                 users: {},
-                degrees:[],
-                ranks:[],
-                members:[],
-                departments:[],
-                faculties:[],
-                positions:[],
-                myValue: '',
-                myOptions: [],
-               /* selected: 2,
-                options: [
-                    { id: 1, text: 'Hello' },
-                    { id: 2, text: 'World' }
-                ],*/
+                degrees: [],
+                ranks: [],
+                members: [],
+                departments: [],
+                faculties: [],
+                positions: [],
                 form: new Form({
                     hasProfile: true,
-                    id:'',
-                    name:'',
-                    Fname:'',
-                    Lname:'',
-                    email:'',
-                    type:'',
-                    bio:'',
-                    photo:'',
-                    password:'',
-                    siba:'',
-                    phone:'',
-                    personal_id:'',
-                    degree_id:'',
-                    rank_id:'',
-                    member_id:'',
-                    position_id:'',
-                    faculty_id:'',
-                    department_id:'',
-                    base:''
+                    id: '',
+                    name: '',
+                    Fname: '',
+                    Lname: '',
+                    email: '',
+                    type: '',
+                    bio: '',
+                    photo: '',
+                    password: '',
+                    siba: '',
+                    phone: '',
+                    personal_id: '',
+                    degree_id: '',
+                    rank_id: '',
+                    member_id: '',
+                    position_id: '',
+                    faculty_id: '',
+                    department_id: '',
+                    base: ''
                 })
             }
         },
-        methods:{
-            toggle(){
-                 this.order *= -1;
-                 this.getResults();
+        methods: {
+            searchit(){
+                    this.$parent.searchit();
+                },
+            farsi(){
+                this.form.personal_id = this.$options.filters.faDigit(this.form.personal_id)
             },
-            baseToggle(){
-                 if(this.form.position_id == 1||this.form.position_id == 2 || this.form.position_id == 3){
-                     this.baseMode = true;
-                 }else {
-                     this.baseMode = false;
-                     this.form.base = 0;
-                 }
+            toggle() {
+                this.order *= -1;
+                this.getResults();
+            },
+            baseToggle() {
+                if (this.form.position_id == 1 || this.form.position_id == 2 || this.form.position_id == 3) {
+                    this.baseMode = true;
+                } else {
+                    this.baseMode = false;
+                    this.form.base = 0;
+                }
                 console.log(this.baseMode);
             },
-            getResults( page = 1 ,que='') {
-
-                let sortOrder = this.order === 1 ? 'asc' : 'desc';
-
-                if(this.searchResult){
-                    let query = this.$parent.search;
-                    axios.get('api/findUser?order='+sortOrder+'&q='+query + '&page=' + page)
-                        .then(response => {
-                            this.users = response.data.users;
-                            this.degrees = response.data.degrees;
-                            this.ranks = response.data.ranks;
-                            this.members = response.data.members;
-                            this.departments = response.data.departments;
-                            this.faculties = response.data.faculties;
-                            this.positions = response.data.positions;
-                            this.total = response.data.users.total;
-                            this.numToShow = response.data.users.per_page;
-                            this.numStart = response.data.users.from;
-                            this.numTo = response.data.users.to;
-                        });
-                }else{
-                    console.log('sss11');
-                    axios.get('api/user?order='+sortOrder+'&page=' + page)
-                        .then(response => {
-                            this.users = response.data.users;
-                            this.degrees = response.data.degrees;
-                            this.ranks = response.data.ranks;
-                            this.members = response.data.members;
-                            this.departments = response.data.departments;
-                            this.faculties = response.data.faculties;
-                            this.positions = response.data.positions;
-                            this.total = response.data.users.total;
-                            this.numToShow = response.data.users.per_page;
-                            this.numStart = response.data.users.from;
-                            this.numTo = response.data.users.to;
-
-                        });
-                }
-            },
-            newModal(){
+            newModal() {
                 this.form.reset();
                 this.editMode = false;
                 $('#addNew').modal('show');
             },
-            editModal(user){
+            farsiTypeInputSetter(e, field) {
+                switch (field) {
+                    case 'Fname':
+                        this.form.Fname = e;
+                        break;
+                    case 'Lname':
+                        this.form.Lname = e;
+                        break;
+                }
+            },
+            counter(i) {
+                return this.numStart + i;
+            },
+            getProfileRation(){
+                axios.get('api/profileRelation')
+                    .then(response => {
+                        this.degrees = response.data.degrees;
+                        this.ranks = response.data.ranks;
+                        this.members = response.data.members;
+                        this.departments = response.data.departments;
+                        this.faculties = response.data.faculties;
+                        this.positions = response.data.positions;
+                    })
+                    .catch((e)=>{
+                            console.log(e);
+                        }
+                    );
+            },
+            getResults(page = 1, que = '') {
+                let sortOrder = this.order === 1 ? 'asc' : 'desc';
+                if (this.searchResult) {
+                    que = this.search;
+                    axios.get('api/findUser?order=' + sortOrder + '&q=' + que + '&page=' + page)
+                        .then(response => {
+                            this.users = response.data.users;
+                            this.total = response.data.users.total;
+                            this.numToShow = response.data.users.per_page;
+                            this.numStart = response.data.users.from;
+                            this.numTo = response.data.users.to;
+                        });
+                } else {
+                    axios.get('api/user?order=' + sortOrder + '&page=' + page)
+                        .then(response => {
+                            this.users = response.data.users;
+                            this.total = response.data.users.total;
+                            this.numToShow = response.data.users.per_page;
+                            this.numStart = response.data.users.from;
+                            this.numTo = response.data.users.to;
+                        });
+                }
+            },
+            editModal(user) {
                 this.editMode = true;
                 this.baseMode = true;
                 this.form.reset();
-                if(user.profile){
+                if (user.profile) {
                     user.base = user.profile.base;
                     user.degree_id = user.profile.degree_id;
                     user.rank_id = user.profile.rank_id;
@@ -388,35 +411,33 @@
                     user.siba = user.profile.siba;
                     user.phone = user.profile.phone;
                     user.personal_id = user.profile.personal_id;
-                    user.hasProfile= true;
-                    if(user.position_id == 1||user.position_id == 2 || user.position_id == 3){
+                    user.hasProfile = true;
+                    if (user.position_id == 1 || user.position_id == 2 || user.position_id == 3) {
                         this.baseMode = true;
-                    }else {
-
+                    } else {
                         this.baseMode = false;
                         this.form.base = 0;
                     }
-                }else{
-                    user.hasProfile =  false;
+                } else {
+                    user.hasProfile = false;
                 }
                 this.form.fill(user);
                 $('#addNew').modal('show');
             },
-
-            updateUser(){
+            updateUser() {
                 this.$Progress.start();
-                this.form.put('api/user/'+this.form.id)
-                    .then(()=>{
+                this.form.put('api/user/' + this.form.id)
+                    .then(() => {
                         Fire.$emit('AfterCreate');
                         $('#addNew').modal('hide');
                         toast({
-                            position:'top-start',
+                            position: 'top-start',
                             type: 'success',
                             title: 'برزوزسانی کاربر با موفقیت انجام شد.'
                         });
                         this.$Progress.finish();
                     })
-                    .catch((e)=>{
+                    .catch((e) => {
                         this.$Progress.fail();
                         swal.fire({
                             title: 'خطا!',
@@ -429,7 +450,7 @@
                         });
                     })
             },
-            deleteUser(id){
+            deleteUser(id) {
                 swal({
                     title: 'آیا از حذف کاربر مورد نظر مطمئن هستید؟',
                     text: "این تغییر قابل بازگشت نخواهد بود",
@@ -442,14 +463,14 @@
                 }).then((result) => {
                     // send ajax request to server
                     if (result.value) {
-                        this.form.delete('api/user/'+id).then(()=>{
-                                swal(
-                                    'Deleted!',
-                                    'کاربر مورد نظر با موفقیت حذف شد.',
-                                    'success'
-                                );
+                        this.form.delete('api/user/' + id).then(() => {
+                            swal(
+                                'Deleted!',
+                                'کاربر مورد نظر با موفقیت حذف شد.',
+                                'success'
+                            );
                             Fire.$emit('AfterCreate');
-                        }).catch((e)=>{
+                        }).catch((e) => {
                             swal.fire({
                                 title: 'خطا!',
                                 text: 'خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!',
@@ -460,7 +481,7 @@
                                 confirmButtonAriaLabel: 'متوجه شدم!',
                             });
                         });
-                    }else{
+                    } else {
                         swal.fire({
                             title: 'لفو شد!',
                             text: 'شما این عملیات را لغو کردید.',
@@ -473,87 +494,60 @@
                     }
                 })
             },
-            createUser(){
+            createUser() {
                 this.$Progress.start();
                 this.form.busy;
                 this.form.post('api/user')
-                    .then(()=>{
+                    .then(() => {
                         Fire.$emit('AfterCreate');
                         $('#addNew').modal('hide');
                         toast({
                             type: 'success',
-                            position:'top-start',
+                            position: 'top-start',
                             title: 'User Created in successfully'
                         });
                         this.$Progress.finish();
                         this.form.reset();
                     })
-                    .catch(()=>{
+                    .catch(() => {
                         this.$Progress.fail();
                     })
             },
-            farsiTypeInputSetter(e,field){
-                switch (field){
-                    case 'Fname':
-                        this.form.Fname = e;
-                        break;
-                    case 'Lname':
-                        this.form.Lname = e;
-                        break;
-                }
-            },
-            counter(i){
-                return   this.numStart + i;
-            }
         },
         computed: {
-            sortType(){
+            sortType() {
                 return this.order === 1 ? 'ascending' : 'descending';
             },
-
         },
-
-        watch: {
-            firstName: (val)=> {
-                if(this.form.Fname === 'undefined'){
-                    this.fullName = val + ' ' + this.form.Lname
-                }
-            },
-            lastName: (val)=> {
-                if(this.form.Fname === 'undefined') {
-                    this.fullName = this.form.Fname + ' ' + val
-                }
-            }
-        },
-        mounted(){
-            this.modalID= $('#addNew');
+        mounted() {
+            this.modalID = $('#addNew');
             $('#Form').html5cvm({
                 generic: 'این گزینه باید تکمیل شود!',
                 typeMismatch: "نوع داده ورودی همخوانی ندارد."
             });
-            $('#siba').simpleMask( { 'mask': '#############'     } );
-            $('#phone').simpleMask( { 'mask': '###########'     } );
-           // $('#personal_id1').simpleMask( { 'mask': '####'     } );
-        }
-        ,
+            $('#siba').simpleMask({'mask': '#############'});
+            $('#phone').simpleMask({'mask': '###########'});
+            // $('#personal_id1').simpleMask( { 'mask': '####'     } );
+        },
         created() {
-           if( this.$gate.isAdmin()||this.$gate.isAuthor()){
-               Fire.$on('searching',()=>{
-                   let page =1;
-                   let query = this.$parent.search;
-                   this.searchResult =true;
-                   this.getResults(page ,query);
-               });
-               Fire.$on('AfterCreate',() => {
-                   this.getResults();
-               });
-               this.getResults();
-           }
+            this.$parent.pageName = 'کاربران';
+            if (this.$gate.isAdmin() || this.$gate.isAuthor()) {
+                Fire.$on('searching', () => {
+                    let page = 1;
+                    let query = this.search;
+                    this.searchResult = true;
+                    this.getResults(page, query);
+                });
+                Fire.$on('AfterCreate', () => {
+                    this.getResults();
+                });
+                this.getResults();
+                this.getProfileRation();
+            }
         },
         components: {
             Select2,
         }
-
     }
 </script>
 

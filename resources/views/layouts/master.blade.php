@@ -3,14 +3,14 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="fa-IR">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>AdminLTE 3 | Starter</title>
+    <title>سامانه پژوهشی</title>
 
     <link  type="text/css"  href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -31,9 +31,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- SEARCH FORM -->
         <div class="form-inline ml-3">
             <div class="input-group input-group-sm">
-                <input v-model="search" @keyup="searchit"  class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                <input   class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
-                    <button class="btn btn-navbar" @click="searchit" type="submit">
+                    <button class="btn btn-navbar"  type="submit">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -86,14 +86,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Management</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-left">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Management Page</li>
+
+                    <div class="col-sm-5">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/home">خانه</a></li>
+                            <li class="breadcrumb-item active">@{{this.pageName}}</li>
                         </ol>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6 text-right">
+                        <h1 class="m-0 text-dark">سامانه جامع پژوهشی</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->

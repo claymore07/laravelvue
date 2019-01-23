@@ -21,6 +21,7 @@ use Session;
 
 class UserController extends Controller
 {
+    protected $perPage=5;
     /**
      * Create a new controller instance.
      *
@@ -40,32 +41,8 @@ class UserController extends Controller
         //
         if(Gate::allows('isAdmin')||Gate::allows('isAuthor')){
             $order = \Request::get('order');
-            $users =User::with('profile')->orderBy('created_at', $order)->paginate(10);
-
-            $degrees = Degree::all()->map(function ($item){
-                return ['id'=> $item['id'], 'text'=>$item['name']];
-            })->toArray();
-
-            $departments = Department::all()->map(function ($item){
-                return ['id'=> $item['id'], 'text'=>$item['name']];
-            })->toArray();
-            $faculties = Faculty::all()->map(function ($item){
-                return ['id'=> $item['id'], 'text'=>$item['name']];
-            })->toArray();
-            $positions = Position::all()->map(function ($item){
-                return ['id'=> $item['id'], 'text'=>$item['name']];
-            })->toArray();
-            $members = Member::all()->map(function ($item){
-                return ['id'=> $item['id'], 'text'=>$item['name']];
-            })->toArray();
-            $ranks = Rank::all()->map(function ($item){
-                return ['id'=> $item['id'], 'text'=>$item['name']];
-            })->toArray();
-            return Response::json(array('users'=>$users,'degrees'=>$degrees,
-                'departments'=>$departments, 'ranks'=>$ranks,'members'=>$members,
-                'positions'=>$positions, 'faculties' => $faculties
-                ));
-
+            $users =User::with('profile')->orderBy('created_at', $order)->paginate($this->perPage);
+            return Response::json(array('users'=>$users));
         }
         //$this->authorize('isAdmin');
 
@@ -73,20 +50,54 @@ class UserController extends Controller
     public function search(){
         $order = \Request::get('order');
         if ($search = \Request::get('q')) {
-            $users = User::where(function($query) use ($search){
+            $users = User::with('profile')->whereHas('profile', function($query)use($search){
+                if ($search == trim($search) && strpos($search, ' ') !== false) {
+                    $searchParts = explode(' ', $search);
+                    $query->where('Fname','LIKE',"%$searchParts[0]%")
+                        ->where('Lname','LIKE',"%$searchParts[1]%");
+                }else{
+                    $query->where('Fname','LIKE',"%$search%")
+                        ->orWhere('Lname','LIKE',"%$search%");
+                }
+            })
+                ->orWhere(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%")
                     ->orWhere('email','LIKE',"%$search%");
-            })->orderBy('created_at', $order)->paginate(2);
+            })->orderBy('created_at', $order)->paginate($this->perPage);
+
         }else{
-            $users = User::orderBy('created_at', $order)->paginate(2);
+            $users = User::orderBy('created_at', $order)->paginate($this->perPage);
         }
-        $degrees = Degree::pluck('name', 'id')->all();
-        $departments = Department::pluck('name', 'id')->all();
-        $faculties = Faculty::pluck('name', 'id')->all();
-        $positions = Position::pluck('name', 'id')->all();
-        $members = Member::pluck('name', 'id')->all();
-        $ranks = Rank::pluck('name', 'id')->all();
-        return Response::json(array('users'=>$users,'degrees'=>$degrees,'departments'=>$departments));
+        return Response::json(array('users'=>$users));
+
+    }
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profileRelation(){
+        $degrees = Degree::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+
+        $departments = Department::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        $faculties = Faculty::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        $positions = Position::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        $members = Member::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        $ranks = Rank::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('degrees'=>$degrees,
+            'departments'=>$departments, 'ranks'=>$ranks,'members'=>$members,
+            'positions'=>$positions, 'faculties' => $faculties
+        ));
     }
     /**
      * Store a newly created resource in storage.
@@ -96,10 +107,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        //
-       // sleep(8);
-        //
-
         $input = $request->all();
         DB::beginTransaction();
         try {
@@ -161,8 +168,9 @@ class UserController extends Controller
     public function profile()
     {
         //
-        return auth('api')->user();
 
+        return Response::json(array('user'=>auth('api')->user()->load('profile')));
+          //  return auth('api')->user();
     }
     /**
      * Display the specified resource.
@@ -173,25 +181,66 @@ class UserController extends Controller
     public function updateProfile(UserRequest $request)
     {
         //
-        $user = auth('api')->user();
-        $currentPhoto = $user->photo;
+        $user_db = auth('api')->user();
+        $input = $request->all();
+        DB::beginTransaction();
+        try {
+            $currentPhoto = $user_db->photo;
 
-        if($request->photo != $currentPhoto){
+            if($request->photo != $currentPhoto){
 
-            $name = time().'.' . explode('/',
-                    explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-            Image::make($request->photo)->save(public_path('img/profile/').$name);
-            $request->merge(['photo' => $name]);
-            $userPhoto = public_path('img/profile/').$currentPhoto;
-            if(file_exists($userPhoto)){
-                @unlink($userPhoto);
+                $name = time().'.' . explode('/',
+                        explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+                Image::make($request->photo)->save(public_path('img/profile/').$name);
+               // $request->merge(['photo' => $name]);
+                $user['photo'] = $name;
+                $userPhoto = public_path('img/profile/').$currentPhoto;
+                if(file_exists($userPhoto)){
+                    @unlink($userPhoto);
+                }
             }
+            $user['name'] = $input['name'];
+            if($request->has('password')){
+
+                $user['password'] = bcrypt($input['password']);
+            }
+            $user['email']=$input['email'];
+            $user['type']=$input['type'];
+            $user['bio']=$input['bio'];
+            /*
+            if(empty($input['role_id'])){
+                $user['role_id']=2;
+            }else{
+                $user['role_id']=$input['role_id'];
+            }*/
+
+            $users = $user_db->update($user);
+            $profile['user_id'] = $user_db->id;
+            $profile['Fname'] = $input['Fname'];
+            $profile['Lname'] = $input['Lname'];
+            $profile['base'] = $input['base'];
+            $profile['siba'] = $input['siba'];
+            $profile['personal_id'] = $input['personal_id'];
+            $profile['phone'] = $input['phone'];
+            $profile['degree_id'] = $input['degree_id'];
+            $profile['rank_id'] = $input['rank_id'];
+            $profile['faculty_id'] = $input['faculty_id'];
+            $profile['department_id'] = $input['department_id'];
+            $profile['position_id'] = $input['position_id'];
+            $profile['member_id'] = $input['member_id'];
+            if($user_db->profile==''){
+                $profiles = Profile::create($profile);
+            }else{
+                $profiles = $user_db->profile->update($profile);
+            }
+        }catch (\Exception $e){
+
+            DB::rollback();
+            // dd($e);
+            return Response::json(['message'=> ["خطای در پایگاه داده رخ داده است"] ], 403);
         }
 
-        if(!empty($request->password)){
-            $request->merge(['password' => bcrypt($request['password'])]);
-        }
-        $user->update($request->all());
+        DB::commit();
         return $request['photo'];
 
     }
@@ -212,7 +261,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $user['name'] = $input['name'];
-            if(/*$request->has('password')*/is_null($input['password'])){
+            if($request->has('password')){
 
                 $user['password'] = bcrypt($input['password']);
             }
@@ -226,7 +275,6 @@ class UserController extends Controller
                 $user['role_id']=$input['role_id'];
             }*/
             $users = $user_db->update($user);
-
             $profile['user_id'] = $user_db->id;
             $profile['Fname'] = $input['Fname'];
             $profile['Lname'] = $input['Lname'];
@@ -283,16 +331,10 @@ class UserController extends Controller
             }
             $user->delete();
         } catch (\Exception $e) {
-
             DB::rollback();
             return Response::json(['message'=> ["خطای در پایگاه داده رخ داده است"] ], 403);
         }
-
         DB::commit();
-       // Session::flash('success', 'اطلاعات کاربر با موفقیت حذف شد.');
-        // delete the user
-       // $user->delete();
-
         return Response::json(['success'=> ["اطلاعات کاربر با موفقیت حذف شد."] ], 200);
     }
 }
