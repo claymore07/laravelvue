@@ -13,6 +13,12 @@ require('./jquery.SimpleMask.min');
 
 import moment from 'moment';
 import jmoment from 'moment-jalaali';
+import VueFormWizard from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+import tinymce from 'vue-tinymce-editor'
+import VeeValidate from 'vee-validate';
+import farsiMessage from 'vee-validate/dist/locale/fa';
 
 import Swal from 'sweetalert2'
 import VueProgressBar from 'vue-progressbar';
@@ -35,6 +41,17 @@ window.toast = toast;
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
+Vue.component('date-picker', VuePersianDatetimePicker);
+Vue.component('tinymce', tinymce)
+
+
+Vue.use(VeeValidate, {
+    locale: 'fa',
+    dictionary: {
+        fa: { messages: farsiMessage }
+    }
+});
+Vue.use(VueFormWizard)
 
 Vue.use(VueRouter);
 
@@ -43,8 +60,10 @@ let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
+    { path: '/papers', component: require('./components/Papers.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
-    { path: '*', component: require('./components/NotFound.vue').default }
+
+    { path: '*', component: require('./components/NotFound.vue').default },
 ];
 
 Vue.filter('upText', function (text) {
@@ -82,7 +101,8 @@ let Fire = new Vue();
 window.Fire =Fire;
 
 Vue.component('pagination', require('./components/LaravelVuePagination').default);
-
+Vue.component('farsijournalcomponent', require('./components/papers/FarsiJournalPaper').default);
+Vue.component('enjournalcomponent', require('./components/papers/EnJournalPaper').default);
 
 //passport
 

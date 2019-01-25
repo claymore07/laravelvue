@@ -6,7 +6,7 @@
             <router-link to="/dashboard" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt blue"></i>
                 <p>
-                    Dashboard
+                    داشبورد
                     <!--<span class="right badge badge-danger">New</span>-->
                 </p>
             </router-link>
@@ -16,7 +16,7 @@
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs green"></i>
                 <p>
-                    Management
+                    مدیریت
                     <i class="right fa fa-angle-left"></i>
                 </p>
             </a>
@@ -24,7 +24,13 @@
                 <li class="nav-item">
                     <router-link to="/users" class="nav-link ">
                         <i class="fas fa-users nav-icon indigo"></i>
-                        <p>Users</p>
+                        <p>کاربران</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/papers" class="nav-link ">
+                        <i class="fas fa-pencil-ruler nav-icon purple"></i>
+                        <p>مقالات</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -40,7 +46,7 @@
             <router-link to="/profile" class="nav-link ">
                 <i class="nav-icon fas fa-user orange"></i>
                 <p>
-                    Profile
+                    پروفایل
                     <!-- <i class="right fa fa-angle-left"></i>-->
                 </p>
 
@@ -65,7 +71,7 @@
             <router-link to="/developer" class="nav-link">
                 <i class="nav-icon fas fa-cogs yellow"></i>
                 <p>
-                    Developer
+                    توسعه دهنده
                     <!--<span class="right badge badge-danger">New</span>-->
                 </p>
             </router-link>
@@ -78,7 +84,7 @@
 
                 <i class="nav-icon fas fa-sign-out red"></i>
                 <p>
-                {{ __('Logout') }}
+                {{ __('خروج') }}
                 <!--<span class="right badge badge-danger">New</span>-->
                 </p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

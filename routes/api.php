@@ -18,8 +18,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResources(['user'=>'API\UserController']);
+Route::apiResources([
+    'user'=>'API\UserController',
+    'paper'=>'API\PapersController'
+]);
+
 Route::get('profile','API\UserController@profile');
 Route::get('profileRelation','API\UserController@profileRelation');
+Route::get('paperRelation','API\PapersController@paperRelation');
 Route::get('findUser','API\UserController@search');
 Route::put('profile','API\UserController@updateProfile');

@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Degree whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Degree whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Degree newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Degree newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Degree query()
  */
 class Degree extends Model
 {

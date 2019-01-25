@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Position whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Position whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Position newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Position newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Position query()
  */
 class Position extends Model
 {

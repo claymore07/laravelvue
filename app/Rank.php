@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Rank whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Rank whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rank newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rank newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rank query()
  */
 class Rank extends Model
 {

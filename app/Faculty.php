@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Faculty whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Faculty whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Faculty newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Faculty newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Faculty query()
  */
 class Faculty extends Model
 {

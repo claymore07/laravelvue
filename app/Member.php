@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Member whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Member whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Member newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Member newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Member query()
  */
 class Member extends Model
 {

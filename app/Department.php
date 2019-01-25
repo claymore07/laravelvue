@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Department whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Department whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Department newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Department newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Department query()
  */
 class Department extends Model
 {

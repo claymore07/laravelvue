@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOauthPersonalAccessClientsTable extends Migration
+class AddLicenseTo2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateOauthPersonalAccessClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('client_id')->index();
-            $table->timestamps();
+        Schema::table('papers', function (Blueprint $table) {
+            //
+            $table->integer('license_to')->after('license')->nullable();
+
         });
     }
 
@@ -27,6 +27,9 @@ class CreateOauthPersonalAccessClientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('oauth_personal_access_clients');
+        Schema::table('papers', function (Blueprint $table) {
+            //
+            $table->dropColumn('license_to');
+        });
     }
 }

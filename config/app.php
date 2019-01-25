@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // my providers
         Collective\Html\HtmlServiceProvider::class,
-
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*

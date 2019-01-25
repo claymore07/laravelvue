@@ -81,8 +81,11 @@
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" v-if="!editMode" id="exampleModalLabel"><i class="fas fa-user-plus fa-fw"></i> ایجاد کاربر جدید</h5>
-                        <h5 class="modal-title" v-else="editMode" id="exampleModalLabel"><i  class="fas fa-user-cog fa-fw"></i> بروزرسانی کاربر: <span v-if="form.hasProfile">{{form.Fname + ' ' + form.Lname}}</span> <span v-else>{{form.name}} پروفایل ناقص</span> </h5>
+                        <h5 class="modal-title" v-if="!editMode" id="exampleModalLabel"><i
+                            class="fas fa-user-plus fa-fw"></i> ایجاد کاربر جدید</h5>
+                        <h5 class="modal-title" v-else="editMode" id="exampleModalLabel"><i
+                            class="fas fa-user-cog fa-fw"></i> بروزرسانی کاربر: <span v-if="form.hasProfile">{{form.Fname + ' ' + form.Lname}}</span>
+                            <span v-else>{{form.name}} پروفایل ناقص</span></h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -159,7 +162,7 @@
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">شماره پرسنلی:</label>
-                           <input @change="farsi()"  v-model.lazy="form.personal_id" type="text" name="personal_id" placeholder="111"
+                           <input   v-model="form.personal_id" type="text" name="personal_id" placeholder="111"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('personal_id') }"
                                   pattern="[0-9]{3,12}"
                                   data-error-pattern-mismatch="شماره پرسنلی باید عدد و حداقل به طول 3  باشد!"
@@ -257,6 +260,7 @@
                         <button :disabled="form.busy" v-else="editMode" type="submit"  class="btn btn-lg btn-block btn-success mx-3">بروزرسانی اطلاعات</button>
                         <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">لغو عملیات</button>
                     </div>
+
                     </form>
                 </div>
             </div>
@@ -548,6 +552,7 @@
         components: {
             Select2,
         }
+
     }
 </script>
 
