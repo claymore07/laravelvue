@@ -138,7 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 @auth
     <script>
-        window.user = @json(auth()->user())
+        window.user = @json(auth()->user()->load('profile'))
     </script>
 @endauth
 

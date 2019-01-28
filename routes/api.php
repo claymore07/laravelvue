@@ -26,5 +26,6 @@ Route::apiResources([
 Route::get('profile','API\UserController@profile');
 Route::get('profileRelation','API\UserController@profileRelation');
 Route::get('paperRelation','API\PapersController@paperRelation');
+Route::post('paperValidation','API\PapersController@paperValidation');
 Route::get('findUser','API\UserController@search');
 Route::put('profile','API\UserController@updateProfile');

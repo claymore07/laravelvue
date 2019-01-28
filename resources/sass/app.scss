@@ -6,10 +6,12 @@
 @import 'variables';
 $fa-font-path: "../webfonts";
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
-@import '~admin-lte/dist/css/adminlte.css';
+/* AdminLTE */
+
 @import '~admin-lte/dist/css/adminlte.css';
 
+/* bootstrap4 */
+@import '~bootstrap/scss/bootstrap';
 @import "~font-awesome/scss/fontawesome";
 @import "~font-awesome/scss/light";
 @import "~font-awesome/scss/regular";
@@ -17,6 +19,8 @@ $fa-font-path: "../webfonts";
 @import "~font-awesome/scss/solid";
 @import "select2.min.css";
 @import "select2-bootstrap4.css";
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
 @font-face {
     font-family: IRANSans;
     font-style: normal;
@@ -89,7 +93,13 @@ $fa-font-path: "../webfonts";
     background-color: #007bff;
 }
 */
+.swal2-container {
+    z-index:2000 !important;
+}
 
+.vpd-input-group input {
+    padding-left: 1.2rem !important;
+}
  .sort-control{
      cursor: pointer;
  }
@@ -324,8 +334,10 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
     direction: rtl;
     text-align: right;
 }
-
-
+.w-20 {
+    width: 20% !important;
+}
+/*
 .btns {
     background-color: #ff9035;
     //background-image: linear-gradient(100deg, #ff5a64 0%, #faa04b 30%, #d2dc69 70%, #0ef49b 100%);
@@ -409,9 +421,128 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 .swal2-container.swal2-shown{
     z-index: 3000;
 }
-.text-rtl{
+*/
+/* The input */
+.text-ltr{
     direction: ltr !important;
 }
 .text-rtl{
     direction: rtl !important;
+}
+.tags-input {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tags-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+}
+
+.tags-input input:focus {
+    outline: none;
+}
+
+.tags-input input[type="text"] {
+    color: #495057;
+}
+
+.tags-input-wrapper-default {
+    padding: .5rem .25rem;
+
+    background: #fff;
+
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    border-color: #dbdbdb;
+}
+
+/* The tag badges & the remove icon */
+.tags-input span {
+    margin-right: 0.3rem;
+}
+
+.tags-input-remove {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    overflow: hidden;
+}
+
+.tags-input-remove:before, .tags-input-remove:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    background: #5dc282;
+
+    height: 2px;
+    margin-top: -1px;
+}
+
+.tags-input-remove:before {
+    transform: rotate(45deg);
+}
+.tags-input-remove:after {
+    transform: rotate(-45deg);
+}
+
+/* Tag badge styles */
+.tags-input-badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 100%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.tags-input-badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+
+.tags-input-badge-selected-default {
+    color: #212529;
+    background-color: #f0f1f2;
+}
+
+/* Typeahead - badges */
+.typeahead-badges > span {
+    cursor: pointer;
+    margin-right: 0.3rem;
+}
+
+/* Typeahead - dropdown */
+.typeahead-dropdown {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.typeahead-dropdown li {
+    padding: .25rem 1rem;
+    cursor: pointer;
+}
+
+/* Typeahead elements style/theme */
+.tags-input-typeahead-item-default {
+    color: #fff;
+    background-color: #343a40;
+}
+
+.tags-input-typeahead-item-highlighted-default {
+    color: #fff;
+    background-color: #007bff;
 }

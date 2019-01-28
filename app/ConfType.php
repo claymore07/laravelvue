@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class ConfType extends Model
 {
     //
+    protected $table='conftypes';
     protected $fillable=['name'];
 
     public function conferences(){

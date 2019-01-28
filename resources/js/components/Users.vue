@@ -322,6 +322,9 @@
                 })
             }
         },
+        destroyed(){
+          console.log('hahah');
+        },
         methods: {
             searchit(){
                     this.$parent.searchit();
@@ -508,7 +511,7 @@
                         toast({
                             type: 'success',
                             position: 'top-start',
-                            title: 'User Created in successfully'
+                            title: 'اطلاعات کاربر جدید با موفقیت ثبت شد.'
                         });
                         this.$Progress.finish();
                         this.form.reset();

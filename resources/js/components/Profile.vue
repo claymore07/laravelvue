@@ -358,6 +358,7 @@
                     });
             },
             updateProfile(e){
+
                 let file = e.target.files[0];
                 this.photoName = file.name;
                 let reader = new FileReader();
@@ -372,8 +373,8 @@
                 }
                 reader.onloadend = (file) => {
                     this.form.photo = reader.result;
-
                 };
+
                 reader.readAsDataURL(file);
             },
             fillForm(user) {
