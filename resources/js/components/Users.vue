@@ -281,15 +281,16 @@
         name: "Users",
         data() {
             return {
-                search: '',
+
                 modalID: '',
+                search: '',
                 order: 1,
                 total: 0,
                 numToShow: 0,
                 numStart: 0,
                 numTo: 0,
-                editMode: false,
                 searchResult: false,
+                editMode: false,
                 baseMode: true,
                 users: {},
                 degrees: [],

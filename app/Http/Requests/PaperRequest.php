@@ -35,8 +35,8 @@ class PaperRequest extends FormRequest
             'license'=>'required_if:excerpt_id,3',
             'accept_date' => 'required',
             'publish_date' => 'required',
-            'files'=>'required',
-            'files.*'=>'mimes:zip,pdf',
+            //'files'=>'required',
+            //'files.*'=>'mimes:zip,pdf',
             'confname'=>'required_if:paperType,==,conf',
             'confcity'=>'required_if:paperType,==,conf',
             'conforganizer'=>'required_if:paperType,==,conf',
@@ -47,7 +47,7 @@ class PaperRequest extends FormRequest
             'jpublisher'=>'required_if:paperType,==,jur',
             'jISSN'=>'required_if:paperType,==,jur',
             'isresponsible'=>'required',
-            'authorsjson' => 'required|JSON|min:3',
+            'authors' => 'required',
 
 
         ];

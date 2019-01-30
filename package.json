@@ -36,7 +36,6 @@
         "pretty-checkbox-vue": "^1.1.9",
         "select2": "^4.0.6-rc.1",
         "sweetalert2": "^7.33.1",
-
         "v-select2-component": "^0.3.2",
         "vee-validate": "^2.1.5",
         "vform": "^1.0.0",
@@ -47,6 +46,7 @@
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2",
         "vue-the-mask": "^0.11.1",
-        "vue-tinymce-editor": "^1.6.2"
+        "vue-tinymce-editor": "^1.6.2",
+        "vue-truncate-filter": "^1.1.7"
     }
 }

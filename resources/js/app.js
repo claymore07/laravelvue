@@ -10,7 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 require('./jquery.html5cvm.min');
 require('./jquery.SimpleMask.min');
-
+var VueTruncate = require('vue-truncate-filter')
 import moment from 'moment';
 import jmoment from 'moment-jalaali';
 import VueFormWizard from 'vue-form-wizard'
@@ -39,6 +39,7 @@ let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
+    { path: '/paperedit/:id', name:'paperedit',component: require('./components/PaperEdit.vue').default },
     { path: '/papers', component: require('./components/Papers.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
     { path: '*', component: require('./components/NotFound.vue').default },
@@ -103,6 +104,8 @@ Vue.use(VeeValidate, {
         fa: { messages: farsiMessage }
     }
 });
+
+Vue.use(VueTruncate);
 Vue.use(VueFormWizard);
 Vue.use(VueTheMask);
 
@@ -128,9 +131,18 @@ Vue.mixin({
         },
         successSwal:(msg)=>{
             swal.fire({
-                title: 'خطا!',
+                title: 'موفق',
                 text: msg,
                 type: 'success',
+                confirmButtonText: 'متوجه شدم!',
+            });
+        },
+        warningSwal:(msg)=>{
+            swal.fire({
+                title: 'لفو شد!',
+                text: msg,
+                type: 'warning',
+                focusConfirm: true,
                 confirmButtonText: 'متوجه شدم!',
             });
         },

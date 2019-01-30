@@ -20,11 +20,57 @@
                         </div>
                     </div>
                     <div class="col">
-                        <button class="btn btn-success" @click="newModal"><i class="fas fa-user-plus fa-fw" ></i> افزودن کاربر جدید</button>
+                        <button class="btn btn-success" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن مقاله جدید</button>
                     </div><!-- /card-tools -->
                 </div><!-- /.card-header -->
-                <div class="card-body">
-                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-right">
+                        <tbody>
+                        <tr>
+                            <th>شماره</th>
+                            <th>نام مقاله</th>
+                            <th>عنوان ژونال یا کنفرانس</th>
+                            <th>نام نویسنده اول</th>
+                            <th>وضعیت بررسی</th>
+                            <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
+                            <th>ابزارهای ویرایشی</th>
+                        </tr>
+                        <tr v-for="(paper, index) in papers.data" :key="paper.id">
+                            <td>{{counter(index) | faDigit}}</td>
+                            <td>{{ paper.title | truncate(40) }}</td>
+                            <td >{{paper.paperable.name | truncate(40)}} </td>
+
+                            <td>{{ paper.author.name }}</td>
+                            <td v-if="paper.status == '0'"  class="orange"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
+                            <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
+                            <td v-else-if="paper.status == '2'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید' }}</td>
+                            <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
+                            <td>{{ paper.created_at | myDate }}</td>
+                            <td>
+                                <router-link :to="{ name: 'paperedit', params: { id: paper.id }}">
+                                <i class="fa fa-edit blue"></i>
+                                </router-link>
+                                /
+                                <a href="#" @click="deletePaper(paper.id)">
+                                    <i class="fa fa-trash red"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- /.card-body -->
+                <div class="card-footer d-flex flex-row justify-content-md-center" style="min-height: 60px">
+                    <pagination v-if="" :data="papers" @pagination-change-page="getResults" :limit="1"
+                                :show-disabled="true">
+                        <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
+                        <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
+                    </pagination>
+                    <span class="table-detail">
+                        تعداد
+                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        از
+ {{this.total | faDigit}}                   </span>
+                </div><!-- /card-footer --->
             </div>
         </div><!-- /col-md-12 --->
 
@@ -49,7 +95,7 @@
                                 ref="wizard">
                                 <h2 slot="title">تکمیل اطلاعات مقاله</h2>
                                 <!--  -->
-                                <tab-content title="انتخاب نوع مقاله" :before-change="chooseType" icon="far fa-file-check">
+                                <tab-content title="انتخاب نوع مقاله" :before-change="chooseTypeCheck" icon="far fa-file-check">
                                     <div class="col-md-10 mx-auto my-5 text-center ">
 
                                         <button @click="changePaperType('fajur')"
@@ -219,7 +265,7 @@
                                    <form  @submit.prevent="createPaper()"
                                           @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form2"  id="form-2">
                                         <div >
-                                            <div v-if="paperType === 'enconf' || paperType === 'faconf'" class="form-group my-3 text-right">
+                                            <div v-if="confForm" class="form-group my-3 text-right">
                                                 <label class="blue">نوع کنفرانس <i class="red mx-1">*</i>:</label>
                                                 <Select2 v-validate="'required'" data-vv-name="conftype_id"
                                                          class="form-control select2-form-control" id="conftype_id"
@@ -235,7 +281,7 @@
                                                 <span v-show="form.errors.has('conftype_id')" class="red d-inline-block">{{ form.errors.get('conftype_id') }}</span>
                                             </div>
 
-                                            <div  v-if="paperType === 'enconf' || paperType === 'faconf'" class="form-group my-3 text-right">
+                                            <div  v-if="confForm" class="form-group my-3 text-right">
                                                 <label class="blue ">نام کنفرانس<i class="red mx-1">*</i>:</label>
                                                 <input  type="text" name="confname"
                                                         :placeholder="'نام کنفرانس'"
@@ -248,7 +294,7 @@
                                                 <span v-show="form.errors.has('confname')" class="red d-inline-block">{{ form.errors.get('confname') }}</span>
                                             </div>
 
-                                            <div v-if="paperType === 'enconf' || paperType === 'faconf'" class="form-group my-3 text-right">
+                                            <div v-if="confForm" class="form-group my-3 text-right">
                                                 <label class="blue ">برگزار کننده<i class="red mx-1">*</i>:</label>
                                                 <input  type="text" name="conforganizer"
                                                         placeholder="دانشگاه شیراز"
@@ -260,7 +306,7 @@
                                                 <span v-show="errors.has('form2.conforganizer')" class="red d-inline-block">{{ errors.first('form2.conforganizer') }}</span>
                                                 <span v-show="form.errors.has('conforganizer')" class="red d-inline-block">{{ form.errors.get('conforganizer') }}</span>
                                             </div>
-                                            <div v-if="paperType === 'enconf' || paperType === 'faconf'" class="form-group my-3 text-right">
+                                            <div v-if="confForm" class="form-group my-3 text-right">
                                                 <label class="blue ">شهر<i class="red mx-1">*</i>:</label>
                                                 <input  type="text" name="confcity"
                                                         placeholder=" شیراز"
@@ -272,7 +318,7 @@
                                                 <span v-show="errors.has('form2.confcity')" class="red d-inline-block">{{ errors.first('form2.confcity') }}</span>
                                                 <span v-show="form.errors.has('confcity')" class="red d-inline-block">{{ form.errors.get('confcity') }}</span>
                                             </div>
-                                            <div v-if="paperType === 'enconf' || paperType === 'faconf'" class="form-group my-3 text-right">
+                                            <div v-if="confForm" class="form-group my-3 text-right">
                                                 <label class="blue ">دوره برگزاری<i class="red mx-1">*</i>:</label>
                                                 <input  type="number" name="confperiod" step="1" min="1"
                                                         placeholder="0"
@@ -287,7 +333,7 @@
                                         </div><!--  /conference detail end -->
 
                                         <div >
-                                            <div v-if="paperType === 'enjur' || paperType === 'fajur'" class="form-group my-3 text-right">
+                                            <div v-if="journalForm" class="form-group my-3 text-right">
                                                 <label   class="blue">نوع مجله <i class="red mx-1">*</i>:</label>
                                                 <Select2  v-validate="'required'" data-vv-name="jtype_id"
                                                          class="form-control select2-form-control" id="jtype_id"
@@ -303,7 +349,7 @@
                                                 <span v-show="form.errors.has('jtype_id')" class="red d-inline-block">{{ form.errors.get('jtype_id') }}</span>
                                             </div>
 
-                                            <div v-if="paperType === 'enjur' || paperType === 'fajur'" class="form-group my-3 text-right">
+                                            <div v-if="journalForm" class="form-group my-3 text-right">
                                                 <label   class="blue ">نام مجله<i class="red mx-1">*</i>:</label>
                                                 <input   type="text" name="jname"
                                                         placeholder=" نام مجله"
@@ -316,7 +362,7 @@
                                                 <span v-show="form.errors.has('jname')" class="red d-inline-block">{{ form.errors.get('jname') }}</span>
                                             </div>
 
-                                            <div v-if="paperType === 'enjur' || paperType === 'fajur'" class="form-group my-3 text-right">
+                                            <div v-if="journalForm" class="form-group my-3 text-right">
                                                 <label   class="blue ">نام ناشر<i class="red mx-1">*</i>:</label>
                                                 <input  type="text" name="jpublisher"
                                                         placeholder=" نام ناشر"
@@ -329,7 +375,7 @@
                                                 <span v-show="form.errors.has('jpublisher')" class="red d-inline-block">{{ form.errors.get('jpublisher') }}</span>
                                             </div>
 
-                                            <div v-if="paperType === 'enjur' || paperType === 'fajur'" class="form-group my-3 text-right">
+                                            <div v-if="journalForm" class="form-group my-3 text-right">
                                                 <label class="blue ">ISSN<i class="red mx-1">*</i>:</label>
                                                 <input    type="text" name="jISSN"
                                                         placeholder="1111-1111"
@@ -344,35 +390,35 @@
                                             </div>
 
                                             <div class="form-group my-4 text-right">
-                                                <label v-if="paperType === 'enjur' || paperType === 'fajur'"  class="blue ">pISSN:</label>
-                                                <input v-if="paperType === 'enjur' || paperType === 'fajur'"  type="text" name="pISSN"
+                                                <label v-if="journalForm"  class="blue ">pISSN:</label>
+                                                <input v-if="journalForm"  type="text" name="pISSN"
                                                         placeholder="1111-1111"
                                                         v-mask="'####-###X'"
                                                         class="form-control" v-model="form.pISSN" >
                                             </div>
                                             <div class="form-group my-4 text-right">
-                                                <label v-if="paperType === 'enjur' || paperType === 'fajur'"  class="blue ">IF:</label>
-                                                <input v-if="paperType === 'enjur' || paperType === 'fajur'"  type="number" min="0" name="pIF"
+                                                <label v-if="journalForm"  class="blue ">IF:</label>
+                                                <input v-if="journalForm"  type="number" min="0" name="pIF"
                                                         placeholder=""
                                                         class="form-control" v-model="form.pIF" >
                                             </div>
                                             <div class="form-group my-4 text-right">
-                                                <label v-if="paperType === 'enjur' || paperType === 'fajur'"  class="blue ">IF پنج ساله:</label>
-                                                <input v-if="paperType === 'enjur' || paperType === 'fajur'"  type="number" min="0" name="pFIF"
+                                                <label v-if="journalForm"  class="blue ">IF پنج ساله:</label>
+                                                <input v-if="journalForm"  type="number" min="0" name="pFIF"
                                                         placeholder=""
                                                         class="form-control" v-model="form.pFIF" >
                                             </div>
                                             <div class="form-group my-4 text-right">
-                                                <label v-if="paperType === 'enjur' || paperType === 'fajur'"  class="blue ">JCR</label>
-                                                <input v-if="paperType === 'enjur' || paperType === 'fajur'"  type="text"  name="pJCR"
+                                                <label v-if="journalForm"  class="blue ">JCR</label>
+                                                <input v-if="journalForm"  type="text"  name="pJCR"
                                                        placeholder="Q1"
                                                        v-mask="'Q#'"
                                                         class="form-control" v-model="form.pJCR" >
                                             </div>
 
                                             <div class="form-group my-4 text-right">
-                                                <label v-if="paperType === 'enjur' || paperType === 'fajur'"  class="blue ">JRK:</label>
-                                                <input v-if="paperType === 'enjur' || paperType === 'fajur'"  type="number" min="0" max="100" name="pJRK"
+                                                <label v-if="journalForm"  class="blue ">JRK:</label>
+                                                <input v-if="journalForm"  type="number" min="0" max="100" name="pJRK"
                                                        placeholder=""
                                                        class="form-control" v-model="form.pJRK" >
                                             </div>
@@ -385,10 +431,10 @@
                                           @keydown="form.onKeydown($event)" @change="form.onKeydown($event)"  data-vv-scope="form-4" id="Form4">
                                     <div class="text-right ">
                                         <span>لیست نویسندگان:</span><br>
-                                        <i v-show="errors.has('form-4.isresponsible')||form.errors.has('isresponsible')||form.errors.has('authorsjson')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show="errors.has('form-4.isresponsible')||form.errors.has('isresponsible')||form.errors.has('authors')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-4.isresponsible')" class="red d-inline-block">{{ errors.first('form-4.isresponsible') }}</span>
                                         <span v-show="form.errors.has('isresponsible')" class="red d-inline-block">{{ form.errors.get('isresponsible') }}</span>
-                                        <span v-show="form.errors.has('authorsjson')" class="red d-inline-block">{{ form.errors.get('authorsjson') }}</span>
+                                        <span v-show="form.errors.has('authors')" class="red d-inline-block">{{ form.errors.get('authors') }}</span>
 
                                     </div>
                                     <table class="table table-sm table-hover mt-2 mb-5 table-striped text-right text-rtl">
@@ -402,10 +448,10 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="(author, index) of authors">
+                                        <tr v-for="(author, index) of form.authors">
                                             <th scope="row">{{index+1 | faDigit}}</th>
-                                            <td>{{author.name}}</td>
-                                            <td>{{author.affiliation}}</td>
+                                            <td>{{author}}</td>
+                                            <td>{{form.affiliations[index]}}</td>
                                             <td><label class="radio"> </label>
                                                 <p-radio v-validate="'required'" v-model="form.isresponsible"
                                                          name="isresponsible" :value="index" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
@@ -462,7 +508,14 @@
                     toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
-
+                papers:{},
+                search: '',
+                order: 1,
+                total: 0,
+                numToShow: 0,
+                numStart: 0,
+                numTo: 0,
+                searchResult: false,
                 excerpts:[],
                 conftypes:[],
                 jtypes:[],
@@ -471,10 +524,9 @@
                 paperType:'',
                 author:'',
                 affiliation:'',
-                authors:[],
                 f:new FormData,
                 form: new Form({
-                    lang:'',
+                    lang:'0',
                     tags:[],
                     title: '',
                     abstract: '',
@@ -500,19 +552,21 @@
                     pFIF:'',
                     pJRK:'',
                     pJCR:'',
-                    authorsjson:[],
+                    authors:[],
+                    affiliations:[],
                     isresponsible:'',
                     paperType:''
                 })
             }
         },
         methods:{
+            //  changes the paper Type and sets form.lang and form.paperType
             changePaperType(type){
               this.paperType = type;
               if(this.paperType === 'fajur' || this.paperType === 'faconf'){
-                  this.form.lang = 'farsi';
+                  this.form.lang = '0';
               }else{
-                  this.form.lang = 'en';
+                  this.form.lang = '1';
               }
               if(this.paperType === 'fajur' || this.paperType === 'enjur'){
                   this.form.paperType='jur';
@@ -520,13 +574,9 @@
                   this.form.paperType='conf';
               }
             },
-            removeAuthor(index){
-                this.$delete(this.authors,index)
-                this.form.isresponsible = '';
-            },
+            // if the all paper submission validate it will submit the data to server
             onComplete: function(){
                 this.$Progress.start();
-                this.form.authorsjson = JSON.stringify(this.authors)
                 this.form.submit('post', 'api/paperValidation', {
                     // Transform form data to FormData
                     transformRequest: [function (data, headers) {
@@ -535,8 +585,8 @@
                 }).then(() => {
                      Fire.$emit('AfterCreate');
                     $('#addNew').modal('hide');
-                    this.successToast('مقاله با موفقیت ثبت شد.')
-                    this.resetFormWizard();
+                    this.successToast('مقاله با موفقیت ثبت شد.');
+                 //   this.resetFormWizard();
                     this.$Progress.finish();
                 }).catch((e) => {
                         this.$Progress.fail();
@@ -553,6 +603,49 @@
                     }
                 );
             },
+            /** these function validate each tab beforeChange */
+            // checks if the user has been selected the paper type in step 1
+            chooseTypeCheck(){
+                if(this.paperType === ''){
+                    this.errorSwal('نوع مقاله را باید مشخص کنید!');
+                    return false;
+                }else {
+                    return true;
+                }
+            },
+            // validate paper form in step 2
+            paperValidation(){
+                return this.$validator.validateAll('form-1').then(result => {
+                    if (!result) {
+                        this.errorSwal('اطلاعات مقاله دارای خطا می باشد!');
+                        return false;
+                    }
+                    return true;
+                });
+            },
+            // validate conference or journal form in step 3
+            confValidation(){
+                return this.$validator.validateAll('form2').then(result => {
+                    if (!result) {
+                        this.errorSwal('اطلاعات مجله یا کنفرانس دارای خطا می باشد!');
+                        return false;
+                    }
+                    return true;
+                });
+            },
+            // validate the authors detail in last step
+            authorValidation(){
+                return this.$validator.validateAll('form-4').then(result => {
+                    if (!result) {
+                        this.errorSwal('باید نویسنده مسئول انتخاب شود!');
+                        return false;
+                    }
+                    return true;
+                });
+            },
+
+            /** these functions are responsible for form input error handling and change state*/
+            // resets all the form modal related state and variables
             resetFormWizard() {
                 this.fileName=[];
                 this.attachments = [];
@@ -564,21 +657,15 @@
                 this.$refs.wizard.reset();
                 this.$validator.reset();
             },
-            newModal() {
-               // this.resetFormWizard();
-                $('#addNew').modal('show');
-            },
-            chooseType(){
-                if(this.paperType === ''){
-                    this.errorSwal('نوع مقاله را باید مشخص کنید!');
-                    return false;
-                }else {
-                    return true;
-                }
-            },
+            // remove field error from form.errors bag onChange
             removeError(field){
               this.form.errors.clear(field)
             },
+            // loads bootstrap modal on click
+            newModal() {
+                $('#addNew').modal('show');
+            },
+            // this function gets files selected by user and push it to form.files
             fieldChange(e){
                 let selectedFiles=e.target.files;
                 if(!selectedFiles.length){
@@ -591,17 +678,22 @@
                     this.form.files.push(selectedFiles[i]);
                 }
             },
+            // push or add the author detail to form.authors array
             addAuthor () {
                 if(this.author.trim() && this.affiliation.trim()){
-                    this.authors.push({
-                        name: this.author,
-                        affiliation: this.affiliation,
-                    });
+                    this.form.authors.push(this.author);
+                    this.form.affiliations.push(this.affiliation);
                     this.author = '';
                     this.affiliation = '';
                 }
-
             },
+            // removes author from form.authors array
+            removeAuthor(index){
+                this.$delete(this.form.authors,index);
+                this.$delete(this.form.affiliation,index);
+                this.form.isresponsible = '';
+            },
+            // gets necessary data for form like excerpts and conference types and journal types
             getPaperRelation(){
                 axios.get('api/paperRelation')
                     .then(response => {
@@ -614,38 +706,76 @@
                         }
                     );
             },
-            paperValidation(){
-               return this.$validator.validateAll('form-1').then(result => {
-                    if (!result) {
-                        this.errorSwal('اطلاعات مقاله دارای خطا می باشد!');
-                        return false;
-                    }
-                    return true;
-                });
+            getResults(page = 1, que = '') {
+                let sortOrder = this.order === 1 ? 'asc' : 'desc';
+                if (this.searchResult) {
+                    que = this.search;
+                    axios.get('api/findUser?order=' + sortOrder + '&q=' + que + '&page=' + page)
+                        .then(response => {
+                            this.users = response.data.users;
+                            this.total = response.data.users.total;
+                            this.numToShow = response.data.users.per_page;
+                            this.numStart = response.data.users.from;
+                            this.numTo = response.data.users.to;
+                        });
+                } else {
+                    axios.get('api/paper?order=' + sortOrder + '&page=' + page)
+                        .then(response => {
+                            this.papers = response.data.papers;
+                            this.total = response.data.papers.total;
+                            this.numToShow = response.data.papers.per_page;
+                            this.numStart = response.data.papers.from;
+                            this.numTo = response.data.papers.to;
+                        });
+                }
             },
-            confValidation(){
-               return this.$validator.validateAll('form2').then(result => {
-                    if (!result) {
-                        this.errorSwal('اطلاعات مجله یا کنفرانس دارای خطا می باشد!');
-                        return false;
+            deletePaper(id) {
+                swal({
+                    title: 'آیا از حذف مقاله مورد نظر مطمئن هستید؟',
+                    text: "این تغییر قابل بازگشت نخواهد بود",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'بله حذف می کنم',
+                    cancelButtonText: 'لغو عملیات'
+                }).then((result) => {
+                    // send ajax request to server
+                    if (result.value) {
+                        this.form.delete('api/paper/' + id).then(() => {
+                            this.successSwal('مقاله مورد نظر با موفقیت حذف شد.');
+                            Fire.$emit('AfterCreate');
+                        }).catch((e) => {
+                            this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                        });
+                    } else {
+                        this.warningSwal('شما این عملیات را لغو کردید.');
                     }
-                    return true;
-                });
+                })
             },
-            authorValidation(){
-               return this.$validator.validateAll('form-4').then(result => {
-                    if (!result) {
-                        this.errorSwal('باید نویسنده مسئول انتخاب شود!');
-                        return false;
-                    }
-                    return true;
-                });
-            },
-        },
-        mounted:function () {
 
+            counter(i) {
+                return this.numStart + i;
+            },
+            toggle() {
+                this.order *= -1;
+                this.getResults();
+            },
         },
+        computed:{
+            confForm() {
+                return this.paperType === 'enconf' || this.paperType === 'faconf';
+            },
+            journalForm() {
+                return this.paperType === 'enjur' || this.paperType === 'fajur';
+            },
+            sortType() {
+                return this.order === 1 ? 'ascending' : 'descending';
+            },
+        },
+        mounted:function () {},
         created(){
+            // add farsi dictionary to vee-validate components
             this.$validator.localize('farsi', {
                 messages: farsi.messages,
                 attributes: {
@@ -672,6 +802,7 @@
                 }
             });
             this.getPaperRelation();
+            this.getResults();
         },
         components: {
             Select2,

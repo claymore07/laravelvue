@@ -56,10 +56,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Paper whereLicenseTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Paper wherePaperableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Paper wherePaperableType($value)
- * @property string $paperableType
- * @property int $paperableId
- * @property int|null $licenseTo نوع مجوز
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\File[] $files
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Files[] $files
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $paperable
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
  */
@@ -67,16 +64,19 @@ class Paper extends Model
 {
     //
     protected $fillable=[
-        'fa_title', 'en_title', 'profile_id', 'fa_text', 'en_text', 'doi','link', 'paperable_id', 'paperable_type',
-        'accept_date','status','result', 'publish_date', 'excerpt_id', 'datetype', 'license','license_to', 'lang'
+        'title', 'abstract', 'profile_id', 'doi','link', 'paperable_id', 'paperable_type',
+        'accept_date','status', 'publish_date', 'excerpt_id', 'license','license_to', 'lang'
     ];
 
     // Forward
     public function authors(){
         return $this->morphMany('App\Author', 'authorable');
     }
+    public function author(){
+        return $this->morphOne('App\Author', 'authorable');
+    }
     public function files(){
-        return $this->morphMany('App\File', 'fileable');
+        return $this->morphMany('App\Files', 'fileable');
     }
     public function tags(){
         return $this->morphMany('App\Tag', 'taggable');

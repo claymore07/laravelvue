@@ -1,0 +1,38 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * App\File
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $fileableType
+ * @property int $fileableId
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $fileable
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files whereFileableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files whereFileableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Files whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+class Files extends Model
+{
+    //
+    protected $table='files';
+    protected $fillable = ['name', 'fileable_type', 'fileable_id'];
+
+    //backward
+    public function fileable(){
+        return $this->morphTo();
+    }
+}

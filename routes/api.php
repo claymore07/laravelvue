@@ -28,4 +28,5 @@ Route::get('profileRelation','API\UserController@profileRelation');
 Route::get('paperRelation','API\PapersController@paperRelation');
 Route::post('paperValidation','API\PapersController@paperValidation');
 Route::get('findUser','API\UserController@search');
+Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');

@@ -143,7 +143,7 @@ class UserController extends Controller
 
         DB::commit();
 
-        Session::flash('success', 'اطلاعات کاربر جدید با موفقیت ثبت شده است.');
+        //Session::flash('success', 'اطلاعات کاربر جدید با موفقیت ثبت شده است.');
 
         return $users;
 
