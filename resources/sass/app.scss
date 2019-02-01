@@ -81,11 +81,33 @@ $fa-font-path: "../webfonts";
     url('../fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
     url('../fonts/ttf/IRANSansWeb.ttf') format('truetype');
 }
-
+.font-20{
+    font-size: 20px !important;
+}
+.font-18{
+    font-size: 18px !important;
+}
+.font-16{
+    font-size: 16px !important;
+}
+.font-15{
+    font-size: 15px !important;
+}
+.font-12{
+    font-size: 12px !important;
+}
+.w-60{
+    width: 60% !important;
+}
+.w-55{
+    width: 55% !important;
+}
+.w-40{
+    width: 60% !important;
+}
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-
 }
 /*
 .router-link-exact-active{

@@ -13,3 +13,35 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
+mix.webpackConfig({
+    module: {
+        rules: [{
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+
+            //include: /node_modules\/v-select2-component/,
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: Config.babel()
+                }
+            ]
+        }]
+    }
+});
+/*mix.webpackConfig({
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules(?!\/foundation-sites)|bower_components/,
+                use: {
+                    loader: 'babel-loader',
+                    options: Config.babel()
+
+
+                }
+            }
+        ]
+    }
+});*/

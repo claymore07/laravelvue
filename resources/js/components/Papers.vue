@@ -586,7 +586,7 @@
                      Fire.$emit('AfterCreate');
                     $('#addNew').modal('hide');
                     this.successToast('مقاله با موفقیت ثبت شد.');
-                 //   this.resetFormWizard();
+                    this.resetFormWizard();
                     this.$Progress.finish();
                 }).catch((e) => {
                         this.$Progress.fail();
@@ -690,7 +690,7 @@
             // removes author from form.authors array
             removeAuthor(index){
                 this.$delete(this.form.authors,index);
-                this.$delete(this.form.affiliation,index);
+                this.$delete(this.form.affiliations,index);
                 this.form.isresponsible = '';
             },
             // gets necessary data for form like excerpts and conference types and journal types

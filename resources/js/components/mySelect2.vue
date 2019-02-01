@@ -7,7 +7,7 @@
 <script>
     import Select2 from 'select2'
     export default {
-        name: "Select2",
+        name: "mySelect2",
         props: ['options', 'value'],
         data(){
           return{

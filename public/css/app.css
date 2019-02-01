@@ -32565,6 +32565,38 @@ readers do not read off random characters that represent icons */
   src: url(/fonts/IRANSansWeb.eot?d3931868176480f01fd4524cbd48b667) format("embedded-opentype"), url(/fonts/IRANSansWeb.woff2?0b5055ac357359f8c23320ea3dc0f78b) format("woff2"), url(/fonts/IRANSansWeb.woff?66b5cb30e2efe84dab915617acd39041) format("woff"), url(/fonts/IRANSansWeb.ttf?c26a9eb202b3ef6455281f0335cfffe9) format("truetype");
 }
 
+.font-20 {
+  font-size: 20px !important;
+}
+
+.font-18 {
+  font-size: 18px !important;
+}
+
+.font-16 {
+  font-size: 16px !important;
+}
+
+.font-15 {
+  font-size: 15px !important;
+}
+
+.font-12 {
+  font-size: 12px !important;
+}
+
+.w-60 {
+  width: 60% !important;
+}
+
+.w-55 {
+  width: 55% !important;
+}
+
+.w-40 {
+  width: 60% !important;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

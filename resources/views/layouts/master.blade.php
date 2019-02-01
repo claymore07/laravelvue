@@ -141,7 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         window.user = @json(auth()->user()->load('profile'))
     </script>
 @endauth
-
+{{ Session::get('test') }}
 <script src="{{ asset('js/app.js') }}" ></script>
 <script src="{{ asset('js/FarsiType.js') }}"></script>
 

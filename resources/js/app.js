@@ -11,7 +11,7 @@ window.Vue = require('vue');
 require('./jquery.html5cvm.min');
 require('./jquery.SimpleMask.min');
 var VueTruncate = require('vue-truncate-filter')
-import moment from 'moment';
+//import moment from 'moment';
 import jmoment from 'moment-jalaali';
 import VueFormWizard from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -180,6 +180,10 @@ Vue.filter('upText', function (text) {
 Vue.filter('myDate', function (created) {
     jmoment.loadPersian({dialect: 'persian-modern', usePersianDigits: true});
     return jmoment(created).format('jDo jMMMM jYYYY    ');
+});
+Vue.filter('myDateEN', function (created) {
+    jmoment.loadPersian({ usePersianDigits: false});
+    return jmoment(created).format('Do-MMMM-YYYY');
 });
 /**
  * Next, we will create a fresh Vue application instance and attach it to

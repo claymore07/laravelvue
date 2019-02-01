@@ -7,6 +7,7 @@ use App\ConfType;
 use App\Excerpt;
 use App\Files;
 use App\Http\Requests\PaperRequest;
+use App\Http\Requests\PaperUpdateRequest;
 use App\Journal;
 use App\Jtype;
 use App\Paper;
@@ -72,6 +73,16 @@ class PapersController extends Controller
     public function show($id)
     {
         //
+        $paper = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
+        $paperable = $paper->paperable;
+        if($paper->paperable_type == "App\Journal")
+        {
+            $jtype = $paperable->jtype;
+            return Response::json(array('paper'=>$paper, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
+        }else{
+            $conftype =$paperable->conftype;
+            return Response::json(array('paper'=>$paper, 'jtypename'=>'','conftypename'=>$conftype['name'], 'type'=>1),200);
+        }
     }
 
     /**
@@ -83,7 +94,95 @@ class PapersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->all());
+            //return Response::json($request->all());
+    }
 
+
+    public function paperUpdate(Request $request, $id)
+    {
+
+        $paper_db = Paper::findOrFail($id);
+        /*DB::beginTransaction();
+        try {*/
+            $fileBag = $request->files;
+            $authors = $request->authors;
+            $affiliations = $request->affiliations;
+            $isresposible = $request->isresponsible;
+            $tags = $request->tags;
+            $paper = [];
+            $journal = [];
+            $conference = [];
+
+
+            $paper['title'] = $request->title;
+            $paper['abstract'] = $request->abstract;
+            $paper['doi'] = $request->doi;
+            $paper['link'] = $request->link;
+            $paper['excerpt_id'] = $request->excerpt_id;
+            $paper['license'] = $request->license;
+            $paper['license_to'] = $request->license_to;
+            $paper['publish_date'] = $request->publish_date;
+            $paper['accept_date'] = $request->accept_date;
+            $paper_db->update($paper);
+            $paperType = $request->paperType;
+
+           if ($paperType == 'jur') {
+                $journal['jtype_id'] = $request->jtype_id;
+                $journal['name'] = $request->jname;
+                $journal['publisher'] = $request->jpublisher;
+                $journal['issn'] = $request->jISSN;
+                $journal['pissn'] = $request->pISSN;
+                $journal['IFactor'] = $request->pIF;
+                $journal['FIF'] = $request->pFIF;
+                $journal['JRK'] = $request->pJRK;
+                $journal['JCR'] = $request->pJCR;
+               $paper_db->paperable->update($journal);
+
+            } else {
+                $conference['conftype_id'] = $request->conftype_id;
+                $conference['name'] = $request->confname;
+                $conference['organizer'] = $request->conforganizer;
+                $conference['city'] = $request->confcity;
+                $conference['period'] = $request->confperiod;
+                $paper_db->paperable()->update($conference);
+            }
+
+
+            foreach ($tags as $tag) {
+                $paper_db->tags()->firstOrCreate(['name' => $tag]);
+            }
+            $paper_db->authors()->delete();
+           foreach ($authors as $key => $author) {
+                if ($key == $isresposible) {
+                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
+                } else {
+                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                }
+            }
+            if ($request->has('fileChangeType')) {
+                if ($request->fileChangeType == '0') {
+                    $files = $paper_db->files;
+                    foreach ($files as $file){
+                            $file->delete();
+                    }
+                }
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/papers', $name);
+                        $paper_db->files()->create(['name' => $name]);
+                    }
+                }
+            }
+       /* }catch (\Exception $e){
+
+            DB::rollback();
+            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+        }
+
+        DB::commit();
+        return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);*/
     }
 
     /**
@@ -96,18 +195,6 @@ class PapersController extends Controller
     {
         //
         $paper = Paper::findOrFail($id);
-
-
-/*
-        foreach ($files as $file){
-            $filePath = public_path('files/papers/').$file['name'];
-            if(file_exists($filePath)){
-
-                @unlink($filePath);
-                $file->delete();
-            }
-        }*/
-       // return Response::json($paperable, 200);
         DB::beginTransaction();
         try {
             $files = $paper->files;
@@ -117,11 +204,7 @@ class PapersController extends Controller
             $paperable->papers()->delete();
             $paperable->delete();
             foreach ($files as $file){
-                $filePath = public_path('files/papers/').$file['name'];
-                if(file_exists($filePath)){
-                    @unlink($filePath);
                     $file->delete();
-                }
             }
         }catch (\Exception $e){
 
@@ -206,7 +289,6 @@ class PapersController extends Controller
 
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
-            // return redirect('admin/home')->with('fail','عملیات ثبت کاربر ناموفق بود، از ابتدا شروع نمایید.');
         }
 
         DB::commit();
