@@ -628,7 +628,7 @@
                         let t = Object.keys(this.form.errors.all()).filter(function (key) {
                             return /^files./.test(key);
                         });
-                        console.log('ssss')
+
                         if (!t.length) {
                         } else {
                             this.form.errors.set('files', 'نوع فایل باید یکی از انواع pdf یا zip باشد.')
@@ -737,7 +737,7 @@
                         this.jtypes = response.data.jtypes;
                     })
                     .catch((e)=>{
-                            console.log(e);
+                          //  console.log(e);
                         }
                     );
             },
@@ -747,7 +747,7 @@
                     que = this.search;
                     axios.get('api/findPaper?order=' + sortOrder + '&q=' + que +'&filter='+this.filter +'&page=' + page)
                         .then(response => {
-                            console.log(response);
+
                             this.papers = response.data.papers;
                             this.total = response.data.papers.total;
                             this.numToShow = response.data.papers.per_page;
@@ -757,7 +757,7 @@
                 } else {
                     axios.get('api/paper?order=' + sortOrder + '&page=' + page +'&filter='+this.filter)
                         .then(response => {
-                            console.log(response);
+
                             this.papers = response.data.papers;
                             this.total = response.data.papers.total;
                             this.numToShow = response.data.papers.per_page;
@@ -812,6 +812,7 @@
         },
         mounted:function () {},
         created(){
+            this.$parent.pageName = 'آرشیو مقالات';
             // add farsi dictionary to vee-validate components
             this.$validator.localize('farsi', {
                 messages: farsi.messages,

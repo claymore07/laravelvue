@@ -237,12 +237,13 @@ class UserController extends Controller
         }catch (\Exception $e){
 
             DB::rollback();
-            // dd($e);
+             dd($e);
             return Response::json(['message'=> ["خطای در پایگاه داده رخ داده است"] ], 403);
         }
 
         DB::commit();
-        return $request['photo'];
+        return Response::json(['photo'=> $request['photo'] ], 200);
+
 
     }
 

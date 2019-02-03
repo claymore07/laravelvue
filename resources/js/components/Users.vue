@@ -90,24 +90,24 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form @submit.prevent="editMode ? updateUser():createUser()" @keydown="form.onKeydown($event)" id="Form">
+                    <form @submit.prevent="editMode ? updateUser():createUser()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" id="Form">
 
                    <div class="modal-body">
                        <div class="form-group mt-4 text-right">
                            <label class="blue">نام:</label>
-                           <input lang="fa-IR" type="text"  name="Fname" placeholder="نام"
-                                  class="form-control" v-model.lazy="form.Fname"
-                                  @keyup="farsiTypeInputSetter($event.target.value, 'Fname')"
+                           <input  type="text"  name="Fname" placeholder="نام"
+                                  class="form-control" v-model="form.Fname"
+
                                   pattern="[^A-Za-z0-9.-_+*/×-]{1,30}"
                                   data-error-pattern-mismatch="نام باید فارسی باشد!"
-
+                                   required
                                   :class="{ 'is-invalid': form.errors.has('Fname') } " @input="() => {}">
                            <has-error :form="form" field="Fname"></has-error>
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">نام خانوادگی:</label>
-                           <input lang="fa-IR" v-model.lazy="form.Lname"
-                                  @keyup="farsiTypeInputSetter($event.target.value, 'Lname')" type="text" name="Lname"
+                           <input  v-model="form.Lname"
+                                  type="text" name="Lname"
                                   placeholder="نام خانوادگی"
                                   pattern="[^A-Za-z0-9.-_+*/×-]{1,30}"
                                   data-error-pattern-mismatch="نام خانوادگی باید فارسی باشد!"
@@ -144,7 +144,7 @@
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">شماره سیبا:</label>
-                           <input v-model="form.siba" type="text" maxlength="13" name="siba"id="siba" placeholder="0000000000000"
+                           <input v-model="form.siba" type="text" maxlength="13" name="siba" id="siba" placeholder="0000000000000"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('siba') }"
                                   pattern="[0-9]{13}"
                                   data-error-pattern-mismatch="شماره حساب سیبا باید عدد و بطول 13 باشد!"
@@ -153,7 +153,7 @@
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">نشماره موبایل:</label>
-                           <input v-model="form.phone" type="tel" maxlength="11" name="phone"id="phone" placeholder="09111111111"
+                           <input v-model="form.phone" type="tel" maxlength="11" name="phone" id="phone" placeholder="09111111111"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }"
                                   pattern="[0-9]{11}"
                                   data-error-pattern-mismatch="شماره موبایل باید عدد و بطول 11 باشد!"
@@ -193,6 +193,7 @@
                            <Select2 class="form-control select2-form-control"
                                     :class="{ 'is-invalid': form.errors.has('degree_id') }" v-model="form.degree_id"
                                     :options="degrees"
+                                    @change="removeError('degree_id')"
                                     :settings="{theme: 'bootstrap4', placeholder: 'آخرین مدرک تحصیلی', width: '100%' }">
                            </Select2>
                            <has-error :form="form" field="degree_id"></has-error>
@@ -202,6 +203,7 @@
                            <Select2 class="form-control select2-form-control"
                                     :class="{ 'is-invalid': form.errors.has('rank_id') }" v-model="form.rank_id"
                                     :options="ranks"
+                                    @change="removeError('rank_id')"
                                     :settings="{theme: 'bootstrap4', placeholder: 'مرتبه علمی', width: '100%' }">
                            </Select2>
                            <has-error :form="form" field="rank_id"></has-error>
@@ -211,6 +213,7 @@
                            <Select2 class="form-control select2-form-control" id="member_id"
                                     :class="{ 'is-invalid': form.errors.has('member_id') }" v-model="form.member_id"
                                     :options="members"
+                                    @change="removeError('member_id')"
                                     :settings="{theme: 'bootstrap4', placeholder: 'نوع عضویت در باشگاه پژوهشگران', width: '100%' }">
                            </Select2>
                            <has-error :form="form" field="member_id"></has-error>
@@ -221,6 +224,7 @@
                                     :class="{ 'is-invalid': form.errors.has('department_id') }"
                                     v-model="form.department_id"
                                     :options="departments"
+                                    @change="removeError('department_id')"
                                     :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
                            </Select2>
                            <has-error :form="form" field="department_id"></has-error>
@@ -230,13 +234,14 @@
                            <Select2 class="form-control select2-form-control" id="faculty_id"
                                     :class="{ 'is-invalid': form.errors.has('faculty_id') }" v-model="form.faculty_id"
                                     :options="faculties"
+                                    @change="removeError('faculty_id')"
                                     :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
                            </Select2>
                            <has-error :form="form" field="faculty_id"></has-error>
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">نوع همکاری با دانشگاه:</label>
-                           <Select2 @change="baseToggle" class="form-control select2-form-control" id="position_id"
+                           <Select2 @change="baseToggle(), removeError('position_id')" class="form-control select2-form-control" id="position_id"
                                     :class="{ 'is-invalid': form.errors.has('position_id') }" v-model="form.position_id"
                                     :options="positions"
                                     :settings="{theme: 'bootstrap4', placeholder: 'نوع همکاری با دانشگاه', width: '100%' }">
@@ -245,13 +250,13 @@
                        </div>
                        <div v-if="baseMode" class="form-group my-5 text-right">
                            <label class="blue">پایه:</label>
-                           <input v-model="form.base" :class="{ 'is-invalid': form.errors.has('base') }"
+                           <input v-model="form.base" min="1" type="number" :class="{ 'is-invalid': form.errors.has('base') }"
                                   style="direction: rtl; text-align: right !important;"
                                   class="form-control text-ltr text-left addon" id="base1" placeholder="1"
                                   pattern="[0-9]{1,2}"
-                                  data-error-pattern-mismatch="شماره پرسنلی باید عدد و حداقل به طول 3  باشد!"
-
-                                  required name="base" type="text">
+                                  data-error-pattern-mismatch="پایه باید عدد برزگتر از 1  باشد!"
+                                  data-error-generic="پایه باید عدد برزگتر از 1  باشد!"
+                                  required name="base" >
                            <has-error :form="form" field="base"></has-error>
                        </div>
                   </div>
@@ -283,22 +288,22 @@
             return {
 
                 modalID: '',
-                search: '',
-                order: 1,
-                total: 0,
-                numToShow: 0,
-                numStart: 0,
-                numTo: 0,
-                searchResult: false,
-                editMode: false,
-                baseMode: true,
-                users: {},
-                degrees: [],
-                ranks: [],
-                members: [],
-                departments: [],
-                faculties: [],
-                positions: [],
+                search: '',             // search term in search box
+                order: 1,               // order 1 for asc and -1 for desc
+                total: 0,               // total # of users
+                numToShow: 0,           // # of displayed users in current table
+                numStart: 0,            // row # start
+                numTo: 0,               // row # end
+                searchResult: false,    // checks if there is a search going or not
+                editMode: false,        // checks if we want to edit or not
+                baseMode: false,        // checks if پایه or base required for use based on their position
+                users: {},              // users record
+                degrees: [],            // degrees array
+                ranks: [],              // array of ranks or رتبه علمی
+                members: [],            // array of نوع عضویت در باشگاه پژوهشگران
+                departments: [],        // array of گروه های آموزشی
+                faculties: [],          // array of دانشکده ها
+                positions: [],          // array of نوع همکاری با دانشگاه
                 form: new Form({
                     hasProfile: true,
                     id: '',
@@ -319,7 +324,7 @@
                     position_id: '',
                     faculty_id: '',
                     department_id: '',
-                    base: ''
+                    base: null
                 })
             }
         },
@@ -327,25 +332,32 @@
           console.log('hahah');
         },
         methods: {
+            // remove field error from form.errors bag onChange
+            removeError(field){
+                this.form.errors.clear(field)
+            },
+            // calls the main component function to emits the searching act
             searchit(){
                     this.$parent.searchit();
                 },
+
             farsi(){
                 this.form.personal_id = this.$options.filters.faDigit(this.form.personal_id)
             },
+            // changes the order of data sorting form asc to desc or vice versa
             toggle() {
                 this.order *= -1;
                 this.getResults();
             },
+            // shows or hides the پایه or base input based on the user position
             baseToggle() {
                 if (this.form.position_id == 1 || this.form.position_id == 2 || this.form.position_id == 3) {
                     this.baseMode = true;
                 } else {
                     this.baseMode = false;
-                    this.form.base = 0;
                 }
-                console.log(this.baseMode);
             },
+            // shows the user create modal
             newModal() {
                 this.form.reset();
                 this.editMode = false;
@@ -361,9 +373,11 @@
                         break;
                 }
             },
+            // counts the records rows
             counter(i) {
                 return this.numStart + i;
             },
+            // gets the necessary data to initialize user forms
             getProfileRation(){
                 axios.get('api/profileRelation')
                     .then(response => {
@@ -375,13 +389,14 @@
                         this.positions = response.data.positions;
                     })
                     .catch((e)=>{
-                            console.log(e);
+                          //  console.log(e);
                         }
                     );
             },
+            // gets the user records based on the search and filter terms and order
             getResults(page = 1, que = '') {
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
-                if (this.searchResult) {
+                if (this.searchResult) {        // if there is search going on this part will executed
                     que = this.search;
                     axios.get('api/findUser?order=' + sortOrder + '&q=' + que + '&page=' + page)
                         .then(response => {
@@ -402,6 +417,7 @@
                         });
                 }
             },
+            // perpare user edit form // the @param user data
             editModal(user) {
                 this.editMode = true;
                 this.baseMode = true;
@@ -432,32 +448,22 @@
                 this.form.fill(user);
                 $('#addNew').modal('show');
             },
+            // handles the user form when submited
             updateUser() {
                 this.$Progress.start();
                 this.form.put('api/user/' + this.form.id)
                     .then(() => {
                         Fire.$emit('AfterCreate');
                         $('#addNew').modal('hide');
-                        toast({
-                            position: 'top-start',
-                            type: 'success',
-                            title: 'برزوزسانی کاربر با موفقیت انجام شد.'
-                        });
+                        this.successToast('برزوزسانی کاربر با موفقیت انجام شد.');
                         this.$Progress.finish();
                     })
                     .catch((e) => {
                         this.$Progress.fail();
-                        swal.fire({
-                            title: 'خطا!',
-                            text: 'خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!',
-                            type: 'error',
-                            focusConfirm: true,
-                            confirmButtonText:
-                                'متوجه شدم!',
-                            confirmButtonAriaLabel: 'متوجه شدم!',
-                        });
+                        this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
                     })
             },
+            // delete user after confirmation dialog
             deleteUser(id) {
                 swal({
                     title: 'آیا از حذف کاربر مورد نظر مطمئن هستید؟',
@@ -472,36 +478,17 @@
                     // send ajax request to server
                     if (result.value) {
                         this.form.delete('api/user/' + id).then(() => {
-                            swal(
-                                'Deleted!',
-                                'کاربر مورد نظر با موفقیت حذف شد.',
-                                'success'
-                            );
+                            this.successSwal('کاربر مورد نظر با موفقیت حذف شد.');
                             Fire.$emit('AfterCreate');
                         }).catch((e) => {
-                            swal.fire({
-                                title: 'خطا!',
-                                text: 'خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!',
-                                type: 'error',
-                                focusConfirm: true,
-                                confirmButtonText:
-                                    'متوجه شدم!',
-                                confirmButtonAriaLabel: 'متوجه شدم!',
-                            });
+                            this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
                         });
                     } else {
-                        swal.fire({
-                            title: 'لفو شد!',
-                            text: 'شما این عملیات را لغو کردید.',
-                            type: 'warning',
-                            focusConfirm: true,
-                            confirmButtonText:
-                                'متوجه شدم!',
-                            confirmButtonAriaLabel: 'متوجه شدم!',
-                        });
+                        this.warningSwal('شما این عملیات را لغو کردید.');
                     }
                 })
             },
+            // handles user create form when submited
             createUser() {
                 this.$Progress.start();
                 this.form.busy;
@@ -509,15 +496,12 @@
                     .then(() => {
                         Fire.$emit('AfterCreate');
                         $('#addNew').modal('hide');
-                        toast({
-                            type: 'success',
-                            position: 'top-start',
-                            title: 'اطلاعات کاربر جدید با موفقیت ثبت شد.'
-                        });
+                        this.successToast('اطلاعات کاربر جدید با موفقیت ثبت شد.');
                         this.$Progress.finish();
                         this.form.reset();
                     })
                     .catch(() => {
+                        this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
                         this.$Progress.fail();
                     })
             },
@@ -533,9 +517,6 @@
                 generic: 'این گزینه باید تکمیل شود!',
                 typeMismatch: "نوع داده ورودی همخوانی ندارد."
             });
-            $('#siba').simpleMask({'mask': '#############'});
-            $('#phone').simpleMask({'mask': '###########'});
-            // $('#personal_id1').simpleMask( { 'mask': '####'     } );
         },
         created() {
             this.$parent.pageName = 'کاربران';

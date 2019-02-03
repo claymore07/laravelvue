@@ -784,13 +784,13 @@
                     this.successToast('مقاله با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
-                    console.log(e);
+
                         this.$Progress.fail();
                         // checks if uploaded files has error
                         let t = Object.keys(this.form.errors.all()).filter(function (key) {
                             return /^files./.test(key);
                         });
-                        console.log('ssss')
+
                         if (!t.length) {
                         } else {
                             this.form.errors.set('files', 'نوع فایل باید یکی از انواع pdf یا zip باشد.')
@@ -998,6 +998,7 @@
             },
         },
         created(){
+            this.$parent.pageName = 'جزئیات مقالات';
             this.$validator.localize('farsi', {
                 messages: farsi.messages,
                 attributes: {

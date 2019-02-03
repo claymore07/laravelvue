@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
             'rank_id'=>'required',
             'degree_id'=>'required',
             'department_id'=>'required',
-            'base' => 'required_if:position_id,1|required_if:position_id,2|required_if:position_id,3|numeric',
+            'base' => 'required_if:position_id,1|required_if:position_id,2|required_if:position_id,3',
 
 
         ];

@@ -67,9 +67,8 @@
                                 <form class="form-horizontal" @submit.prevent="updateInfo" @keydown="form.onKeydown($event)" id="Form">
                                     <div class="form-group mt-4 text-right">
                                         <label class="blue">نام:</label>
-                                        <input lang="fa-IR" type="text"  name="Fname" placeholder="نام"
-                                               class="form-control" v-model.lazy="form.Fname"
-                                               @keyup="farsiTypeInputSetter($event.target.value, 'Fname')"
+                                        <input  type="text"  name="Fname" placeholder="نام"
+                                               class="form-control" v-model="form.Fname"
                                                pattern="[^A-Za-z0-9.-_+*/×-]{1,30}"
                                                data-error-pattern-mismatch="نام باید فارسی باشد!"
 
@@ -78,8 +77,7 @@
                                     </div>
                                     <div class="form-group my-5 text-right">
                                         <label class="blue">نام خانوادگی:</label>
-                                        <input lang="fa-IR" v-model.lazy="form.Lname"
-                                               @keyup="farsiTypeInputSetter($event.target.value, 'Lname')" type="text" name="Lname"
+                                        <input  v-model="form.Lname"
                                                placeholder="نام خانوادگی"
                                                pattern="[^A-Za-z0-9.-_+*/×-]{1,30}"
                                                data-error-pattern-mismatch="نام خانوادگی باید فارسی باشد!"
@@ -132,7 +130,7 @@
                                     </div>
                                     <div class="form-group my-5 text-right">
                                         <label class="blue">شماره پرسنلی:</label>
-                                        <input @change="farsi()"  v-model.lazy="form.personal_id" type="text" name="personal_id" placeholder="111"
+                                        <input  v-model="form.personal_id" type="text" name="personal_id" placeholder="111"
                                                class="form-control" :class="{ 'is-invalid': form.errors.has('personal_id') }"
                                                pattern="[0-9]{3,12}"
                                                data-error-pattern-mismatch="شماره پرسنلی باید عدد و حداقل به طول 3  باشد!"
@@ -163,6 +161,7 @@
                                         <Select2 class="form-control select2-form-control"
                                                  :class="{ 'is-invalid': form.errors.has('degree_id') }" v-model="form.degree_id"
                                                  :options="degrees"
+                                                 @change="removeError('degree_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'آخرین مدرک تحصیلی', width: '100%' }">
                                         </Select2>
                                         <has-error :form="form" field="degree_id"></has-error>
@@ -172,6 +171,7 @@
                                         <Select2 class="form-control select2-form-control"
                                                  :class="{ 'is-invalid': form.errors.has('rank_id') }" v-model="form.rank_id"
                                                  :options="ranks"
+                                                 @change="removeError('rank_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'مرتبه علمی', width: '100%' }">
                                         </Select2>
                                         <has-error :form="form" field="rank_id"></has-error>
@@ -181,6 +181,7 @@
                                         <Select2 class="form-control select2-form-control" id="member_id"
                                                  :class="{ 'is-invalid': form.errors.has('member_id') }" v-model="form.member_id"
                                                  :options="members"
+                                                 @change="removeError('member_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'نوع عضویت در باشگاه پژوهشگران', width: '100%' }">
                                         </Select2>
                                         <has-error :form="form" field="member_id"></has-error>
@@ -191,6 +192,7 @@
                                                  :class="{ 'is-invalid': form.errors.has('department_id') }"
                                                  v-model="form.department_id"
                                                  :options="departments"
+                                                 @change="removeError('department_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
                                         </Select2>
                                         <has-error :form="form" field="department_id"></has-error>
@@ -200,13 +202,14 @@
                                         <Select2 class="form-control select2-form-control" id="faculty_id"
                                                  :class="{ 'is-invalid': form.errors.has('faculty_id') }" v-model="form.faculty_id"
                                                  :options="faculties"
+                                                 @change="removeError('faculty_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
                                         </Select2>
                                         <has-error :form="form" field="faculty_id"></has-error>
                                     </div>
                                     <div class="form-group my-5 text-right">
                                         <label class="blue">نوع همکاری با دانشگاه:</label>
-                                        <Select2 @change="baseToggle" class="form-control select2-form-control" id="position_id"
+                                        <Select2 @change="baseToggle(), removeError('position_id')" class="form-control select2-form-control" id="position_id"
                                                  :class="{ 'is-invalid': form.errors.has('position_id') }" v-model="form.position_id"
                                                  :options="positions"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'نوع همکاری با دانشگاه', width: '100%' }">
@@ -220,8 +223,8 @@
                                                class="form-control text-ltr text-left addon" id="base1" placeholder="1"
                                                pattern="[0-9]{1,2}"
                                                data-error-pattern-mismatch="شماره پرسنلی باید عدد و حداقل به طول 3  باشد!"
-
-                                               required name="base" type="text">
+                                                min="1"
+                                               required name="base" type="number">
                                         <has-error :form="form" field="base"></has-error>
                                     </div>
 
@@ -258,14 +261,14 @@
         name: "Profile",
         data() {
             return {
-                baseMode: true,
-                degrees: [],
-                ranks: [],
-                members: [],
-                departments: [],
-                faculties: [],
-                positions: [],
-                photoName:'',
+                baseMode: true,         // checks if پایه or base required for use based on their position
+                degrees: [],            // degrees array
+                ranks: [],              // array of ranks or رتبه علمی
+                members: [],            // array of نوع عضویت در باشگاه پژوهشگران
+                departments: [],        // array of گروه های آموزشی
+                faculties: [],          // array of دانشکده ها
+                positions: [],          // array of نوع همکاری با دانشگاه
+                photoName:'',           // user profile photo name
                 form: new Form({
                     hasProfile: true,
                     id: '',
@@ -295,11 +298,13 @@
                 generic: 'این گزینه باید تکمیل شود!',
                 typeMismatch: "نوع داده ورودی همخوانی ندارد."
             });
-            $('#siba').simpleMask({'mask': '#############'});
-            $('#phone').simpleMask({'mask': '###########'});
-            console.log('Profile Component mounted.')
         },
         methods:{
+            // remove field error from form.errors bag onChange
+            removeError(field){
+                this.form.errors.clear(field)
+            },
+            // shows or hides the پایه or base input based on the user position
             baseToggle() {
                 if (this.form.position_id == 1 || this.form.position_id == 2 || this.form.position_id == 3) {
                     this.baseMode = true;
@@ -307,7 +312,7 @@
                     this.baseMode = false;
                     this.form.base = 0;
                 }
-                console.log(this.baseMode);
+              //  console.log(this.baseMode);
             },
             farsiTypeInputSetter(e, field) {
                 switch (field) {
@@ -319,10 +324,12 @@
                         break;
                 }
             },
+            // loads the user profile photo if there is any or default photo
             getProfilePhoto(){
                 let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/"+ this.form.photo ;
                 return photo;
             },
+            // gets the necessary data to initialize user forms
             getProfileRation(){
                 axios.get('api/profileRelation')
                     .then(response => {
@@ -334,10 +341,11 @@
                         this.positions = response.data.positions;
                     })
                     .catch((e)=>{
-                            console.log(e);
+                           // console.log(e);
                         }
                     );
             },
+            // handles the user form when submited
             updateInfo(){
                 this.$Progress.start();
                 if(this.form.password == ''){
@@ -346,17 +354,14 @@
                 this.form.put('api/profile/')
                     .then(()=>{
                         Fire.$emit('AfterCreate');
-                        toast({
-                            position: 'top-start',
-                            type: 'success',
-                            title: 'برزوزسانی پروفایل با موفقیت انجام شد.'
-                        });
+                        this.successToast('پروفایل شما با موفقیت بروزرسانی شد.')
                         this.$Progress.finish();
                     })
                     .catch(()=>{
                         this.$Progress.fail();
                     });
             },
+            // handles the user profile upload form when submited
             updateProfile(e){
 
                 let file = e.target.files[0];
@@ -364,11 +369,7 @@
                 let reader = new FileReader();
                 let limit = 1024 * 1024 * 2;
                 if(file['size'] > limit){
-                    swal({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: 'You are uploading a large file',
-                    });
+                    this.errorSwal('حداکثر حجم مجاز 2Mb  می باشد.')
                     return false;
                 }
                 reader.onloadend = (file) => {
@@ -377,6 +378,7 @@
 
                 reader.readAsDataURL(file);
             },
+            // perpare user edit form // the @param user data
             fillForm(user) {
                 this.baseMode = true;
                 this.form.reset();
