@@ -11,8 +11,8 @@ window.Vue = require('vue');
 require('./jquery.html5cvm.min');
 require('./jquery.SimpleMask.min');
 var VueTruncate = require('vue-truncate-filter')
-//import moment from 'moment';
-import jmoment from 'moment-jalaali';
+import moment from 'moment';
+import jmoments from 'moment-jalaali';
 import VueFormWizard from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
@@ -178,13 +178,17 @@ Vue.filter('upText', function (text) {
     return text.charAt(0).toUpperCase() + text.substr(1);
 });
 Vue.filter('myDate', function (created) {
-    jmoment.loadPersian({dialect: 'persian-modern', usePersianDigits: true});
-    return jmoment(created).format('jDo jMMMM jYYYY    ');
+    var faDate;
+    jmoments.loadPersian({usePersianDigits: true});
+    faDate = jmoments(created).local('fa').format('jYYYY/jM/jD    ');
+    jmoments.loadPersian({usePersianDigits: false});
+    return faDate;
 });
 Vue.filter('myDateEN', function (created) {
-    jmoment.loadPersian({ usePersianDigits: false});
-    return jmoment(created).format('Do-MMMM-YYYY');
+  //  jmoment.loadPersian({ usePersianDigits: false});
+    return jmoments(created).format('YYYY/M/D');
 });
+//jmoment.loadPersian({dialect: 'persian-modern', usePersianDigits: false});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -201,6 +205,7 @@ const app = new Vue({
     },
     methods:{
         searchit: _.debounce(() => {
+
             Fire.$emit('searching');
         },500),
     }

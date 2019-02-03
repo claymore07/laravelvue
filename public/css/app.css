@@ -32991,6 +32991,12 @@ div.form-control.is-invalid > span.select2-container--bootstrap4 .select2-select
   direction: rtl !important;
 }
 
+@media (max-width: 958px) {
+  .w-md-92 {
+    width: 92% !important;
+  }
+}
+
 .tags-input {
   display: flex;
   flex-wrap: wrap;

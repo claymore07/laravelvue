@@ -20,7 +20,7 @@ use Response;
 
 class PapersController extends Controller
 {
-    protected $perPage=1;
+    protected $perPage=5;
     /**
      * Display a listing of the resource.
      *
@@ -30,13 +30,72 @@ class PapersController extends Controller
     {
         //
         $order = \Request::get('order');
-        $papers =Paper::select('title','id','paperable_type','paperable_id','status','created_at')->with(['author'=>function($query){
-            $query->select('name','authorable_type','authorable_id');
-            }, 'paperable'=>function($query){
-            $query->select('name','id');
-        }])->orderBy('created_at', $order)->paginate($this->perPage);
+        $papers =Paper::select('title','id','profile_id','paperable_type','paperable_id','status','created_at')
+            ->with(['paperable:name,id','profile:Fname,Lname,id'])
+            ->orderBy('created_at', $order)->paginate($this->perPage);
         return Response::json(array('papers'=>$papers));
     }
+
+    public function search(){
+        $order = \Request::get('order');
+        $filter = \Request::get('filter');
+        if($filter == '5') {
+            if ($search = \Request::get('q')) {
+                //    \DB::enableQueryLog();
+                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
+                    ->whereHas('profile', function ($query) use ($search) {
+                        if ($search == trim($search) && strpos($search, ' ') !== false) {
+                            $searchParts = explode(' ', $search);
+                            $query->where('Fname', 'LIKE', "%$searchParts[0]%")
+                                ->where('Lname', 'LIKE', "%$searchParts[1]%");
+                        } else {
+                            $query->where('Fname', 'LIKE', "%$search%")
+                                ->orWhere('Lname', 'LIKE', "%$search%");
+                        }
+                    })->orWhere(function ($query) use ($search) {
+                        $query->where('title', 'LIKE', "%$search%");
+
+                    })->orderBy('created_at', $order)->paginate($this->perPage);
+                //    dd(\DB::getQueryLog());
+            } else {
+                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
+                    ->orderBy('created_at', $order)
+                    ->paginate($this->perPage);
+            }
+        }else{
+            if ($search = \Request::get('q')) {
+
+                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+
+                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
+                    ->whereHas('profile', function ($query) use ($search) {
+                        if ($search == trim($search) && strpos($search, ' ') !== false) {
+                            $searchParts = explode(' ', $search);
+                            $query->where('Fname', 'LIKE', "%$searchParts[0]%")
+                                ->where('Lname', 'LIKE', "%$searchParts[1]%");
+                        } else {
+                            $query->where('Fname', 'LIKE', "%$search%")
+                                ->orWhere('Lname', 'LIKE', "%$search%");
+                        }
+                    })->orWhere(function ($query) use ($search) {
+                        $query->where('title', 'LIKE', "%$search%");
+
+                    })->where('status','==', 2)->orderBy('created_at', $order)->paginate($this->perPage);
+
+            } else {
+                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
+                    ->where('status', $filter)
+                    ->orderBy('created_at', $order)
+                    ->paginate($this->perPage);
+            }
+        }
+        return Response::json(array('papers'=>$papers));
+
+    }
+
 
     public function paperRelation(){
         $excerpts = Excerpt::all()->map(function ($item){
@@ -48,7 +107,6 @@ class PapersController extends Controller
         $jtypes = Jtype::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-
         return Response::json(array('excerpts'=>$excerpts, 'jtypes'=>$jtypes, 'conftypes'=>$conftypes));
     }
     /**
@@ -57,10 +115,7 @@ class PapersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request){}
 
 
 
@@ -72,7 +127,6 @@ class PapersController extends Controller
      */
     public function show($id)
     {
-        //
         $paper = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
         $paperable = $paper->paperable;
         if($paper->paperable_type == "App\Journal")
@@ -92,19 +146,12 @@ class PapersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        dd($request->all());
-            //return Response::json($request->all());
-    }
-
-
+    public function update(Request $request, $id) {}
     public function paperUpdate(Request $request, $id)
     {
-
         $paper_db = Paper::findOrFail($id);
-        /*DB::beginTransaction();
-        try {*/
+        DB::beginTransaction();
+        try {
             $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
@@ -113,8 +160,6 @@ class PapersController extends Controller
             $paper = [];
             $journal = [];
             $conference = [];
-
-
             $paper['title'] = $request->title;
             $paper['abstract'] = $request->abstract;
             $paper['doi'] = $request->doi;
@@ -126,7 +171,6 @@ class PapersController extends Controller
             $paper['accept_date'] = $request->accept_date;
             $paper_db->update($paper);
             $paperType = $request->paperType;
-
            if ($paperType == 'jur') {
                 $journal['jtype_id'] = $request->jtype_id;
                 $journal['name'] = $request->jname;
@@ -138,7 +182,6 @@ class PapersController extends Controller
                 $journal['JRK'] = $request->pJRK;
                 $journal['JCR'] = $request->pJCR;
                $paper_db->paperable->update($journal);
-
             } else {
                 $conference['conftype_id'] = $request->conftype_id;
                 $conference['name'] = $request->confname;
@@ -147,10 +190,9 @@ class PapersController extends Controller
                 $conference['period'] = $request->confperiod;
                 $paper_db->paperable()->update($conference);
             }
-
-
+            $paper_db->tags()->delete();
             foreach ($tags as $tag) {
-                $paper_db->tags()->firstOrCreate(['name' => $tag]);
+                $paper_db->tags()->create(['name' => $tag]);
             }
             $paper_db->authors()->delete();
            foreach ($authors as $key => $author) {
@@ -175,14 +217,24 @@ class PapersController extends Controller
                     }
                 }
             }
-       /* }catch (\Exception $e){
+      }catch (\Exception $e){
 
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
 
         DB::commit();
-        return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);*/
+        $paper_db = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
+        $paperable = $paper_db->paperable;
+
+        if($paper_db->paperable_type == "App\Journal")
+        {
+            $jtype = $paperable->jtype;
+            return Response::json(array('paper'=>$paper_db, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
+        }else{
+            $conftype =$paperable->conftype;
+            return Response::json(array('paper'=>$paper_db, 'jtypename'=>'','conftypename'=>$conftype['name'], 'type'=>1),200);
+        }
     }
 
     /**
@@ -207,21 +259,15 @@ class PapersController extends Controller
                     $file->delete();
             }
         }catch (\Exception $e){
-
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
-            // return redirect('admin/home')->with('fail','عملیات ثبت کاربر ناموفق بود، از ابتدا شروع نمایید.');
         }
-
         DB::commit();
         return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);
     }
 
 
     public function paperValidation(PaperRequest $request){
-        //dd();
-        //dd($request->all());
-
         DB::beginTransaction();
         try {
             $fileBag = $request->files;
@@ -243,7 +289,6 @@ class PapersController extends Controller
             $paper['license_to'] = $request->license_to;
             $paper['publish_date'] = $request->publish_date;
             $paper['accept_date'] = $request->accept_date;
-
             $paperType = $request->paperType;
             if ($paperType == 'jur') {
                 $journal['jtype_id'] = $request->jtype_id;
@@ -266,8 +311,6 @@ class PapersController extends Controller
                 $conference_db = Conference::create($conference);
                 $paper_db = $conference_db->papers()->create($paper);
             }
-
-
             foreach ($tags as $tag) {
                 $paper_db->tags()->create(['name' => $tag]);
             }
@@ -286,7 +329,6 @@ class PapersController extends Controller
                 }
             }
         }catch (\Exception $e){
-
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }

@@ -4,24 +4,49 @@
     <div class="container-fluid">
         <div class="col-md-12 mt-3" v-if="$gate.isAdmin()||$gate.isAuthor()">
             <div class="card">
-                <div class="card-header justify-content-around d-flex " style="direction: rtl">
-                    <div class="col">
-                        <h3 class=" text-right">آرشیو مقالات</h3>
-                    </div>
-                    <div class="col w-50">
-                        <div class="input-group input-group-sm">
-                            <input class="w-75"   type="search" placeholder="جستجو..." aria-label="جستجو">
-                            <!-- v-model="search" @keyup="searchit()" -->
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar"  type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                <div class="card-header  " style="direction: rtl">
+                    <div class="justify-content-around d-lg-flex text-right">
+                        <div class="col-lg-2 m-3">
+                            <h4 class=" text-right">آرشیو مقالات</h4>
+                        </div>
+                        <div class="col-lg-5 mt-3">
+
+                            <div class="input-group  ">
+                                <input class="form-control"  type="search" placeholder="جستجو..." aria-label="جستجو"
+                                          v-model="search" @keyup="searchit()" >
+                                <div class="input-group-append">
+                                    <button class="btn btn-navbar"  type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-success" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن مقاله جدید</button>
+
+                        <div class="col-lg-5  mt-3" >
+                            <div class="d-xl-inline-block  ">
+                                <div class="input-group mb-3 ">
+                                    <select v-model="filter" @change="searchit" class="custom-select">
+                                        <option selected disabled>پالایش بر اساس:</option>
+                                        <option value="5">همه</option>
+                                        <option value="0">بررسی نشده</option>
+                                        <option value="3">اصلاح شده</option>
+                                        <option value="1">تایید شده</option>
+                                        <option value="2">رد شده</option>
+                                    </select>
+                                    <div class="input-group-append " >
+                                        <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-xl-inline-block float-xl-left">
+                                <button class="btn btn-success" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن مقاله جدید</button>
+                            </div>
+                        </div>
                     </div><!-- /card-tools -->
+                    <div class="col-md-6 mx-auto">
+
+                    </div>
+
                 </div><!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-right">
@@ -30,7 +55,7 @@
                             <th>شماره</th>
                             <th>نام مقاله</th>
                             <th>عنوان ژونال یا کنفرانس</th>
-                            <th>نام نویسنده اول</th>
+                            <th>نام صاحب مقاله</th>
                             <th>وضعیت بررسی</th>
                             <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                             <th>ابزارهای ویرایشی</th>
@@ -40,12 +65,12 @@
                             <td>{{ paper.title | truncate(40) }}</td>
                             <td >{{paper.paperable.name | truncate(40)}} </td>
 
-                            <td>{{ paper.author.name }}</td>
+                            <td>{{ paper.profile.Fname+' '+paper.profile.Lname  }}</td>
                             <td v-if="paper.status == '0'"  class="orange"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                             <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                             <td v-else-if="paper.status == '2'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید' }}</td>
                             <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
-                            <td>{{ paper.created_at | myDate }}</td>
+                            <td>{{ paper.created_at | myDate  }}</td>
                             <td>
                                 <router-link :to="{ name: 'paperedit', params: { id: paper.id }}">
                                 <i class="fa fa-edit blue"></i>
@@ -204,7 +229,11 @@
                                         </div>
                                         <div class=" mt-4" style="direction: ltr; text-align: right"  >
                                              <label class="blue text-right text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
-                                            <date-picker @change="removeError('publish_date')"  format="YYYY-M-D" :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"  v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
+                                            <date-picker locale="fa,en" @change="removeError('publish_date')"
+                                                         :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"
+                                                         v-validate="'required'"  format="YYYY-MM-DD"
+                                                         v-model="form.publish_date" >
+                                            </date-picker>
                                             <has-error :form="form" field="publish_date"></has-error>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form-1.publish_date')|| form.errors.has('publish_date')" class="red far fa-exclamation-triangle"></i>
@@ -214,7 +243,7 @@
                                         </div>
                                         <div class=" mt-4" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
-                                            <date-picker @change="removeError('accept_date')" format="YYYY-M-D"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
+                                            <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form-1.accept_date')|| form.errors.has('accept_date')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form-1.accept_date') " class="red d-inline-block text-rtl text-rtl">{{ errors.first('form-1.accept_date') }}</span>
@@ -502,29 +531,32 @@
 
         data(){
             return{
-                options: {
+                options: {// tinyMce toolbar options
                     language_url: 'js/fa_IR.js', //This url points to location of persian language file.
                     toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat',
                     toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
-                papers:{},
-                search: '',
-                order: 1,
-                total: 0,
-                numToShow: 0,
-                numStart: 0,
-                numTo: 0,
-                searchResult: false,
-                excerpts:[],
-                conftypes:[],
-                jtypes:[],
-                fileName:[],
+                filter:5,
+                publish_date: '2019-02-02',
+                papers:{},      // papers list object received from server
+                search: '',     // search term
+                order: 1,       // order 1 for desc and 0  for asc
+                total: 0,       // total number of papers
+                numToShow: 0,   // number of papers shown in this page
+                numStart: 0,    // starting row number
+                numTo: 0,       // ending number
+                searchResult: false,    // if there is search going on or not
+                excerpts:[],     // excerpts list
+                conftypes:[],   // conference type list
+                jtypes:[],      // conference type list
+                fileName:[],    // For UI rendering and displaying the choosen file Names
                 attachments:[],
                 paperType:'',
                 author:'',
                 affiliation:'',
-                f:new FormData,
+                f:new FormData, // creates the new FormData object to store selected files data
+                // form data of VForm data object witch will be used to fill and submit the form
                 form: new Form({
                     lang:'0',
                     tags:[],
@@ -534,7 +566,7 @@
                     link:'',
                     license:'',
                     license_to:'',
-                    publish_date: '',
+                    publish_date1: '',
                     accept_date: '',
                     excerpt_id: '',
                     files:[],
@@ -560,6 +592,9 @@
             }
         },
         methods:{
+            searchit(){
+                this.$parent.searchit();
+            },
             //  changes the paper Type and sets form.lang and form.paperType
             changePaperType(type){
               this.paperType = type;
@@ -710,17 +745,19 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.searchResult) {
                     que = this.search;
-                    axios.get('api/findUser?order=' + sortOrder + '&q=' + que + '&page=' + page)
+                    axios.get('api/findPaper?order=' + sortOrder + '&q=' + que +'&filter='+this.filter +'&page=' + page)
                         .then(response => {
-                            this.users = response.data.users;
-                            this.total = response.data.users.total;
-                            this.numToShow = response.data.users.per_page;
-                            this.numStart = response.data.users.from;
-                            this.numTo = response.data.users.to;
+                            console.log(response);
+                            this.papers = response.data.papers;
+                            this.total = response.data.papers.total;
+                            this.numToShow = response.data.papers.per_page;
+                            this.numStart = response.data.papers.from;
+                            this.numTo = response.data.papers.to;
                         });
                 } else {
-                    axios.get('api/paper?order=' + sortOrder + '&page=' + page)
+                    axios.get('api/paper?order=' + sortOrder + '&page=' + page +'&filter='+this.filter)
                         .then(response => {
+                            console.log(response);
                             this.papers = response.data.papers;
                             this.total = response.data.papers.total;
                             this.numToShow = response.data.papers.per_page;
@@ -801,8 +838,20 @@
                     isresponsible:'انتخاب نویسنده مسئول'
                 }
             });
+            Fire.$on('searching', () => {
+                let page = 1;
+                let query = this.search;
+                this.searchResult = true;
+                this.getResults(page, query);
+            });
+            Fire.$on('AfterCreate', () => {
+                this.form.reset();
+                this.getResults();
+            });
+
             this.getPaperRelation();
             this.getResults();
+            this.form.reset();
         },
         components: {
             Select2,

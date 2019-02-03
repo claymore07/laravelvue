@@ -2,21 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="58ad72a9-ac07-46e3-afcc-ed111ae5ada9" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.babelrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/laravelvue.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/laravelvue.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15487905891383225590.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1548791264661505054.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490509301645675183.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490521731635874537.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490523101388302804.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1549052356778951956.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490527401466522928.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490527401585935094.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490529021887292875.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1549052902210308154.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/154905624936667038.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1549085148498432732.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/15490860291763346580.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1549088598661414165.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1549088866921235271.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/files/papers/1549089741696775632.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Files.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Files.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/PapersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/PapersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/PaperEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/PaperEdit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Papers.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Papers.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Select2.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/mySelect2.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
@@ -32,80 +41,110 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Papers.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Papers.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="571" column="42" selection-start-line="571" selection-start-column="39" selection-end-line="571" selection-end-column="42" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#42988#43030#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="PaperEdit.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/PaperEdit.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="821" column="55" selection-start-line="821" selection-start-column="55" selection-end-line="821" selection-end-column="55" />
+            <state relative-caret-position="31">
+              <caret line="348" column="103" selection-start-line="348" selection-start-column="103" selection-end-line="348" selection-end-column="103" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#1;n#span#1;n#td#0;n#tr#2;n#tbody#0;n#table#0;n#div#1;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="e#12334#12341#1" expanded="true" />
-                <element signature="n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#div#0;n#div#5;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#div#10;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#div#11;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
-                <element signature="e#13250#13257#1" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#13642#13684#0" expanded="true" />
-                <element signature="e#15228#16224#0" />
-                <element signature="e#13963#14122#0" />
-                <element signature="e#14162#14230#0" />
-                <element signature="e#14341#14470#0" />
-                <element signature="e#14503#14624#0" />
-                <element signature="e#17471#17913#0" />
-                <element signature="e#55828#58331#0" />
-                <element signature="e#53460#53492#0" />
-                <element signature="e#19663#19980#0" />
-                <element signature="e#20071#20397#0" />
-                <element signature="e#20485#20800#0" />
-                <element signature="e#20977#21409#0" />
-                <element signature="e#60352#60657#0" />
-                <element signature="e#21570#21794#0" />
-                <element signature="e#60690#60979#0" />
-                <element signature="e#61008#61060#0" />
-                <element signature="e#61147#61323#0" />
-                <element signature="e#61616#62698#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PapersController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/PapersController.php">
+      <file leaf-file-name="Papers.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/Papers.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
+            <state relative-caret-position="280">
+              <caret line="640" column="42" lean-forward="true" selection-start-line="640" selection-start-column="42" selection-end-line="640" selection-end-column="42" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="e#4977#4984#1" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#10;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#11;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#tab-content#2;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#tab-content#3;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+                <element signature="e#47174#48453#0" />
+                <element signature="e#48626#48861#0" />
+                <element signature="e#48937#49254#0" />
+                <element signature="e#49345#49671#0" />
+                <element signature="e#50273#50625#0" />
+                <element signature="e#51021#51453#0" />
+                <element signature="e#51547#51852#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="365">
+              <caret line="453" selection-start-line="453" selection-end-line="453" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="542">
               <caret line="207" selection-start-line="207" selection-end-line="207" />
               <folding>
+                <element signature="e#397#425#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Users.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/Users.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="124">
+              <caret line="4" column="69" lean-forward="true" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="69" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#1;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#style#0;n#input#0;n#div#16;n#div#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PapersController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/PapersController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="635">
+              <caret line="84" column="47" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
+              <folding>
                 <element signature="e#44#63#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/UserController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1116">
+              <caret line="51" column="18" selection-start-line="49" selection-start-column="4" selection-end-line="72" selection-end-column="5" />
+              <folding>
+                <element signature="e#44#59#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,26 +153,8 @@
       <file leaf-file-name="Paper.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Paper.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="937">
+            <state relative-caret-position="2728">
               <caret line="88" column="29" selection-start-line="88" selection-start-column="20" selection-end-line="88" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Files.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Files.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="52" selection-start-line="52" selection-end-line="52" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="master.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/layouts/master.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="143" column="21" selection-start-line="143" selection-start-column="21" selection-end-line="143" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -141,17 +162,17 @@
       <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
-              <caret line="29" column="32" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="32" />
+            <state relative-caret-position="604">
+              <caret line="30" column="22" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PaperRequest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Requests/PaperRequest.php">
+      <file leaf-file-name="Files.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Files.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-9">
-              <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
+            <state relative-caret-position="1612">
+              <caret line="52" selection-start-line="52" selection-end-line="52" />
             </state>
           </provider>
         </entry>
@@ -171,15 +192,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>input</find>
-      <find>file</find>
-      <find>edit</find>
-      <find>excerpt_id</find>
       <find>vf</find>
       <find>fileName</find>
       <find>.tags-input-badge</find>
-      <find />
-      <find />
+      <find>fa fa-warning</find>
+      <find>red d-block</find>
       <find>data-vv-scope</find>
       <find>text-rt</find>
       <find>form-3.</find>
@@ -201,14 +218,18 @@
       <find>$image</find>
       <find>createPa</find>
       <find>journalForm</find>
+      <find>pdfFileName</find>
+      <find>console</find>
+      <find>searchit</find>
+      <find>name</find>
     </findStrings>
     <replaceStrings>
       <replace>Lname</replace>
       <replace>faculties</replace>
       <replace>positions</replace>
       <replace>my-5</replace>
-      <replace />
-      <replace />
+      <replace>far fa-exclamation-triangle</replace>
+      <replace>red d-inline-block</replace>
       <replace>$file</replace>
     </replaceStrings>
   </component>
@@ -255,19 +276,19 @@
         <option value="$PROJECT_DIR$/resources/js/components/Select2.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Select22.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/mySelect2.vue" />
-        <option value="$PROJECT_DIR$/webpack.mix.js" />
         <option value="$PROJECT_DIR$/resources/js/components/Users.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Profile.vue" />
-        <option value="$PROJECT_DIR$/resources/sass/app.scss" />
-        <option value="$PROJECT_DIR$/resources/js/components/Papers.vue" />
         <option value="$PROJECT_DIR$/app/Http/Requests/PaperUpdateRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/PaperRequest.php" />
-        <option value="$PROJECT_DIR$/resources/js/app.js" />
-        <option value="$PROJECT_DIR$/routes/api.php" />
-        <option value="$PROJECT_DIR$/resources/js/components/PaperEdit.vue" />
         <option value="$PROJECT_DIR$/resources/views/layouts/master.blade.php" />
         <option value="$PROJECT_DIR$/app/Observers/FilesObserver.php" />
         <option value="$PROJECT_DIR$/app/Files.php" />
+        <option value="$PROJECT_DIR$/webpack.mix.js" />
+        <option value="$PROJECT_DIR$/resources/js/components/PaperEdit.vue" />
+        <option value="$PROJECT_DIR$/routes/api.php" />
+        <option value="$PROJECT_DIR$/resources/js/app.js" />
+        <option value="$PROJECT_DIR$/resources/sass/app.scss" />
+        <option value="$PROJECT_DIR$/resources/js/components/Papers.vue" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/PapersController.php" />
       </list>
     </option>
@@ -552,7 +573,9 @@
       <workItem from="1548566691895" duration="77784000" />
       <workItem from="1548765421470" duration="56009000" />
       <workItem from="1548908378094" duration="20451000" />
-      <workItem from="1548994986499" duration="36198000" />
+      <workItem from="1548994986499" duration="36547000" />
+      <workItem from="1549081750508" duration="17204000" />
+      <workItem from="1549167944176" duration="16467000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1547709892853</created>
@@ -687,11 +710,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548853197195</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="ویرایش مقاله تمام شد!">
+      <created>1549056746535</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1549056746536</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="486898000" />
+    <option name="totallyTimeSpent" value="520918000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -704,7 +734,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="PlantUML" order="4" weight="0.32995737" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
@@ -713,10 +742,10 @@
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50053304" side_tool="true" weight="0.32976446" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32976446" />
-      <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49946696" visible="true" weight="0.32976446" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2260128" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49946696" weight="0.32976446" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22814499" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -740,7 +769,7 @@
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32976446" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2260128" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.22814499" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="DB Execution Console" order="13" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
@@ -751,7 +780,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49946696" visible="true" weight="0.32976446" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49946696" visible="true" weight="0.32976446" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50053304" side_tool="true" weight="0.32976446" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="PlantUML" order="4" weight="0.32995737" />
@@ -785,7 +814,8 @@
     <MESSAGE value="گام اول فرم یعنی بخش مقاله ایجاد شد. فقط بخش فایل مانده و کلمات کلیدی، دیتابیس براساس چند ریختی اصلاح شده و روابط اصلاح شد." />
     <MESSAGE value="فرم ایجاد مقاله در سمت کاربر کامل و تست شد. بخش سمت سرور می باشد." />
     <MESSAGE value="اضافه و حذف مقالات با موفقیت انجام شد. گام بعدی ویرایش و چک لیست &#10;می باشد" />
-    <option name="LAST_COMMIT_MESSAGE" value="اضافه و حذف مقالات با موفقیت انجام شد. گام بعدی ویرایش و چک لیست &#10;می باشد" />
+    <MESSAGE value="ویرایش مقاله تمام شد!" />
+    <option name="LAST_COMMIT_MESSAGE" value="ویرایش مقاله تمام شد!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -805,6 +835,35 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Papers.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22165">
+          <caret line="715" column="12" selection-start-line="715" selection-start-column="12" selection-end-line="715" selection-end-column="12" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#4977#4984#1" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#10;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#11;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#tab-content#2;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#tab-content#3;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#47174#48453#0" />
+            <element signature="e#48626#48861#0" />
+            <element signature="e#48937#49254#0" />
+            <element signature="e#49345#49671#0" />
+            <element signature="e#50273#50625#0" />
+            <element signature="e#51021#51453#0" />
+            <element signature="e#51547#51852#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/vform/dist/vform.common.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1395" />
@@ -939,9 +998,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/v-select2-component/src/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/v-select2-component/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-324">
@@ -974,30 +1030,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/Select22.vue" />
-    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/mySelect2.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
           <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/Users.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="277" column="44" selection-start-line="277" selection-start-column="25" selection-end-line="277" selection-end-column="44" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#style#0;n#input#0;n#div#16;n#div#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1034,144 +1070,140 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
-          <folding>
-            <element signature="e#428#465#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="102" column="13" selection-start-line="102" selection-start-column="13" selection-end-line="102" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="29" column="32" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Observers/FilesObserver.php" />
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/PaperRequest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9">
+        <state relative-caret-position="31">
           <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/master.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
+        <state relative-caret-position="4433">
           <caret line="143" column="21" selection-start-line="143" selection-start-column="21" selection-end-line="143" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/Papers.vue">
+    <entry file="file://$PROJECT_DIR$/app/Files.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="571" column="42" selection-start-line="571" selection-start-column="39" selection-end-line="571" selection-end-column="42" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#button#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#42988#43030#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1612">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Observers/FilesObserver.php">
+    <entry file="file://$PROJECT_DIR$/app/Paper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="39" column="67" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+        <state relative-caret-position="2728">
+          <caret line="88" column="29" selection-start-line="88" selection-start-column="20" selection-end-line="88" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="198" column="44" lean-forward="true" selection-start-line="198" selection-start-column="44" selection-end-line="198" selection-end-column="44" />
+        <state relative-caret-position="1116">
+          <caret line="51" column="18" selection-start-line="49" selection-start-column="4" selection-end-line="72" selection-end-column="5" />
           <folding>
             <element signature="e#44#59#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Paper.php">
+    <entry file="file://$PROJECT_DIR$/routes/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="937">
-          <caret line="88" column="29" selection-start-line="88" selection-start-column="20" selection-end-line="88" selection-end-column="29" />
+        <state relative-caret-position="604">
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="207" selection-start-line="207" selection-end-line="207" />
+          <folding>
+            <element signature="e#397#425#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Users.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="4" column="69" lean-forward="true" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="69" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#style#0;n#input#0;n#div#16;n#div#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/PaperEdit.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="821" column="55" selection-start-line="821" selection-start-column="55" selection-end-line="821" selection-end-column="55" />
+        <state relative-caret-position="31">
+          <caret line="348" column="103" selection-start-line="348" selection-start-column="103" selection-end-line="348" selection-end-column="103" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#span#1;n#td#0;n#tr#2;n#tbody#0;n#table#0;n#div#1;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="e#12334#12341#1" expanded="true" />
-            <element signature="n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#0;n#div#5;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#div#10;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#11;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
             <element signature="n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
             <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
-            <element signature="e#13250#13257#1" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#13642#13684#0" expanded="true" />
-            <element signature="e#15228#16224#0" />
-            <element signature="e#13963#14122#0" />
-            <element signature="e#14162#14230#0" />
-            <element signature="e#14341#14470#0" />
-            <element signature="e#14503#14624#0" />
-            <element signature="e#17471#17913#0" />
-            <element signature="e#55828#58331#0" />
-            <element signature="e#53460#53492#0" />
-            <element signature="e#19663#19980#0" />
-            <element signature="e#20071#20397#0" />
-            <element signature="e#20485#20800#0" />
-            <element signature="e#20977#21409#0" />
-            <element signature="e#60352#60657#0" />
-            <element signature="e#21570#21794#0" />
-            <element signature="e#60690#60979#0" />
-            <element signature="e#61008#61060#0" />
-            <element signature="e#61147#61323#0" />
-            <element signature="e#61616#62698#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Files.php">
+    <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        <state relative-caret-position="365">
+          <caret line="453" selection-start-line="453" selection-end-line="453" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/PapersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="207" selection-start-line="207" selection-end-line="207" />
+        <state relative-caret-position="635">
+          <caret line="84" column="47" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
           <folding>
             <element signature="e#44#63#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Papers.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="640" column="42" lean-forward="true" selection-start-line="640" selection-start-column="42" selection-end-line="640" selection-end-column="42" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#4977#4984#1" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#9;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#10;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#11;n#form#0;n#tab-content#1;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#tab-content#2;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#tab-content#3;n#form-wizard#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#47174#48453#0" />
+            <element signature="e#48626#48861#0" />
+            <element signature="e#48937#49254#0" />
+            <element signature="e#49345#49671#0" />
+            <element signature="e#50273#50625#0" />
+            <element signature="e#51021#51453#0" />
+            <element signature="e#51547#51852#0" />
           </folding>
         </state>
       </provider>

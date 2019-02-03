@@ -336,7 +336,7 @@
                                 </div>
                                 <div class=" mt-4" style="direction: ltr; text-align: right"  >
                                     <label class="blue text-right text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
-                                    <date-picker @change="removeError('publish_date')"  format="YYYY-M-D" :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"  v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
+                                    <date-picker @change="removeError('publish_date')"  format="YYYY-MM-DD" :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"  v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
                                     <has-error :form="form" field="publish_date"></has-error>
                                     <div class="text-rtl">
                                         <i v-show="errors.has('form-1.publish_date')|| form.errors.has('publish_date')" class="red far fa-exclamation-triangle"></i>
@@ -346,7 +346,7 @@
                                 </div>
                                 <div class=" mt-4" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
-                                    <date-picker @change="removeError('accept_date')" format="YYYY-M-D"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
+                                    <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
                                         <i v-show="errors.has('form-1.accept_date')|| form.errors.has('accept_date')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.accept_date') " class="red d-inline-block text-rtl text-rtl">{{ errors.first('form-1.accept_date') }}</span>
@@ -691,33 +691,34 @@
         name: "PaperEdit",
         data(){
             return {
-                options: {
+                options: { // tinyMce toolbar options
                     language_url: '/js/fa_IR.js', //This url points to location of persian language file.
                     toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat',
                     toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
-                id:'',
-                paper:{},
-                type:'',
-                pdfFileName:'',
-                conftypename:'',
-                jtypename:'',
-                editOffset: -1,
-                confForm:false,
-                journalForm:false,
-                fileChanging:false,
-                excerpts:[],
-                conftypes:[],
-                jtypes:[],
-                fileName:[],
+                id:'',              // paper id
+                paper:{},           // paper object received from server
+                type:'',            // sets the paper type if 0 means journal and 1 means conference
+                pdfFileName:'',     // will be used to display pdf files in modal
+                conftypename:'',    // if paper type is conference sets the conf type name
+                jtypename:'',       // if paper type is journal sets the journal type name
+                editOffset: -1,     // for managing author editing form status used if -1 the form will be hide
+                confForm:false,     // if paper type is conference sets to true to show the conference edit form
+                journalForm:false,  // if paper type is journal sets to true to show the journal edit form
+                fileChanging:false, // if user wants to change any file or upload file
+                excerpts:[],        // excerpts list
+                conftypes:[],       // conference type list
+                jtypes:[],          // conference type list
+                fileName:[],        // For UI rendering and displaying the choosen file Names
                 attachments:[],
                 paperType:'',
                 author:'',
                 affiliation:'',
-                fileChangeType:'-1',
+                fileChangeType:'-1',    // sets of the file change type, whether it is addition to previous files or replacement
 
-                f:new FormData,
+                f:new FormData,         // creates the new FormData object to store selected files data
+                // form data of VForm data object witch will be used to fill and submit the form
                 form: new Form({
                     lang:'0',
                     tags:[],
@@ -770,15 +771,22 @@
                     transformRequest: [function (data, headers) {
                         return objectToFormData(data)
                     }]
-                }).then(() => {
-                   // Fire.$emit('AfterCreate');
-                    //$('#addNew').modal('hide');
-                   // this.successToast('مقاله با موفقیت ثبت شد.');
-                    //this.resetFormWizard();
+                }).then((response) => {
+                    // sets the data
+                    this.resetFormWizard();
+                    this.paper = response.data.paper;// set the received paper data to paper property
+                    this.conftypename = response.data.conftypename;  // if paper type is conference sets the conf type name
+                    this.jtypename = response.data.jtypename;   // if paper type is journal sets the journal type name
+                    this.editFormPrepare();
+
+                    // UI modal Hide, progress bar finish , show the toase
+                    $('#paperEditModal').modal('hide');
+                    this.successToast('مقاله با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
                     console.log(e);
                         this.$Progress.fail();
+                        // checks if uploaded files has error
                         let t = Object.keys(this.form.errors.all()).filter(function (key) {
                             return /^files./.test(key);
                         });
@@ -792,27 +800,46 @@
                     }
                 );
             },
+            /** these functions are responsible for form input error handling and change state*/
+            // resets all the form modal related state and variables
+            resetFormWizard() {
+                this.fileName=[];
+                this.attachments = [];
+                this.authors = [];
+                this.paperType = '';
+                this.author = '';
+                this.affiliation = '';
+                this.fileChanging = false;
+                this.form.reset();         // resets the Vform
+                this.$refs.wizard.reset(); // resets the vue-form-wizard
+                this.$validator.reset();   // resets the vee-validate
+            },
+            // goes to papers list page
             goback(){
                 this.$router.push({path:'/papers'});
             },
+            // shows paperEditModal
             paperEditModal(){
                 $('#paperEditModal').modal('show');
             },
+            // shows pdf modal
             pdfModal(name){
                 this.pdfFileName = '/files/papers/'+name+'#page=1';
                 $('#pdfModal').modal('show');
             },
+            // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
               var fileName = file.name.split(".");
               return fileName[1] == 'zip'? true:false;
             },
+            // on page load gets paper data based on the received it
             getpaperdata(id){
                 axios.get('/api/paper/'+id)
                     .then(response => {
-                       this.paper = response.data.paper;
-                       this.type = response.data.type;
-                       this.conftypename = response.data.conftypename;
-                       this.jtypename = response.data.jtypename;
+                       this.paper = response.data.paper;// set the received paper data to paper property
+                       this.type = response.data.type;  // sets the paper type if 0 means journal and 1 means conference
+                       this.conftypename = response.data.conftypename;  // if paper type is conference sets the conf type name
+                       this.jtypename = response.data.jtypename;   // if paper type is journal sets the journal type name
                        this.editFormPrepare();
                         if(this.type == '0'){
                             this.journalForm = true;
@@ -827,6 +854,7 @@
                         }
                     );
             },
+            // gets the necessary data for edit form
             getPaperRelation(){
                 axios.get('/api/paperRelation')
                     .then(response => {
@@ -839,6 +867,7 @@
                         }
                     );
             },
+            // prepares the edit form data
             editFormPrepare(){
               this.form.title = this.paper.title;
               this.form.abstract = this.paper.abstract;
@@ -873,7 +902,6 @@
                   this.form.conforganizer = this.paper.paperable.organizer;
                   this.form.confperiod = this.paper.paperable.period;
               }
-
                 for(var j=0; j<this.paper.authors.length; j++){
                     this.form.authors.push(this.paper.authors[j].name);
                     this.form.affiliations.push(this.paper.authors[j].affiliation);
@@ -882,6 +910,7 @@
                     }
                 }
             },
+            // gets the removed tags and pushes it removed tag list *** not used in this page
             onTagRemoved(slug){
                 this.form.tagsRemoved.push(slug);
             },
@@ -919,6 +948,7 @@
             removeError(field){
                 this.form.errors.clear(field)
             },
+            // this function gets files selected by user and push it to form.files
             fieldChange(e){
                 let selectedFiles=e.target.files;
                 if(!selectedFiles.length){
@@ -940,13 +970,14 @@
                     this.affiliation = '';
                 }
             },
+            // enables author editing form
             startEditing(index){
                 this.editOffset = index;
                 this.$nextTick(function(){
-                        console.log('item-author-'+this.editOffset)
                         document.getElementById('item-author-'+this.editOffset).focus()
                     }.bind(this))
             },
+            // closes the author editing form
             updateAuthor() {
                 this.editOffset = -1
             },
@@ -956,6 +987,7 @@
                 this.$delete(this.form.affiliations,index);
                 this.form.isresponsible = '';
             },
+            // sets of the file change type, whether it is addition to previous files or replacement
             fileChange(term){
                 this.fileChanging = term;
                 if(!term){
@@ -963,7 +995,6 @@
                 }
             },
             createPaper(){
-
             },
         },
         created(){
