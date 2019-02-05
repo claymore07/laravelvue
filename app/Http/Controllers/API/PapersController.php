@@ -128,14 +128,18 @@ class PapersController extends Controller
     public function show($id)
     {
         $paper = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
+        $checkList = $paper->checklists()->latest()->get();
+        foreach ($checkList as $key => $item){
+            $checkList[$key]['list'] = explode(",",$item['list']);
+        }
         $paperable = $paper->paperable;
         if($paper->paperable_type == "App\Journal")
         {
             $jtype = $paperable->jtype;
-            return Response::json(array('paper'=>$paper, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
+            return Response::json(array('paper'=>$paper,'checklist'=>$checkList, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
         }else{
             $conftype =$paperable->conftype;
-            return Response::json(array('paper'=>$paper, 'jtypename'=>'','conftypename'=>$conftype['name'], 'type'=>1),200);
+            return Response::json(array('paper'=>$paper,'checklist'=>$checkList, 'jtypename'=>'','conftypename'=>$conftype['name'], 'type'=>1),200);
         }
     }
 

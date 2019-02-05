@@ -29,9 +29,9 @@ class Checklist extends Model
 {
     //
     protected $fillable=[
-        'fields','paper_id','result'
+        'list','comment','checkable_type', 'checkable_id'
     ];
-    public function papers(){
-        return $this->belongsTo('App\Paper');
+    public function checkable(){
+        return $this->morphto();
     }
 }

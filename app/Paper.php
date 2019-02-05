@@ -78,12 +78,13 @@ class Paper extends Model
     public function files(){
         return $this->morphMany('App\Files', 'fileable');
     }
+    public function checklists(){
+        return $this->morphMany('App\Checklist', 'checkable');
+    }
     public function tags(){
         return $this->morphMany('App\Tag', 'taggable');
     }
-    public function checklist(){
-        return $this->hasOne('App\Checklist');
-    }
+
 
     // Backward
     public function paperable(){

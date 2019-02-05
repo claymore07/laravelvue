@@ -15,6 +15,7 @@
                     <thead class="thead-dark">
                     <tr>
                         <th class="font-18"><i class="fal fa-file-edit fa-fw"></i>اطلاعات مقاله</th>
+                        <th v-if="checkList">موارد ناقص</th>
                     </tr>
                     </thead>
                     <tbody v-if="paper.id">
@@ -22,27 +23,63 @@
                         <td class="font-16">
                             <span class="blue">عنوان:</span>
                             <span class="mr-3">{{paper.title}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check :checked="checkListForm.list && checkListForm.list.includes('عنوان')"
+                                     @change.native="onChange('عنوان', $event)"
+                                     type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16">
                             <span class="blue ">چکیده:</span><br>
                             <div v-html="paper.abstract"></div>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('چکیده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('چکیده')"
+                                @change.native="onChange('چکیده', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16">
                             <span class="blue ">نویسندگان:</span>
                             <span v-for="author of paper.authors" class="mr-3 ">
-                    <span v-if="author.corresponding == '-1'">{{author.name}}،</span>
-                    <span v-else style="text-decoration: underline red">{{author.name}}<i class="red">*</i>،</span>
-                </span>
+                               <span v-if="author.corresponding == '-1'">{{author.name}}،</span>
+                               <span v-else style="text-decoration: underline red">{{author.name}}<i class="red">*</i>،</span>
+                            </span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسندگان')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نویسندگان')"
+                                @change.native="onChange('نویسندگان', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16 ">
                             <span class="blue ">آدرس Doi مقاله: </span>
                             <span class="mr-3"> {{paper.doi}} </span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('Doi')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('Doi')"
+                                @change.native="onChange('Doi', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
@@ -50,13 +87,31 @@
                             <span class="blue ">لینک:</span>
                             <button class="mr-3 btn btn-info btn-lg" target="_blank" :href="paper.link">لینک صفحه مقاله
                             </button>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('لینک')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('لینک')"
+                                @change.native="onChange('لینک', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16">
                             <span class="blue ">نوع مستخرج:</span>
                             <span class="mr-3 "> {{paper.excerpt.name}} </span>
-
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع مستخرج')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نوع مستخرج')"
+                                @change.native="onChange('نوع مستخرج', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="paper.excerpt_id == '1'">
@@ -64,18 +119,45 @@
                             <span class="blue ">نوع موظفی:</span>
                             <span v-if="paper.license_to == '0'" class="mr-3 "> موظفی طرح </span>
                             <span v-else class="mr-3 "> مازاد موظفی </span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع موظفی')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نوع موظفی')"
+                                @change.native="onChange('نوع موظفی', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="paper.excerpt_id == '3'">
                         <td class="font-16">
                             <span class="blue ">توضیحات مجوز:</span>
                             <span class="mr-3 "> {{paper.license}} </span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('توضیحات مجوز')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('توضیحات مجوز')"
+                                @change.native="onChange('توضیحات مجوز', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16">
                             <span class="blue ">کلمات کلید:</span>
                             <span v-for="tag of paper.tags" class="mr-3 "> {{tag.name}}، </span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('کلمات کلید')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('کلمات کلید')"
+                                @change.native="onChange('کلمات کلید', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
@@ -91,6 +173,15 @@
                                       <button @click="pdfModal(file.name)" type="button" class="btn btn-lg btn-info">ضمیمه {{index+1|faDigit}} <i class="fal fa-file-pdf fa-fw"></i></button>
                                     </div>
                             </span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')"
+                                @change.native="onChange('فایل های ضمیمه', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
@@ -98,6 +189,15 @@
                             <span class="blue ">تاریح پذیرش:</span>
                             <span class="mr-3 "> {{paper.publish_date | myDate}} هجری شمسی</span>
                             <span class="mr-3 "> {{paper.publish_date | myDateEN}} میلادی</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح پذیرش')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('تاریح پذیرش')"
+                                @change.native="onChange('تاریح پذیرش', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr>
@@ -105,6 +205,15 @@
                             <span class="blue ">تاریح چاپ:</span>
                             <span class="mr-3 "> {{paper.accept_date | myDate}} هجری شمسی</span>
                             <span class="mr-3 "> {{paper.accept_date | myDateEN}} میلادی</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح چاپ')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('تاریح چاپ')"
+                                @change.native="onChange('تاریح چاپ', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr class="table-dark">
@@ -112,6 +221,7 @@
                             <span v-if="jourType" class="mr-3 "> اطلاعات مجله</span>
                             <span v-else class="mr-3 "> اطلاعات کنفرانس</span>
                         </td>
+                        <td v-if="checkList" ></td>
                     </tr>
                     <tr>
                         <td class="font-16">
@@ -119,60 +229,144 @@
                             <span v-if="jourType" class="mr-3 "> ژونالی</span>
                             <span v-else class="mr-3 "> کنفرانسی</span>
                         </td>
+                        <td v-if="checkList">
+
+                        </td>
                     </tr>
                     <!-- journal detail part -->
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue ">نوع مجله:</span>
                             <span class="mr-3 "> {{jtypename}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع مجله')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نوع مجله')"
+                                @change.native="onChange('نوع مجله', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue ">نام مجله:</span>
                             <span class="mr-3 "> {{paper.paperable.name}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام مجله')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نام مجله')"
+                                @change.native="onChange('نام مجله', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue ">نام ناشر:</span>
                             <span class="mr-3 "> {{paper.paperable.publisher}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام ناشر')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نام ناشر')"
+                                @change.native="onChange('نام ناشر', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue d-inline-block">شماره ISSN:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.issn}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ISSN')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('ISSN')"
+                                @change.native="onChange('ISSN', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue d-inline-block">شماره pISSN:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.pissn}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('pISSN')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('pISSN')"
+                                @change.native="onChange('pISSN', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue d-inline-block">ضریب IF:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.IFactor}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('IF')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('IF')"
+                                @change.native="onChange('IF', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue d-inline-block">ضریب پنج ساله IF:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.FIF}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')"
+                                @change.native="onChange('ضریب پنج ساله IF', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue d-inline-block">رتبه JCR:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.JCR}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JCR')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('JCR')"
+                                @change.native="onChange('JCR', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue d-inline-block">ضریب JRK:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.JRK}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JRK')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('JRK')"
+                                @change.native="onChange('JRK', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <!-- /journal detail part -->
@@ -182,30 +376,98 @@
                         <td class="font-16">
                             <span class="blue d-inline-block">نوع کنفرانس:</span>
                             <span class="mr-3 d-inline-block"> {{conftypename}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع کنفرانس')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نوع کنفرانس')"
+                                @change.native="onChange('نوع کنفرانس', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نام کنفرانس:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.name}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام کنفرانس')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نام کنفرانس')"
+                                @change.native="onChange('نام کنفرانس', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نام برگزار کننده:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.organizer}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام برگزار کننده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نام برگزار کننده')"
+                                @change.native="onChange('نام برگزار کننده', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نام شهر:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.city}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام شهر')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نام شهر')"
+                                @change.native="onChange('نام شهر', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
                         </td>
                     </tr>
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">دوره برگزاری:</span>
                             <span class="mr-3 d-inline-block"> {{paper.paperable.period}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('دوره برگزاری')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('دوره برگزاری')"
+                                @change.native="onChange('دوره برگزاری', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
+                        </td>
+                    </tr>
+                    <tr v-if="checkList">
+                        <td colspan="2">
+                            <label for="status" class="blue mt-3">وضعیت بررسی: </label>
+                            <select v-model="checkListForm.status"
+                                    :class="[(  checkListForm.errors.has('status') ? 'is-invalid': ''  )]"
+                                    @change="form2.errors.clear('status')"
+                                    class="custom-select" name="" id="status">
+                                <option  selected disabled>انتخاب گزینه</option>
+                                <option value="1" ><i class="fa-check"></i>تایید</option>
+                                <option value="2" >عدم تایید</option>
+                            </select>
+                            <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
+                            <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
+                            <br>
+                            <label for="id2" class="blue mt-3">توضیحات: </label>
+                            <tinymce  :other_options="options" name="comment" id="id2"></tinymce>
+
+                        </td>
+                    </tr>
+                    <tr   class="text-center">
+                        <td colspan="2">
                         </td>
                     </tr>
                     <!-- /conference detail part -->
@@ -217,7 +479,8 @@
         <div class="row align-content-center">
             <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
                 <button @click="paperEditModal" class="btn btn-lg mx-1 btn-dark">ویرایش  مقاله</button>
-                <button class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
+                <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
+                <button @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
             </div>
         </div>
     </div><!-- /container -->
@@ -716,7 +979,15 @@
                 author:'',
                 affiliation:'',
                 fileChangeType:'-1',    // sets of the file change type, whether it is addition to previous files or replacement
-
+                checkList:false,
+                checkListItems:'',
+                checkListItem:[],
+                checkListForm: new Form({
+                    id:'',
+                    list:null,
+                    status:null,
+                    comments:''
+                }),
                 f:new FormData,         // creates the new FormData object to store selected files data
                 // form data of VForm data object witch will be used to fill and submit the form
                 form: new Form({
@@ -763,6 +1034,52 @@
           },
         },
         methods:{
+            prepareCheckList(){
+                if(this.checkListItems.length > 0 && this.paper.status != '1'){
+                    this.checkListForm.list = this.checkListItems[0].list;
+                    this.checkListForm.comment = this.checkListItems[0].comment;
+                    this.checkListForm.status = this.paper.status;
+                }
+            },
+            checkListSubmit(){
+                this.$Progress.start();
+                this.checkListForm.id =this.id;
+                this.checkListForm.post('/api/paperCheckList')
+                    .then(() => {
+                       // Fire.$emit('AfterCreate');
+                      //  $('#addNew').modal('hide');
+                        this.successToast('اطلاعات کاربر جدید با موفقیت ثبت شد.');
+                        this.$Progress.finish();
+
+                    })
+                    .catch(() => {
+                        this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                        this.$Progress.fail();
+                    })
+            },
+            onChange(value, $event){
+                if (!this.checkListForm.list)
+                    this.checkListForm.list = [];
+                const index = this.checkListForm.list.findIndex(v => v == value);
+                const checked = $event.target.checked;
+                if (checked && index < 0){
+                    this.checkListForm.list.push(value);
+                    this.checkListForm.status = 2;
+                }
+                if (!checked && index >= 0)
+                    this.checkListForm.list.splice(index, 1)
+                if (this.checkListForm.list.length < 1){
+                    this.checkListForm.status = 1;
+                }
+            },
+            toggleCheckList(){
+              this.checkList = !this.checkList;
+              if(this.checkListForm.list.length < 1){
+                  this.checkListForm.status = 1;
+              }else{
+                  this.checkListForm.status = 2;
+              }
+            },
             // if the all paper submission validate it will submit the data to server
             onComplete: function(){
                 this.$Progress.start();
@@ -840,6 +1157,8 @@
                        this.type = response.data.type;  // sets the paper type if 0 means journal and 1 means conference
                        this.conftypename = response.data.conftypename;  // if paper type is conference sets the conf type name
                        this.jtypename = response.data.jtypename;   // if paper type is journal sets the journal type name
+                        this.checkListItems = response.data.checklist;
+                        this.prepareCheckList();
                        this.editFormPrepare();
                         if(this.type == '0'){
                             this.journalForm = true;
@@ -1028,6 +1347,7 @@
             this.id = this.$route.params.id;
             this.getpaperdata(this.id);
             this.getPaperRelation();
+
 
         },
         components:{
