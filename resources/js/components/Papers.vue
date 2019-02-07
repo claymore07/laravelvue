@@ -29,9 +29,10 @@
                                         <option selected disabled>پالایش بر اساس:</option>
                                         <option value="5">همه</option>
                                         <option value="0">بررسی نشده</option>
-                                        <option value="3">اصلاح شده</option>
+                                        <option value="4">اصلاح شده</option>
                                         <option value="1">تایید شده</option>
-                                        <option value="2">رد شده</option>
+                                        <option value="2">عدم تایید موقت</option>
+                                        <option value="3">عدم تایید قطعی</option>
                                     </select>
                                     <div class="input-group-append " >
                                         <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
@@ -66,9 +67,10 @@
                             <td >{{paper.paperable.name | truncate(40)}} </td>
 
                             <td>{{ paper.profile.Fname+' '+paper.profile.Lname  }}</td>
-                            <td v-if="paper.status == '0'"  class="orange"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
+                            <td v-if="paper.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                             <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
-                            <td v-else-if="paper.status == '2'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید' }}</td>
+                            <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
+                            <td v-else-if="paper.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                             <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
                             <td>{{ paper.created_at | myDate  }}</td>
                             <td>

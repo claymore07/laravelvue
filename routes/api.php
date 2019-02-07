@@ -30,6 +30,7 @@ Route::post('paperValidation','API\PapersController@paperValidation');
 Route::post('paperUpdate/{paper}','API\PapersController@paperUpdate');
 Route::post('paperCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
+Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::post('findPaper','API\PapersController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findPaper','API\PapersController@search');

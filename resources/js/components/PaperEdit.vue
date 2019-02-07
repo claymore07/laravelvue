@@ -34,7 +34,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="font-16">
+                        <td class="font-16" >
                             <span class="blue ">چکیده:</span><br>
                             <div v-html="paper.abstract"></div>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('چکیده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
@@ -447,7 +447,7 @@
                             </p-check>
                         </td>
                     </tr>
-                    <tr v-if="checkList">
+                    <tr v-show="checkList">
                         <td colspan="2">
                             <label for="status" class="blue mt-3">وضعیت بررسی: </label>
                             <select v-model="checkListForm.status"
@@ -456,13 +456,16 @@
                                     class="custom-select" name="" id="status">
                                 <option  selected disabled>انتخاب گزینه</option>
                                 <option value="1" ><i class="fa-check"></i>تایید</option>
-                                <option value="2" >عدم تایید</option>
+                                <option value="2" >عدم تایید موقت</option>
+                                <option value="3" >عدم تایید قطعی</option>
                             </select>
                             <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
                             <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
                             <br>
                             <label for="id2" class="blue mt-3">توضیحات: </label>
-                            <tinymce  :other_options="options" name="comment" id="id2"></tinymce>
+                            <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
+                            <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
+                            <tinymce dir="rtl"  v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
 
                         </td>
                     </tr>
@@ -478,7 +481,8 @@
         </div><!-- /card -->
         <div class="row align-content-center">
             <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
-                <button @click="paperEditModal" class="btn btn-lg mx-1 btn-dark">ویرایش  مقاله</button>
+                <button v-if="paper.status != 3 && paper.status != 1" @click="paperEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  مقاله</button>
+                <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
                 <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
                 <button @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
             </div>
@@ -944,6 +948,42 @@
             </div><!-- /modal-content -->
         </div><!-- /modal-dialog -->
     </div><!-- /pdf show modal  -->
+
+    <!--checkList History show modal -->
+    <div class="modal  fade" id="checkListHistoryShow" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2"><i
+                        class="fal fa-history fa-fw"></i> مشاهده تاریخچه بررسی</h5>
+                    <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="height: 600px; overflow-y: scroll" >
+                    <table class="table table-sm table-hover text-right">
+                        <tr v-for="(checkListItem, index) of checkListItems">
+                            <td style="vertical-align: middle" class="bg-gray text-center">
+                                تاریخ <span>{{checkListItem.created_at | myDate}}</span>
+                            </td>
+                            <td>
+                                <span class="blue d-block">موارد تایید نشده:</span>
+                                <span class="mx-1" v-for="listItem in checkListItem.list">{{listItem}},</span>
+                                <br>
+                                <span  class="blue d-block">توضیحات:</span>
+                                <span v-html="checkListItem.comment">
+
+                                </span>
+                            </td>
+                            <td style="vertical-align: middle">
+                                <a @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div><!-- modal-body -->
+            </div><!-- /modal-content -->
+        </div><!-- /modal-dialog -->
+    </div><!-- /checkList History show modal  -->
 </div>
 </template>
 
@@ -981,12 +1021,11 @@
                 fileChangeType:'-1',    // sets of the file change type, whether it is addition to previous files or replacement
                 checkList:false,
                 checkListItems:'',
-                checkListItem:[],
                 checkListForm: new Form({
                     id:'',
-                    list:null,
+                    list:[],
                     status:null,
-                    comments:''
+                    comment:''
                 }),
                 f:new FormData,         // creates the new FormData object to store selected files data
                 // form data of VForm data object witch will be used to fill and submit the form
@@ -1034,21 +1073,50 @@
           },
         },
         methods:{
-            prepareCheckList(){
-                if(this.checkListItems.length > 0 && this.paper.status != '1'){
-                    this.checkListForm.list = this.checkListItems[0].list;
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.paper.status;
+            deleteCheckListItem(id, index) {
+
+                if(this.checkListItems.length > 1){
+                    this.form.delete('/api/paperCheckList/' + id).then(() => {
+                        this.checkListItems.splice(index, 1);
+                        this.checkListForm.list = $.map(this.checkListItems[0].list, function(value, index) {
+                            return [value];
+                        });
+                        if(this.checkListForm.list.length > 0){
+                            this.checkListForm.status = 2;
+                            this.paper.status = 2;
+                        }
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.successSwal('تاریخچه بررسی با موفقیت حذف شد.');
+
+                    }).catch((e) => {
+                        this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                    });
+                }else {
+                    this.errorSwal('امکان حذف آخرین تاریخچه وجود ندارد!');
                 }
+
+            },
+            checkListHistory(){
+                $('#checkListHistoryShow').modal('show');
+            },
+            prepareCheckList(){
+
+                if(this.checkListItems.length > 0 && this.paper.status != '1'){
+                    this.checkListForm.list=$.map(this.checkListItems[0].list, function(value, index) {
+                        return [value];
+                    });
+                }
+                this.checkListForm.comment = this.checkListItems[0].comment;
+                this.checkListForm.status = this.paper.status;
             },
             checkListSubmit(){
                 this.$Progress.start();
                 this.checkListForm.id =this.id;
                 this.checkListForm.post('/api/paperCheckList')
-                    .then(() => {
-                       // Fire.$emit('AfterCreate');
-                      //  $('#addNew').modal('hide');
-                        this.successToast('اطلاعات کاربر جدید با موفقیت ثبت شد.');
+                    .then((response) => {
+                        this.checkListItems.unshift(response.data.checkListItem);
+                        this.paper.status = this.checkListForm.status;
+                        this.successToast('نتایج بررسی با موفقیت ثبت شد.');
                         this.$Progress.finish();
 
                     })
@@ -1058,6 +1126,7 @@
                     })
             },
             onChange(value, $event){
+                console.log('sasdasdasdas');
                 if (!this.checkListForm.list)
                     this.checkListForm.list = [];
                 const index = this.checkListForm.list.findIndex(v => v == value);
@@ -1080,6 +1149,10 @@
                   this.checkListForm.status = 2;
               }
             },
+
+
+
+
             // if the all paper submission validate it will submit the data to server
             onComplete: function(){
                 this.$Progress.start();
@@ -1095,7 +1168,13 @@
                     this.conftypename = response.data.conftypename;  // if paper type is conference sets the conf type name
                     this.jtypename = response.data.jtypename;   // if paper type is journal sets the journal type name
                     this.editFormPrepare();
-
+                    if(this.type == '0'){
+                        this.journalForm = true;
+                        this.form.paperType = 'jur';
+                    }else{
+                        this.confForm = true;
+                        this.form.paperType = 'conf';
+                    }
                     // UI modal Hide, progress bar finish , show the toase
                     $('#paperEditModal').modal('hide');
                     this.successToast('مقاله با موفقیت ویرایش شد.');

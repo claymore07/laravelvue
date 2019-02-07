@@ -173,6 +173,9 @@ class PapersController extends Controller
             $paper['license_to'] = $request->license_to;
             $paper['publish_date'] = $request->publish_date;
             $paper['accept_date'] = $request->accept_date;
+
+            // after every update on paper its status will be changed to 4 or اصلاح شده
+            $paper['status'] = 4;
             $paper_db->update($paper);
             $paperType = $request->paperType;
            if ($paperType == 'jur') {

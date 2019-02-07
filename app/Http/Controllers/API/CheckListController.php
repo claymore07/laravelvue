@@ -7,6 +7,7 @@ use App\Paper;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Response;
 
 class CheckListController extends Controller
 {
@@ -23,39 +24,49 @@ class CheckListController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Exception
      */
     public function store(Request $request)
     {
         //+
         $this->validate($request,
             [
-                'status'=>'required'
+                'status'=>'required',
+                'comment'=>'required'
             ],
             [
-                'status.required'=>'وضعیت بررسی مقاله باید ثبت شود.'
+                'status.required'=>'وضعیت بررسی مقاله باید ثبت شود.',
+                'comment.required'=>'توضیحات و راهنمایی ها برای ادامه روند توسط کاربر باید درج شود.'
             ]
             );
         $paper_db = Paper::findOrFail($request->id);
-        DB::beginTransaction();
-        try {
-            $input = [];
-            $input['status'] = $request->status;
-            if (count($request->list)) {
-                $input['comment'] = $request->comment;
-                $input['list'] = implode(",", $request->list);
-                $checkListItem = $paper_db->checklists()->create($input);
-            }
-            $paper_db->update($input);
-        } catch (\Exception $e) {
 
-            DB::rollback();
-            return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
-        }
+         DB::beginTransaction();
+       try {
+             $input = [];
+             $input['status'] = $request->status;
 
-        DB::commit();
-        return 'dddd';
+             if (count($request->list)>0) {
+                 $input['list'] = implode(",", $request->list);
+
+             }else{
+                 $input['list'] = null;
+             }
+             $input['comment'] = $request->comment;
+             $checkListItem = $paper_db->checklists()->create($input);
+             $checkListItem['list'] = $request->list;
+             $paper_db->update($input);
+         } catch (\Exception $e) {
+
+             DB::rollback();
+             return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
+         }
+
+         DB::commit();
+         return Response::json(['checkListItem' => $checkListItem], 200);
     }
 
     /**
@@ -84,11 +95,21 @@ class CheckListController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
         //
+        $checkListItem = Checklist::findOrFail($id);
+        $checkable = $checkListItem->checkable;
+        //dd($checkable->checklists()->latest()->first());
+        if(is_null($checkable->checklists()->latest()->first()->list)){
+
+            $checkable->update(['status'=>2]);
+        }
+        $checkListItem->delete();
+        return Response::json(['checkListItem' => $checkListItem], 200);
     }
 }
