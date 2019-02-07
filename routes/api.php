@@ -20,7 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'user'=>'API\UserController',
-    'paper'=>'API\PapersController'
+    'paper'=>'API\PapersController',
+    'faculty'=>'API\FacultiesController',
+    'department'=>'API\DepartmentsController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -33,5 +35,7 @@ Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::post('findPaper','API\PapersController@search');
 Route::get('findUser','API\UserController@search');
-Route::get('findPaper','API\PapersController@search');
+Route::get('findFaculty','API\FacultiesController@search');
+Route::get('findDepartment','API\DepartmentsController@search');
+//Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');

@@ -41,6 +41,8 @@ let routes = [
     { path: '/users', component: require('./components/Users.vue').default },
     { path: '/paperedit/:id', name:'paperedit',component: require('./components/PaperEdit.vue').default },
     { path: '/papers', component: require('./components/Papers.vue').default },
+    { path: '/faculties', component: require('./components/Faculties.vue').default },
+    { path: '/departments', component: require('./components/Departments.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
     { path: '*', component: require('./components/NotFound.vue').default },
 ];
@@ -61,8 +63,8 @@ Vue.component('date-picker', VuePersianDatetimePicker);
 Vue.component('tinymce', tinymce)
 Vue.component('tags-input', VoerroTagsInput);
 Vue.component('pagination', require('./components/LaravelVuePagination').default);
-Vue.component('farsijournalcomponent', require('./components/papers/FarsiJournalPaper').default);
-Vue.component('enjournalcomponent', require('./components/papers/EnJournalPaper').default);
+//Vue.component('farsijournalcomponent', require('./components/papers/FarsiJournalPaper').default);
+//Vue.component('enjournalcomponent', require('./components/papers/EnJournalPaper').default);
 Vue.component('not-found',require('./components/NotFound.vue').default);
 
 /** Laravel passport components*/

@@ -44,9 +44,7 @@
                             </div>
                         </div>
                     </div><!-- /card-tools -->
-                    <div class="col-md-6 mx-auto">
 
-                    </div>
 
                 </div><!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
