@@ -452,7 +452,7 @@
                             <label for="status" class="blue mt-3">وضعیت بررسی: </label>
                             <select v-model="checkListForm.status"
                                     :class="[(  checkListForm.errors.has('status') ? 'is-invalid': ''  )]"
-                                    @change="form2.errors.clear('status')"
+                                    @change="checkListForm.errors.clear('status')"
                                     class="custom-select" name="" id="status">
                                 <option  selected disabled>انتخاب گزینه</option>
                                 <option value="1" ><i class="fa-check"></i>تایید</option>
@@ -465,7 +465,7 @@
                             <label for="id2" class="blue mt-3">توضیحات: </label>
                             <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
                             <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
-                            <tinymce dir="rtl"  v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
+                            <tinymce dir="rtl" @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
 
                         </td>
                     </tr>
@@ -681,7 +681,7 @@
                                     <i v-show="errors.has('form-1.abstract')||form.errors.has('abstract')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form-1.abstract')" class="red d-inline-block">{{ errors.first('form-1.abstract') }}</span>
                                     <span v-show="form.errors.has('abstract')" class="red d-inline-block">{{ form.errors.get('abstract') }}</span>
-                                    <tinymce @editorChange="removeError('abstract')" :other_options="options" v-validate="'required'" name="abstract" v-model="form.abstract" id="d1"></tinymce>
+                                    <tinymce @editorInit="e => e.setContent(form.abstract)" @editorChange="removeError('abstract')" :other_options="options" v-validate="'required'" name="abstract" v-model="form.abstract" id="d1"></tinymce>
 
                                 </div>
                             </form>

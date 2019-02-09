@@ -17,7 +17,9 @@ class ConfType extends Model
 {
     //
     protected $table='conftypes';
-    protected $fillable=['name'];
+    protected $fillable=[
+        'name', 'minscore', 'maxscore'
+    ];
 
     public function conferences(){
         return $this->hasMany('App\Conference');

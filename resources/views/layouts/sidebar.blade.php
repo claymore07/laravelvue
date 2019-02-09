@@ -63,6 +63,12 @@
                         <p>گروه های آموزشی</p>
                     </router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/score" class="nav-link ">
+                        <i class="fal fa-star blue"></i>
+                        <p>مدیریت امتیازها</p>
+                    </router-link>
+                </li>
 
             </ul>
         </li>

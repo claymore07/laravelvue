@@ -30,6 +30,9 @@ import PrettyCheckbox from 'pretty-checkbox-vue';
 import VoerroTagsInput from '@voerro/vue-tagsinput';
 import bTooltip from 'bootstrap-vue/es/components/tooltip/tooltip'
 import bTooltipDirective from 'bootstrap-vue/es/directives/tooltip/tooltip'
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.prototype.$gate = new Gate(window.user);
 
 /** vue router */
@@ -44,6 +47,7 @@ let routes = [
     { path: '/faculties', component: require('./components/Faculties.vue').default },
     { path: '/departments', component: require('./components/Departments.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
+    { path: '/score', component: require('./components/Scores.vue').default },
     { path: '*', component: require('./components/NotFound.vue').default },
 ];
 const router = new VueRouter({
@@ -57,10 +61,10 @@ const router = new VueRouter({
 /** components include */
 Vue.component('b-tooltip', bTooltip);
 Vue.directive('b-tooltip', bTooltipDirective);
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
 Vue.component('date-picker', VuePersianDatetimePicker);
-Vue.component('tinymce', tinymce)
+Vue.component('tinymce', tinymce);
 Vue.component('tags-input', VoerroTagsInput);
 Vue.component('pagination', require('./components/LaravelVuePagination').default);
 //Vue.component('farsijournalcomponent', require('./components/papers/FarsiJournalPaper').default);
@@ -110,7 +114,16 @@ Vue.use(VeeValidate, {
 Vue.use(VueTruncate);
 Vue.use(VueFormWizard);
 Vue.use(VueTheMask);
-
+Vue.use(Loading, {
+    // props
+    loader:'bars',
+    color: '#28D7AF',
+    container: null,
+    height:150,
+    width: 150,
+},{
+    // slots
+});
 
 
 window.swal = Swal;
@@ -175,6 +188,26 @@ Vue.filter('faDigit', function (value) {
         .split('')
         .map(x => farsiDigits[x])
         .join('');
+});
+Vue.filter('faDigits', function (value) {
+    if (!value) return '۰';
+    value = value.toString().split(".");
+    var x =[];
+    const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    x[0]= value[0]
+        .toString()
+        .split('')
+        .map(x => farsiDigits[x])
+        .join('');
+    if(value.length>1){
+        x[1]= value[1]
+            .toString()
+            .split('')
+            .map(x => farsiDigits[x])
+            .join('');
+    }
+        return x.toString();
+
 });
 Vue.filter('upText', function (text) {
     return text.charAt(0).toUpperCase() + text.substr(1);

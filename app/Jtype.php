@@ -24,7 +24,9 @@ use Illuminate\Database\Eloquent\Model;
 class Jtype extends Model
 {
     //
-    protected $fillable=['name'];
+    protected $fillable=[
+        'name', 'minscore', 'maxscore'
+    ];
 
     // Forward
     public function journals(){

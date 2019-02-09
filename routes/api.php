@@ -37,5 +37,11 @@ Route::post('findPaper','API\PapersController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
+
+
+Route::get('getJournalType','API\ScoreController@getJournalType');
+Route::get('getConfType','API\ScoreController@getConfType');
+Route::put('updateConfType/{confType}','API\ScoreController@updateConfType');
+Route::put('updateJType/{JType}','API\ScoreController@updateJType');
 //Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');

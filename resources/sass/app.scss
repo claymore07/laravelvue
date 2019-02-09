@@ -451,7 +451,10 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 .text-rtl{
     direction: rtl !important;
 }
-
+.vld-overlay.is-full-page {
+    z-index: 5000 !important;
+    position: fixed
+}
 @media (max-width: 958px) {
     .w-md-92 {
         width: 92% !important;

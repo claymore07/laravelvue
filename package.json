@@ -42,6 +42,7 @@
         "vform": "^1.0.0",
         "vue-float-label": "^1.6.1",
         "vue-form-wizard": "^0.8.4",
+        "vue-loading-overlay": "^3.1.1",
         "vue-persian-datetime-picker": "^2.0.0",
         "vue-persianjs-helper": "0.0.3",
         "vue-progressbar": "^0.7.5",
