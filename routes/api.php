@@ -23,6 +23,7 @@ Route::apiResources([
     'paper'=>'API\PapersController',
     'faculty'=>'API\FacultiesController',
     'department'=>'API\DepartmentsController',
+    'term'=>'API\TermsController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -43,5 +44,6 @@ Route::get('getJournalType','API\ScoreController@getJournalType');
 Route::get('getConfType','API\ScoreController@getConfType');
 Route::put('updateConfType/{confType}','API\ScoreController@updateConfType');
 Route::put('updateJType/{JType}','API\ScoreController@updateJType');
+Route::put('termActive/{Term}','API\TermsController@termActivate');
 //Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');

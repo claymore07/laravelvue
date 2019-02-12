@@ -69,6 +69,12 @@
                         <p>مدیریت امتیازها</p>
                     </router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/term" class="nav-link ">
+                        <i class="fal fa-calendar-edit blue"></i>
+                        <p>مدیریت ترم ها</p>
+                    </router-link>
+                </li>
 
             </ul>
         </li>

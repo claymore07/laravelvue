@@ -201,7 +201,7 @@
                                         >
                                     </td>
                                     <td> <button  v-show="editOffset == index" class="btn btn-primary" @click="updateJType(index)">ثبت تغییرات</button></td>
-                                    <td>{{ jType.id}}
+                                    <td>
                                         <a class="" @click="startEditing(index, jType.id, 'jType')"><i class=" green far fa-edit fa-fw"></i> </a>
                                     </td>
                                 </tr>

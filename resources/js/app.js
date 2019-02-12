@@ -48,6 +48,7 @@ let routes = [
     { path: '/departments', component: require('./components/Departments.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
     { path: '/score', component: require('./components/Scores.vue').default },
+    { path: '/term', component: require('./components/Terms.vue').default },
     { path: '*', component: require('./components/NotFound.vue').default },
 ];
 const router = new VueRouter({
@@ -96,7 +97,7 @@ window.Fire =Fire;
 window.toast = toast;
 window.objectToFormData = objectToFormData;
 window.Form = Form;
-
+window.moment = moment;
 Vue.use(PrettyCheckbox);
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
@@ -213,6 +214,7 @@ Vue.filter('upText', function (text) {
     return text.charAt(0).toUpperCase() + text.substr(1);
 });
 Vue.filter('myDate', function (created) {
+    if (!created) return '';
     var faDate;
     jmoments.loadPersian({usePersianDigits: true});
     faDate = jmoments(created).local('fa').format('jYYYY/jM/jD    ');
@@ -220,6 +222,7 @@ Vue.filter('myDate', function (created) {
     return faDate;
 });
 Vue.filter('myDateEN', function (created) {
+    if (!created) return '';
   //  jmoment.loadPersian({ usePersianDigits: false});
     return jmoments(created).format('YYYY/M/D');
 });
