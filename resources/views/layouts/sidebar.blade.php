@@ -1,5 +1,5 @@
 <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="nav-icon false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
@@ -11,40 +11,53 @@
                 </p>
             </router-link>
         </li>
-        @can('isAdmin')
+
         <li class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs green"></i>
                 <p>
-                    مدیریت
+                    مدیریت رزومه
                     <i class="right fa fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <router-link to="/users" class="nav-link ">
-                        <i class="fas fa-users nav-icon indigo"></i>
-                        <p>کاربران</p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
                     <router-link to="/papers" class="nav-link ">
-                        <i class="fas fa-pencil-ruler nav-icon purple"></i>
+                        <i class="nav-icon fal fa-pencil-ruler nav-icon green"></i>
                         <p>مقالات</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Inactive Page</p>
-                    </a>
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-books nav-icon green"></i>
+                        <p>کتب</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-award nav-icon green"></i>
+                        <p>جوایز</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-book-reader nav-icon green"></i>
+                        <p>پایان نامه ها</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-users-class nav-icon green"></i>
+                        <p>دوره ها</p>
+                    </router-link>
                 </li>
             </ul>
         </li>
-        @endcan @can('isAdmin')
-        <li class="nav-item has-treeview ">
+
+
+        <li v-if="type == 'admin'" class="nav-item has-treeview ">
             <a href="#" class="nav-link">
-                <i class="fal fa-server blue"></i>
+                <i class="nav-icon fas fa-server blue"></i>
                 <p>
                     مدیریت سیستم
                     <i class="right fa fa-angle-left"></i>
@@ -52,59 +65,107 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
+                    <router-link to="/users" class="nav-link ">
+                        <i class="nav-icon fal fa-users nav-icon blue"></i>
+                        <p>کاربران</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/faculties" class="nav-link ">
-                        <i class="fal fa-university blue"></i>
+                        <i class="nav-icon fal fa-university blue"></i>
                         <p>دانشکده ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/departments" class="nav-link ">
-                        <i class="fal fa-building blue"></i>
+                        <i class="nav-icon fal fa-building blue"></i>
                         <p>گروه های آموزشی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/score" class="nav-link ">
-                        <i class="fal fa-star blue"></i>
+                        <i class="nav-icon fal fa-star blue"></i>
                         <p>مدیریت امتیازها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/term" class="nav-link ">
-                        <i class="fal fa-calendar-edit blue"></i>
+                        <i class="nav-icon fal fa-calendar-edit blue"></i>
                         <p>مدیریت ترم ها</p>
                     </router-link>
                 </li>
 
             </ul>
         </li>
-        @endcan
+
+        <li v-if="type == 'admin'"  class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-newspaper orange"></i>
+                <p>
+                    گزارشات سامانه
+                    <i class="right fa fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-pencil-ruler nav-icon orange"></i>
+                        <p>گزارش مقالات</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-books orange"></i>
+                        <p>گزارش کتب</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-award orange"></i>
+                        <p>گزارش جوایز</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-book-reader orange"></i>
+                        <p>گزارش پایان نامه ها</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-users-class orange"></i>
+                        <p>گزارش دوره</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-university orange"></i>
+                        <p>گزارش دانشکده ها</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-building orange"></i>
+                        <p>گزارش گروه های آموزشی</p>
+                    </router-link>
+                </li>
+
+            </ul>
+        </li>
+
         <li class="nav-item ">
             <router-link to="/profile" class="nav-link ">
-                <i class="nav-icon fas fa-user orange"></i>
+                <i class="nav-icon fas fa-id-card cyan"></i>
                 <p>
                     پروفایل
                     <!-- <i class="right fa fa-angle-left"></i>-->
                 </p>
 
             </router-link>
-           <!-- <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Active Page</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Inactive Page</p>
-                    </a>
-                </li>
-            </ul>-->
+
         </li>
-        @can('isAdmin')
-        <li class="nav-item">
+
+        <li v-if="type == 'admin'"  class="nav-item">
             <router-link to="/developer" class="nav-link">
                 <i class="nav-icon fas fa-cogs yellow"></i>
                 <p>
@@ -113,21 +174,15 @@
                 </p>
             </router-link>
         </li>
-        @endcan
+
         <li class="nav-item">
-            <a href="{{ route('logout') }}"
-               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();" class="nav-link">
+            <router-link to="/logout"  class="nav-link ">
 
                 <i class="nav-icon fas fa-sign-out red"></i>
                 <p>
-                {{ __('خروج') }}
-                <!--<span class="right badge badge-danger">New</span>-->
+               خروج
                 </p>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </a>
+            </>
         </li>
     </ul>
 </nav>

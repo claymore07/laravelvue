@@ -2,7 +2,7 @@
 <div>
 
     <div class="container-fluid">
-        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()||$gate.isAuthor()">
+        <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
             <div class="card">
                 <div class="card-header  " style="direction: rtl">
                     <div class="justify-content-around d-lg-flex text-right">
@@ -123,18 +123,18 @@
                                 <tab-content title="انتخاب نوع مقاله" :before-change="chooseTypeCheck" icon="far fa-file-check">
                                     <div class="col-md-10 mx-auto my-5 text-center ">
 
-                                        <button @click="changePaperType('fajur')"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-3 text-white">ژورنال فارسی
+                                        <button @click="changePaperType('fajur', 0)"
+                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-3 text-white"><i v-if="paperSelected === 0" class="fal fa-check text-white"></i> ژورنال فارسی
                                         </button>
-                                        <button @click="changePaperType('enjur')"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-0 text-white">ژورنال لاتین
+                                        <button @click="changePaperType('enjur', 1)"
+                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-0 text-white"><i v-if="paperSelected === 1" class="fal fa-check text-white"></i> ژورنال لاتین
                                         </button>
 
-                                        <button @click="changePaperType('faconf')"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-2 text-white">کنفرانس فارسی
+                                        <button @click="changePaperType('faconf', 2)"
+                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-2 text-white"><i v-if="paperSelected === 2" class="fal fa-check text-white"></i> کنفرانس فارسی
                                         </button>
-                                        <button  @click="changePaperType('enconf')"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-1 text-white">کنفرانس لاتین
+                                        <button  @click="changePaperType('enconf', 3)"
+                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-1 text-white"><i v-if="paperSelected === 3" class="fal fa-check text-white"></i> کنفرانس لاتین
                                         </button>
                                     </div>
                                 </tab-content><!-- /fitst-tab -->
@@ -181,7 +181,7 @@
                                                      :class="[( errors.has('form-1.excerpt_id') || form.errors.has('excerpt_id') ? 'is-invalid': ''  )]"
                                                      v-model="form.excerpt_id"
                                                      :options="excerpts"
-                                                     @change="removeError('excerpt_id')"
+
                                                      :settings="{theme: 'bootstrap4', placeholder: 'نوع مستخرج از:', width: '100%' }">
                                             </Select2>
 
@@ -229,6 +229,7 @@
                                         </div>
                                         <div class=" mt-4" style="direction: ltr; text-align: right"  >
                                              <label class="blue text-right text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
+                                            <br> <span class="float-left font-16 "> {{form.publish_date | myDate}}</span>
                                             <date-picker locale="fa,en" @change="removeError('publish_date')"
                                                          :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"
                                                          v-validate="'required'"  format="YYYY-MM-DD"
@@ -243,6 +244,7 @@
                                         </div>
                                         <div class=" mt-4" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
+                                            <br> <span class="float-left font-16 "> {{form.accept_date | myDate}}</span>
                                             <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form-1.accept_date')|| form.errors.has('accept_date')" class="red far fa-exclamation-triangle"></i>
@@ -252,6 +254,11 @@
                                         </div>
                                         <div class="form-group mt-4 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
+                                            <span class="red"><br/>
+                                                فایل اصلی مقاله در قالب pdf
+                                                <br/>
+                                                سایر فایل های مربوطه بصورت یک فایل فشرده با پسونده zip
+                                            </span>
                                         </div>
 
                                         <div class="custom-file text-ltr text-right mb-5">
@@ -532,7 +539,7 @@
         data(){
             return{
                 options: {// tinyMce toolbar options
-                    language_url: 'js/fa_IR.js', //This url points to location of persian language file.
+                    language_url: '/js/fa_IR.js', //This url points to location of persian language file.
                     toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat',
                     toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
@@ -553,6 +560,7 @@
                 fileName:[],    // For UI rendering and displaying the choosen file Names
                 attachments:[],
                 paperType:'',
+                paperSelected:'',
                 author:'',
                 affiliation:'',
                 f:new FormData, // creates the new FormData object to store selected files data
@@ -596,7 +604,8 @@
                 this.$parent.searchit();
             },
             //  changes the paper Type and sets form.lang and form.paperType
-            changePaperType(type){
+            changePaperType(type, Selected){
+                this.paperSelected = Selected;
               this.paperType = type;
               if(this.paperType === 'fajur' || this.paperType === 'faconf'){
                   this.form.lang = '0';
@@ -742,6 +751,7 @@
                     );
             },
             getResults(page = 1, que = '') {
+                console.log(this.filter);
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.searchResult) {
                     que = this.search;

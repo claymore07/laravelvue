@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Degree;
-use App\Department;
-use App\Faculty;
+use App\Models\Degree;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Http\Requests\UserRequest;
-use App\Member;
-use App\Position;
-use App\Profile;
-use App\Rank;
+use App\Models\Member;
+use App\Models\Position;
+use App\Models\Profile;
+use App\Models\Rank;
 use DB;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
@@ -39,15 +39,17 @@ class UserController extends Controller
     public function index()
     {
         //
+        $this->authorize('isAdmin');
         if(Gate::allows('isAdmin')||Gate::allows('isAuthor')){
             $order = \Request::get('order');
             $users =User::with('profile')->orderBy('created_at', $order)->paginate($this->perPage);
             return Response::json(array('users'=>$users));
         }
-        //$this->authorize('isAdmin');
+        //
 
     }
     public function search(){
+        $this->authorize('isAdmin');
         $order = \Request::get('order');
         if ($search = \Request::get('q')) {
             $users = User::with('profile')->whereHas('profile', function($query)use($search){
@@ -66,7 +68,7 @@ class UserController extends Controller
             })->orderBy('created_at', $order)->paginate($this->perPage);
 
         }else{
-            $users = User::orderBy('created_at', $order)->paginate($this->perPage);
+            $users = User::with('profile')->orderBy('created_at', $order)->paginate($this->perPage);
         }
         return Response::json(array('users'=>$users));
 
@@ -75,6 +77,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function profileRelation(){
+
         $degrees = Degree::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
@@ -107,7 +110,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-
+        $this->authorize('isAdmin');
         $input = $request->all();
         DB::beginTransaction();
         try {
@@ -258,6 +261,7 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         //
+        $this->authorize('isAdmin');
         $user_db = User::findOrFail($id);
         $input = $request->all();
         DB::beginTransaction();
@@ -317,7 +321,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        //$this->authorize('isAdmin');
+        $this->authorize('isAdmin');
         $user = User::findOrFail($id);
         DB::beginTransaction();
         try {

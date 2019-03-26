@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Department;
+use App\Models\Department;
 use App\Http\Requests\DepartmentResust;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +11,11 @@ use Response;
 class DepartmentsController extends Controller
 {
     protected $perPage=5;
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,12 +24,14 @@ class DepartmentsController extends Controller
     public function index()
     {
         //
+        $this->authorize('isAdmin');
         $order = \Request::get('order');
         /** @var Faculty $faculties */
         $departments = Department::orderBy('created_at', $order)->paginate($this->perPage);
         return Response::json(array('departments'=>$departments),200);
     }
     public function search(){
+        $this->authorize('isAdmin');
         $order = \Request::get('order');
 
         if ($search = \Request::get('q')) {
@@ -49,6 +56,7 @@ class DepartmentsController extends Controller
     public function store(DepartmentResust $request)
     {
         //
+        $this->authorize('isAdmin');
         $department = Department::create($request->all());
         return Response::json(['department'=>$department], 200);
     }
@@ -62,6 +70,7 @@ class DepartmentsController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('isAdmin');
     }
 
     /**
@@ -74,6 +83,7 @@ class DepartmentsController extends Controller
     public function update(DepartmentResust $request, $id)
     {
         //
+        $this->authorize('isAdmin');
         $department = Department::findOrFail($id);
         $department->update($request->all());
         return Response::json(['faculty'=>$department], 200);
@@ -88,6 +98,7 @@ class DepartmentsController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('isAdmin');
         $department = Department::withCount('profiles')->findOrFail($id);
         if($department->profiles_count > 0){
             return Response::json(['db_error'=>'امکان حذف وجود ندارد'], 402);

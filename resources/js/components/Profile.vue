@@ -6,7 +6,9 @@
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header text-white text-right" style="height: 250px;background: url('/img/photo1.png') center center;">
                         <h3 class="widget-user-username">پروفایل: <span v-if="form.hasProfile">{{form.Fname + ' ' + form.Lname}}</span> <span v-else>{{form.name}} پروفایل ناقص</span></h3>
-                        <h5 class="widget-user-desc">{{this.form.type}}</h5>
+                        <h5 v-if="this.form.type == 'admin'" class="widget-user-desc">مسئول سیستم</h5>
+                        <h5 v-else-if="this.form.type == 'author'" class="widget-user-desc">کارشناس</h5>
+                        <h5 v-else class="widget-user-desc">گاربر</h5>
                     </div>
                     <div class="widget-user-image">
                         <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
@@ -15,7 +17,7 @@
                          <div class="row">
                             <div class="col-sm-4 border-right">
                                 <div class="description-block">
-                                    <h5 class="description-header">{{32 | faDigit}}</h5>
+                                    <h5 class="description-header">{{3 | faDigit}}</h5>
                                     <span class="description-text">تعداد مقالات</span>
                                 </div>
                                 <!-- /.description-block -->
@@ -23,7 +25,7 @@
                             <!-- /.col -->
                             <div class="col-sm-4 border-right">
                                 <div class="description-block">
-                                    <h5 class="description-header">{{32 | faDigit}}</h5>
+                                    <h5 class="description-header">{{0 | faDigit}}</h5>
                                     <span class="description-text">تایید شده</span>
                                 </div>
                                 <!-- /.description-block -->
@@ -31,7 +33,7 @@
                             <!-- /.col -->
                             <div class="col-sm-4">
                                 <div class="description-block">
-                                    <h5 class="description-header">{{32 | faDigit}}</h5>
+                                    <h5 class="description-header">{{1 | faDigit}}</h5>
                                     <span class="description-text">دوره ها</span>
                                 </div>
                                 <!-- /.description-block -->
@@ -52,16 +54,70 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills text-right" style="direction: rtl!important;">
-                            <li class="nav-item order-1"><a class="nav-link" href="#activity" data-toggle="tab">فعالیت ها</a></li>
+                            <li class="nav-item order-1"><a class="nav-link" href="#timeline" data-toggle="tab">فعالیت ها</a></li>
                             <li class="nav-item order-0"><a class="nav-link active show" href="#settings" data-toggle="tab">تنظیمات</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
                             <!-- Activity Tab -->
-                            <div class="tab-pane" id="activity">
-                                <h3 class="text-center">Display User Activity</h3>
-                            </div>
+                            <div class="tab-pane text-right text-rtl" id="timeline">
+                                <!-- The timeline -->
+                                <ul class="timeline timeline-inverse">
+                                    <!-- timeline time label -->
+                                    <li class="time-label">
+                                    <span class="bg-danger">
+                                     10 بهمن 97
+                                    </span>
+                                    </li>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+                                    <li>
+                                        <i class="fa fa-envelope bg-primary"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>  27 دقیقه پیش</span>
+
+                                            <h3 class="timeline-header">مقاله شما توسط کارشناس پژوهشی بررسی شد.
+                                            </h3>
+
+
+                                        </div>
+                                    </li>
+                                    <!-- END timeline item -->
+                                    <!-- timeline item -->
+                                    <li>
+                                        <i class="fa fa-user bg-info"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>یک روز پیش</span>
+
+                                            <h3 class="timeline-header no-border">شما مقاله خود با عنوان الگوریتم های رمزنگاری ... اصلاح کردید.
+                                            </h3>
+                                        </div>
+                                    </li>
+                                    <!-- END timeline item -->
+                                    <!-- timeline item -->
+                                    <li>
+                                        <i class="fa fa-comments bg-warning"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i> دو روز پیش</span>
+
+                                            <h3 class="timeline-header">شما مقاله خود را در سامانه ثبت کردید.
+                                            </h3>
+
+
+                                        </div>
+                                    </li>
+                                    <!-- END timeline item -->
+                                    <!-- timeline time label -->
+
+                                    <li>
+                                        <i class="fa fa-clock-o bg-gray"></i>
+                                    </li>
+                                </ul>
+                            </div><!-- /END timeline tab -->
                             <!-- Setting Tab -->
                             <div class="tab-pane active show" id="settings">
                                 <form class="form-horizontal" @submit.prevent="updateInfo" @keydown="form.onKeydown($event)" id="Form">
@@ -145,7 +201,7 @@
                                                   :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
                                         <has-error :form="form" field="bio"></has-error>
                                     </div>
-                                    <div class="form-group my-5 text-right">
+                                    <div class="form-group my-5 text-right d-none">
                                         <label class="blue">نوع دسترسی به سامانه:</label>
                                         <select name="type" v-model="form.type" id="type" class="form-control test1"
                                                 :class="{ 'is-invalid': form.errors.has('type') }">

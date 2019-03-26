@@ -484,7 +484,7 @@
                 <button v-if="paper.status != 3 && paper.status != 1" @click="paperEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  مقاله</button>
                 <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
                 <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
-                <button @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
+                <button v-if="$gate.isAdmin()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
             </div>
         </div>
     </div><!-- /container -->
@@ -508,7 +508,7 @@
                         :start-index="0"
                         @on-complete="onComplete"
                         ref="wizard">
-                        <h2 slot="title">تکمیل اطلاعات مقاله</h2>
+                        <h2 slot="title">ویرایش اطلاعات مقاله</h2>
                         <!--  -->
                         <tab-content title="اطلاعات مقاله" :before-change="paperValidation"  icon="far fa-file-alt">
 
@@ -603,6 +603,7 @@
                                 </div>
                                 <div class=" mt-4" style="direction: ltr; text-align: right"  >
                                     <label class="blue text-right text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
+                                    <br> <span class="float-left font-16 "> {{form.publish_date | myDate}}</span>
                                     <date-picker @change="removeError('publish_date')"  format="YYYY-MM-DD" :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"  v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
                                     <has-error :form="form" field="publish_date"></has-error>
                                     <div class="text-rtl">
@@ -613,6 +614,7 @@
                                 </div>
                                 <div class=" mt-4" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
+                                    <br> <span class="float-left font-16 "> {{form.accept_date | myDate}}</span>
                                     <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
                                         <i v-show="errors.has('form-1.accept_date')|| form.errors.has('accept_date')" class="red far fa-exclamation-triangle"></i>
@@ -649,6 +651,14 @@
                                         <span v-show="errors.has('form-1.fileChangeType')" class="red d-inline-block">{{ errors.first('form-1.fileChangeType') }}</span>
                                         <span v-show="form.errors.has('fileChangeType')" class="red d-inline-block">{{ form.errors.get('fileChangeType') }}</span>
                                     </div>
+                                </div>
+                                <div v-if="fileChanging" class="form-group mt-4 text-right">
+                                    <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
+                                    <span class="red"><br/>
+                                                فایل اصلی مقاله در قالب pdf
+                                                <br/>
+                                                سایر فایل های مربوطه بصورت یک فایل فشرده با پسونده zip
+                                            </span>
                                 </div>
                                 <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
                                     <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
@@ -976,7 +986,7 @@
                                 </span>
                             </td>
                             <td style="vertical-align: middle">
-                                <a @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                                <a  v-if="$gate.isAdmin()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
                             </td>
                         </tr>
                     </table>
@@ -1100,14 +1110,15 @@
                 $('#checkListHistoryShow').modal('show');
             },
             prepareCheckList(){
-
-                if(this.checkListItems.length > 0 && this.paper.status != '1'){
-                    this.checkListForm.list=$.map(this.checkListItems[0].list, function(value, index) {
-                        return [value];
-                    });
+                if(this.paper.status != '0') {
+                    if (this.checkListItems.length > 0 && this.paper.status != '1') {
+                        this.checkListForm.list = $.map(this.checkListItems[0].list, function (value, index) {
+                            return [value];
+                        });
+                    }
+                    this.checkListForm.comment = this.checkListItems[0].comment;
+                    this.checkListForm.status = this.paper.status;
                 }
-                this.checkListForm.comment = this.checkListItems[0].comment;
-                this.checkListForm.status = this.paper.status;
             },
             checkListSubmit(){
                 this.$Progress.start();

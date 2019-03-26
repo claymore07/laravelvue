@@ -51,6 +51,7 @@ class UserRequest extends FormRequest
             case 'PATCH':
                 $rules['email']    = 'email|required|unique:users,email,' . $this->id;
                 $rules['password'] = 'sometimes|required|string|min:6';
+                $rules['type'] = '';
                 break;
         }
 

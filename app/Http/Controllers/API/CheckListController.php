@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Checklist;
-use App\Paper;
+use App\Models\Checklist;
+use App\Models\Paper;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +11,11 @@ use Response;
 
 class CheckListController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +24,7 @@ class CheckListController extends Controller
     public function index()
     {
         //
+        $this->authorize('isAdmin');
     }
 
     /**
@@ -32,6 +38,7 @@ class CheckListController extends Controller
     public function store(Request $request)
     {
         //+
+        $this->authorize('isAdmin');
         $this->validate($request,
             [
                 'status'=>'required',
@@ -78,6 +85,7 @@ class CheckListController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('isAdmin');
     }
 
     /**
@@ -90,6 +98,7 @@ class CheckListController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->authorize('isAdmin');
     }
 
     /**
@@ -102,6 +111,7 @@ class CheckListController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('isAdmin');
         $checkListItem = Checklist::findOrFail($id);
         $checkable = $checkListItem->checkable;
         //dd($checkable->checklists()->latest()->first());

@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()||$gate.isAuthor()">
+        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()">
             <div class="card">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
@@ -152,7 +152,7 @@
                            <has-error :form="form" field="siba"></has-error>
                        </div>
                        <div class="form-group my-5 text-right">
-                           <label class="blue">نشماره موبایل:</label>
+                           <label class="blue">شماره موبایل:</label>
                            <input v-model="form.phone" type="tel" maxlength="11" name="phone" id="phone" placeholder="09111111111"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }"
                                   pattern="[0-9]{11}"
@@ -182,9 +182,9 @@
                            <select name="type" v-model="form.type" id="type" class="form-control test1"
                                    :class="{ 'is-invalid': form.errors.has('type') }">
                                <option selected disabled value="">نوع دسترسی به سامانه</option>
-                               <option value="admin">Admin</option>
-                               <option value="user">Standard User</option>
-                               <option value="author">Author</option>
+                               <option value="admin">مسئول سیستم</option>
+                               <option value="user">کارشناس</option>
+                               <option value="author">کاربر</option>
                            </select>
                            <has-error :form="form" field="type"></has-error>
                        </div>
@@ -270,7 +270,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="!$gate.isAdmin()&&!$gate.isAuthor()">
+        <div v-if="!$gate.isAdmin()">
             <not-found></not-found>
         </div><!-- /404 page -->
     </div><!-- /container-fluid -->

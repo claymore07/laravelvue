@@ -11,6 +11,7 @@ window.Vue = require('vue');
 require('./jquery.html5cvm.min');
 require('./jquery.SimpleMask.min');
 var VueTruncate = require('vue-truncate-filter')
+import User from './Helpers/User';
 import moment from 'moment';
 import jmoments from 'moment-jalaali';
 import VueFormWizard from 'vue-form-wizard'
@@ -23,8 +24,8 @@ import Swal from 'sweetalert2'
 import VueProgressBar from 'vue-progressbar';
 import { Form, HasError, AlertError } from 'vform';
 import objectToFormData from "./objectToFormData";
-import VueRouter from 'vue-router';
-import Gate from "./Gate";
+import router from './Router/router'
+import Gate from "./Helpers/Gate";
 import VueTheMask from 'vue-the-mask'
 import PrettyCheckbox from 'pretty-checkbox-vue';
 import VoerroTagsInput from '@voerro/vue-tagsinput';
@@ -34,29 +35,9 @@ import Loading from 'vue-loading-overlay';
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.prototype.$gate = new Gate(window.user);
+window.User = User;
 
-/** vue router */
-Vue.use(VueRouter);
-let routes = [
-    { path: '/home', component: require('./components/Dashboard.vue').default },
-    { path: '/dashboard', component: require('./components/Dashboard.vue').default },
-    { path: '/profile', component: require('./components/Profile.vue').default },
-    { path: '/users', component: require('./components/Users.vue').default },
-    { path: '/paperedit/:id', name:'paperedit',component: require('./components/PaperEdit.vue').default },
-    { path: '/papers', component: require('./components/Papers.vue').default },
-    { path: '/faculties', component: require('./components/Faculties.vue').default },
-    { path: '/departments', component: require('./components/Departments.vue').default },
-    { path: '/developer', component: require('./components/Developer.vue').default },
-    { path: '/score', component: require('./components/Scores.vue').default },
-    { path: '/term', component: require('./components/Terms.vue').default },
-    { path: '*', component: require('./components/NotFound.vue').default },
-];
-const router = new VueRouter({
-    mode: 'history',
-    linkActiveClass: "active",
-    linkExactActiveClass: "exact-active",
-    routes // short for `routes: routes`
-});
+
 
 
 /** components include */
@@ -181,7 +162,7 @@ Vue.mixin({
 
 /** filters */
 Vue.filter('faDigit', function (value) {
-    if (!value) return '';
+    if (!value) return '۰';
     value = value.toString();
     const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return value
@@ -239,12 +220,30 @@ const app = new Vue({
     data:{
         search:'',
         pageName:'داشبورد',
-        user:window.user,
+        is_loggedIn: false,
     },
     methods:{
         searchit: _.debounce(() => {
 
             Fire.$emit('searching');
         },500),
+        loggedIn(){
+            this.is_loggedIn =  User.loggedIn();
+        },
+    },
+    computed:{
+
+        photo(){
+            return "/img/profile/"+User.photo();
+        },
+        name(){
+            return User.name();
+        },
+        type(){
+            return User.type();
+        }
+    },
+    created(){
+        this.loggedIn();
     }
 });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Term;
+use App\Models\Term;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -10,14 +10,22 @@ use Response;
 class TermsController extends Controller
 {
     protected $perPage=5;
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function index()
     {
         //
+        $this->authorize('isAdmin');
+
         $order = \Request::get('order');
         /** @var Term $terms */
         $terms = Term::orderBy('id', $order)->paginate($this->perPage);
@@ -33,6 +41,8 @@ class TermsController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('isAdmin');
+
         $this->validate($request,
                 [
                     'name' => 'required',
@@ -60,6 +70,8 @@ class TermsController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('isAdmin');
+
     }
 
     /**
@@ -72,6 +84,8 @@ class TermsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->authorize('isAdmin');
+
         $this->validate($request,
             [
                 'name' => 'required',
@@ -91,6 +105,8 @@ class TermsController extends Controller
     }
 
     public function termActivate(Request $request, $id){
+        $this->authorize('isAdmin');
+
         $term = Term::findOrFail($id);
         Term::query()->update(['status'=>0]);
         $term->update(['status'=>1]);
@@ -105,5 +121,7 @@ class TermsController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('isAdmin');
+
     }
 }

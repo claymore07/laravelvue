@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Conference;
-use App\ConfType;
-use App\Excerpt;
-use App\Files;
+use App\Models\Conference;
+use App\Models\ConfType;
+use App\Models\Excerpt;
+use App\Models\Files;
 use App\Http\Requests\PaperRequest;
 use App\Http\Requests\PaperUpdateRequest;
-use App\Journal;
-use App\Jtype;
-use App\Paper;
+use App\Models\Journal;
+use App\Models\Jtype;
+use App\Models\Paper;
 use App\User;
 
+use Auth;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,30 +22,56 @@ use Response;
 class PapersController extends Controller
 {
     protected $perPage=5;
+    public function __construct()
+    {
+        $this->middleware('jwt');
+
+
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         //
+        $this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
-        $papers =Paper::select('title','id','profile_id','paperable_type','paperable_id','status','created_at')
-            ->with(['paperable:name,id','profile:Fname,Lname,id'])
+        $user = Auth::user('api')->load('profile');
+
+        $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+            //->where('profile_id','=',$profile->id)
+            ->where(function ($query) use ($user) {
+                if ($user->type == 'admin') {
+
+                } else {
+                    $query->where('profile_id', '=', $user->profile->id);
+                }
+            })
+            ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
             ->orderBy('created_at', $order)->paginate($this->perPage);
-        return Response::json(array('papers'=>$papers));
+
+        return Response::json(array('papers' => $papers));
+
     }
 
     public function search(){
+        $this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
+        $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {
-                //    \DB::enableQueryLog();
+                  // \DB::enableQueryLog();
                 $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
                     ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
-                    ->whereHas('profile', function ($query) use ($search) {
+                    ->where(function ($query) use ($user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                    })
+                    ->whereHas('profile', function ($query) use ($search,$user) {
                         if ($search == trim($search) && strpos($search, ' ') !== false) {
                             $searchParts = explode(' ', $search);
                             $query->where('Fname', 'LIKE', "%$searchParts[0]%")
@@ -53,24 +80,41 @@ class PapersController extends Controller
                             $query->where('Fname', 'LIKE', "%$search%")
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
-                    })->orWhere(function ($query) use ($search) {
+                    })->orWhere(function ($query) use ($search,$user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
                         $query->where('title', 'LIKE', "%$search%");
 
                     })->orderBy('created_at', $order)->paginate($this->perPage);
-                //    dd(\DB::getQueryLog());
+                   //dd(\DB::getQueryLog());
             } else {
                 $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+                    ->where(function ($query) use ($user) {
+                        if ($user->type == 'admin') {
+
+                        } else {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                    })
                     ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
                     ->orderBy('created_at', $order)
                     ->paginate($this->perPage);
+
             }
         }else{
             if ($search = \Request::get('q')) {
+               // \DB::enableQueryLog();
 
                 $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
-
+                    ->where(function ($query) use ($user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                    })
+                   ->where('status', $filter)
                     ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
-                    ->whereHas('profile', function ($query) use ($search) {
+                    ->whereHas('profile', function ($query) use ($search,$filter) {
                         if ($search == trim($search) && strpos($search, ' ') !== false) {
                             $searchParts = explode(' ', $search);
                             $query->where('Fname', 'LIKE', "%$searchParts[0]%")
@@ -78,14 +122,28 @@ class PapersController extends Controller
                         } else {
                             $query->where('Fname', 'LIKE', "%$search%")
                                 ->orWhere('Lname', 'LIKE', "%$search%");
-                        }
-                    })->orWhere(function ($query) use ($search) {
-                        $query->where('title', 'LIKE', "%$search%");
 
-                    })->where('status','==', 2)->orderBy('created_at', $order)->paginate($this->perPage);
+                        }
+                    })->orWhere(function ($query) use ($search,$filter,$user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                        $query->where('title', 'LIKE', "%$search%")
+
+                        ->where('status', $filter);
+                    })->orderBy('created_at', $order)->paginate($this->perPage);
+              // dd(\DB::getQueryLog());
 
             } else {
+
                 $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
+                    ->where(function ($query) use ($user) {
+                        if ($user->type == 'admin') {
+
+                        } else {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                    })
                     ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
                     ->where('status', $filter)
                     ->orderBy('created_at', $order)
@@ -98,6 +156,7 @@ class PapersController extends Controller
 
 
     public function paperRelation(){
+        $this->authorize('IsUserOrIsAdmin');
         $excerpts = Excerpt::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
@@ -127,13 +186,14 @@ class PapersController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('IsUserOrIsAdmin');
         $paper = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
         $checkList = $paper->checklists()->latest()->get();
         foreach ($checkList as $key => $item){
             $checkList[$key]['list'] = explode(",",$item['list']);
         }
         $paperable = $paper->paperable;
-        if($paper->paperable_type == "App\Journal")
+        if($paper->paperable_type == "App\Models\Journal")
         {
             $jtype = $paperable->jtype;
             return Response::json(array('paper'=>$paper,'checklist'=>$checkList, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
@@ -150,9 +210,12 @@ class PapersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $id) {
+        $this->authorize('IsUserOrIsAdmin');
+    }
     public function paperUpdate(Request $request, $id)
     {
+        $this->authorize('IsUserOrIsAdmin');
         $paper_db = Paper::findOrFail($id);
         DB::beginTransaction();
         try {
@@ -252,6 +315,7 @@ class PapersController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('IsUserOrIsAdmin');
         //
         $paper = Paper::findOrFail($id);
         DB::beginTransaction();
@@ -259,6 +323,7 @@ class PapersController extends Controller
             $files = $paper->files;
             $paper->tags()->delete();
             $paper->authors()->delete();
+            $paper->checklists()->delete();
             $paperable = $paper->paperable;
             $paperable->papers()->delete();
             $paperable->delete();

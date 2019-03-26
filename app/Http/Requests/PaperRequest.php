@@ -82,7 +82,7 @@ class PaperRequest extends FormRequest
             'jname.required_if'=>'نام مجله الزامی است.',
             'jISSN.required_if'=>'شماره ISSN الزامی است.',
             'isresponsible.required'=>'انتخاب نویسنده مسئول الزامی است.',
-            'authorsjson.required' => 'نام نویسندگان الزامی است.',
+            'authors.required' => 'نام نویسندگان الزامی است.',
             'authorsjson.min' => 'نام نویسندگان الزامی است.',
 
         ];

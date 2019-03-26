@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper"  id="app">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+    <nav  class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -41,8 +41,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
 
         <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" style="align-self: center;">
+                ترم فعال:
+                <u><?php
+                $term = \App\Term::whereStatus(1)->first();
+                echo $term->name;
+                    ?></u>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
                         class="fa fa-th-large"></i></a>
@@ -54,10 +60,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
-            <img src="/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        <a href="/dashboard" class="brand-link">
+            <img src="{{asset('img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">Lara Vue</span>
+            <span class="brand-text font-weight-light">سامانه پژوهشی</span>
         </a>
 
         <!-- Sidebar -->
@@ -68,8 +74,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="/img//profile/{{auth()->user()->photo}}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                    <span style="color: white;">{{auth()->user()->type}}</span>
+                    <a href="#" class="d-block">{{ Auth::user()->profile->Fname   }} {{ Auth::user()->profile->Lname }}</a>
+                    @if(auth()->user()->type == 'admin')
+                        <span style="color: white;">مسئول سیستم</span>
+                    @elseif(auth()->user()->type == 'author')
+                        <span style="color: white;">کارشناس سیستم</span>
+                        @else
+                        <span style="color: white;">کاربر</span>
+                        @endif
                 </div>
             </div>
 
@@ -126,11 +138,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-            Anything you want<br>
 
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        <strong>کلیه حقوق متعلق به دانشگاه می باشد &copy; @{{ 1397|faDigit }}-@{{ 1398|faDigit }}</strong>
     </footer>
 </div>
 <!-- ./wrapper -->

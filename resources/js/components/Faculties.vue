@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()||$gate.isAuthor()">
+        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()">
             <div class="card">
                 <div class="card-header  " style="direction: rtl">
                     <div class="justify-content-around d-lg-flex text-right">
@@ -106,7 +106,9 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-
+        <div v-if="!$gate.isAdmin()">
+            <not-found></not-found>
+        </div><!-- /404 page -->
     </div>
 </template>
 

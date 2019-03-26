@@ -9070,8 +9070,8 @@ body,
 }
 
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
-  color: #ffffff;
-  background-color: #007bff;
+  color: #000;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-treeview {
@@ -32597,9 +32597,35 @@ readers do not read off random characters that represent icons */
   width: 60% !important;
 }
 
+.swal2-popup {
+  direction: rtl;
+}
+
+.main-footer-login {
+  padding: 15px;
+  color: #555;
+  border-top: 1px solid #dee2e6;
+  background: #ffffff;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.timeline > li > .fa {
+  left: auto !important;
+  right: 9px !important;
+}
+
+.timeline > li > .timeline-item {
+  margin-right: 60px !important;
+  margin-left: 15px !important;
+}
+
+.timeline:before {
+  right: 31px !important;
+  left: auto !important;
 }
 
 /*

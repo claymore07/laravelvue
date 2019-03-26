@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Faculty;
+use App\Models\Faculty;
 use App\Http\Requests\FacultyResust;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +11,11 @@ use Response;
 class FacultiesController extends Controller
 {
     protected $perPage=3;
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +24,7 @@ class FacultiesController extends Controller
     public function index()
     {
         //
+        $this->authorize('isAdmin');
         $order = \Request::get('order');
         /** @var Faculty $faculties */
         $faculties = Faculty::orderBy('created_at', $order)->paginate($this->perPage);
@@ -26,6 +32,7 @@ class FacultiesController extends Controller
 
     }
     public function search(){
+        $this->authorize('isAdmin');
         $order = \Request::get('order');
 
             if ($search = \Request::get('q')) {
@@ -49,6 +56,7 @@ class FacultiesController extends Controller
     public function store(FacultyResust $request)
     {
         //
+        $this->authorize('isAdmin');
         $faculty = Faculty::create($request->all());
         return Response::json(['faculty'=>$faculty], 200);
     }
@@ -62,6 +70,7 @@ class FacultiesController extends Controller
     public function show($id)
     {
         //
+        $this->authorize('isAdmin');
     }
 
     /**
@@ -74,6 +83,7 @@ class FacultiesController extends Controller
     public function update(FacultyResust $request, $id)
     {
         //
+        $this->authorize('isAdmin');
         $faculty = Faculty::findOrFail($id);
         $faculty->update($request->all());
         return Response::json(['faculty'=>$faculty], 200);
@@ -88,6 +98,7 @@ class FacultiesController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('isAdmin');
         $faculty = Faculty::withCount('profiles')->findOrFail($id);
         if($faculty->profiles_count > 0){
             return Response::json(['db_error'=>'امکان حذف وجود ندارد'], 402);
