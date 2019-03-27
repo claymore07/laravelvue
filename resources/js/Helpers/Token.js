@@ -3,8 +3,16 @@ class Token {
     isValid(token){
         const  payload = this.payload(token);
         if(payload){
-            return payload.iss == "http://127.0.0.1:8000/api/auth/login" ||
-            "http://127.0.0.1:8000/api/auth/signup" ? true : false;
+            if (payload.iss == "http://127.0.0.1:8000/api/auth/login" ||
+            "http://127.0.0.1:8000/api/auth/signup" ){
+                if(payload.exp > (Date.now() / 1000) ){
+                    return true
+                }else{
+                    return false
+                }
+            }else {
+                return false
+            }
         }
 
         return false;

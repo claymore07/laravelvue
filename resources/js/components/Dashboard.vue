@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center text-right text-rtl">
             <div class="col-md-8">
-                <div class="card card-default">
+                <div class="card card-default card-4">
                     <div class="card-header">داشبورد پژوهشی</div>
 
                     <div class="card-body">

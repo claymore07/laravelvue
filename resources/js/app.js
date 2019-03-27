@@ -64,7 +64,7 @@ Vue.component('passport-personal-access-tokens', require('./components/passport/
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ * Eg.
  */
 
 // const files = require.context('./', true, /\.vue$/i)
@@ -245,5 +245,10 @@ const app = new Vue({
     },
     created(){
         this.loggedIn();
+        if(User.loggedIn()){
+           // this.$router.push('/home');
+        }else{
+            this.$router.push('/');
+        }
     }
 });

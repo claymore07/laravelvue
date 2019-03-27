@@ -21,11 +21,9 @@ class User{
     }
     hasToken(){
         const storedToken = AppStorage.getToken();
-
         if (storedToken ){
             return Token.isValid(storedToken) ? true : this.logout();
         }
-
         return false;
     }
 
@@ -45,7 +43,7 @@ class User{
             .then(res =>{
                 window.location = '/login';
             }).catch(error =>{
-
+                window.location = '/login';
             });
     }
 
