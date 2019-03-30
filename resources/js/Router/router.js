@@ -18,6 +18,8 @@ let routes = [
     { path: '/developer', component: require('../components/Developer.vue').default },
     { path: '/score', component: require('../components/Score/Scores.vue').default },
     { path: '/term', component: require('../components/Term/Terms.vue').default },
+    { path: '/thesis', component: require('../components/Thesis/Thesis.vue').default },
+    { path: '/thesisEdit/:id', name:'thesisEdit', component: require('../components/Thesis/ThesisEdit').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

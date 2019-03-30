@@ -521,11 +521,11 @@
                             </form-wizard>
                         </div>
 
-                </div>
-            </div>
-        </div>
+                </div><!-- /modal-content -->
+            </div><!-- /modal-dialog -->
+        </div><!-- /modal -->
 
-    </div>
+    </div><!-- /container-fluid -->
 </div>
 </template>
 

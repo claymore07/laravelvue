@@ -25,7 +25,7 @@ class ThesisResquest extends FormRequest
     {
 
         $rules = [
-            'degree_id'=>'required|string',
+            'degree_id'=>'required',
             'title'=>'required',
             'responsible'=>'required',
             'group_aprovedate'=>'required',

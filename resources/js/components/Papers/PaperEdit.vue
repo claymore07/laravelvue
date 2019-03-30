@@ -1086,7 +1086,7 @@
             deleteCheckListItem(id, index) {
 
                 if(this.checkListItems.length > 1){
-                    this.form.delete('/api/paperCheckList/' + id).then(() => {
+                    this.form.delete('/api/deleteCheckListItem/' + id).then(() => {
                         this.checkListItems.splice(index, 1);
                         this.checkListForm.list = $.map(this.checkListItems[0].list, function(value, index) {
                             return [value];

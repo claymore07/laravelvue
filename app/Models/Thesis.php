@@ -16,6 +16,10 @@ class Thesis extends Model
         'defense_date', 'score'
     ];
 
+    // Forward
+    public function checklists(){
+        return $this->morphMany('App\Models\Checklist', 'checkable');
+    }
     // Backward
     public function profile(){
         return $this->belongsTo(Profile::class);

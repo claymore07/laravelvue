@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Checklist;
 use App\Models\Paper;
+use App\Models\Thesis;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,6 +39,7 @@ class CheckListController extends Controller
     public function store(Request $request)
     {
         //+
+
         $this->authorize('isAdmin');
         $this->validate($request,
             [
@@ -49,7 +51,13 @@ class CheckListController extends Controller
                 'comment.required'=>'توضیحات و راهنمایی ها برای ادامه روند توسط کاربر باید درج شود.'
             ]
             );
-        $paper_db = Paper::findOrFail($request->id);
+        $item_db = '';
+        if($request->path() == 'api/paperCheckList'){
+            $item_db = Paper::findOrFail($request->id);
+        }elseif ($request->path() == 'api/thesisCheckList'){
+            $item_db = Thesis::findOrFail($request->id);
+        }
+
 
          DB::beginTransaction();
        try {
@@ -63,9 +71,9 @@ class CheckListController extends Controller
                  $input['list'] = null;
              }
              $input['comment'] = $request->comment;
-             $checkListItem = $paper_db->checklists()->create($input);
+             $checkListItem = $item_db->checklists()->create($input);
              $checkListItem['list'] = $request->list;
-             $paper_db->update($input);
+             $item_db->update($input);
          } catch (\Exception $e) {
 
              DB::rollback();

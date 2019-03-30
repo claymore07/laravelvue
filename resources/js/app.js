@@ -226,7 +226,7 @@ const app = new Vue({
         searchit: _.debounce(() => {
 
             Fire.$emit('searching');
-        },500),
+        },1000),
         loggedIn(){
             this.is_loggedIn =  User.loggedIn();
         },

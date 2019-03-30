@@ -40,7 +40,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/thesis" class="nav-link ">
                         <i class="nav-icon fal fa-book-reader nav-icon green"></i>
                         <p>پایان نامه ها</p>
                     </router-link>
