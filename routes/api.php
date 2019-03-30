@@ -40,6 +40,8 @@ Route::apiResources([
     'faculty'=>'API\FacultiesController',
     'department'=>'API\DepartmentsController',
     'term'=>'API\TermsController',
+    'book'=>'API\BookController',
+    'thesis'=>'API\ThesisController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -51,6 +53,8 @@ Route::post('paperCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::post('findPaper','API\PapersController@search');
+Route::get('findBook','API\BookController@search');
+Route::get('findThesis','API\ThesisController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');

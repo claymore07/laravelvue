@@ -21,12 +21,12 @@ use Response;
 
 class PapersController extends Controller
 {
-    protected $perPage=5;
+    protected $perPage;
     public function __construct()
     {
+
         $this->middleware('jwt');
-
-
+        $this->perPage=5;
     }
     /**
      * Display a listing of the resource.
@@ -310,8 +310,10 @@ class PapersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -335,7 +337,7 @@ class PapersController extends Controller
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);
+        return Response::json(['مقاله مورد نظر با موفقیت حذف شد.'], 200);
     }
 
 

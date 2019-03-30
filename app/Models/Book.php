@@ -10,8 +10,8 @@ class Book extends Model
     //
     protected $fillable = [
         'booktype_id', 'profile_id', 'excerpt_id', 'status', 'title', 'isbn',
-        'subject', ' publisher', 'edited', 'edit_number', 'publish_number',
-        'publish_year', 'pages', 'national_code', 'congress_code', 'dewey_code', 'score'
+        'subject', 'publisher', 'edited', 'edited_number', 'publish_number',
+        'publish_year', 'pages', 'copy_number','national_code', 'congress_code', 'dewey_code', 'score'
     ];
 
     // Forward
