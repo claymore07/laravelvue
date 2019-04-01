@@ -28,7 +28,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/books" class="nav-link ">
                         <i class="nav-icon fal fa-books nav-icon green"></i>
                         <p>کتب</p>
                     </router-link>

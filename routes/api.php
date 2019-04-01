@@ -51,11 +51,15 @@ Route::post('paperValidation','API\PapersController@paperValidation');
 Route::post('paperUpdate/{paper}','API\PapersController@paperUpdate');
 Route::post('paperCheckList','API\CheckListController@store');
 Route::post('thesisCheckList','API\CheckListController@store');
+Route::post('bookCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
 Route::post('findPaper','API\PapersController@search');
 Route::get('findBook','API\BookController@search');
+Route::get('bookRelation','API\BookController@bookRelation');
+Route::post('bookUpdate/{book}','API\BookController@update');
+
 Route::get('findThesis','API\ThesisController@search');
 Route::get('thesisRelation','API\ThesisController@thesisRelation');
 

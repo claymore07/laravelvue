@@ -227,25 +227,25 @@
                                                 <span v-show="form.errors.has('license')" class="red d-inline-block">{{ form.errors.get('license') }}</span>
                                             </div>
                                         </div>
-                                        <div class=" mt-4" style="direction: ltr; text-align: right"  >
-                                             <label class="blue text-right text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
+
+                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                            <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.publish_date | myDate}}</span>
-                                            <date-picker locale="fa,en" @change="removeError('publish_date')"
-                                                         :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"
-                                                         v-validate="'required'"  format="YYYY-MM-DD"
-                                                         v-model="form.publish_date" >
-                                            </date-picker>
-                                            <has-error :form="form" field="publish_date"></has-error>
+                                            <date-picker @change="removeError('publish_date')" format="YYYY-MM-DD"
+                                                         :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )] "
+                                                         v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form-1.publish_date')|| form.errors.has('publish_date')" class="red far fa-exclamation-triangle"></i>
-                                                <span v-show="errors.has('form-1.publish_date') " class="red d-inline-block text-rtl">{{ errors.first('form-1.publish_date') }}</span>
-                                                <span v-show="form.errors.has('publish_date')" class="red d-inline-block text-rtl">{{ form.errors.get('publish_date') }}</span>
+                                                <span v-show="errors.has('form-1.publish_date') " class="red d-inline-block text-rtl text-rtl">{{ errors.first('form-1.publish_date') }}</span>
+                                                <span v-show="form.errors.has('publish_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('publish_date') }}</span>
                                             </div>
                                         </div>
                                         <div class=" mt-4" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.accept_date | myDate}}</span>
-                                            <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
+                                            <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"
+                                                         :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] "
+                                                         v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form-1.accept_date')|| form.errors.has('accept_date')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form-1.accept_date') " class="red d-inline-block text-rtl text-rtl">{{ errors.first('form-1.accept_date') }}</span>

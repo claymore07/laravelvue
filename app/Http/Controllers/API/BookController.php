@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\BookResquest;
+use App\Http\Requests\BookUpdateRequest;
+use App\Http\Resources\BookEditResource;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use App\Models\BookType;
+use App\Models\Excerpt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -28,7 +32,15 @@ class BookController extends Controller
     public function index()
     {
         //
-        $books = Book::orderBy('created_at', 'desc')->paginate($this->perPage);
+        $order = \Request::get('order');
+        $user = Auth::user('api')->load('profile');
+        $books = Book::where(function ($query) use ($user) {
+            if ($user->type == 'admin') {
+
+            } else {
+                $query->where('profile_id', '=', $user->profile->id);
+            }
+        })->orderBy('created_at', $order)->paginate($this->perPage);
 
         return BookResource::collection($books);
 
@@ -116,6 +128,17 @@ class BookController extends Controller
         return BookResource::collection($books);
 
     }
+    public function bookRelation(){
+        $this->authorize('IsUserOrIsAdmin');
+        $excerpts = Excerpt::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        $booktypes = BookType::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+
+        return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -129,7 +152,7 @@ class BookController extends Controller
         //
         DB::beginTransaction();
         try {
-         /*   $fileBag = $request->files;*/
+            $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
             $request['profile_id'] =  auth('api')->user()->profile['id'];
@@ -138,15 +161,15 @@ class BookController extends Controller
             foreach ($authors as $key => $author) {
                 $book_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
             }
-        /*
+
          foreach ($fileBag as $files) {
                 foreach ($files as $file) {
                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
                     $file->move('files/books', $name);
-                    $paper_db->files()->create(['name' => $name]);
+                    $book_db->files()->create(['name' => $name]);
                 }
             }
-         */
+
 
         }catch (\Exception $e){
             DB::rollback();
@@ -165,7 +188,7 @@ class BookController extends Controller
     public function show(Book $book)
     {
         //
-        return new BookResource($book);
+        return new BookEditResource($book);
     }
 
 
@@ -178,12 +201,12 @@ class BookController extends Controller
      * @return BookResource
      * @throws \Exception
      */
-    public function update(Request $request, Book $book)
+    public function update(BookUpdateRequest $request, Book $book)
     {
         //
-       /* DB::beginTransaction();
+        DB::beginTransaction();
         try {
-            /*   $fileBag = $request->files;*/
+              $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
             $request['profile_id'] =  auth('api')->user()->profile['id'];
@@ -193,7 +216,7 @@ class BookController extends Controller
             foreach ($authors as $key => $author) {
                 $book->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
             }
-            /*
+
              if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
                     $files = $book->files;
@@ -205,18 +228,18 @@ class BookController extends Controller
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
                         $file->move('files/books', $name);
-                        $paper_db->files()->create(['name' => $name]);
+                        $book->files()->create(['name' => $name]);
                     }
                 }
             }
-             */
+            $book = Book::findOrFail($book->id);
 
-       /* }catch (\Exception $e){
+       }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
-        DB::commit();*/
-        return new BookResource($book);
+        DB::commit();
+        return new BookEditResource($book);
     }
 
     /**

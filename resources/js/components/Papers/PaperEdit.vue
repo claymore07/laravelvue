@@ -186,15 +186,15 @@
                     </tr>
                     <tr>
                         <td class="font-16">
-                            <span class="blue ">تاریح پذیرش:</span>
+                            <span class="blue ">تاریخ پذیرش:</span>
                             <span class="mr-3 "> {{paper.publish_date | myDate}} هجری شمسی</span>
                             <span class="mr-3 "> {{paper.publish_date | myDateEN}} میلادی</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح پذیرش')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ پذیرش')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
                             <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('تاریح پذیرش')"
-                                @change.native="onChange('تاریح پذیرش', $event)"
+                                :checked="checkListForm.list && checkListForm.list.includes('تاریخ پذیرش')"
+                                @change.native="onChange('تاریخ پذیرش', $event)"
                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                 <i slot="extra" class="icon far fa-check"></i>
                             </p-check>
@@ -202,15 +202,15 @@
                     </tr>
                     <tr>
                         <td class="font-16">
-                            <span class="blue ">تاریح چاپ:</span>
+                            <span class="blue ">تاریخ چاپ:</span>
                             <span class="mr-3 "> {{paper.accept_date | myDate}} هجری شمسی</span>
                             <span class="mr-3 "> {{paper.accept_date | myDateEN}} میلادی</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح چاپ')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ چاپ')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
                             <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('تاریح چاپ')"
-                                @change.native="onChange('تاریح چاپ', $event)"
+                                :checked="checkListForm.list && checkListForm.list.includes('تاریخ چاپ')"
+                                @change.native="onChange('تاریخ چاپ', $event)"
                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                 <i slot="extra" class="icon far fa-check"></i>
                             </p-check>

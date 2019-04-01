@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Book;
 use App\Models\Checklist;
 use App\Models\Paper;
 use App\Models\Thesis;
@@ -56,6 +57,8 @@ class CheckListController extends Controller
             $item_db = Paper::findOrFail($request->id);
         }elseif ($request->path() == 'api/thesisCheckList'){
             $item_db = Thesis::findOrFail($request->id);
+        }elseif ($request->path() == 'api/bookCheckList'){
+            $item_db = Book::findOrFail($request->id);
         }
 
 

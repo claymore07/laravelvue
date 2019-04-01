@@ -19,7 +19,9 @@ let routes = [
     { path: '/score', component: require('../components/Score/Scores.vue').default },
     { path: '/term', component: require('../components/Term/Terms.vue').default },
     { path: '/thesis', component: require('../components/Thesis/Thesis.vue').default },
-    { path: '/thesisEdit/:id', name:'thesisEdit', component: require('../components/Thesis/ThesisEdit').default },
+    { path: '/thesisEdit/:id', name:'thesisEdit', component: require('../components/Thesis/ThesisEdit.vue').default },
+    { path: '/books', component: require('../components/Books/Books.vue').default },
+    { path: '/bookEdit/:id', name:'bookEdit', component: require('../components/Books/BookEdit.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

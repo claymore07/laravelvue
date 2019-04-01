@@ -37,10 +37,13 @@ class BookResquest extends FormRequest
             'pages' => 'required',
             'copy_number' => 'required',
             'authors' => 'required',
+            'files.*'=>'mimes:rar,zip,pdf',
+            'files'=>'required',
         ];
         switch ($this->method()) {
             case 'PUT':
             case 'PATCH':
+                $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
                 break;
         }
         return $rules;

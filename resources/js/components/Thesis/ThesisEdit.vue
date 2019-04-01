@@ -70,15 +70,15 @@
 
                         <tr>
                             <td class="font-16">
-                                <span class="blue ">تاریح تصویب گروه:</span>
+                                <span class="blue ">تاریخ تصویب گروه:</span>
                                 <span class="mr-3 "> {{thesis.group_aprovedate | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{thesis.group_aprovedate | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح تصویب گروه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ تصویب گروه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
-                                    :checked="checkListForm.list && checkListForm.list.includes('تاریح تصویب گروه')"
-                                    @change.native="onChange('تاریح تصویب گروه', $event)"
+                                    :checked="checkListForm.list && checkListForm.list.includes('تاریخ تصویب گروه')"
+                                    @change.native="onChange('تاریخ تصویب گروه', $event)"
                                     type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                     <i slot="extra" class="icon far fa-check"></i>
                                 </p-check>
@@ -86,15 +86,15 @@
                         </tr>
                         <tr>
                             <td class="font-16">
-                                <span class="blue ">تاریح تصویب شورای پژوهش:</span>
+                                <span class="blue ">تاریخ تصویب شورای پژوهش:</span>
                                 <span class="mr-3 "> {{thesis.council_aprovedate | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{thesis.council_aprovedate | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح تصویب شورای پژوهش')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ تصویب شورای پژوهش')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
-                                    :checked="checkListForm.list && checkListForm.list.includes('تاریح تصویب شورای پژوهش')"
-                                    @change.native="onChange('تاریح تصویب شورای پژوهش', $event)"
+                                    :checked="checkListForm.list && checkListForm.list.includes('تاریخ تصویب شورای پژوهش')"
+                                    @change.native="onChange('تاریخ تصویب شورای پژوهش', $event)"
                                     type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                     <i slot="extra" class="icon far fa-check"></i>
                                 </p-check>
@@ -102,15 +102,15 @@
                         </tr>
                         <tr>
                             <td class="font-16">
-                                <span class="blue ">تاریح دریافت کد:</span>
+                                <span class="blue ">تاریخ دریافت کد:</span>
                                 <span class="mr-3 "> {{thesis.code_date | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{thesis.code_date | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح دریافت کد')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ دریافت کد')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
-                                    :checked="checkListForm.list && checkListForm.list.includes('تاریح دریافت کد')"
-                                    @change.native="onChange('تاریح دریافت کد', $event)"
+                                    :checked="checkListForm.list && checkListForm.list.includes('تاریخ دریافت کد')"
+                                    @change.native="onChange('تاریخ دریافت کد', $event)"
                                     type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                     <i slot="extra" class="icon far fa-check"></i>
                                 </p-check>
@@ -118,20 +118,21 @@
                         </tr>
                         <tr>
                             <td class="font-16">
-                                <span class="blue ">تاریح دفاع:</span>
+                                <span class="blue ">تاریخ دفاع:</span>
                                 <span class="mr-3 "> {{thesis.defense_date | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{thesis.defense_date | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریح دفاع')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ دفاع')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
-                                    :checked="checkListForm.list && checkListForm.list.includes('تاریح دفاع')"
-                                    @change.native="onChange('تاریح دفاع', $event)"
+                                    :checked="checkListForm.list && checkListForm.list.includes('تاریخ دفاع')"
+                                    @change.native="onChange('تاریخ دفاع', $event)"
                                     type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                     <i slot="extra" class="icon far fa-check"></i>
                                 </p-check>
                             </td>
                         </tr>
+
                         <tr v-show="checkList">
                             <td colspan="2">
                                 <label for="status" class="blue mt-3">وضعیت بررسی: </label>
@@ -348,7 +349,7 @@
             deleteCheckListItem(id, index) {
 
                 if(this.checkListItems.length > 1){
-                    this.form.delete('/api/deleteCheckListItem/' + id).then(() => {
+                    this.checkListForm.delete('/api/deleteCheckListItem/' + id).then(() => {
                         this.checkListItems.splice(index, 1);
                         this.checkListForm.list = $.map(this.checkListItems[0].list, function(value, index) {
                             return [value];
@@ -419,6 +420,9 @@
                     this.checkListForm.status = 2;
                 }
             },
+            checkListHistory(){
+                $('#checkListHistoryShow').modal('show');
+            },
             removeError(field){
                 this.form.errors.clear(field)
             },
@@ -432,9 +436,7 @@
                     $(this).find('[autofocus]').focus();
                 });
             },
-            checkListHistory(){
-                $('#checkListHistoryShow').modal('show');
-            },
+
             updateThesis(id){
                 this.$Progress.start();
                 let loader1 = Vue.$loading.show();
