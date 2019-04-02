@@ -354,6 +354,7 @@ class PapersController extends Controller
             $conference = [];
             $paper['profile_id'] = auth('api')->user()->profile['id'];
             $paper['lang'] = $request->lang;
+            $paper['status'] = 0;
             $paper['title'] = $request->title;
             $paper['abstract'] = $request->abstract;
             $paper['doi'] = $request->doi;

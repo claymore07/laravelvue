@@ -141,6 +141,7 @@ class ThesisController extends Controller
     {
         //
         $request['profile_id'] = auth('api')->user()->profile['id'];
+        $request['status'] = 0;
         $thesis = Thesis::create($request->all());
 
         return new ThesisResource($thesis);

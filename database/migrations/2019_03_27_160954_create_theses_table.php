@@ -23,7 +23,7 @@ class CreateThesesTable extends Migration
             $table->date('group_aprovedate')->comment('تاریخ تصویت گروه');
             $table->date('council_aprovedate')->comment('تاریخ تصویت گروه');
             $table->date('code_date')->nullable()->comment('تاریخ تصویت گروه');
-            $table->date('defense_edate')->nullable()->comment('تاریخ تصویت گروه');
+            $table->date('defense_date')->nullable()->comment('تاریخ تصویت گروه');
             $table->float('score',5,2)->comment('امتیاز کسب شده')->default("0");
 
             $table->timestamps();

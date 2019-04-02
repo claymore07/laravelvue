@@ -42,6 +42,7 @@ Route::apiResources([
     'term'=>'API\TermsController',
     'book'=>'API\BookController',
     'thesis'=>'API\ThesisController',
+    'reward'=>'API\RewardController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -52,6 +53,7 @@ Route::post('paperUpdate/{paper}','API\PapersController@paperUpdate');
 Route::post('paperCheckList','API\CheckListController@store');
 Route::post('thesisCheckList','API\CheckListController@store');
 Route::post('bookCheckList','API\CheckListController@store');
+Route::post('rewardCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
@@ -62,6 +64,10 @@ Route::post('bookUpdate/{book}','API\BookController@update');
 
 Route::get('findThesis','API\ThesisController@search');
 Route::get('thesisRelation','API\ThesisController@thesisRelation');
+
+Route::get('findReward','API\RewardController@search');
+
+
 
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');

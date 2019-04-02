@@ -1,21 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
-use App\Http\Requests\BookResquest;
-use App\Http\Requests\BookUpdateRequest;
-use App\Http\Resources\BookEditResource;
-use App\Http\Resources\BookResource;
-use App\Models\Book;
-use App\Models\BookType;
-use App\Models\Excerpt;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Response;
+use App\Http\Requests\RewardRequest;
+use App\Http\Resources\RewardEditResource;
+use App\Http\Resources\RewardResource;
+use App\Models\Reward;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
+use Response;
 
-class BookController extends Controller
+class RewardController extends Controller
 {
     protected $perPage;
     public function __construct()
@@ -33,8 +29,9 @@ class BookController extends Controller
     {
         //
         $order = \Request::get('order');
+
         $user = Auth::user('api')->load('profile');
-        $books = Book::where(function ($query) use ($user) {
+        $rewards = Reward::where(function ($query) use ($user) {
             if ($user->type == 'admin') {
 
             } else {
@@ -42,8 +39,7 @@ class BookController extends Controller
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
 
-        return BookResource::collection($books);
-
+        return RewardResource::collection($rewards);
     }
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
@@ -52,8 +48,9 @@ class BookController extends Controller
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {
+
                 // \DB::enableQueryLog();
-                $books = Book::where(function ($query) use ($user) {
+                $rewards = Reward::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -72,11 +69,11 @@ class BookController extends Controller
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
-                        $query->orWhere('subject', 'LIKE', "%$search%");
+                        $query->orWhere('name', 'LIKE', "%$search%");
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                 //dd(\DB::getQueryLog());
             } else {
-                $books = Book::where(function ($query) use ($user) {
+                $rewards = Reward::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -87,7 +84,7 @@ class BookController extends Controller
         }else{
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
-                $books = Book::where(function ($query) use ($user) {
+                $rewards = Reward::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -108,14 +105,14 @@ class BookController extends Controller
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
-                        $query->orWhere('subject', 'LIKE', "%$search%")->where('status', $filter);
+                        $query->orWhere('name', 'LIKE', "%$search%")->where('status', $filter);
 
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                 // dd(\DB::getQueryLog());
 
             } else {
 
-                $books = Book::where(function ($query) use ($user) {
+                $rewards = Reward::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -125,50 +122,35 @@ class BookController extends Controller
                     ->paginate($this->perPage);
             }
         }
-        return BookResource::collection($books);
+        return RewardResource::collection($rewards);
 
     }
-    public function bookRelation(){
-        $this->authorize('IsUserOrIsAdmin');
-        $excerpts = Excerpt::all()->map(function ($item){
-            return ['id'=> $item['id'], 'text'=>$item['name']];
-        })->toArray();
-        $booktypes = BookType::all()->map(function ($item){
-            return ['id'=> $item['id'], 'text'=>$item['name']];
-        })->toArray();
 
-        return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes));
-    }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return RewardResource
      * @throws \Exception
      */
-    public function store(BookResquest $request)
+    public function store(RewardRequest $request)
     {
         //
+        $request['profile_id'] =  auth('api')->user()->profile['id'];
+        $request['status'] = 0;
         DB::beginTransaction();
         try {
-            $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-            $request['status'] = 0;
-            $book_db = Book::create($request->all());
-            foreach ($authors as $key => $author) {
-                $book_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-            }
+           // $fileBag = $request->files;
+            $reward_db = Reward::create($request->all());
 
-         foreach ($fileBag as $files) {
+           /* foreach ($fileBag as $files) {
                 foreach ($files as $file) {
                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/books', $name);
-                    $book_db->files()->create(['name' => $name]);
+                    $file->move('files/rewards', $name);
+                    $reward_db->files()->create(['name' => $name]);
                 }
-            }
+            }*/
 
 
         }catch (\Exception $e){
@@ -176,93 +158,85 @@ class BookController extends Controller
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return new BookResource($book_db);
+        return new RewardResource($reward_db);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Book  $book
-     * @return BookResource
+     * @param  \App\Models\Reward  $reward
+     * @return RewardEditResource
      */
-    public function show(Book $book)
+    public function show(Reward $reward)
     {
         //
-        return new BookEditResource($book);
+        return new RewardEditResource($reward);
     }
-
 
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Book $book
-     * @return BookResource
+     * @param  \App\Models\Reward $reward
+     * @return RewardEditResource
      * @throws \Exception
      */
-    public function update(BookUpdateRequest $request, Book $book)
+    public function update(RewardRequest $request, Reward $reward)
     {
         //
         DB::beginTransaction();
         try {
-              $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-
-            $book_db = $book->update($request->all());
-            $book->authors()->delete();
-            foreach ($authors as $key => $author) {
-                $book->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-            }
-
-             if ($request->has('fileChangeType')) {
+           // $fileBag = $request->files;
+            $reward->update($request->all());
+            /*if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
-                    $files = $book->files;
+                    $files = $reward->files;
                     foreach ($files as $file){
-                            $file->delete();
+                        $file->delete();
                     }
                 }
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
                         $file->move('files/books', $name);
-                        $book->files()->create(['name' => $name]);
+                        $reward->files()->create(['name' => $name]);
                     }
                 }
-            }
-            $book = Book::findOrFail($book->id);
+            }*/
+            $reward = Reward::findOrFail($reward->id);
 
-       }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
-        }
-        DB::commit();
-        return new BookEditResource($book);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Book $book)
-    {
-        DB::beginTransaction();
-        try {
-            $files = $book->files;
-            $book->authors()->delete();
-            foreach ($files as $file){
-                $file->delete();
-            }
-            $book->delete();
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return Response::json(['کتاب مورد نظر با موفقیت حذف شد.'], 200);
+        return new RewardEditResource($reward);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Reward $reward
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(Reward $reward)
+    {
+        //
+        DB::beginTransaction();
+        try {
+            $files = $reward->files;
+
+            foreach ($files as $file){
+                $file->delete();
+            }
+            $reward->delete();
+        }catch (\Exception $e){
+            DB::rollback();
+            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+        }
+        DB::commit();
+        return Response::json(['اطلاعات جایزه مورد نظر با موفقیت حذف شد.'], 200);
     }
 }

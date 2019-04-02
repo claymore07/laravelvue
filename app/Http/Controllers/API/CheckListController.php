@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Book;
 use App\Models\Checklist;
 use App\Models\Paper;
+use App\Models\Reward;
 use App\Models\Thesis;
 use DB;
 use Illuminate\Http\Request;
@@ -44,47 +45,47 @@ class CheckListController extends Controller
         $this->authorize('isAdmin');
         $this->validate($request,
             [
-                'status'=>'required',
-                'comment'=>'required'
+                'status' => 'required',
+                'comment' => 'required'
             ],
             [
-                'status.required'=>'وضعیت بررسی مقاله باید ثبت شود.',
-                'comment.required'=>'توضیحات و راهنمایی ها برای ادامه روند توسط کاربر باید درج شود.'
+                'status.required' => 'وضعیت بررسی مقاله باید ثبت شود.',
+                'comment.required' => 'توضیحات و راهنمایی ها برای ادامه روند توسط کاربر باید درج شود.'
             ]
-            );
+        );
         $item_db = '';
-        if($request->path() == 'api/paperCheckList'){
+        if ($request->path() == 'api/paperCheckList') {
             $item_db = Paper::findOrFail($request->id);
-        }elseif ($request->path() == 'api/thesisCheckList'){
+        } elseif ($request->path() == 'api/thesisCheckList') {
             $item_db = Thesis::findOrFail($request->id);
-        }elseif ($request->path() == 'api/bookCheckList'){
+        } elseif ($request->path() == 'api/bookCheckList') {
             $item_db = Book::findOrFail($request->id);
+        } elseif ($request->path() == 'rewardCheckList') {
+            $item_db = Reward::findOrFail($request->id);
+        }
+        DB::beginTransaction();
+        try {
+            $input = [];
+            $input['status'] = $request->status;
+
+            if (count($request->list) > 0) {
+                $input['list'] = implode(",", $request->list);
+
+            } else {
+                $input['list'] = null;
+            }
+            $input['comment'] = $request->comment;
+            $checkListItem = $item_db->checklists()->create($input);
+            $checkListItem['list'] = $request->list;
+            $item_db->update($input);
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
         }
 
-
-         DB::beginTransaction();
-       try {
-             $input = [];
-             $input['status'] = $request->status;
-
-             if (count($request->list)>0) {
-                 $input['list'] = implode(",", $request->list);
-
-             }else{
-                 $input['list'] = null;
-             }
-             $input['comment'] = $request->comment;
-             $checkListItem = $item_db->checklists()->create($input);
-             $checkListItem['list'] = $request->list;
-             $item_db->update($input);
-         } catch (\Exception $e) {
-
-             DB::rollback();
-             return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
-         }
-
-         DB::commit();
-         return Response::json(['checkListItem' => $checkListItem], 200);
+        DB::commit();
+        return Response::json(['checkListItem' => $checkListItem], 200);
     }
 
     /**
