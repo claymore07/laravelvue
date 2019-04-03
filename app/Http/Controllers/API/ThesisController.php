@@ -189,8 +189,17 @@ class ThesisController extends Controller
     public function destroy($id)
     {
         //
-        $thesis = Thesis::findOrFail($id);
-        $thesis->delete();
+        DB::beginTransaction();
+        try {
+            $thesis = Thesis::findOrFail($id);
+            $this->checklists()->delete();
+            $thesis->delete();
+        }catch (\Exception $e){
+            DB::rollback();
+            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+        }
+        DB::commit();
+
         return Response::json(['پابان نامه مورد نظر با موفقیت حذف شد.'], 200);
     }
 }

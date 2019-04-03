@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RewardResource extends JsonResource
+class TEDChairResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,33 +17,32 @@ class RewardResource extends JsonResource
     {
         $name = $this->profile->Fname.' '.$this->profile->Lname;
         $resource = [];
-        if($request->is('api/reward')||$request->is('api/findReward')) {
+        if($request->is('api/tedChair')||$request->is('api/findTed')) {
 
             $resource = [
                 'id' => $this->id,
-                'name' => $this->name,
                 'title' => $this->title,
+                'ted_type' => $this->TEDType->name,
                 'Author_name' => $name,
                 'status' => $this->status,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
             ];
         }elseif ($request->isMethod('PUT')||$request->isMethod('PATCH')
-            ||$request->is('api/reward/*')||$request->is('api/rewardUpdate/*')) {
+            ||$request->is('api/tedChair/*')||$request->is('api/tedChairUpdate/*')) {
             $checkList = $this->checklists()->latest()->get();
             foreach ($checkList as $key => $item){
                 $checkList[$key]['list'] = explode(",",$item['list']);
             }
             $resource = [
                 'id' => $this->id,
-                'name' => $this->name,
                 'title' => $this->title,
-                'type' => $this->type,
+                'ted_type_id' => $this->ted_types_id,
+                'ted_type' => $this->TEDType->name,
                 'Author_name'=> $name,
-                'place' => $this->place,
-                'period' => $this->period,
+                'location' => $this->location,
                 'status' => $this->status,
                 'score' => $this->score,
-                'holding_date' => $this->holding_date,
+                'presentation_date' => $this->presentation_date,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
                 'checkList' => $checkList,

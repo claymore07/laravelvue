@@ -27,13 +27,16 @@ class Files extends Model
 
         static::deleted(function ($item){
             $path = '';
-            if($item->fileable_type == 'App\Models\Paper'){
+            $fileable_type = $item->fileable_type;
+            if($fileable_type == 'App\Models\Paper'){
                 $path = 'files/papers/';
-            }elseif ($item->fileable_type == 'App\Models\Book'){
+            }elseif ($fileable_type == 'App\Models\Book'){
                 $path = 'files/books/';
-            }elseif ($item->fileable_type == 'App\Models\Reward'){
+            }elseif ($fileable_type == 'App\Models\Reward'){
                 $path = 'files/rewards/';
-            }elseif ($item->fileable_type == 'App\Models\Project'){
+            }elseif ($fileable_type == 'App\Models\Project'){
+                $path = 'files/projects/';
+            }elseif ($fileable_type == 'App\Models\TEDChair'){
                 $path = 'files/projects/';
             }
 

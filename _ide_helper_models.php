@@ -689,6 +689,67 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\TEDChair
+ *
+ * @property int $id
+ * @property int $profileId کلید خارجی پروفایل
+ * @property int $tedTypesId نوع کرسی
+ * @property int|null $status وضعیت بررسی
+ * @property string $title عنوان کرسی
+ * @property string $location محل برگزاری کرسی
+ * @property string|null $councilAprovedate تاریخ صدور مجوز شورای پژوهش
+ * @property string $presentationDate تاریخ ارائه کرسی
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \App\Models\TEDType $TEDType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\Profile $profile
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereCouncilAprovedate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair wherePresentationDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereTedTypesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDChair whereUpdatedAt($value)
+ */
+	class TEDChair extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\TEDType
+ *
+ * @property int $id
+ * @property string $name نوع طرح
+ * @property float $maxscore حداکثر امتیاز
+ * @property float $minscore حداقل امتیاز
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TEDChair[] $TEDChairs
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType whereMaxscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType whereMinscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\TEDType whereUpdatedAt($value)
+ */
+	class TEDType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Term
  *
  * @property int $id

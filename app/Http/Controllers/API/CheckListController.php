@@ -7,6 +7,7 @@ use App\Models\Checklist;
 use App\Models\Paper;
 use App\Models\Project;
 use App\Models\Reward;
+use App\Models\TEDChair;
 use App\Models\Thesis;
 use DB;
 use Illuminate\Http\Request;
@@ -55,16 +56,19 @@ class CheckListController extends Controller
             ]
         );
         $item_db = '';
-        if ($request->path() == 'api/paperCheckList') {
+        $path = $request->path();
+        if ($path == 'api/paperCheckList') {
             $item_db = Paper::findOrFail($request->id);
-        } elseif ($request->path() == 'api/thesisCheckList') {
+        } elseif ($path == 'api/thesisCheckList') {
             $item_db = Thesis::findOrFail($request->id);
-        } elseif ($request->path() == 'api/bookCheckList') {
+        } elseif ($path == 'api/bookCheckList') {
             $item_db = Book::findOrFail($request->id);
-        } elseif ($request->path() == 'rewardCheckList') {
+        } elseif ($path == 'rewardCheckList') {
             $item_db = Reward::findOrFail($request->id);
-        }elseif ($request->path() == 'projectCheckList') {
+        }elseif ($path == 'projectCheckList') {
             $item_db = Project::findOrFail($request->id);
+        }elseif ($path == 'tedChairCheckList') {
+            $item_db = TEDChair::findOrFail($request->id);
         }
         DB::beginTransaction();
         try {

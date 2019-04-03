@@ -254,6 +254,7 @@ class BookController extends Controller
         DB::beginTransaction();
         try {
             $files = $book->files;
+            $book->checklists()->delete();
             $book->authors()->delete();
             foreach ($files as $file){
                 $file->delete();

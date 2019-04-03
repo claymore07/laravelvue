@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ProjectRequest;
-use App\Http\Resources\ProjectResource;
-use App\Models\Project;
-use App\Models\ProjectType;
+use App\Http\Requests\TEDChairRequest;
+use App\Http\Resources\TEDChairResource;
+use App\Models\TEDChair;
+use App\Models\TEDType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Response;
 use Auth;
 use DB;
-use Response;
 
-class ProjectController extends Controller
+class TEDChairController extends Controller
 {
     protected $perPage;
     public function __construct()
@@ -29,18 +29,18 @@ class ProjectController extends Controller
     public function index()
     {
         //
+        //
         $order = \Request::get('order');
-
         $user = Auth::user('api')->load('profile');
-        $projects = Project::where(function ($query) use ($user) {
+        $theses = TEDChair::where(function ($query) use ($user) {
             if ($user->type == 'admin') {
 
             } else {
                 $query->where('profile_id', '=', $user->profile->id);
             }
-        })->orderBy('created_at', $order)->paginate($this->perPage);
-
-        return ProjectResource::collection($projects);
+        })
+            ->orderBy('created_at', $order)->paginate($this->perPage);
+        return TEDChairResource::collection($theses);
     }
 
     public function search(){
@@ -50,8 +50,9 @@ class ProjectController extends Controller
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {
+
                 // \DB::enableQueryLog();
-                $Projects = Project::where(function ($query) use ($user) {
+                $TEDChairs = TEDChair::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -70,8 +71,7 @@ class ProjectController extends Controller
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
-                        $query->orWhere('organization', 'LIKE', "%$search%");
-                    })->orWhereHas ('projectType',function ($query) use ($search,$user) {
+                    })->orWhereHas ('TEDType',function ($query) use ($search,$user) {
                         if ($user->type != 'admin') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
@@ -79,7 +79,8 @@ class ProjectController extends Controller
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                 //dd(\DB::getQueryLog());
             } else {
-                $Projects = Project::where(function ($query) use ($user) {
+
+                $TEDChairs = TEDChair::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -90,7 +91,7 @@ class ProjectController extends Controller
         }else{
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
-                $Projects = Project::where(function ($query) use ($user) {
+                $TEDChairs = TEDChair::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -111,9 +112,7 @@ class ProjectController extends Controller
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
-                        $query->orWhere('organization', 'LIKE', "%$search%")->where('status', $filter);
-
-                    })->orWhereHas ('projectType',function ($query) use ($search, $filter, $user) {
+                    })->orWhereHas ('TEDType',function ($query) use ($search, $filter, $user) {
                         if ($user->type != 'admin') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
@@ -123,7 +122,7 @@ class ProjectController extends Controller
 
             } else {
 
-                $Projects = Project::where(function ($query) use ($user) {
+                $TEDChairs = TEDChair::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -133,77 +132,66 @@ class ProjectController extends Controller
                     ->paginate($this->perPage);
             }
         }
-        return ProjectResource::collection($Projects);
+        return TEDChairResource::collection($TEDChairs);
 
     }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function projectRelation(){
+    public function tedChairRelation(){
         //$this->authorize('IsUserOrIsAdmin');
 
-        $projecttypes = ProjectType::all()->map(function ($item){
+        $ted_types = TEDType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
 
-        return Response::json(array('projecttypes'=>$projecttypes));
+        return Response::json(array('ted_types'=>$ted_types));
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return ProjectResource
+     * @return TEDChairResource
      * @throws \Exception
      */
-    public function store(ProjectRequest $request)
+    public function store(TEDChairRequest $request)
     {
         //
+        //
+        $request['profile_id'] =  auth('api')->user()->profile['id'];
+        $request['status'] = 0;
         DB::beginTransaction();
         try {
-           // $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $isresposible = $request->isresponsible;
+            // $fileBag = $request->files;
+            $tedchair_db = TEDChair::create($request->all());
 
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-            $request['status'] = 0;
-            $project_db = Project::create($request->all());
-            foreach ($authors as $key => $author) {
-                if ($key == $isresposible) {
-                    $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                } else {
-                    $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-                }
-            }
-/*
-            foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/projects', $name);
-                    $project_db->files()->create(['name' => $name]);
-                }
-            }
-*/
+            /* foreach ($fileBag as $files) {
+                 foreach ($files as $file) {
+                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                     $file->move('files/rewards', $name);
+                     $reward_db->files()->create(['name' => $name]);
+                 }
+             }*/
+
 
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return new ProjectResource($project_db);
+        return new TEDChairResource($tedchair_db);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Project  $project
-     * @return ProjectResource
+     * @param  \App\Models\TEDChair  $tEDChair
+     * @return TEDChairResource
      */
-    public function show(Project $project)
+    public function show($id)
     {
         //
-        return new ProjectResource($project);
+        $tEDChair = TEDChair::findOrFail($id);
+
+        return new TEDChairResource($tEDChair);
     }
 
 
@@ -211,35 +199,22 @@ class ProjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Project $project
-     * @return ProjectResource
+     * @param  \App\Models\TEDChair $tEDChair
+     * @return TEDChairResource
      * @throws \Exception
      */
-    public function update(ProjectRequest $request, Project $project)
+    public function update(Request $request, $id)
     {
         //
+
         DB::beginTransaction();
         try {
-           // $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $isresposible = $request->isresponsible;
-
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-
-            $project_db = $project->update($request->all());
-            $project->authors()->delete();
-            foreach ($authors as $key => $author) {
-                if ($key == $isresposible) {
-                    $project->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                } else {
-                    $project->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-                }
-            }
-
-           /* if ($request->has('fileChangeType')) {
+            $tEDChair = TEDChair::findOrFail($id);
+            // $fileBag = $request->files;
+            $tEDChair->update($request->all());
+            /*if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
-                    $files = $project->files;
+                    $files = $reward->files;
                     foreach ($files as $file){
                         $file->delete();
                     }
@@ -247,44 +222,45 @@ class ProjectController extends Controller
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                        $file->move('files/projects', $name);
-                        $project->files()->create(['name' => $name]);
+                        $file->move('files/books', $name);
+                        $reward->files()->create(['name' => $name]);
                     }
                 }
             }*/
-            $project = Project::findOrFail($project->id);
+            $tEDChair = TEDChair::findOrFail($tEDChair->id);
 
-        }catch (\Exception $e){
+        }catch (\Exception $e) {
             DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
         }
-        DB::commit();
-        return new ProjectResource($project);
+              DB::commit();
+        return new TEDChairResource($tEDChair);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Project $project
+     * @param  \App\Models\TEDChair $tEDChair
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Project $project)
+    public function destroy($id)
     {
         DB::beginTransaction();
         try {
-            $files = $project->files;
-            $project->checklists()->delete();
-            $project->authors()->delete();
+            $tEDChair = TEDChair::findOrFail($id);
+            $tEDChair->checklists()->delete();
+            $files = $tEDChair->files;
+
             foreach ($files as $file){
                 $file->delete();
             }
-            $project->delete();
+            $tEDChair->delete();
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return Response::json(['طرح تحقیقاتی مورد نظر با موفقیت حذف شد.'], 200);
+        return Response::json(['اطلاعات جایزه مورد نظر با موفقیت حذف شد.'], 200);
     }
 }
