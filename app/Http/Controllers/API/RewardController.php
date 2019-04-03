@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RewardRequest;
-use App\Http\Resources\RewardEditResource;
+
 use App\Http\Resources\RewardResource;
 use App\Models\Reward;
 use Auth;
@@ -85,6 +85,7 @@ class RewardController extends Controller
         }else{
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
+
                 $rewards = Reward::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
@@ -166,12 +167,12 @@ class RewardController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Reward  $reward
-     * @return RewardEditResource
+     * @return RewardResource
      */
     public function show(Reward $reward)
     {
         //
-        return new RewardEditResource($reward);
+        return new RewardResource($reward);
     }
 
 
@@ -180,7 +181,7 @@ class RewardController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Reward $reward
-     * @return RewardEditResource
+     * @return RewardResource
      * @throws \Exception
      */
     public function update(RewardRequest $request, Reward $reward)
@@ -212,7 +213,7 @@ class RewardController extends Controller
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return new RewardEditResource($reward);
+        return new RewardResource($reward);
     }
 
     /**

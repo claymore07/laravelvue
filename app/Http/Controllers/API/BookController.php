@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\BookResquest;
 use App\Http\Requests\BookUpdateRequest;
-use App\Http\Resources\BookEditResource;
+
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\BookType;
@@ -144,7 +144,7 @@ class BookController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return BookResource
      * @throws \Exception
      */
     public function store(BookResquest $request)
@@ -188,7 +188,7 @@ class BookController extends Controller
     public function show(Book $book)
     {
         //
-        return new BookEditResource($book);
+        return new BookResource($book);
     }
 
 
@@ -239,7 +239,7 @@ class BookController extends Controller
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return new BookEditResource($book);
+        return new BookResource($book);
     }
 
     /**

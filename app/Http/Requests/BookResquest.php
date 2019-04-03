@@ -37,8 +37,8 @@ class BookResquest extends FormRequest
             'pages' => 'required',
             'copy_number' => 'required',
             'authors' => 'required',
-            'files.*'=>'mimes:rar,zip,pdf',
-            'files'=>'required',
+            //'files.*'=>'mimes:rar,zip,pdf',
+            //'files'=>'required',
         ];
         switch ($this->method()) {
             case 'PUT':

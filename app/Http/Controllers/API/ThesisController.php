@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\ThesisResquest;
 use App\Http\Resources\DegreeResource;
-use App\Http\Resources\ThesisEditResource;
+
 use App\Http\Resources\ThesisResource;
 use App\Models\Degree;
 use App\Models\Thesis;
@@ -21,7 +21,7 @@ class ThesisController extends Controller
     {
 
         $this->middleware('jwt');
-        $this->perPage=3;
+        $this->perPage=5;
     }
     /**
      * Display a listing of the resource.
@@ -159,7 +159,7 @@ class ThesisController extends Controller
         //
         $thesis = Thesis::findOrFail($id);
 
-        return new ThesisEditResource($thesis);
+        return new ThesisResource($thesis);
     }
 
 
@@ -176,7 +176,7 @@ class ThesisController extends Controller
         //
         $thesis = Thesis::findOrFail($id);
         $thesis->update($request->all());
-        return new ThesisEditResource($thesis);
+        return new ThesisResource($thesis);
     }
 
     /**

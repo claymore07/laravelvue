@@ -17,8 +17,9 @@ class ProjectResource extends JsonResource
     {
 
         $name = $this->profile->Fname.' '.$this->profile->Lname;
-        if($request->isMethod('post')||$request->is('api/project')||$request->is('api/findProject')){
-            return [
+        $resource = [];
+        if($request->is('api/project')||$request->is('api/findProject')){
+            $resource = [
                 'id' => $this->id,
                 'title' => $this->title,
                 'project_type' => $this->projectType->name,
@@ -27,12 +28,13 @@ class ProjectResource extends JsonResource
                 'status' => $this->status,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
             ];
-        }elseif ($request->isMethod('PUT')||$request->isMethod('PUT')||$request->is('api/project/*')){
+        }elseif ($request->isMethod('PUT')||$request->isMethod('PATCH')
+            ||$request->is('api/project/*')||$request->is('api/projectUpdate/*')){
             $checkList = $this->checklists()->latest()->get();
             foreach ($checkList as $key => $item){
                 $checkList[$key]['list'] = explode(",",$item['list']);
             }
-            return [
+            $resource = [
                 'id' => $this->id,
                 'title' => $this->title,
                 'project_type' => $this->projectType->name,
@@ -49,6 +51,7 @@ class ProjectResource extends JsonResource
                 'files' => FileResource::collection($this->files),
             ];
         }
+        return $resource;
 
     }
 }

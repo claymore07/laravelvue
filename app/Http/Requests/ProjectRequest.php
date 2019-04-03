@@ -33,7 +33,7 @@ class ProjectRequest extends FormRequest
             'authors' => 'required',
             'isresponsible' => 'required',
             //'files.*'=>'mimes:rar,zip,pdf',
-            'files'=>'required',
+           // 'files'=>'required',
         ];
         switch ($this->method()) {
             case 'PUT':

@@ -47,10 +47,33 @@ Route::apiResources([
 ]);
 
 Route::get('profile','API\UserController@profile');
-Route::get('profileRelation','API\UserController@profileRelation');
-Route::get('paperRelation','API\PapersController@paperRelation');
+
+// post route for update instead of PUT and Patch
+
 Route::post('paperValidation','API\PapersController@paperValidation');
 Route::post('paperUpdate/{paper}','API\PapersController@paperUpdate');
+Route::post('bookUpdate/{book}','API\BookController@update');
+Route::post('rewardUpdate/{reward}','API\RewardController@update');
+Route::post('projectUpdate/{project}','API\ProjectController@update');
+
+// helper routes to get relations collections
+Route::get('profileRelation','API\UserController@profileRelation');
+Route::get('paperRelation','API\PapersController@paperRelation');
+Route::get('bookRelation','API\BookController@bookRelation');
+Route::get('thesisRelation','API\ThesisController@thesisRelation');
+Route::get('projectRelation','API\ProjectController@projectRelation');
+
+// Search Routes
+Route::post('findPaper','API\PapersController@search');
+Route::get('findBook','API\BookController@search');
+Route::get('findThesis','API\ThesisController@search');
+Route::get('findReward','API\RewardController@search');
+Route::get('findProject','API\ProjectController@search');
+Route::get('findUser','API\UserController@search');
+Route::get('findFaculty','API\FacultiesController@search');
+Route::get('findDepartment','API\DepartmentsController@search');
+
+// CheckList Routes
 Route::post('paperCheckList','API\CheckListController@store');
 Route::post('thesisCheckList','API\CheckListController@store');
 Route::post('bookCheckList','API\CheckListController@store');
@@ -59,23 +82,6 @@ Route::post('projectCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
-Route::post('findPaper','API\PapersController@search');
-Route::get('findBook','API\BookController@search');
-Route::get('bookRelation','API\BookController@bookRelation');
-Route::post('bookUpdate/{book}','API\BookController@update');
-
-Route::get('findThesis','API\ThesisController@search');
-Route::get('thesisRelation','API\ThesisController@thesisRelation');
-
-Route::get('findReward','API\RewardController@search');
-Route::get('findProject','API\ProjectController@search');
-Route::get('projectRelation','API\ProjectController@projectRelation');
-
-
-Route::get('findUser','API\UserController@search');
-Route::get('findFaculty','API\FacultiesController@search');
-Route::get('findDepartment','API\DepartmentsController@search');
-
 
 Route::get('getJournalType','API\ScoreController@getJournalType');
 Route::get('getConfType','API\ScoreController@getConfType');
