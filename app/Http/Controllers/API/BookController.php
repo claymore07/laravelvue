@@ -245,8 +245,9 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
+     * @param  \App\Book $book
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(Book $book)
     {

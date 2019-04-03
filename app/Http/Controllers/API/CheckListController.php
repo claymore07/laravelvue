@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Book;
 use App\Models\Checklist;
 use App\Models\Paper;
+use App\Models\Project;
 use App\Models\Reward;
 use App\Models\Thesis;
 use DB;
@@ -62,6 +63,8 @@ class CheckListController extends Controller
             $item_db = Book::findOrFail($request->id);
         } elseif ($request->path() == 'rewardCheckList') {
             $item_db = Reward::findOrFail($request->id);
+        }elseif ($request->path() == 'projectCheckList') {
+            $item_db = Project::findOrFail($request->id);
         }
         DB::beginTransaction();
         try {

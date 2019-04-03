@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RewardRequest;
-use App\Http\Resources\RewardEditResource;
-use App\Http\Resources\RewardResource;
-use App\Models\Reward;
+use App\Http\Requests\ProjectRequest;
+use App\Http\Resources\ProjectResource;
+use App\Models\Project;
+use App\Models\ProjectType;
+use Illuminate\Http\Request;
 use Auth;
 use DB;
-use Illuminate\Http\Request;
 use Response;
 
-class RewardController extends Controller
+class ProjectController extends Controller
 {
     protected $perPage;
     public function __construct()
@@ -32,7 +32,7 @@ class RewardController extends Controller
         $order = \Request::get('order');
 
         $user = Auth::user('api')->load('profile');
-        $rewards = Reward::where(function ($query) use ($user) {
+        $projects = Project::where(function ($query) use ($user) {
             if ($user->type == 'admin') {
 
             } else {
@@ -40,8 +40,9 @@ class RewardController extends Controller
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
 
-        return RewardResource::collection($rewards);
+        return ProjectResource::collection($projects);
     }
+
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
@@ -49,9 +50,8 @@ class RewardController extends Controller
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {
-
                 // \DB::enableQueryLog();
-                $rewards = Reward::where(function ($query) use ($user) {
+                $Projects = Project::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -70,11 +70,16 @@ class RewardController extends Controller
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
-                        $query->orWhere('name', 'LIKE', "%$search%");
+                        $query->orWhere('organization', 'LIKE', "%$search%");
+                    })->orWhereHas ('projectType',function ($query) use ($search,$user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                        $query->where('name', 'LIKE', "%$search%");
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                 //dd(\DB::getQueryLog());
             } else {
-                $rewards = Reward::where(function ($query) use ($user) {
+                $Projects = Project::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -85,7 +90,7 @@ class RewardController extends Controller
         }else{
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
-                $rewards = Reward::where(function ($query) use ($user) {
+                $Projects = Project::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -101,19 +106,24 @@ class RewardController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
 
                         }
-                    })->orWhere(function ($query) use ($search,$filter,$user) {
+                    })->orWhere(function ($query) use ($search, $filter, $user) {
                         if ($user->type != 'admin') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
-                        $query->orWhere('name', 'LIKE', "%$search%")->where('status', $filter);
+                        $query->orWhere('organization', 'LIKE', "%$search%")->where('status', $filter);
 
+                    })->orWhereHas ('projectType',function ($query) use ($search, $filter, $user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                        $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                 // dd(\DB::getQueryLog());
 
             } else {
 
-                $rewards = Reward::where(function ($query) use ($user) {
+                $Projects = Project::where(function ($query) use ($user) {
                     if ($user->type != 'admin') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
@@ -123,55 +133,74 @@ class RewardController extends Controller
                     ->paginate($this->perPage);
             }
         }
-        return RewardResource::collection($rewards);
+        return ProjectResource::collection($Projects);
 
     }
 
+    public function projectRelation(){
+        //$this->authorize('IsUserOrIsAdmin');
 
+        $projecttypes = ProjectType::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+
+        return Response::json(array('projecttypes'=>$projecttypes));
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return RewardResource
+     * @return ProjectResource
      * @throws \Exception
      */
-    public function store(RewardRequest $request)
+    public function store(ProjectRequest $request)
     {
         //
-        $request['profile_id'] =  auth('api')->user()->profile['id'];
-        $request['status'] = 0;
         DB::beginTransaction();
         try {
            // $fileBag = $request->files;
-            $reward_db = Reward::create($request->all());
+            $authors = $request->authors;
+            $affiliations = $request->affiliations;
+            $isresposible = $request->isresponsible;
 
-           /* foreach ($fileBag as $files) {
+            $request['profile_id'] =  auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            $project_db = Project::create($request->all());
+            foreach ($authors as $key => $author) {
+                if ($key == $isresposible) {
+                    $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
+                } else {
+                    $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                }
+            }
+/*
+            foreach ($fileBag as $files) {
                 foreach ($files as $file) {
                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/rewards', $name);
-                    $reward_db->files()->create(['name' => $name]);
+                    $file->move('files/projects', $name);
+                    $project_db->files()->create(['name' => $name]);
                 }
-            }*/
-
+            }
+*/
 
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return new RewardResource($reward_db);
+        return new ProjectResource($project_db);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Reward  $reward
-     * @return RewardEditResource
+     * @param  \App\Models\Project  $project
+     * @return ProjectResource
      */
-    public function show(Reward $reward)
+    public function show(Project $project)
     {
         //
-        return new RewardEditResource($reward);
+        return new ProjectResource($project);
     }
 
 
@@ -179,20 +208,35 @@ class RewardController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Reward $reward
-     * @return RewardEditResource
+     * @param  \App\Models\Project $project
+     * @return ProjectResource
      * @throws \Exception
      */
-    public function update(RewardRequest $request, Reward $reward)
+    public function update(ProjectRequest $request, Project $project)
     {
         //
         DB::beginTransaction();
         try {
            // $fileBag = $request->files;
-            $reward->update($request->all());
-            /*if ($request->has('fileChangeType')) {
+            $authors = $request->authors;
+            $affiliations = $request->affiliations;
+            $isresposible = $request->isresponsible;
+
+            $request['profile_id'] =  auth('api')->user()->profile['id'];
+
+            $project_db = $project->update($request->all());
+            $project->authors()->delete();
+            foreach ($authors as $key => $author) {
+                if ($key == $isresposible) {
+                    $project->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
+                } else {
+                    $project->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                }
+            }
+
+           /* if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
-                    $files = $reward->files;
+                    $files = $project->files;
                     foreach ($files as $file){
                         $file->delete();
                     }
@@ -200,44 +244,43 @@ class RewardController extends Controller
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                        $file->move('files/books', $name);
-                        $reward->files()->create(['name' => $name]);
+                        $file->move('files/projects', $name);
+                        $project->files()->create(['name' => $name]);
                     }
                 }
             }*/
-            $reward = Reward::findOrFail($reward->id);
+            $project = Project::findOrFail($project->id);
 
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return new RewardEditResource($reward);
+        return new ProjectResource($project);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Reward $reward
+     * @param  \App\Models\Project $project
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Reward $reward)
+    public function destroy(Project $project)
     {
-        //
         DB::beginTransaction();
         try {
-            $files = $reward->files;
-
+            $files = $project->files;
+            $project->authors()->delete();
             foreach ($files as $file){
                 $file->delete();
             }
-            $reward->delete();
+            $project->delete();
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return Response::json(['اطلاعات جایزه مورد نظر با موفقیت حذف شد.'], 200);
+        return Response::json(['طرح تحقیقاتی مورد نظر با موفقیت حذف شد.'], 200);
     }
 }

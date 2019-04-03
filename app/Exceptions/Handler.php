@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -59,6 +60,8 @@ class Handler extends ExceptionHandler
             return response(['error'=>'Token is expired'], Response::HTTP_BAD_REQUEST);
         } elseif ($exception instanceof JWTException) {
             return response(['error'=>'Token is not provided'], Response::HTTP_BAD_REQUEST);
+        }elseif ($exception instanceof ModelNotFoundException) {
+            return response(['error'=>'Model Not found'], Response::HTTP_BAD_REQUEST);
         }
 
         return parent::render($request, $exception);

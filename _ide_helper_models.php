@@ -46,7 +46,7 @@ namespace App\Models{
  * @property int $booktypeId کلید خارجی نوع کتاب
  * @property int $profileId کلید پروفایل
  * @property int $excerptId کلید نوع مستخرج بودن
- * @property int $status وضعیت بررسی
+ * @property int|null $status وضعیت بررسی
  * @property string $title عنوان کتاب
  * @property string $isbn شابک
  * @property string $subject موضوع
@@ -55,6 +55,7 @@ namespace App\Models{
  * @property int|null $editedNumber شماره ویرایش
  * @property int $publishNumber شماره چاپ
  * @property string $publishYear سال چاپ
+ * @property int $copyNumber تیراژ کتاب
  * @property int $pages تعداد صفحات
  * @property int|null $nationalCode شماره کتابخانه ملی
  * @property string|null $congressCode رده بندی کنگره
@@ -74,6 +75,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book whereBooktypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book whereCongressCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book whereCopyNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book whereDeweyCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Book whereEdited($value)
@@ -518,6 +520,71 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Project
+ *
+ * @property int $id
+ * @property int $profileId کلید خارجی پروفایل
+ * @property int $projectTypesId کلید خارجی نوع طرح
+ * @property int|null $status وضعیت بررسی
+ * @property string $title عنوان طرح
+ * @property string $organization نام سازمان طرف قرارداد
+ * @property int $budget بودجه طرح
+ * @property string $councilAprovedate تاریخ تصویب شورای پژوهش
+ * @property string $defenseDate تاریخ دفاع
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \App\Models\Author $author
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\Profile $profile
+ * @property-read \App\Models\ProjectType $projectType
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereBudget($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCouncilAprovedate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDefenseDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereOrganization($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereProjectTypesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUpdatedAt($value)
+ */
+	class Project extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ProjectType
+ *
+ * @property int $id
+ * @property string $name نوع طرح
+ * @property float $maxscore حداکثر امتیاز
+ * @property float $minscore حداقل امتیاز
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType whereMaxscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType whereMinscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectType whereUpdatedAt($value)
+ */
+	class ProjectType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Rank
  *
  * @property int $id
@@ -534,6 +601,44 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Rank whereUpdatedAt($value)
  */
 	class Rank extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Reward
+ *
+ * @property int $id
+ * @property int $profileId کلید خارجی پروفایل
+ * @property int|null $status وضعیت بررسی
+ * @property string $name نام جشنواره
+ * @property string $type نوع جشنواره
+ * @property string $title عنوان جایزه
+ * @property int $place رتبه کسب شده
+ * @property int|null $period دوره برگزاری
+ * @property string $holdingDate تاریخ برگزاری
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\Profile $profile
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereHoldingDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward wherePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward wherePlace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reward whereUpdatedAt($value)
+ */
+	class Reward extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -614,16 +719,17 @@ namespace App\Models{
  * @property int $id
  * @property int $profileId کلید پروفایل
  * @property int $degreeId کلید پروفایل
- * @property int $status وضعیت بررسی
+ * @property int|null $status وضعیت بررسی
  * @property string $title عنوان پایان نامه
  * @property int $responsible نوع مسئولیت در پایان نامه
  * @property string $groupAprovedate تاریخ تصویت گروه
  * @property string $councilAprovedate تاریخ تصویت گروه
  * @property string|null $codeDate تاریخ تصویت گروه
- * @property string|null $defenseEdate تاریخ تصویت گروه
+ * @property string|null $defenseDate تاریخ تصویت گروه
  * @property float $score امتیاز کسب شده
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
  * @property-read \App\Models\Degree $degree
  * @property-read \App\Models\Profile $profile
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis newModelQuery()
@@ -632,7 +738,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereCodeDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereCouncilAprovedate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereDefenseEdate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereDefenseDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereDegreeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereGroupAprovedate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Thesis whereId($value)

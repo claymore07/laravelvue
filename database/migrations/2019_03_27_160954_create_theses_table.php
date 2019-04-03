@@ -17,13 +17,13 @@ class CreateThesesTable extends Migration
             $table->increments('id');
             $table->integer('profile_id')->unsigned()->index()->comment('کلید پروفایل');
             $table->integer('degree_id')->unsigned()->index()->comment('کلید پروفایل');
-            $table->smallInteger('status')->comment('وضعیت بررسی');
+            $table->smallInteger('status')->nullable()->default('0')->comment('وضعیت بررسی');
             $table->string('title')->comment('عنوان پایان نامه');
             $table->tinyInteger('responsible')->comment('نوع مسئولیت در پایان نامه');
             $table->date('group_aprovedate')->comment('تاریخ تصویت گروه');
-            $table->date('council_aprovedate')->comment('تاریخ تصویت گروه');
-            $table->date('code_date')->nullable()->comment('تاریخ تصویت گروه');
-            $table->date('defense_date')->nullable()->comment('تاریخ تصویت گروه');
+            $table->date('council_aprovedate')->comment('تاریخ تصویت شورای پژوهش');
+            $table->date('code_date')->nullable()->comment('تاریخ صدور کد');
+            $table->date('defense_date')->nullable()->comment('تاریخ دفاع');
             $table->float('score',5,2)->comment('امتیاز کسب شده')->default("0");
 
             $table->timestamps();
