@@ -203,6 +203,42 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Course
+ *
+ * @property int $id
+ * @property int $profileId کلید خارجی پروفایل
+ * @property int|null $status وضعیت بررسی
+ * @property string $title عنوان دوره
+ * @property string $role نقش در دوره مدرس یا شرکت کننده
+ * @property string $organization نام موسسه یا سازمان برگزار کننده
+ * @property string $holdingDate تاریخ برگزاری
+ * @property int $duration مدت زمان دوره
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\Profile $profile
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereHoldingDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereOrganization($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereUpdatedAt($value)
+ */
+	class Course extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Degree
  *
  * @property int $id
@@ -601,6 +637,67 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Rank whereUpdatedAt($value)
  */
 	class Rank extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Referee
+ *
+ * @property int $id
+ * @property int $profileId کلید خارجی پروفایل
+ * @property int $refereeTypesId کلید خارجی نوع داوری
+ * @property int|null $status وضعیت بررسی
+ * @property string $title عنوان اثر
+ * @property string|null $journalName نام ژورنال
+ * @property string|null $journalIssn issn ژورنال
+ * @property string|null $refereeDate تاریخ داوری
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\Profile $profile
+ * @property-read \App\Models\RefereeType $refereeType
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereJournalIssn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereJournalName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereRefereeDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereRefereeTypesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Referee whereUpdatedAt($value)
+ */
+	class Referee extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\RefereeType
+ *
+ * @property int $id
+ * @property string $name نوع داوری
+ * @property float $maxscore حداکثر امتیاز
+ * @property float $minscore حداقل امتیاز
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Referee[] $referees
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType whereMaxscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType whereMinscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefereeType whereUpdatedAt($value)
+ */
+	class RefereeType extends \Eloquent {}
 }
 
 namespace App\Models{

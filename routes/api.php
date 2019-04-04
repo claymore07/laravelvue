@@ -46,6 +46,7 @@ Route::apiResources([
     'project'=>'API\ProjectController',
     'tedChair'=>'API\TEDChairController',
     'referee'=>'API\RefereeController',
+    'course'=>'API\CourseController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -59,6 +60,7 @@ Route::post('rewardUpdate/{reward}','API\RewardController@update');
 Route::post('projectUpdate/{project}','API\ProjectController@update');
 Route::post('tedChairUpdate/{tedChair}','API\TEDChairController@update');
 Route::post('refereeUpdate/{referee}','API\RefereeController@update');
+Route::post('courseUpdate/{course}','API\CourseController@update');
 
 // helper routes to get relations collections
 Route::get('profileRelation','API\UserController@profileRelation');
@@ -77,6 +79,7 @@ Route::get('findThesis','API\ThesisController@search');
 Route::get('findReward','API\RewardController@search');
 Route::get('findProject','API\ProjectController@search');
 Route::get('findReferee','API\RefereeController@search');
+Route::get('findCourse','API\CourseController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
@@ -89,6 +92,7 @@ Route::post('tedCheckList','API\CheckListController@store');
 Route::post('rewardCheckList','API\CheckListController@store');
 Route::post('projectCheckList','API\CheckListController@store');
 Route::post('refereeCheckList','API\CheckListController@store');
+Route::post('courseCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');

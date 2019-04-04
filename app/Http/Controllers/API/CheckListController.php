@@ -70,8 +70,6 @@ class CheckListController extends Controller
             $item_db = Project::findOrFail($request->id);
         }elseif ($path == 'tedChairCheckList') {
             $item_db = TEDChair::findOrFail($request->id);
-        }elseif ($path == 'tedChairCheckList') {
-            $item_db = TEDChair::findOrFail($request->id);
         }elseif ($path == 'refereeCheckList') {
             $item_db = Referee::findOrFail($request->id);
         }
