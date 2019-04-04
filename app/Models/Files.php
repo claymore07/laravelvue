@@ -37,7 +37,9 @@ class Files extends Model
             }elseif ($fileable_type == 'App\Models\Project'){
                 $path = 'files/projects/';
             }elseif ($fileable_type == 'App\Models\TEDChair'){
-                $path = 'files/projects/';
+                $path = 'files/tedchairs/';
+            }elseif ($fileable_type == 'App\Models\Referee'){
+                $path = 'files/referees/';
             }
 
             $filePath = public_path($path).$item->name;

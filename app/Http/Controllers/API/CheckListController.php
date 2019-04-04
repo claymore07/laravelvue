@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Checklist;
 use App\Models\Paper;
 use App\Models\Project;
+use App\Models\Referee;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\Thesis;
@@ -69,6 +70,10 @@ class CheckListController extends Controller
             $item_db = Project::findOrFail($request->id);
         }elseif ($path == 'tedChairCheckList') {
             $item_db = TEDChair::findOrFail($request->id);
+        }elseif ($path == 'tedChairCheckList') {
+            $item_db = TEDChair::findOrFail($request->id);
+        }elseif ($path == 'refereeCheckList') {
+            $item_db = Referee::findOrFail($request->id);
         }
         DB::beginTransaction();
         try {
