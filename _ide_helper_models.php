@@ -382,6 +382,79 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Invention
+ *
+ * @property int $id
+ * @property int $profileId کلید پروفایل
+ * @property int $inventionTypesId کلید خارجی نوع اختراع
+ * @property int|null $status وضعیت بررسی
+ * @property string $title عنوان دانش فنی/ اختراع
+ * @property string $post سمت در کار
+ * @property string $authorities نام مرجع تایید کننده
+ * @property string|null $affiliation نام موسسه وابسته
+ * @property int|null $license آیا پتنت فروش یا لایسنس دارد
+ * @property string|null $registrationNumber شماره ثبت شرکت
+ * @property string|null $companyName نام شرکت
+ * @property string|null $companyType نوع شرکت دانش بنیان یا دانشگاهی
+ * @property string|null $companyAddress آدرس شرکت
+ * @property string|null $submitDate تاریخ ثبت یا تایید
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\InventionType $inventionType
+ * @property-read \App\Models\Profile $profile
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereAffiliation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereAuthorities($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereCompanyAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereCompanyType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereInventionTypesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereLicense($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention wherePost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereRegistrationNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereSubmitDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invention whereUpdatedAt($value)
+ */
+	class Invention extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\InventionType
+ *
+ * @property int $id
+ * @property string $name نوع داوری
+ * @property float $maxscore حداکثر امتیاز
+ * @property float $minscore حداقل امتیاز
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invention[] $inventions
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType whereMaxscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType whereMinscore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InventionType whereUpdatedAt($value)
+ */
+	class InventionType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Journal
  *
  * @property int $id

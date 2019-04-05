@@ -44,6 +44,8 @@ class Files extends Model
                 $path = 'files/courses/';
             }elseif ($fileable_type == 'App\Models\Booklet'){
                 $path = 'files/booklets/';
+            }elseif ($fileable_type == 'App\Models\Invention'){
+                $path = 'files/inventions/';
             }
 
             $filePath = public_path($path).$item->name;

@@ -29,7 +29,7 @@ class RewardRequest extends FormRequest
             'type' => 'required',
             'place' => 'required',
             'period' =>'required' ,
-            'holding_date' => 'required',
+            'holding_date' => 'required|date_format:Y-m-d',
             //'files.*'=>'mimes:rar,zip,pdf',
            // 'files'=>'required',
         ];
@@ -51,6 +51,7 @@ class RewardRequest extends FormRequest
             'place.required' => 'رتبه کسب شده الزامی است.',
             'period.required' => 'دوره جشنواره یا مسابقه الزامی است. در صورت نبود مقدار 1 را استفاده کنید.',
             'holding_date.required' => 'تاریخ برگزاری جشنواره یا مسابقه الزامی است.',
+            'presentation_date.date_format' => 'تاریخ برگزاری جشنواره یا مسابقه باید در قالب مشخص(Y-m-d) شده باشد.',
             'files.required_if' => 'فایل های ضمیمه الزامی است.',
             'files.*' => ' نوع فایل ضمیمه باید یکی از انواع pdf یا zip انتخاب شود.',
         ];
