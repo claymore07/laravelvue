@@ -201,7 +201,7 @@ class RewardController extends Controller
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                        $file->move('files/books', $name);
+                        $file->move('files/rewards', $name);
                         $reward->files()->create(['name' => $name]);
                     }
                 }

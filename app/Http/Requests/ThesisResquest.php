@@ -45,7 +45,7 @@ class ThesisResquest extends FormRequest
         return [
             'degree_id.required' => 'مقطع پایان نامه الزامی است.',
             'title.required' => 'عنوان پایان نامه الزامی است.',
-            'responsible.required' => 'نوع مسو.لیت در پایان نامه الزامی است.',
+            'responsible.required' => 'نوع مسئولیت در پایان نامه الزامی است.',
             'group_aprovedate.required' => 'تاریخ تصویب در گروه الزامی است.',
             'council_aprovedate.required' => 'تاریخ تصویب در شورای پژوهشی الزامی است.',
             'code_date.required' => 'تاریخ دریافت کد پایان نامه الزامی است.',

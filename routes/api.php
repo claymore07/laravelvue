@@ -47,6 +47,7 @@ Route::apiResources([
     'tedChair'=>'API\TEDChairController',
     'referee'=>'API\RefereeController',
     'course'=>'API\CourseController',
+    'booklet'=>'API\BookletController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -61,6 +62,7 @@ Route::post('projectUpdate/{project}','API\ProjectController@update');
 Route::post('tedChairUpdate/{tedChair}','API\TEDChairController@update');
 Route::post('refereeUpdate/{referee}','API\RefereeController@update');
 Route::post('courseUpdate/{course}','API\CourseController@update');
+Route::post('bookletUpdate/{booklet}','API\BookletController@update');
 
 // helper routes to get relations collections
 Route::get('profileRelation','API\UserController@profileRelation');
@@ -70,6 +72,7 @@ Route::get('thesisRelation','API\ThesisController@thesisRelation');
 Route::get('projectRelation','API\ProjectController@projectRelation');
 Route::get('tedChairRelation','API\TEDChairController@tedChairRelation');
 Route::get('refereeRelation','API\RefereeController@refereeRelation');
+Route::get('bookletRelation','API\BookletController@bookletRelation');
 
 // Search Routes
 Route::post('findPaper','API\PapersController@search');
@@ -80,6 +83,7 @@ Route::get('findReward','API\RewardController@search');
 Route::get('findProject','API\ProjectController@search');
 Route::get('findReferee','API\RefereeController@search');
 Route::get('findCourse','API\CourseController@search');
+Route::get('findBooklet','API\BookletController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');

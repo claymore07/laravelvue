@@ -42,6 +42,8 @@ class Files extends Model
                 $path = 'files/referees/';
             }elseif ($fileable_type == 'App\Models\Course'){
                 $path = 'files/courses/';
+            }elseif ($fileable_type == 'App\Models\Booklet'){
+                $path = 'files/booklets/';
             }
 
             $filePath = public_path($path).$item->name;

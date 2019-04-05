@@ -100,6 +100,43 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Booklet
+ *
+ * @property int $id
+ * @property int $profileId کلید پروفایل
+ * @property int $degreeId کلید خارجی مقطع
+ * @property int|null $status وضعیت بررسی
+ * @property string $title عنوان جزوه یا اسلاید
+ * @property string $name نام درس
+ * @property string $bookletType نوع جزوه
+ * @property string|null $compilationDate تاریخ تالیف
+ * @property float $score امتیاز کسب شده
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Checklist[] $checklists
+ * @property-read \App\Models\Degree $degree
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Files[] $files
+ * @property-read \App\Models\Profile $profile
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereBookletType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereCompilationDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereDegreeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booklet whereUpdatedAt($value)
+ */
+	class Booklet extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\BookType
  *
  * @property int $id
