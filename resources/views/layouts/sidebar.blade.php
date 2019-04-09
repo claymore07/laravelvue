@@ -34,15 +34,39 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/rewards" class="nav-link ">
                         <i class="nav-icon fal fa-award nav-icon green"></i>
                         <p>جوایز</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-project-diagram nav-icon green"></i>
+                        <p>طرحی های پژوهشی و فناوری</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-lightbulb-on nav-icon green"></i>
+                        <p>کرسی های نظریه پردازی</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/thesis" class="nav-link ">
-                        <i class="nav-icon fal fa-book-reader nav-icon green"></i>
+                        <i class="nav-icon fal fa-book nav-icon green"></i>
                         <p>پایان نامه ها</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-gavel nav-icon green"></i>
+                        <p>داوری و نظارت بر طرح ها</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/notready" class="nav-link ">
+                        <i class="nav-icon fal fa-microscope nav-icon green"></i>
+                        <p>اختراعات و اکتشافات</p>
                     </router-link>
                 </li>
                 <li class="nav-item">

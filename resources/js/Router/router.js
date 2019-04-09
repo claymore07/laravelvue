@@ -22,6 +22,8 @@ let routes = [
     { path: '/thesisEdit/:id', name:'thesisEdit', component: require('../components/Thesis/ThesisEdit.vue').default },
     { path: '/books', component: require('../components/Books/Books.vue').default },
     { path: '/bookEdit/:id', name:'bookEdit', component: require('../components/Books/BookEdit.vue').default },
+    { path: '/rewards', component: require('../components/Rewards/Reward.vue').default },
+    { path: '/rewardEdit/:id', name:'rewardEdit', component: require('../components/Rewards/RewardEdit.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

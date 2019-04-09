@@ -339,7 +339,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><i
-                            class="far fa-book-medical fa-fw"></i> ثبت کتاب جدید</h5>
+                            class="far fa-book-medical fa-fw"></i> ویرایش اطلاعات کتاب </h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -459,7 +459,9 @@
                                     <div v-if="fileChanging" class="form-group mt-4 text-right">
                                         <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         <span class="red"><br/>
-                                                فایل اصلی مقاله در قالب pdf
+                                                اسکن روی جلد
+                                                <br/>
+                                            اسکن صفحه شناسنامه کتاب
                                                 <br/>
                                                 سایر فایل های مربوطه بصورت یک فایل فشرده با پسونده zip
                                             </span>

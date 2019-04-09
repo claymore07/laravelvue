@@ -64,16 +64,18 @@ class CheckListController extends Controller
             $item_db = Thesis::findOrFail($request->id);
         } elseif ($path == 'api/bookCheckList') {
             $item_db = Book::findOrFail($request->id);
-        } elseif ($path == 'rewardCheckList') {
+        } elseif ($path == 'api/rewardCheckList') {
             $item_db = Reward::findOrFail($request->id);
-        }elseif ($path == 'projectCheckList') {
+        }elseif ($path == 'api/projectCheckList') {
             $item_db = Project::findOrFail($request->id);
-        }elseif ($path == 'tedChairCheckList') {
+        }elseif ($path == 'api/tedChairCheckList') {
             $item_db = TEDChair::findOrFail($request->id);
-        }elseif ($path == 'refereeCheckList') {
+        }elseif ($path == 'api/refereeCheckList') {
             $item_db = Referee::findOrFail($request->id);
         }
-        DB::beginTransaction();
+
+
+       DB::beginTransaction();
         try {
             $input = [];
             $input['status'] = $request->status;

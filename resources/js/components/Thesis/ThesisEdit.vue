@@ -33,7 +33,20 @@
                                 </p-check>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td class="font-16">
+                                <span class="blue">نام استاد:</span>
+                                <span class="mr-3">{{thesis.Author_name}}</span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام استاد')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                            </td>
+                            <td v-if="checkList">
+                                <p-check :checked="checkListForm.list && checkListForm.list.includes('نام استاد')"
+                                         @change.native="onChange('نام استاد', $event)"
+                                         type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                    <i slot="extra" class="icon far fa-check"></i>
+                                </p-check>
+                            </td>
+                        </tr>
                         <tr>
                             <td class="font-16">
                                 <span class="blue ">مقطع:</span>

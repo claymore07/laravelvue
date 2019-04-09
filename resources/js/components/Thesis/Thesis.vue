@@ -195,7 +195,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div><!-- /modal -->
             <div v-if="!$gate.isAdmin()">
                 <not-found></not-found>
             </div><!-- /404 page -->

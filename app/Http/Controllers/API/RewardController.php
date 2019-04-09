@@ -143,16 +143,16 @@ class RewardController extends Controller
         $request['status'] = 0;
         DB::beginTransaction();
         try {
-           // $fileBag = $request->files;
+            $fileBag = $request->files;
             $reward_db = Reward::create($request->all());
 
-           /* foreach ($fileBag as $files) {
+           foreach ($fileBag as $files) {
                 foreach ($files as $file) {
                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
                     $file->move('files/rewards', $name);
                     $reward_db->files()->create(['name' => $name]);
                 }
-            }*/
+            }
 
 
         }catch (\Exception $e){
@@ -189,9 +189,9 @@ class RewardController extends Controller
         //
         DB::beginTransaction();
         try {
-           // $fileBag = $request->files;
+            $fileBag = $request->files;
             $reward->update($request->all());
-            /*if ($request->has('fileChangeType')) {
+            if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
                     $files = $reward->files;
                     foreach ($files as $file){
@@ -205,7 +205,7 @@ class RewardController extends Controller
                         $reward->files()->create(['name' => $name]);
                     }
                 }
-            }*/
+            }
             $reward = Reward::findOrFail($reward->id);
 
         }catch (\Exception $e){

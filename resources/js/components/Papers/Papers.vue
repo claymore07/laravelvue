@@ -360,9 +360,9 @@
                                                         placeholder="0"
                                                         v-validate="'required|integer'"
                                                         class="form-control" v-model="form.confperiod"
-                                                        :class="[( errors.has('form2.confperiod') || form.errors.has('confcity') ? 'is-invalid': ''  ) ]"
+                                                        :class="[( errors.has('form2.confperiod') || form.errors.has('confperiod') ? 'is-invalid': ''  ) ]"
                                                 >
-                                                <i v-show="errors.has('form2.confperiod') || form.errors.has('confcity')" class="red far fa-exclamation-triangle"></i>
+                                                <i v-show="errors.has('form2.confperiod') || form.errors.has('confperiod')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form2.confperiod')" class="red d-inline-block">{{ errors.first('form2.confperiod') }}</span>
                                                 <span v-show="form.errors.has('confperiod')" class="red d-inline-block">{{ form.errors.get('confperiod') }}</span>
                                             </div>
