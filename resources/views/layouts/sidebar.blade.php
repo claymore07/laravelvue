@@ -46,7 +46,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/teds" class="nav-link ">
                         <i class="nav-icon fal fa-lightbulb-on nav-icon green"></i>
                         <p>کرسی های نظریه پردازی</p>
                     </router-link>

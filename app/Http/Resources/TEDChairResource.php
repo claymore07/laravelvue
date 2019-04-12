@@ -36,7 +36,7 @@ class TEDChairResource extends JsonResource
             $resource = [
                 'id' => $this->id,
                 'title' => $this->title,
-                'ted_type_id' => $this->ted_types_id,
+                'ted_types_id' => $this->ted_types_id,
                 'ted_type' => $this->TEDType->name,
                 'Author_name'=> $name,
                 'location' => $this->location,

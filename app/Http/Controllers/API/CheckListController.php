@@ -69,7 +69,7 @@ class CheckListController extends Controller
             $item_db = Reward::findOrFail($request->id);
         }elseif ($path == 'api/projectCheckList') {
             $item_db = Project::findOrFail($request->id);
-        }elseif ($path == 'api/tedChairCheckList') {
+        }elseif ($path == 'api/tedCheckList') {
             $item_db = TEDChair::findOrFail($request->id);
         }elseif ($path == 'api/refereeCheckList') {
             $item_db = Referee::findOrFail($request->id);

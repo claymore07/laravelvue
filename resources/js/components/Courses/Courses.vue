@@ -120,9 +120,9 @@
                             :start-index="0"
                             @on-complete="onComplete"
                             ref="wizard">
-                            <h2 slot="title">تکمیل اطلاعات جایزه</h2>
+                            <h2 slot="title">تکمیل اطلاعات دوره</h2>
                             <!--  -->
-                            <tab-content title="اطلاعات جایزه" :before-change="courseValidation"  icon="far fa-users-class">
+                            <tab-content title="اطلاعات دوره" :before-change="courseValidation"  icon="far fa-users-class">
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">

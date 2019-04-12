@@ -160,16 +160,16 @@ class TEDChairController extends Controller
         $request['status'] = 0;
         DB::beginTransaction();
         try {
-            // $fileBag = $request->files;
+            $fileBag = $request->files;
             $tedchair_db = TEDChair::create($request->all());
 
-            /* foreach ($fileBag as $files) {
+             foreach ($fileBag as $files) {
                  foreach ($files as $file) {
                      $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                     $file->move('files/rewards', $name);
-                     $reward_db->files()->create(['name' => $name]);
+                     $file->move('files/tedchairs', $name);
+                     $tedchair_db->files()->create(['name' => $name]);
                  }
-             }*/
+             }
 
 
         }catch (\Exception $e){
@@ -210,11 +210,11 @@ class TEDChairController extends Controller
         DB::beginTransaction();
         try {
             $tEDChair = TEDChair::findOrFail($id);
-            // $fileBag = $request->files;
+            $fileBag = $request->files;
             $tEDChair->update($request->all());
-            /*if ($request->has('fileChangeType')) {
+            if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
-                    $files = $reward->files;
+                    $files = $tEDChair->files;
                     foreach ($files as $file){
                         $file->delete();
                     }
@@ -222,11 +222,11 @@ class TEDChairController extends Controller
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                        $file->move('files/books', $name);
-                        $reward->files()->create(['name' => $name]);
+                        $file->move('files/tedchairs', $name);
+                        $tEDChair->files()->create(['name' => $name]);
                     }
                 }
-            }*/
+            }
             $tEDChair = TEDChair::findOrFail($tEDChair->id);
 
         }catch (\Exception $e) {

@@ -14,7 +14,7 @@
                     <table class="table table-hover table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="font-18"><i class="fal fa-file-edit fa-fw"></i>اطلاعات دوره</th>
+                            <th class="font-18"><i class="fal fa-file-edit fa-fw"></i> اطلاعات دوره </th>
                             <th v-if="checkList">موارد ناقص</th>
                         </tr>
                         </thead>
@@ -624,8 +624,8 @@
                     );
             },
 
-            createBook(){
-
+            createCourse(){
+                this.fileChanging = false;
             }
         },
         created(){
