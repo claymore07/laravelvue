@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Book;
 use App\Models\Checklist;
+use App\Models\Course;
 use App\Models\Paper;
 use App\Models\Project;
 use App\Models\Referee;
@@ -72,6 +73,8 @@ class CheckListController extends Controller
             $item_db = TEDChair::findOrFail($request->id);
         }elseif ($path == 'api/refereeCheckList') {
             $item_db = Referee::findOrFail($request->id);
+        }elseif ($path == 'api/courseCheckList') {
+            $item_db = Course::findOrFail($request->id);
         }
 
 

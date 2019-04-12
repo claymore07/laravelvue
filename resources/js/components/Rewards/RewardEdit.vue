@@ -189,7 +189,7 @@
             <div class="row align-content-center">
                 <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
                     <!-- rewardEditModal checkListSubmit toggleCheckList checkListHistory-->
-                    <button v-if="reward.status != 3 && reward.status != 1" @click="rewardEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  پایان نامه</button>
+                    <button v-if="reward.status != 3 && reward.status != 1" @click="rewardEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  جایزه</button>
                     <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
                     <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
                     <button v-if="$gate.isAdmin()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
@@ -202,7 +202,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><i
-                            class="far fa-book-medical fa-fw"></i> ویرایش اطلاعات جایزه</h5>
+                            class="far fa-award fa-fw"></i> ویرایش اطلاعات جایزه</h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

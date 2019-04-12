@@ -70,7 +70,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/courses" class="nav-link ">
                         <i class="nav-icon fal fa-users-class nav-icon green"></i>
                         <p>دوره ها</p>
                     </router-link>

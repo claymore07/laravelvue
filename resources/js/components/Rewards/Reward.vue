@@ -135,7 +135,7 @@
                                             :class="{ 'is-invalid': form.errors.has('name') || errors.has('form.name') } " >
                                     <i v-show="errors.has('form.name') || form.errors.has('name')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form.form.name')" class="red d-inline-block">{{ errors.first('form.name') }}</span>
-                                    <has-error :form="form" field="title"></has-error>
+                                    <has-error :form="form" field="name"></has-error>
                                 </div>
                                 <div class="form-group mt-4 text-right">
                                     <label class="blue">عنوان جایزه:</label>
@@ -328,12 +328,21 @@
                         loader1.hide();
                         this.rewards.unshift(response.data.data);
                         $('#addNew').modal('hide');
-                        this.successToast('اطلاعات کاربر جدید با موفقیت ثبت شد.');
+                        this.successToast('اطلاعات جایزه جدید با موفقیت ثبت شد.');
                         this.$Progress.finish();
                         this.form.reset();
+                        this.$validator.reset();
                     })
                         .catch(() => {
                             loader1.hide();
+                            let t = Object.keys(this.form.errors.all()).filter(function (key) {
+                                return /^files./.test(key);
+                            });
+
+                            if (!t.length) {
+                            } else {
+                                this.form.errors.set('files', 'نوع فایل باید یکی از انواع pdf و rar یا zip باشد.')
+                            }
                             this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
                             this.$Progress.fail();
                         })
@@ -405,7 +414,6 @@
         },
         created(){
             this.$parent.pageName = 'آرشیو جوایز';
-            //this.getThesisRelation();
             this.$validator.localize('farsi', {
                 messages: farsi.messages,
                 attributes: {
