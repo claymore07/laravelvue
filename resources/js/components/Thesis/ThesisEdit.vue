@@ -146,6 +146,18 @@
                             </td>
                         </tr>
 
+                        <tr>
+                            <td class="font-16">
+                                <span class="blue ">وضعیت بررسی:</span>
+                                <span v-if="thesis.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</span>
+                                <span v-else-if="thesis.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
+                                <span v-else-if="thesis.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</span>
+                                <span v-else-if="thesis.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</span>
+                                <span v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</span>
+                            </td>
+                            <td v-if="checkList">
+                            </td>
+                        </tr>
                         <tr v-show="checkList">
                             <td colspan="2">
                                 <label for="status" class="blue mt-3">وضعیت بررسی: </label>

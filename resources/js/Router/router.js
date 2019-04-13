@@ -28,6 +28,8 @@ let routes = [
     { path: '/courseEdit/:id', name:'courseEdit', component: require('../components/Courses/CourseEdit.vue').default },
     { path: '/teds', component: require('../components/TEDs/TEDs.vue').default },
     { path: '/tedEdit/:id', name:'tedEdit', component: require('../components/TEDs/TEDEdit.vue').default },
+    { path: '/projects', component: require('../components/Projects/Projects.vue').default },
+    { path: '/projectEdit/:id', name:'projectEdit', component: require('../components/Projects/ProjectEdit.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

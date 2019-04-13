@@ -143,11 +143,11 @@ class ProjectController extends Controller
     public function projectRelation(){
         //$this->authorize('IsUserOrIsAdmin');
 
-        $projecttypes = ProjectType::all()->map(function ($item){
+        $project_types = ProjectType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
 
-        return Response::json(array('projecttypes'=>$projecttypes));
+        return Response::json(array('project_types'=>$project_types));
     }
     /**
      * Store a newly created resource in storage.
@@ -161,7 +161,7 @@ class ProjectController extends Controller
         //
         DB::beginTransaction();
         try {
-           // $fileBag = $request->files;
+            $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
             $isresposible = $request->isresponsible;
@@ -176,7 +176,7 @@ class ProjectController extends Controller
                     $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
                 }
             }
-/*
+
             foreach ($fileBag as $files) {
                 foreach ($files as $file) {
                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
@@ -184,7 +184,7 @@ class ProjectController extends Controller
                     $project_db->files()->create(['name' => $name]);
                 }
             }
-*/
+
 
         }catch (\Exception $e){
             DB::rollback();
@@ -220,7 +220,7 @@ class ProjectController extends Controller
         //
         DB::beginTransaction();
         try {
-           // $fileBag = $request->files;
+            $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
             $isresposible = $request->isresponsible;
@@ -237,7 +237,7 @@ class ProjectController extends Controller
                 }
             }
 
-           /* if ($request->has('fileChangeType')) {
+            if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
                     $files = $project->files;
                     foreach ($files as $file){
@@ -251,7 +251,7 @@ class ProjectController extends Controller
                         $project->files()->create(['name' => $name]);
                     }
                 }
-            }*/
+            }
             $project = Project::findOrFail($project->id);
 
         }catch (\Exception $e){

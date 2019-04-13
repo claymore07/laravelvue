@@ -447,6 +447,19 @@
                             </p-check>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td class="font-16">
+                            <span class="blue ">وضعیت بررسی:</span>
+                            <span v-if="paper.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</span>
+                            <span v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
+                            <span v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</span>
+                            <span v-else-if="paper.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</span>
+                            <span v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</span>
+                        </td>
+                        <td v-if="checkList">
+                        </td>
+                    </tr>
                     <tr v-show="checkList">
                         <td colspan="2">
                             <label for="status" class="blue mt-3">وضعیت بررسی: </label>
@@ -646,7 +659,6 @@
                                         </p-radio>
 
                                         <br>
-                                        <has-error :form="form" field="fileChangeType"></has-error>
                                         <i v-show="errors.has('form-1.fileChangeType') || form.errors.has('fileChangeType')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.fileChangeType')" class="red d-inline-block">{{ errors.first('form-1.fileChangeType') }}</span>
                                         <span v-show="form.errors.has('fileChangeType')" class="red d-inline-block">{{ form.errors.get('fileChangeType') }}</span>
@@ -1028,7 +1040,7 @@
                 paperType:'',
                 author:'',
                 affiliation:'',
-                fileChangeType:'-1',    // sets of the file change type, whether it is addition to previous files or replacement
+
                 checkList:false,
                 checkListItems:'',
                 checkListForm: new Form({
@@ -1053,6 +1065,7 @@
                     accept_date: '',
                     excerpt_id: '',
                     files:[],
+                    fileChangeType:'',    // sets of the file change type, whether it is addition to previous files or replacement
                     confname:'',
                     confcity:'',
                     conforganizer:'',

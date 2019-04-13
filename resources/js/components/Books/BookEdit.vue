@@ -4,7 +4,7 @@
             <div class="card card-4 my-5">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
-                        <h3 class=" text-right">اطلاعات مقالات</h3>
+                        <h3 class=" text-right">اطلاعات کتاب</h3>
                     </div>
                     <div class="card-tools">
                         <button class="btn btn-success" @click="goback"><i style="font-size: 16px" class="fal fa-undo"></i> بازگشت</button>
@@ -14,7 +14,7 @@
                     <table class="table table-hover table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="font-18"><i class="fal fa-file-edit fa-fw"></i>اطلاعات مقاله</th>
+                            <th class="font-18"><i class="fal fa-file-edit fa-fw"></i>اطلاعات کتاب</th>
                             <th v-if="checkList">موارد ناقص</th>
                         </tr>
                         </thead>
@@ -69,7 +69,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">نوع کتاب:</span>
-                                <span class="mr-3">{{book.subject}}</span>
+                                <span class="mr-3">{{book.booktype}}</span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع کتاب')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
@@ -290,6 +290,8 @@
                                 <span v-else-if="book.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</span>
                                 <span v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</span>
                             </td>
+                            <td v-if="checkList">
+                            </td>
                         </tr>
                         <tr v-show="checkList">
                             <td colspan="2">
@@ -325,7 +327,7 @@
             </div><!-- /card -->
             <div class="row align-content-center">
                 <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
-                    <button v-if="book.status != 3 && book.status != 1" @click="bookEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  مقاله</button>
+                    <button v-if="book.status != 3 && book.status != 1" @click="bookEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  کتاب</button>
                     <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
 
                     <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
@@ -694,7 +696,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><i
-                            class="far fa-file-alt fa-fw"></i> مشاهده ضمیمه مقاله</h5>
+                            class="far fa-file-alt fa-fw"></i> مشاهده ضمیمه کتاب</h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -785,7 +787,7 @@
                     isbn:'',
                     subject:'',
                     publisher:'',
-                    fileChangeType:-1,
+                    fileChangeType:'',
                     edited:'',
                     edited_number:'',
                     publish_number:'',
@@ -1003,7 +1005,7 @@
                 $('#checkListHistoryShow').modal('show');
             },
             goback(){
-                this.$router.push({path:'/thesis'});
+                this.$router.push({path:'/books'});
             },
             // shows bookEditModal
             bookEditModal(){
@@ -1012,13 +1014,12 @@
             // prepares the edit form data
             editFormPrepare(){
                 this.form.fill(this.book);
-                this.form.fileChangeType = -1;
+                this.form.fileChangeType = '';
                 this.form.authors = [];
                 this.form.affiliations = [];
                 this.form.files =[];
 
                 for(var j=0; j<this.book.Authors.length; j++){
-                    console.log(this.book.Authors[j].name)
                     this.form.authors.push(this.book.Authors[j].name);
                     this.form.affiliations.push(this.book.Authors[j].affiliation);
                 }

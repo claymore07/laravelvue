@@ -32,15 +32,12 @@ class ProjectRequest extends FormRequest
             'defense_date' => 'required|date_format:Y-m-d',
             'authors' => 'required',
             'isresponsible' => 'required',
-            //'files.*'=>'mimes:rar,zip,pdf',
-           // 'files'=>'required',
+            'files.*'=>'mimes:rar,zip,pdf',
+            'files'=>'required',
         ];
-        switch ($this->method()) {
-            case 'PUT':
-            case 'PATCH':
-                $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
-                $rules['files.*'] = 'sometimes|mimes:rar,zip,pdf';
-                break;
+        if ($this->is('api/projectUpdate/*')) {
+            $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
+            $rules['files.*'] = 'sometimes|mimes:rar,zip,pdf';
         }
         return $rules;
     }

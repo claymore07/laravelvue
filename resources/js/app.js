@@ -32,10 +32,12 @@ import VoerroTagsInput from '@voerro/vue-tagsinput';
 import bTooltip from 'bootstrap-vue/es/components/tooltip/tooltip'
 import bTooltipDirective from 'bootstrap-vue/es/directives/tooltip/tooltip'
 import Loading from 'vue-loading-overlay';
+import VueCurrencyFilter from 'vue-currency-filter'
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
 Vue.prototype.$gate = new Gate(window.user);
 window.User = User;
+
 
 
 
@@ -107,6 +109,15 @@ Vue.use(Loading, {
     // slots
 });
 
+Vue.use(VueCurrencyFilter,
+    {
+        symbol : 'ریال',
+        thousandsSeparator: ',',
+        fractionCount: 2,
+        fractionSeparator: '.',
+        symbolPosition: 'back',
+        symbolSpacing: true
+    });
 
 window.swal = Swal;
 const toast = Swal.mixin({

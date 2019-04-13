@@ -136,7 +136,16 @@
                                 </p-check>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td class="font-16">
+                                <span class="blue ">وضعیت بررسی:</span>
+                                <span v-if="course.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</span>
+                                <span v-else-if="course.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
+                                <span v-else-if="course.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</span>
+                                <span v-else-if="course.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</span>
+                                <span v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</span>
+                            </td>
+                        </tr>
                         <tr v-show="checkList">
                             <td colspan="2">
                                 <label for="status" class="blue mt-3">وضعیت بررسی: </label>
@@ -597,7 +606,7 @@
             // prepares the edit form data
             editFormPrepare(){
                 this.form.fill(this.course);
-                this.form.fileChangeType = -1;
+                this.form.fileChangeType ='';
                 this.form.files =[];
             },
             pdfModal(name){

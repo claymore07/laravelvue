@@ -37,6 +37,7 @@ class ProjectResource extends JsonResource
             $resource = [
                 'id' => $this->id,
                 'title' => $this->title,
+                'budget' => $this->budget,
                 'project_types_id' => $this->project_types_id,
                 'project_type' => $this->projectType->name,
                 'organization' => $this->organization,
