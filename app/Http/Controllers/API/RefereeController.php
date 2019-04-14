@@ -137,11 +137,11 @@ class RefereeController extends Controller
     public function refereeRelation(){
         //$this->authorize('IsUserOrIsAdmin');
 
-        $refereetypes = RefereeType::all()->map(function ($item){
+        $referee_types = RefereeType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
 
-        return Response::json(array('bookTypes'=>$refereetypes));
+        return Response::json(array('referee_types'=>$referee_types));
     }
 
     /**
@@ -158,16 +158,16 @@ class RefereeController extends Controller
         $request['status'] = 0;
         DB::beginTransaction();
         try {
-            // $fileBag = $request->files;
+            $fileBag = $request->files;
             $referee_db = Referee::create($request->all());
 
-            /* foreach ($fileBag as $files) {
+            foreach ($fileBag as $files) {
                  foreach ($files as $file) {
                      $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                     $file->move('files/rewards', $name);
+                     $file->move('files/referees', $name);
                      $referee_db->files()->create(['name' => $name]);
                  }
-             }*/
+             }
 
 
         }catch (\Exception $e){
@@ -190,17 +190,6 @@ class RefereeController extends Controller
         return new RefereeResource($referee);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Referee  $referee
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Referee $referee)
-    {
-        //
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -215,9 +204,9 @@ class RefereeController extends Controller
         //
         DB::beginTransaction();
         try {
-            // $fileBag = $request->files;
+            $fileBag = $request->files;
             $referee->update($request->all());
-            /*if ($request->has('fileChangeType')) {
+            if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
                     $files = $referee->files;
                     foreach ($files as $file){
@@ -227,11 +216,11 @@ class RefereeController extends Controller
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
                         $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                        $file->move('files/books', $name);
+                        $file->move('files/referees', $name);
                         $referee->files()->create(['name' => $name]);
                     }
                 }
-            }*/
+            }
             $referee = Referee::findOrFail($referee->id);
 
         }catch (\Exception $e){

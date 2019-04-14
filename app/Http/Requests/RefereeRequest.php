@@ -29,15 +29,12 @@ class RefereeRequest extends FormRequest
             'journal_name' => 'required_if:referee_types_id,1|required_if:referee_types_id,2',
             'journal_issn' =>'required_if:referee_types_id,1|required_if:referee_types_id,2' ,
             'referee_date' => 'sometimes|required|date_format:Y-m-d',
-            //'files.*'=>'mimes:rar,zip,pdf',
-            // 'files'=>'required',
+            'files.*'=>'mimes:rar,zip,pdf',
+            'files'=>'required',
         ];
-        switch ($this->method()) {
-            case 'PUT':
-            case 'PATCH':
-                $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
-                $rules['files.*'] = 'sometimes|mimes:rar,zip,pdf';
-                break;
+        if ($this->is('api/refereeUpdate/*')) {
+            $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
+            $rules['files.*'] = 'sometimes|mimes:rar,zip,pdf';
         }
         return $rules;
     }

@@ -58,7 +58,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/referees" class="nav-link ">
                         <i class="nav-icon fal fa-gavel nav-icon green"></i>
                         <p>داوری و نظارت بر طرح ها</p>
                     </router-link>

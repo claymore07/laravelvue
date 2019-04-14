@@ -4,7 +4,7 @@
             <div class="card card-4 my-5">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
-                        <h3 class=" text-right">اطلاعات کرسی‌</h3>
+                        <h3 class=" text-right"><i class="fal fa-lightbulb-on fa-fw"></i> اطلاعات کرسی‌ ‌</h3>
                     </div>
                     <div class="card-tools">
                         <button class="btn btn-success" @click="goback"><i style="font-size: 16px" class="fal fa-undo"></i> بازگشت</button>
@@ -51,11 +51,11 @@
                             <td class="font-16">
                                 <span class="blue">نام ارائه دهنده:</span>
                                 <span class="mr-3">{{ted.Author_name}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام رائه دهنده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام ارائه دهنده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
-                                <p-check :checked="checkListForm.list && checkListForm.list.includes('نام رائه دهنده')"
-                                         @change.native="onChange('نام رائه دهنده', $event)"
+                                <p-check :checked="checkListForm.list && checkListForm.list.includes('نام ارائه دهنده')"
+                                         @change.native="onChange('نام ارائه دهنده', $event)"
                                          type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                     <i slot="extra" class="icon far fa-check"></i>
                                 </p-check>
@@ -179,7 +179,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><i
-                            class="far fa-users-class fa-fw"></i> ویرایش اطلاعات دوره</h5>
+                            class="far fa-lightbulb-on fa-fw"></i> ویرایش اطلاعات دوره</h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -425,7 +425,7 @@
                     this.editFormPrepare();
                     // UI modal Hide, progress bar finish , show the toase
                     $('#tedEditModal').modal('hide');
-                    this.successToast('اطلاعات دوره با موفقیت ویرایش شد.');
+                    this.successToast('اطلاعات کرسی با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
 
@@ -460,7 +460,7 @@
             tedValidation(){
                 return this.$validator.validateAll('form').then(result => {
                     if (!result) {
-                        this.errorSwal('اطلاعات دوره دارای خطا می باشد!');
+                        this.errorSwal('اطلاعات کرسی دارای خطا می باشد!');
                         return false;
                     }
                     return true;
@@ -627,6 +627,7 @@
                 attributes: {
                     title: 'عنوان دوره',
                     role: 'نقش در دوره',
+                    fileChangeType: 'نوع تغییر فایل ها',
                     holding_date: 'تاربخ برگزاری',
                     duration: 'مدت زمان دوره',
                     organization:'سازمان برگزار کننده دوره',

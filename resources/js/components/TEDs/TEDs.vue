@@ -299,8 +299,7 @@
                     $('#addNew').modal('hide');
                     this.successToast('اطلاعات کرسی جدید با موفقیت ثبت شد.');
                     this.$Progress.finish();
-                    this.form.reset();
-                    this.$validator.reset();
+                    this.resetFormWizard();
                 })
                     .catch(() => {
                         loader1.hide();
@@ -316,6 +315,13 @@
                         this.$Progress.fail();
                     })
 
+            },
+            resetFormWizard() {
+                this.fileName=[];
+                this.attachments = [];
+                this.form.reset();
+                this.$refs.wizard.reset();
+                this.$validator.reset();
             },
             deleteTed(id){
                 swal({
