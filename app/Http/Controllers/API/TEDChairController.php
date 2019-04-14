@@ -211,6 +211,8 @@ class TEDChairController extends Controller
         try {
             $tEDChair = TEDChair::findOrFail($id);
             $fileBag = $request->files;
+            $request['status'] = 4;
+
             $tEDChair->update($request->all());
             if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {

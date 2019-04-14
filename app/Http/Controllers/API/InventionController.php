@@ -135,11 +135,11 @@ class InventionController extends Controller
     }
     public function inventionRelation(){
         $this->authorize('IsUserOrIsAdmin');
-        $inventionTypes = InventionType::all()->map(function ($item){
+        $invention_types = InventionType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
 
-        return Response::json(array( 'inventionTypes'=>$inventionTypes));
+        return Response::json(array( 'invention_types'=>$invention_types));
     }
 
     /**
@@ -203,6 +203,7 @@ class InventionController extends Controller
         try {
             $fileBag = $request->files;
             $request['profile_id'] =  auth('api')->user()->profile['id'];
+            $request['status'] = 4;
 
             $invention_db = $invention->update($request->all());
 

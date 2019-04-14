@@ -38,7 +38,7 @@ class BookletResource extends JsonResource
                 'id' => $this->id,
                 'name' => $this->name,
                 'title' => $this->title,
-                'type' => $this->booklet_type,
+                'booklet_type' => $this->booklet_type,
                 'degree' => $this->degree->name,
                 'degree_id' => $this->degree_id,
                 'Author_name'=> $name,

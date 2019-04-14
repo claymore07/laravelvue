@@ -124,7 +124,7 @@
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">عنوان طرح پژوهشی و فناوری<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="title" placeholder="عنوان طرح پژوهشی و فناوری"
                                                     class="form-control" v-model="form.title"
@@ -150,7 +150,7 @@
                                             <span v-show="errors.has('form.project_types_id')" class="red d-inline-block">{{ errors.first('form.project_types_id') }}</span>
                                             <span v-show="form.errors.has('project_types_id')" class="red d-inline-block">{{ form.errors.get('project_types_id') }}</span>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">سازمان طرف قرارداد<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="organization" placeholder="سازمان طرف قرارداد"
                                                     class="form-control" v-model="form.organization"
@@ -172,7 +172,7 @@
                                             <span v-show="errors.has('form.budget')" class="red d-inline-block">{{ errors.first('form.budget') }}</span>
                                             <span v-show="form.errors.has('budget')" class="red d-inline-block">{{ form.errors.get('budget') }}</span>
                                         </div>
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ تصویب در شورای پژوهشی<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.council_aprovedate | myDate}}</span>
                                             <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD"
@@ -185,7 +185,7 @@
                                                 <span v-show="form.errors.has('council_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('council_aprovedate') }}</span>
                                             </div>
                                         </div>
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ دفاع<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
                                             <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"
@@ -199,7 +199,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه:<i class="red mx-1">*</i>:</label>
                                             <span class="red"><br/>
                                                 اسکن قرارداد بصورت pdf<br>

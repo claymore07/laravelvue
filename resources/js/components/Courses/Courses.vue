@@ -126,7 +126,7 @@
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">عنوان دوره:</label>
                                             <input  type="text"  name="title" placeholder="عنوان دوره"
                                                     class="form-control" v-model="form.title"
@@ -134,10 +134,10 @@
                                                     autofocus
                                                     :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " >
                                             <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
-                                            <has-error :form="form" field="title"></has-error>
+                                            <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
+                                            <span v-show="form.errors.has('title')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('title') }}</span>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نام سازمان برگزارکننده:</label>
                                             <input  type="text"  name="organization" placeholder="نام سازمان برگزارکننده"
                                                     class="form-control" v-model="form.organization"
@@ -145,10 +145,10 @@
                                                     :class="{ 'is-invalid': form.errors.has('organization') || errors.has('form.organization')} " @input="() => {}">
                                             <i v-show="errors.has('form.organization') || form.errors.has('organization')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.organization')" class="red d-inline-block">{{ errors.first('form.organization') }}</span>
-                                            <has-error :form="form" field="organization"></has-error>
+                                            <span v-show="form.errors.has('organization')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('organization') }}</span>
                                         </div>
 
-                                        <div class="form-group my-5 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نقش در دوره:</label>
                                             <select v-model="form.role"
                                                     data-vv-name="role"
@@ -161,7 +161,7 @@
                                             </select>
                                             <i v-show="errors.has('form.role') || form.errors.has('role')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.role')" class="red d-inline-block">{{ errors.first('form.role') }}</span>
-                                            <has-error :form="form" field="role"></has-error>
+                                            <span v-show="form.errors.has('role')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('role') }}</span>
                                         </div>
 
                                         <div  class="form-group my-3 text-right">
@@ -176,7 +176,7 @@
                                             <span v-show="errors.has('form.duration')" class="red d-inline-block">{{ errors.first('form.duration') }}</span>
                                             <span v-show="form.errors.has('duration')" class="red d-inline-block">{{ form.errors.get('duration') }}</span>
                                         </div>
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ برگزاری:<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.holding_date | myDate}}</span>
                                             <date-picker @change="removeError('holding_date')" format="YYYY-MM-DD"
@@ -190,7 +190,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه:<i class="red mx-1">*</i>:</label>
                                             <span class="red"><br/>
                                                 اسکن گواهی دوره بصورت pdf<br>

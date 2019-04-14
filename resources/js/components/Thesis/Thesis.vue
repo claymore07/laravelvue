@@ -113,75 +113,86 @@
                         <form @submit.prevent="createThesis()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" id="Form">
 
                             <div class="modal-body">
-                                <div class="form-group mt-4 text-right">
+                                <div class="form-group my-3 text-right">
                                     <label class="blue">عنوان پایان نامه:</label>
                                     <input  type="text"  name="title" placeholder="عنوان پایان نامه"
                                             class="form-control" v-model="form.title"
                                             data-error-pattern-mismatch="نام باید فارسی باشد!"
                                             required
                                             autofocus
-                                            :class="{ 'is-invalid': form.errors.has('title') } " @input="() => {}">
-                                    <has-error :form="form" field="title"></has-error>
+                                            :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " @input="() => {}">
+                                    <i v-show="errors.has('form.title') || form.errors.has('location')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
+                                    <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
+
                                 </div>
 
-                                <div class="form-group my-5 text-right">
+                                <div class="form-group my-3 text-right">
                                     <label class="blue">مقطع تحصیلی:</label>
                                     <Select2 class="form-control select2-form-control"
-                                             :class="{ 'is-invalid': form.errors.has('degree_id') }" v-model="form.degree_id"
+                                             :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')}" v-model="form.degree_id"
                                              :options="degrees"
                                              @change="removeError('degree_id')"
                                              :settings="{theme: 'bootstrap4', placeholder: 'مقطع تحصیلی', width: '100%' }">
                                     </Select2>
-                                    <has-error :form="form" field="degree_id"></has-error>
+                                    <i v-show="errors.has('form.degree_id') || form.errors.has('degree_id')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="errors.has('form.degree_id')" class="red d-inline-block">{{ errors.first('form.degree_id') }}</span>
+                                    <span v-show="form.errors.has('degree_id')" class="red d-inline-block">{{ form.errors.get('degree_id') }}</span>
                                 </div>
-                                <div class="form-group my-5 text-right">
+                                <div class="form-group my-3 text-right">
                                     <label class="blue">مسئولیت استاد در پایان نامه:</label>
                                     <select name="type" v-model="form.responsible" id="type" class="form-control test1"
-                                            :class="{ 'is-invalid': form.errors.has('responsible') }">
+                                            :class="{ 'is-invalid': form.errors.has('responsible') || errors.has('form.responsible')}">
                                         <option selected disabled value="">مسئولیت استاد در پایان نامه</option>
                                         <option value="0">استاد راهنما</option>
                                         <option value="1">استاد مشاور</option>
 
                                     </select>
-                                    <has-error :form="form" field="responsible"></has-error>
+                                    <i v-show="errors.has('form.responsible') || form.errors.has('responsible')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="errors.has('form.responsible')" class="red d-inline-block">{{ errors.first('form.responsible') }}</span>
+                                    <span v-show="form.errors.has('responsible')" class="red d-inline-block">{{ form.errors.get('responsible') }}</span>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ تصویب در گروه<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.group_aprovedate | myDate}}</span>
                                     <date-picker @change="removeError('group_aprovedate')" format="YYYY-MM-DD"  :class="[ form.errors.has('group_aprovedate') ? 'is-invalid': ''  ] "
                                                  name="accept_date" v-model="form.group_aprovedate" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
-                                        <i v-show="form.errors.has('group_aprovedate')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show="errors.has('form.group_aprovedate') || form.errors.has('group_aprovedate')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form.group_aprovedate')" class="red d-inline-block">{{ errors.first('form.group_aprovedate') }}</span>
                                         <span v-show="form.errors.has('group_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('group_aprovedate') }}</span>
                                     </div>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ تصویب در شورای پژوهشی<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.council_aprovedate | myDate}}</span>
                                     <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD"  :class="[ form.errors.has('council_aprovedate') ? 'is-invalid': ''  ] "
                                                  name="accept_date" v-model="form.council_aprovedate" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
-                                        <i v-show="form.errors.has('council_aprovedate')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show="errors.has('form.council_aprovedate') || form.errors.has('council_aprovedate')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form.council_aprovedate')" class="red d-inline-block">{{ errors.first('form.council_aprovedate') }}</span>
                                         <span v-show="form.errors.has('council_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('council_aprovedate') }}</span>
                                     </div>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ دریافت کد<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.code_date | myDate}}</span>
                                     <date-picker @change="removeError('code_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('code_date') ? 'is-invalid': ''  ] "
                                                  name="accept_date" v-model="form.code_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
-                                        <i v-show="form.errors.has('code_date')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show="errors.has('form.code_date') || form.errors.has('code_date')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form.code_date')" class="red d-inline-block">{{ errors.first('form.code_date') }}</span>
                                         <span v-show="form.errors.has('code_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('code_date') }}</span>
                                     </div>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ تصویب دفاع<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
                                     <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('defense_date') ? 'is-invalid': ''  ] "
                                                  name="accept_date" v-model="form.defense_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
-                                        <i v-show="form.errors.has('defense_date')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show="errors.has('form.defense_date') || form.errors.has('defense_date')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form.defense_date')" class="red d-inline-block">{{ errors.first('form.defense_date') }}</span>
                                         <span v-show="form.errors.has('defense_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('defense_date') }}</span>
                                     </div>
                                 </div>

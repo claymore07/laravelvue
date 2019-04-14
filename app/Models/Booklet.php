@@ -8,7 +8,7 @@ class Booklet extends Model
 {
     //
     protected $fillable = [
-        'profile_id', 'degree_id', 'status',
+        'profile_id', 'degree_id', 'status', 'booklet_type',
         'title', 'name', 'compilation_date', 'score'
     ];
 

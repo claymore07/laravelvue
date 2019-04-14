@@ -226,6 +226,7 @@ class ProjectController extends Controller
             $isresposible = $request->isresponsible;
 
             $request['profile_id'] =  auth('api')->user()->profile['id'];
+            $request['status'] = 4;
 
             $project_db = $project->update($request->all());
             $project->authors()->delete();

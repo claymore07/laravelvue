@@ -204,7 +204,10 @@ class BookletController extends Controller
         DB::beginTransaction();
         try {
             $fileBag = $request->files;
+            $request['status'] = 4;
+
             $booklet->update($request->all());
+
             if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {
                     $files = $booklet->files;

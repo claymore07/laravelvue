@@ -16,7 +16,7 @@
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs green"></i>
                 <p>
-                    مدیریت رزومه
+                    مدیریت رزومه پژوهشی
                     <i class="right fa fa-angle-left"></i>
                 </p>
             </a>
@@ -64,7 +64,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/inventions" class="nav-link ">
                         <i class="nav-icon fal fa-microscope nav-icon green"></i>
                         <p>اختراعات و اکتشافات</p>
                     </router-link>
@@ -77,7 +77,23 @@
                 </li>
             </ul>
         </li>
-
+        <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cogs cyan"></i>
+                <p>
+                    مدیریت رزومه آموزشی
+                    <i class="right fa fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/booklets" class="nav-link ">
+                        <i class="nav-icon fal fa-presentation nav-icon cyan"></i>
+                        <p>جزوات یا اسلایدها</p>
+                    </router-link>
+                </li>
+            </ul>
+        </li>
 
         <li v-if="type == 'admin'" class="nav-item has-treeview ">
             <a href="#" class="nav-link">

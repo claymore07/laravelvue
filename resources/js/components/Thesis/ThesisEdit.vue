@@ -215,7 +215,7 @@
                     <form @submit.prevent="updateThesis(thesis.id)" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" id="Form">
 
                         <div class="modal-body">
-                            <div class="form-group mt-4 text-right">
+                            <div class="form-group my-3 text-right">
                                 <label class="blue">عنوان پایان نامه:</label>
                                 <input  type="text"  name="title" placeholder="عنوان پایان نامه"
                                         class="form-control" v-model="form.title"
@@ -226,7 +226,7 @@
                                 <has-error :form="form" field="title"></has-error>
                             </div>
 
-                            <div class="form-group my-5 text-right">
+                            <div class="form-group my-3 text-right">
                                 <label class="blue">مقطع تحصیلی:</label>
                                 <Select2 class="form-control select2-form-control"
                                          :class="{ 'is-invalid': form.errors.has('degree_id') }" v-model="form.degree_id"
@@ -236,7 +236,7 @@
                                 </Select2>
                                 <has-error :form="form" field="degree_id"></has-error>
                             </div>
-                            <div class="form-group my-5 text-right">
+                            <div class="form-group my-3 text-right">
                                 <label class="blue">مسئولیت استاد در پایان نامه:</label>
                                 <select name="type" v-model="form.responsible" id="type" class="form-control test1"
                                         :class="{ 'is-invalid': form.errors.has('responsible') }">
@@ -247,7 +247,7 @@
                                 </select>
                                 <has-error :form="form" field="responsible"></has-error>
                             </div>
-                            <div class=" mt-4" style="direction: ltr; text-align: right" >
+                            <div class=" my-3" style="direction: ltr; text-align: right" >
                                 <label class="blue text-right  text-rtl">تاریخ تصویب در گروه<i class="red mx-1">*</i>:</label>
                                 <br> <span class="float-left font-16 "> {{form.group_aprovedate | myDate}}</span>
                                 <date-picker @change="removeError('group_aprovedate')" format="YYYY-MM-DD"  :class="[ form.errors.has('group_aprovedate') ? 'is-invalid': ''  ] "
@@ -257,7 +257,7 @@
                                     <span v-show="form.errors.has('group_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('group_aprovedate') }}</span>
                                 </div>
                             </div>
-                            <div class=" mt-4" style="direction: ltr; text-align: right" >
+                            <div class=" my-3" style="direction: ltr; text-align: right" >
                                 <label class="blue text-right  text-rtl">تاریخ تصویب در شورای پژوهشی<i class="red mx-1">*</i>:</label>
                                 <br> <span class="float-left font-16 "> {{form.council_aprovedate | myDate}}</span>
                                 <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD"  :class="[ form.errors.has('council_aprovedate') ? 'is-invalid': ''  ] "
@@ -267,7 +267,7 @@
                                     <span v-show="form.errors.has('council_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('council_aprovedate') }}</span>
                                 </div>
                             </div>
-                            <div class=" mt-4" style="direction: ltr; text-align: right" >
+                            <div class=" my-3" style="direction: ltr; text-align: right" >
                                 <label class="blue text-right  text-rtl">تاریخ دریافت کد<i class="red mx-1">*</i>:</label>
                                 <br> <span class="float-left font-16 "> {{form.code_date | myDate}}</span>
                                 <date-picker @change="removeError('code_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('code_date') ? 'is-invalid': ''  ] "
@@ -277,7 +277,7 @@
                                     <span v-show="form.errors.has('code_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('code_date') }}</span>
                                 </div>
                             </div>
-                            <div class=" mt-4" style="direction: ltr; text-align: right" >
+                            <div class=" my-3" style="direction: ltr; text-align: right" >
                                 <label class="blue text-right  text-rtl">تاریخ تصویب دفاع<i class="red mx-1">*</i>:</label>
                                 <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
                                 <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('defense_date') ? 'is-invalid': ''  ] "

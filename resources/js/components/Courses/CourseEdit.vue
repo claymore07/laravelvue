@@ -237,7 +237,7 @@
                                             <has-error :form="form" field="organization"></has-error>
                                         </div>
 
-                                        <div class="form-group my-5 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نقش در دوره:</label>
                                             <select v-model="form.role"
                                                     data-vv-name="role"
@@ -265,7 +265,7 @@
                                             <span v-show="errors.has('form.duration')" class="red d-inline-block">{{ errors.first('form.duration') }}</span>
                                             <span v-show="form.errors.has('duration')" class="red d-inline-block">{{ form.errors.get('duration') }}</span>
                                         </div>
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ برگزاری:<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.holding_date | myDate}}</span>
                                             <date-picker @change="removeError('holding_date')" format="YYYY-MM-DD"
@@ -278,7 +278,7 @@
                                                 <span v-show="form.errors.has('holding_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('holding_date') }}</span>
                                             </div>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         </div>
                                         <div class="mt-2 text-right">
@@ -287,7 +287,7 @@
                                             <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
-                                            <div class="form-group mt-4 text-right">
+                                            <div class="form-group my-3 text-right">
                                                 <label class="blue text-right">نوع تغییر<i class="red mx-1">*</i>:</label>
                                             </div>
                                             <div class="form-group mb-4 text-right border-bottom">
@@ -308,7 +308,7 @@
                                                 <span v-show="form.errors.has('fileChangeType')" class="red d-inline-block">{{ form.errors.get('fileChangeType') }}</span>
                                             </div>
                                         </div>
-                                        <div v-if="fileChanging" class="form-group mt-4 text-right">
+                                        <div v-if="fileChanging" class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                             <span class="red"><br/>
                                                 اسکن گواهی دوره بصورت pdf<br>

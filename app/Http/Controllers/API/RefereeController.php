@@ -205,6 +205,8 @@ class RefereeController extends Controller
         DB::beginTransaction();
         try {
             $fileBag = $request->files;
+            $request['status'] = 4;
+
             $referee->update($request->all());
             if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {

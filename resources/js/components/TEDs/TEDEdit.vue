@@ -199,7 +199,7 @@
                                 <form @submit.prevent="updateTed()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">عنوان کرسی<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="title" placeholder="عنوان کرسی"
                                                     class="form-control" v-model="form.title"
@@ -225,7 +225,7 @@
                                             <span v-show="errors.has('form.ted_types_id')" class="red d-inline-block">{{ errors.first('form.ted_types_id') }}</span>
                                             <span v-show="form.errors.has('ted_types_id')" class="red d-inline-block">{{ form.errors.get('ted_types_id') }}</span>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">محل برگزاری<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="location" placeholder="محل برگزاری"
                                                     class="form-control" v-model="form.location"
@@ -236,7 +236,7 @@
                                             <has-error :form="form" field="location"></has-error>
                                         </div>
 
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ ارائه<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.presentation_date | myDate}}</span>
                                             <date-picker @change="removeError('presentation_date')" format="YYYY-MM-DD"
@@ -251,7 +251,7 @@
                                         </div>
 
 
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         </div>
                                         <div class="mt-2 text-right">
@@ -260,7 +260,7 @@
                                             <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
-                                            <div class="form-group mt-4 text-right">
+                                            <div class="form-group my-3 text-right">
                                                 <label class="blue text-right">نوع تغییر<i class="red mx-1">*</i>:</label>
                                             </div>
                                             <div class="form-group mb-4 text-right border-bottom">
@@ -281,10 +281,11 @@
                                                 <span v-show="form.errors.has('fileChangeType')" class="red d-inline-block">{{ form.errors.get('fileChangeType') }}</span>
                                             </div>
                                         </div>
-                                        <div v-if="fileChanging" class="form-group mt-4 text-right">
+                                        <div v-if="fileChanging" class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                             <span class="red"><br/>
-                                                اسکن گواهی دوره بصورت pdf<br>
+                                                اسکن گواهی برگزاری بصورت pdf<br>
+                                                اسکن مجوز بصورت pdf<br>
                                                 سایر فایل های مربوطه بصورت یک فایل فشرده با پسونده zip
                                             </span>
                                         </div>

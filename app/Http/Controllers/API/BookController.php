@@ -210,6 +210,7 @@ class BookController extends Controller
             $authors = $request->authors;
             $affiliations = $request->affiliations;
             $request['profile_id'] =  auth('api')->user()->profile['id'];
+            $request['status'] = 4;
 
             $book_db = $book->update($request->all());
             $book->authors()->delete();

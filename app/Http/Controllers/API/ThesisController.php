@@ -175,6 +175,8 @@ class ThesisController extends Controller
     {
         //
         $thesis = Thesis::findOrFail($id);
+        $request['status'] = 4;
+
         $thesis->update($request->all());
         return new ThesisResource($thesis);
     }

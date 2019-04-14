@@ -124,7 +124,7 @@
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">عنوان کرسی<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="title" placeholder="عنوان کرسی"
                                                     class="form-control" v-model="form.title"
@@ -132,8 +132,9 @@
                                                     autofocus
                                                     :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " >
                                             <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
-                                            <has-error :form="form" field="title"></has-error>
+                                            <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
+                                            <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
+
                                         </div>
                                         <div class="form-group my-4 text-right">
                                             <label class="blue">نوع کرسی<i class="red mx-1">*</i>:</label>
@@ -150,7 +151,7 @@
                                             <span v-show="errors.has('form.ted_types_id')" class="red d-inline-block">{{ errors.first('form.ted_types_id') }}</span>
                                             <span v-show="form.errors.has('ted_types_id')" class="red d-inline-block">{{ form.errors.get('ted_types_id') }}</span>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">محل برگزاری<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="location" placeholder="محل برگزاری"
                                                     class="form-control" v-model="form.location"
@@ -158,10 +159,11 @@
                                                     :class="{ 'is-invalid': form.errors.has('location') || errors.has('form.location')} " @input="() => {}">
                                             <i v-show="errors.has('form.location') || form.errors.has('location')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.location')" class="red d-inline-block">{{ errors.first('form.location') }}</span>
-                                            <has-error :form="form" field="location"></has-error>
+                                            <span v-show="form.errors.has('location')" class="red d-inline-block">{{ form.errors.get('location') }}</span>
+
                                         </div>
 
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ ارائه<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.presentation_date | myDate}}</span>
                                             <date-picker @change="removeError('presentation_date')" format="YYYY-MM-DD"
@@ -175,10 +177,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه:<i class="red mx-1">*</i>:</label>
                                             <span class="red"><br/>
-                                                اسکن گواهی گزاری بصورت pdf<br>
+                                                اسکن گواهی برگزاری بصورت pdf<br>
                                                 اسکن مجوز بصورت pdf<br>
                                                 سایر فایل های مربوطه بصورت یک فایل فشرده با پسونده zip
                                             </span>

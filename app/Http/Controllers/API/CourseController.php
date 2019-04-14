@@ -191,6 +191,8 @@ class CourseController extends Controller
         DB::beginTransaction();
         try {
              $fileBag = $request->files;
+            $request['status'] = 4;
+
             $course->update($request->all());
             if ($request->has('fileChangeType')) {
 
