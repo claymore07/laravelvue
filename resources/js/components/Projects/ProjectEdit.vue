@@ -241,17 +241,17 @@
                                                     autofocus
                                                     :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " >
                                             <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
-                                            <has-error :form="form" field="title"></has-error>
+                                            <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
+                                            <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                         </div>
-                                        <div class="form-group my-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نوع طرح پژوهشی<i class="red mx-1">*</i>:</label>
                                             <Select2 v-validate="'required'" data-vv-name="project_types_id"
                                                      class="form-control select2-form-control" id="project_types_id"
                                                      :class="[( errors.has('form.project_types_id') || form.errors.has('project_types_id') ? 'is-invalid': ''  )]"
                                                      v-model="form.project_types_id"
                                                      :options="project_types"
-                                                     autofocus
+                                                     @change="removeError('project_types_id')"
                                                      :settings="{theme: 'bootstrap4', placeholder: 'نوع طرح پژوهشی', width: '100%' }">
                                             </Select2>
 
@@ -267,7 +267,7 @@
                                                     :class="{ 'is-invalid': form.errors.has('organization') || errors.has('form.organization')} " @input="() => {}">
                                             <i v-show="errors.has('form.organization') || form.errors.has('organization')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.organization')" class="red d-inline-block">{{ errors.first('form.organization') }}</span>
-                                            <has-error :form="form" field="organization"></has-error>
+                                            <span v-show="form.errors.has('organization')" class="red d-inline-block">{{ form.errors.get('organization') }}</span>
                                         </div>
                                         <div  class="form-group my-3 text-right">
                                             <label class="blue ">بودجه طرح پژوهشی<i class="red mx-1">*</i>:{{ form.budget | currency}}</label>
@@ -315,8 +315,8 @@
                                         </div>
                                         <div class="mt-2 text-right">
                                             <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                            <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                            <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                            <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                            <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
                                             <div class="form-group my-3 text-right">
@@ -349,7 +349,7 @@
                                             </span>
                                         </div>
                                         <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                            <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                            <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                             <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                             <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                                   v-for="item in fileName">{{item}}</span>
@@ -726,8 +726,10 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.project.status;
+                    if (this.checkListItems.length > 0){
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.project.status;
+                    }
                 }
             },
             toggleCheckList(){
@@ -772,7 +774,7 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets thesis data based on the received it
             getProjectData(id){

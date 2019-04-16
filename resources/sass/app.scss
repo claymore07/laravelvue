@@ -108,7 +108,12 @@ $fa-font-path: "../webfonts";
 .swal2-popup {
     direction: rtl;
 }
-
+.under-line{
+    text-decoration: underline;
+}
+.left{
+    float: left;
+}
 .main-footer-login {
     padding: 15px;
     color: #555;
@@ -632,4 +637,29 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 .tags-input-typeahead-item-highlighted-default {
     color: #fff;
     background-color: #007bff;
+}
+
+@include media-breakpoint-only(sm) {
+    .btn-block-only {
+        display: block;
+        width: 100%;
+    }
+}
+@include media-breakpoint-only(xs) {
+    .btn-block-only {
+        display: block;
+        width: 100%;
+    }
+}
+@include media-breakpoint-only(md) {
+    .btn-block-only {
+        display: block;
+        width: 100%;
+    }
+}
+@include media-breakpoint-only(lg) {
+    .btn-block-only {
+        display: block;
+        width: 100%;
+    }
 }

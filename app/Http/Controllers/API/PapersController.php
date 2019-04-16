@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\PaperResource;
 use App\Models\Conference;
 use App\Models\ConfType;
 use App\Models\Excerpt;
@@ -31,7 +32,7 @@ class PapersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -40,19 +41,16 @@ class PapersController extends Controller
         $order = \Request::get('order');
         $user = Auth::user('api')->load('profile');
 
-        $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
-            //->where('profile_id','=',$profile->id)
-            ->where(function ($query) use ($user) {
+        $papers = Paper::where(function ($query) use ($user) {
                 if ($user->type == 'admin') {
 
                 } else {
                     $query->where('profile_id', '=', $user->profile->id);
                 }
             })
-            ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
             ->orderBy('created_at', $order)->paginate($this->perPage);
 
-        return Response::json(array('papers' => $papers));
+        return PaperResource::collection($papers);
 
     }
 
@@ -64,9 +62,7 @@ class PapersController extends Controller
         if($filter == '5') {
             if ($search = \Request::get('q')) {
                   // \DB::enableQueryLog();
-                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
-                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
-                    ->where(function ($query) use ($user) {
+                $papers = Paper::where(function ($query) use ($user) {
                         if ($user->type != 'admin') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
@@ -89,15 +85,13 @@ class PapersController extends Controller
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                    //dd(\DB::getQueryLog());
             } else {
-                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
-                    ->where(function ($query) use ($user) {
+                $papers = Paper::where(function ($query) use ($user) {
                         if ($user->type == 'admin') {
 
                         } else {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
-                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
                     ->orderBy('created_at', $order)
                     ->paginate($this->perPage);
 
@@ -106,14 +100,12 @@ class PapersController extends Controller
             if ($search = \Request::get('q')) {
                // \DB::enableQueryLog();
 
-                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
-                    ->where(function ($query) use ($user) {
+                $papers = Paper::where(function ($query) use ($user) {
                         if ($user->type != 'admin') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
                    ->where('status', $filter)
-                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
                     ->whereHas('profile', function ($query) use ($search,$filter) {
                         if ($search == trim($search) && strpos($search, ' ') !== false) {
                             $searchParts = explode(' ', $search);
@@ -128,29 +120,25 @@ class PapersController extends Controller
                         if ($user->type != 'admin') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
-                        $query->where('title', 'LIKE', "%$search%")
-
-                        ->where('status', $filter);
+                        $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                     })->orderBy('created_at', $order)->paginate($this->perPage);
               // dd(\DB::getQueryLog());
 
             } else {
 
-                $papers = Paper::select('title', 'id', 'profile_id', 'paperable_type', 'paperable_id', 'status', 'created_at')
-                    ->where(function ($query) use ($user) {
+                $papers = Paper::where(function ($query) use ($user) {
                         if ($user->type == 'admin') {
 
                         } else {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
-                    ->with(['paperable:name,id', 'profile:Fname,Lname,id'])
                     ->where('status', $filter)
                     ->orderBy('created_at', $order)
                     ->paginate($this->perPage);
             }
         }
-        return Response::json(array('papers'=>$papers));
+        return PaperResource::collection($papers);
 
     }
 
@@ -174,7 +162,51 @@ class PapersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){}
+    public function store(PaperRequest $request){
+        DB::beginTransaction();
+        try {
+            $fileBag = $request->files;
+            $authors = $request->authors;
+            $affiliations = $request->affiliations;
+            $isresposible = $request->isresponsible;
+            $tags = $request->tags;
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $paperType = $request->paperType;
+            if ($paperType == 'jur') {
+                $request['name'] = $request->jname;
+                $journal_db = Journal::create($request->all(['jtype_id','name','publisher','issn','pissn', 'IFactor','FIF',
+                    'JRK', 'JCR']));
+                $paper_db = $journal_db->papers()->create($request->all());
+            } else {
+                $request['name'] = $request->confname;
+                $conference_db = Conference::create($request->all(['conftype_id','name', 'period', 'city', 'organizer']));
+                $paper_db = $conference_db->papers()->create($request->all());
+            }
+            foreach ($tags as $tag) {
+                $paper_db->tags()->create(['name' => $tag]);
+            }
+            foreach ($authors as $key => $author) {
+                if ($key == $isresposible) {
+                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
+                } else {
+                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                }
+            }
+            foreach ($fileBag as $files) {
+                foreach ($files as $file) {
+                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                    $file->move('files/papers', $name);
+                    $paper_db->files()->create(['name' => $name]);
+                }
+            }
+        }catch (\Exception $e){
+            DB::rollback();
+            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+        }
+
+        DB::commit();
+        return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);
+    }
 
 
 
@@ -188,19 +220,8 @@ class PapersController extends Controller
     {
         $this->authorize('IsUserOrIsAdmin');
         $paper = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
-        $checkList = $paper->checklists()->latest()->get();
-        foreach ($checkList as $key => $item){
-            $checkList[$key]['list'] = explode(",",$item['list']);
-        }
-        $paperable = $paper->paperable;
-        if($paper->paperable_type == "App\Models\Journal")
-        {
-            $jtype = $paperable->jtype;
-            return Response::json(array('paper'=>$paper,'checklist'=>$checkList, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
-        }else{
-            $conftype =$paperable->conftype;
-            return Response::json(array('paper'=>$paper,'checklist'=>$checkList, 'jtypename'=>'','conftypename'=>$conftype['name'], 'type'=>1),200);
-        }
+        return new PaperResource($paper);
+
     }
 
     /**
@@ -213,7 +234,7 @@ class PapersController extends Controller
     public function update(Request $request, $id) {
         $this->authorize('IsUserOrIsAdmin');
     }
-    public function paperUpdate(Request $request, $id)
+    public function paperUpdate(PaperRequest $request, $id)
     {
         $this->authorize('IsUserOrIsAdmin');
         $paper_db = Paper::findOrFail($id);
@@ -224,41 +245,17 @@ class PapersController extends Controller
             $affiliations = $request->affiliations;
             $isresposible = $request->isresponsible;
             $tags = $request->tags;
-            $paper = [];
-            $journal = [];
-            $conference = [];
-            $paper['title'] = $request->title;
-            $paper['abstract'] = $request->abstract;
-            $paper['doi'] = $request->doi;
-            $paper['link'] = $request->link;
-            $paper['excerpt_id'] = $request->excerpt_id;
-            $paper['license'] = $request->license;
-            $paper['license_to'] = $request->license_to;
-            $paper['publish_date'] = $request->publish_date;
-            $paper['accept_date'] = $request->accept_date;
-
             // after every update on paper its status will be changed to 4 or اصلاح شده
-            $paper['status'] = 4;
-            $paper_db->update($paper);
+            $request['status'] = 4;
+            $paper_db->update($request->all());
             $paperType = $request->paperType;
            if ($paperType == 'jur') {
-                $journal['jtype_id'] = $request->jtype_id;
-                $journal['name'] = $request->jname;
-                $journal['publisher'] = $request->jpublisher;
-                $journal['issn'] = $request->jISSN;
-                $journal['pissn'] = $request->pISSN;
-                $journal['IFactor'] = $request->pIF;
-                $journal['FIF'] = $request->pFIF;
-                $journal['JRK'] = $request->pJRK;
-                $journal['JCR'] = $request->pJCR;
-               $paper_db->paperable->update($journal);
+               $request['name'] = $request->jname;
+                $paper_db->paperable->update($request->all(['jtype_id','name','publisher','issn','pissn', 'IFactor','FIF',
+                    'JRK', 'JCR']));
             } else {
-                $conference['conftype_id'] = $request->conftype_id;
-                $conference['name'] = $request->confname;
-                $conference['organizer'] = $request->conforganizer;
-                $conference['city'] = $request->confcity;
-                $conference['period'] = $request->confperiod;
-                $paper_db->paperable()->update($conference);
+               $request['name'] = $request->confname;
+               $paper_db->paperable()->update($request->all(['conftype_id','name', 'period', 'city', 'organizer']));
             }
             $paper_db->tags()->delete();
             foreach ($tags as $tag) {
@@ -294,17 +291,9 @@ class PapersController extends Controller
         }
 
         DB::commit();
-        $paper_db = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
-        $paperable = $paper_db->paperable;
+        $paper_db = Paper::findOrFail($id);
 
-        if($paper_db->paperable_type == "App\Journal")
-        {
-            $jtype = $paperable->jtype;
-            return Response::json(array('paper'=>$paper_db, 'jtypename'=>$jtype['name'], 'conftypename'=>'', 'type'=>0),200);
-        }else{
-            $conftype =$paperable->conftype;
-            return Response::json(array('paper'=>$paper_db, 'jtypename'=>'','conftypename'=>$conftype['name'], 'type'=>1),200);
-        }
+        return new PaperResource($paper_db);
     }
 
     /**
@@ -341,75 +330,4 @@ class PapersController extends Controller
     }
 
 
-    public function paperValidation(PaperRequest $request){
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $isresposible = $request->isresponsible;
-            $tags = $request->tags;
-            $paper = [];
-            $journal = [];
-            $conference = [];
-            $paper['profile_id'] = auth('api')->user()->profile['id'];
-            $paper['lang'] = $request->lang;
-            $paper['status'] = 0;
-            $paper['title'] = $request->title;
-            $paper['abstract'] = $request->abstract;
-            $paper['doi'] = $request->doi;
-            $paper['link'] = $request->link;
-            $paper['excerpt_id'] = $request->excerpt_id;
-            $paper['license'] = $request->license;
-            $paper['license_to'] = $request->license_to;
-            $paper['publish_date'] = $request->publish_date;
-            $paper['accept_date'] = $request->accept_date;
-            $paperType = $request->paperType;
-            if ($paperType == 'jur') {
-                $journal['jtype_id'] = $request->jtype_id;
-                $journal['name'] = $request->jname;
-                $journal['publisher'] = $request->jpublisher;
-                $journal['issn'] = $request->jISSN;
-                $journal['pissn'] = $request->pISSN;
-                $journal['IFactor'] = $request->pIF;
-                $journal['FIF'] = $request->pFIF;
-                $journal['JRK'] = $request->pJRK;
-                $journal['JCR'] = $request->pJCR;
-                $journal_db = Journal::create($journal);
-                $paper_db = $journal_db->papers()->create($paper);
-            } else {
-                $conference['conftype_id'] = $request->conftype_id;
-                $conference['name'] = $request->confname;
-                $conference['organizer'] = $request->conforganizer;
-                $conference['city'] = $request->confcity;
-                $conference['period'] = $request->confperiod;
-                $conference_db = Conference::create($conference);
-                $paper_db = $conference_db->papers()->create($paper);
-            }
-            foreach ($tags as $tag) {
-                $paper_db->tags()->create(['name' => $tag]);
-            }
-            foreach ($authors as $key => $author) {
-                if ($key == $isresposible) {
-                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                } else {
-                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-                }
-            }
-            foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/papers', $name);
-                    $paper_db->files()->create(['name' => $name]);
-                }
-            }
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
-        }
-
-        DB::commit();
-        return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);
-
-    }
 }

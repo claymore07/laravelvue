@@ -4,7 +4,7 @@
         <div class="card card-4 my-5">
             <div class="card-header justify-content-around d-flex " style="direction: rtl">
                 <div class="col">
-                    <h3 class=" text-right">اطلاعات مقالات</h3>
+                    <h3 class=" text-right"><i class="fal fa-pencil-ruler  fa-fw"></i> اطلاعات مقاله</h3>
                 </div>
                 <div class="card-tools">
                     <button class="btn btn-success" @click="goback"><i style="font-size: 16px" class="fal fa-undo"></i> بازگشت</button>
@@ -34,38 +34,38 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="font-16" >
-                            <span class="blue ">چکیده:</span><br>
-                            <div v-html="paper.abstract"></div>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('چکیده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('چکیده')"
-                                @change.native="onChange('چکیده', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-16">
-                            <span class="blue ">نویسندگان:</span>
-                            <span v-for="author of paper.authors" class="mr-3 ">
-                               <span v-if="author.corresponding == '-1'">{{author.name}}،</span>
-                               <span v-else style="text-decoration: underline red">{{author.name}}<i class="red">*</i>،</span>
-                            </span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسندگان')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('نویسندگان')"
-                                @change.native="onChange('نویسندگان', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
+                         <td class="font-16" >
+                             <span class="blue ">چکیده:</span><br>
+                             <div v-html="paper.abstract"></div>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('چکیده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('چکیده')"
+                                 @change.native="onChange('چکیده', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                 <tr>
+                         <td class="font-16">
+                             <span class="blue ">نویسندگان:</span>
+                             <span v-for="author of paper.Authors" class="mr-3 ">
+                                <span v-if="author.corresponding == '-1'">{{author.name}}،</span>
+                                <span v-else style="text-decoration: underline red">{{author.name}}<i class="red">*</i>،</span>
+                             </span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسندگان')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('نویسندگان')"
+                                 @change.native="onChange('نویسندگان', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
                     <tr>
                         <td class="font-16 ">
                             <span class="blue ">آدرس Doi مقاله: </span>
@@ -102,7 +102,7 @@
                     <tr>
                         <td class="font-16">
                             <span class="blue ">نوع مستخرج:</span>
-                            <span class="mr-3 "> {{paper.excerpt.name}} </span>
+                            <span class="mr-3 "> {{paper.excerpt_name}} </span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع مستخرج')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -146,7 +146,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="font-16">
+                       <td class="font-16">
                             <span class="blue ">کلمات کلید:</span>
                             <span v-for="tag of paper.tags" class="mr-3 "> {{tag.name}}، </span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('کلمات کلید')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
@@ -171,6 +171,7 @@
                                     <div v-else class="btn-group text-ltr" role="group" aria-label="Basic example">
                                       <a  :href="'../files/papers/'+file.name" class="btn btn-lg btn-info"><i class="fal fa-download"></i></a>
                                       <button @click="pdfModal(file.name)" type="button" class="btn btn-lg btn-info">ضمیمه {{index+1|faDigit}} <i class="fal fa-file-pdf fa-fw"></i></button>
+
                                     </div>
                             </span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
@@ -234,10 +235,10 @@
                         </td>
                     </tr>
                     <!-- journal detail part -->
-                    <tr v-if="jourType">
+                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue ">نوع مجله:</span>
-                            <span class="mr-3 "> {{jtypename}}</span>
+                            <span class="mr-3 "> {{paper.jtype_name}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع مجله')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -252,7 +253,7 @@
                     <tr v-if="jourType">
                         <td class="font-16">
                             <span class="blue ">نام مجله:</span>
-                            <span class="mr-3 "> {{paper.paperable.name}}</span>
+                            <span class="mr-3 "> {{paper.name}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام مجله')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -264,118 +265,118 @@
                             </p-check>
                         </td>
                     </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue ">نام ناشر:</span>
-                            <span class="mr-3 "> {{paper.paperable.publisher}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام ناشر')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('نام ناشر')"
-                                @change.native="onChange('نام ناشر', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue d-inline-block">شماره ISSN:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.issn}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ISSN')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('ISSN')"
-                                @change.native="onChange('ISSN', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue d-inline-block">شماره pISSN:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.pissn}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('pISSN')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('pISSN')"
-                                @change.native="onChange('pISSN', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue d-inline-block">ضریب IF:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.IFactor}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('IF')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('IF')"
-                                @change.native="onChange('IF', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue d-inline-block">ضریب پنج ساله IF:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.FIF}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')"
-                                @change.native="onChange('ضریب پنج ساله IF', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue d-inline-block">رتبه JCR:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.JCR}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JCR')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('JCR')"
-                                @change.native="onChange('JCR', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <tr v-if="jourType">
-                        <td class="font-16">
-                            <span class="blue d-inline-block">ضریب JRK:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.JRK}}</span>
-                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JRK')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                        </td>
-                        <td v-if="checkList">
-                            <p-check
-                                :checked="checkListForm.list && checkListForm.list.includes('JRK')"
-                                @change.native="onChange('JRK', $event)"
-                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                <i slot="extra" class="icon far fa-check"></i>
-                            </p-check>
-                        </td>
-                    </tr>
-                    <!-- /journal detail part -->
+                      <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue ">نام ناشر:</span>
+                             <span class="mr-3 "> {{paper.publisher}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام ناشر')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('نام ناشر')"
+                                 @change.native="onChange('نام ناشر', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">شماره ISSN:</span>
+                             <span class="mr-3 d-inline-block"> {{paper.issn}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ISSN')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('ISSN')"
+                                 @change.native="onChange('ISSN', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">شماره pISSN:</span>
+                             <span class="mr-3 d-inline-block"> {{paper.pissn}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('pISSN')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('pISSN')"
+                                 @change.native="onChange('pISSN', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">ضریب IF:</span>
+                             <span class="mr-3 d-inline-block"> {{paper.IFactor}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('IF')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('IF')"
+                                 @change.native="onChange('IF', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">ضریب پنج ساله IF:</span>
+                             <span class="mr-3 d-inline-block"> {{paper.FIF}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')"
+                                 @change.native="onChange('ضریب پنج ساله IF', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">رتبه JCR:</span>
+                             <span class="mr-3 d-inline-block"> {{paper.JCR}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JCR')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('JCR')"
+                                 @change.native="onChange('JCR', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">ضریب JRK:</span>
+                             <span class="mr-3 d-inline-block"> {{paper.JRK}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JRK')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('JRK')"
+                                 @change.native="onChange('JRK', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <!-- /journal detail part -->
                     <!-- conference detail part -->
 
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نوع کنفرانس:</span>
-                            <span class="mr-3 d-inline-block"> {{conftypename}}</span>
+                            <span class="mr-3 d-inline-block"> {{paper.conftype_name}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع کنفرانس')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -390,7 +391,7 @@
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نام کنفرانس:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.name}}</span>
+                            <span class="mr-3 d-inline-block"> {{paper.name}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام کنفرانس')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -405,7 +406,7 @@
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نام برگزار کننده:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.organizer}}</span>
+                            <span class="mr-3 d-inline-block"> {{paper.organizer}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام برگزار کننده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -420,7 +421,7 @@
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">نام شهر:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.city}}</span>
+                            <span class="mr-3 d-inline-block"> {{paper.city}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام شهر')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -435,7 +436,7 @@
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">دوره برگزاری:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.paperable.period}}</span>
+                            <span class="mr-3 d-inline-block"> {{paper.period}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('دوره برگزاری')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -501,7 +502,6 @@
             </div>
         </div>
     </div><!-- /container -->
-
     <!--paper Edit  modal -->
     <div v-if="paper.id" class="modal  fade" id="paperEditModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
@@ -527,13 +527,13 @@
 
                             <form @submit.prevent="createPaper()"
                                   @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form-1" id="Form">
-                                <div  class="form-group my-4 text-right">
+                                <div  class="form-group my-3 text-right">
                                     <label class="blue ">عنوان مقاله<i class="red mx-1">*</i>:</label>
                                     <input   type="text" name="title"
                                              placeholder="عنوان مقاله"
                                              v-validate="'required'"
                                              class="form-control" v-model="form.title"
-                                             :class="[( errors.has('form-1.title') || form.errors.has('title') ? 'is-invalid': ''  ), ((paper.lang == '0' )?'text-right':'text-left') ]"
+                                             :class="[( errors.has('form-1.title') || form.errors.has('title') ? 'is-invalid': ''  ),  ((paper.lang == '0' )?'text-right':'text-left') ]"
                                     >
                                     <i v-show=" errors.has('form-1.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show=" errors.has('form-1.title')" class="red d-inline-block">{{ errors.first('form-1.title') }}</span>
@@ -546,38 +546,38 @@
                                              class="form-control" v-model="form.doi"
                                              :class="[( errors.has('form-1.doi') || form.errors.has('doi') ? 'is-invalid': ''  )] "
                                     >
-                                    <has-error :form="form" field="doi"></has-error>
+                                    <i v-show=" form.errors.has('doi')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="form.errors.has('doi')" class="red d-inline-block">{{ form.errors.get('doi') }}</span>
                                 </div>
-                                <div class="form-group my-4 text-right">
-                                    <label class="blue ">لینک مقاله<i class="red mx-1">*</i>:</label>
+                                <div class="form-group my-3 text-right">
+                                    <label class="blue ">لینک مقاله:</label>
                                     <input type="text" name="link"
                                            placeholder="لینک با در نظر گرفتن http://"
-                                           v-validate="'required|url: {require_protocol: true }'"
+                                           v-validate="'url: {require_protocol: true }'"
                                            class="form-control text-ltr text-left" v-model="form.link"
                                            :class="[( errors.has('form-1.link') || form.errors.has('link') ? 'is-invalid': ''  ) ]">
                                     <i v-show="errors.has('form-1.link') || form.errors.has('link')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form-1.link')" class="red d-inline-block">{{ errors.first('form-1.link') }}</span>
                                     <span v-show="form.errors.has('link')" class="red d-inline-block">{{ form.errors.get('link') }}</span>
                                 </div>
-                                <div class="form-group my-4 text-right">
+                                <div class="form-group my-3 text-right">
                                     <label class="blue">مستخرج از<i class="red mx-1">*</i>:</label>
-                                    <select v-validate="'required'" data-vv-name="excerpt_id"
-                                        class="custom-select custom-select-lg mb-3" id="excerpt_id"
-                                            :class="[( errors.has('form-1.excerpt_id') || form.errors.has('excerpt_id') ? 'is-invalid': ''  )]"
-                                            @change="removeError('excerpt_id')"
-                                            v-model="form.excerpt_id"
-                                    >
-                                        <option selected disabled>انتخاب گزینه مورد نظر</option>
-                                        <option  v-for="(item, index) of excerpts" v-bind:value="item.id">{{item.text}}</option>
-                                    </select>
-
+                                    <Select2 v-validate="'required'"
+                                             class="form-control select2-form-control" id="excerpt_id"
+                                             :class="[( errors.has('form-1.excerpt_id') || form.errors.has('excerpt_id') ? 'is-invalid': ''  )]"
+                                             v-model="form.excerpt_id"
+                                             :options="excerpts"
+                                             @change="removeError('excerpt_id')"
+                                             data-vv-name="excerpt_id"
+                                             :settings="{theme: 'bootstrap4', placeholder: 'نوع مستخرج از:', width: '100%' }">
+                                    </Select2>
 
                                     <i v-show="errors.has('form-1.excerpt_id') || form.errors.has('excerpt_id')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form-1.excerpt_id')" class="red d-inline-block">{{ errors.first('form-1.excerpt_id') }}</span>
                                     <span v-show="form.errors.has('excerpt_id')" class="red d-inline-block">{{ form.errors.get('excerpt_id') }}</span>
                                 </div>
                                 <div v-if="form.excerpt_id == '1'">
-                                    <div class="form-group mt-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue text-right">نوع مجوز<i class="red mx-1">*</i>:</label>
                                     </div>
                                     <div class="form-group mb-4 text-right border-bottom">
@@ -592,14 +592,13 @@
                                         </p-radio>
 
                                         <br>
-                                        <has-error :form="form" field="license_to"></has-error>
                                         <i v-show="errors.has('form-1.license_to') || form.errors.has('license_to')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.license_to')" class="red d-inline-block">{{ errors.first('form-1.license_to') }}</span>
                                         <span v-show="form.errors.has('license_to')" class="red d-inline-block">{{ form.errors.get('license_to') }}</span>
                                     </div>
                                 </div>
                                 <div  v-if="form.excerpt_id == '3'">
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue">توضیحات و شماره مجوز<i class="red mx-1">*</i>:</label>
                                         <label for="license" class="blue"></label>
                                         <input id="license" name="license" type="text"
@@ -614,37 +613,41 @@
                                         <span v-show="form.errors.has('license')" class="red d-inline-block">{{ form.errors.get('license') }}</span>
                                     </div>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right"  >
-                                    <label class="blue text-right text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
+
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
+                                    <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.publish_date | myDate}}</span>
-                                    <date-picker @change="removeError('publish_date')"  format="YYYY-MM-DD" :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )]"  v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
-                                    <has-error :form="form" field="publish_date"></has-error>
+                                    <date-picker @change="removeError('publish_date')" format="YYYY-MM-DD"
+                                                 :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )] "
+                                                 v-validate="'required'" name="publish_date" v-model="form.publish_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
                                         <i v-show="errors.has('form-1.publish_date')|| form.errors.has('publish_date')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form-1.publish_date') " class="red d-inline-block text-rtl">{{ errors.first('form-1.publish_date') }}</span>
-                                        <span v-show="form.errors.has('publish_date')" class="red d-inline-block text-rtl">{{ form.errors.get('publish_date') }}</span>
+                                        <span v-show="errors.has('form-1.publish_date') " class="red d-inline-block text-rtl text-rtl">{{ errors.first('form-1.publish_date') }}</span>
+                                        <span v-show="form.errors.has('publish_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('publish_date') }}</span>
                                     </div>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.accept_date | myDate}}</span>
-                                    <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] " v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
+                                    <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"
+                                                 :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] "
+                                                 v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
                                         <i v-show="errors.has('form-1.accept_date')|| form.errors.has('accept_date')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.accept_date') " class="red d-inline-block text-rtl text-rtl">{{ errors.first('form-1.accept_date') }}</span>
                                         <span v-show="form.errors.has('accept_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('accept_date') }}</span>
                                     </div>
                                 </div>
-                                <div class="form-group mt-4 text-right">
+                                <div class="form-group my-3 text-right">
                                     <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                 </div>
                                 <div class="mt-2 text-right">
                                     <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                    <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                    <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                    <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                    <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                 </div>
                                 <div v-if="fileChanging" class="mt-2 text-right">
-                                    <div class="form-group mt-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue text-right">نوع تغییر<i class="red mx-1">*</i>:</label>
                                     </div>
                                     <div class="form-group mb-4 text-right border-bottom">
@@ -673,11 +676,10 @@
                                             </span>
                                 </div>
                                 <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                    <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                    <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                     <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                     <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                           v-for="item in fileName">{{item}}</span>
-                                    <has-error :form="form" field="files"></has-error>
                                     <div class="text-rtl">
                                         <i v-show="errors.has('form-1.files')|| form.errors.has('files')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.files') " class="red d-inline-block">{{ errors.first('form-1.files') }}</span>
@@ -686,6 +688,9 @@
                                 </div>
                                 <div class="form-group mt-2 text-right">
                                     <label class="blue text-right">کلمات کلیدی<i class="red mx-1">*</i>:</label>
+                                    <span class="red"><br/>
+                                                بعد از هر کلمه کلیدی، کلید Enter یا علامت comma انگلیسی را فشار دهید.
+                                            </span>
                                     <tags-input name="tags" element-id="tags"
                                                 @tag-added="removeError('tags')"
                                                 @tag-removed="onTagRemoved"
@@ -710,23 +715,20 @@
 
                         </tab-content>
                         <tab-content  title="اطلاعات مجله یا کنفرانس" :before-change="confValidation"  icon="far fa-book-open">
-
                             <form  @submit.prevent="createPaper()"
                                    @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form2"  id="form-2">
                                 <div >
                                     <div v-if="confForm" class="form-group my-3 text-right">
                                         <label class="blue">نوع کنفرانس <i class="red mx-1">*</i>:</label>
                                         <select v-validate="'required'" data-vv-name="conftype_id"
-                                                class="custom-select custom-select-lg mb-3" id="conftype_id"
+                                                class="form-control" id="conftype_id"
                                                 :class="[( errors.has('form2.conftype_id') || form.errors.has('conftype_id') ? 'is-invalid': ''  )]"
-                                                @change="removeError('conftype_id')"
                                                 v-model="form.conftype_id"
+                                                @change="removeError('conftype_id')"
                                         >
-                                            <option selected disabled>انتخاب گزینه مورد نظر</option>
-                                            <option  v-for="(item, index) of conftypes" v-bind:value="item.id">{{item.text}}</option>
+                                            <option selected disabled value="">انتخاب نوع کنفرانس ...</option>
+                                            <option v-for="conftype in conftypes" :key="conftype.id" :value="conftype.id">{{conftype.text}}</option>
                                         </select>
-
-
                                         <i v-show="errors.has('form2.conftype_id') || form.errors.has('conftype_id')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form2.conftype_id')" class="red d-inline-block">{{ errors.first('form2.conftype_id') }}</span>
                                         <span v-show="form.errors.has('conftype_id')" class="red d-inline-block">{{ form.errors.get('conftype_id') }}</span>
@@ -747,55 +749,54 @@
 
                                     <div v-if="confForm" class="form-group my-3 text-right">
                                         <label class="blue ">برگزار کننده<i class="red mx-1">*</i>:</label>
-                                        <input  type="text" name="conforganizer"
+                                        <input  type="text" name="organizer"
                                                 placeholder="دانشگاه شیراز"
                                                 v-validate="'required'"
-                                                class="form-control" v-model="form.conforganizer"
-                                                :class="[( errors.has('form2.conforganizer') || form.errors.has('conforganizer') ? 'is-invalid': ''  ) ]"
+                                                class="form-control" v-model="form.organizer"
+                                                :class="[( errors.has('form2.organizer') || form.errors.has('organizer') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show="errors.has('form2.conforganizer') || form.errors.has('conforganizer')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form2.conforganizer')" class="red d-inline-block">{{ errors.first('form2.conforganizer') }}</span>
-                                        <span v-show="form.errors.has('conforganizer')" class="red d-inline-block">{{ form.errors.get('conforganizer') }}</span>
+                                        <i v-show="errors.has('form2.organizer') || form.errors.has('organizer')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form2.organizer')" class="red d-inline-block">{{ errors.first('form2.organizer') }}</span>
+                                        <span v-show="form.errors.has('organizer')" class="red d-inline-block">{{ form.errors.get('organizer') }}</span>
                                     </div>
                                     <div v-if="confForm" class="form-group my-3 text-right">
                                         <label class="blue ">شهر<i class="red mx-1">*</i>:</label>
-                                        <input  type="text" name="confcity"
+                                        <input  type="text" name="city"
                                                 placeholder=" شیراز"
                                                 v-validate="'required'"
-                                                class="form-control" v-model="form.confcity"
-                                                :class="[( errors.has('form2.confcity') || form.errors.has('confcity') ? 'is-invalid': ''  ) ]"
+                                                class="form-control" v-model="form.city"
+                                                :class="[( errors.has('form2.city') || form.errors.has('city') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show="errors.has('form2.confcity') || form.errors.has('confcity')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form2.confcity')" class="red d-inline-block">{{ errors.first('form2.confcity') }}</span>
-                                        <span v-show="form.errors.has('confcity')" class="red d-inline-block">{{ form.errors.get('confcity') }}</span>
+                                        <i v-show="errors.has('form2.city') || form.errors.has('city')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form2.city')" class="red d-inline-block">{{ errors.first('form2.city') }}</span>
+                                        <span v-show="form.errors.has('city')" class="red d-inline-block">{{ form.errors.get('city') }}</span>
                                     </div>
                                     <div v-if="confForm" class="form-group my-3 text-right">
                                         <label class="blue ">دوره برگزاری<i class="red mx-1">*</i>:</label>
-                                        <input  type="number" name="confperiod" step="1" min="1"
+                                        <input  type="number" name="period" step="1" min="1"
                                                 placeholder="0"
                                                 v-validate="'required|integer'"
-                                                class="form-control" v-model="form.confperiod"
-                                                :class="[( errors.has('form2.confperiod') || form.errors.has('confcity') ? 'is-invalid': ''  ) ]"
+                                                class="form-control" v-model="form.period"
+                                                :class="[( errors.has('form2.period') || form.errors.has('period') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show="errors.has('form2.confperiod') || form.errors.has('confcity')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form2.confperiod')" class="red d-inline-block">{{ errors.first('form2.confperiod') }}</span>
-                                        <span v-show="form.errors.has('confperiod')" class="red d-inline-block">{{ form.errors.get('confperiod') }}</span>
+                                        <i v-show="errors.has('form2.period') || form.errors.has('period')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form2.period')" class="red d-inline-block">{{ errors.first('form2.period') }}</span>
+                                        <span v-show="form.errors.has('period')" class="red d-inline-block">{{ form.errors.get('period') }}</span>
                                     </div>
-                                </div>
+                                </div><!--  /conference detail end -->
 
                                 <div >
                                     <div v-if="journalForm" class="form-group my-3 text-right">
                                         <label   class="blue">نوع مجله <i class="red mx-1">*</i>:</label>
                                         <select v-validate="'required'" data-vv-name="jtype_id"
-                                                class="custom-select custom-select-lg mb-3" id="jtype_id"
+                                                class="form-control" id="jtype_id"
                                                 :class="[( errors.has('form2.jtype_id') || form.errors.has('jtype_id') ? 'is-invalid': ''  )]"
-                                                @change="removeError('jtype_id')"
                                                 v-model="form.jtype_id"
+                                                @change="removeError('jtype_id')"
                                         >
-                                            <option selected disabled>انتخاب گزینه مورد نظر</option>
-                                            <option  v-for="(item, index) of jtypes" v-bind:value="item.id">{{item.text}}</option>
+                                            <option selected disabled value="">انتخاب نوع مجله ...</option>
+                                            <option v-for="jtype in jtypes" :key="jtypes.id" :value="jtype.id">{{jtype.text}}</option>
                                         </select>
-
 
                                         <i v-show="errors.has('form2.jtype_id') || form.errors.has('jtype_id')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form2.jtype_id')" class="red d-inline-block">{{ errors.first('form2.jtype_id') }}</span>
@@ -817,70 +818,71 @@
 
                                     <div v-if="journalForm" class="form-group my-3 text-right">
                                         <label   class="blue ">نام ناشر<i class="red mx-1">*</i>:</label>
-                                        <input  type="text" name="jpublisher"
+                                        <input  type="text" name="publisher"
                                                 placeholder=" نام ناشر"
                                                 v-validate="'required'"
-                                                class="form-control" v-model="form.jpublisher"
-                                                :class="[( errors.has('form2.jpublisher') || form.errors.has('jpublisher') ? 'is-invalid': ''  ) ]"
+                                                class="form-control" v-model="form.publisher"
+                                                :class="[( errors.has('form2.publisher') || form.errors.has('publisher') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show="errors.has('form2.jpublisher') || form.errors.has('jpublisher')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form2.jpublisher')" class="red d-inline-block">{{ errors.first('form2.jpublisher') }}</span>
-                                        <span v-show="form.errors.has('jpublisher')" class="red d-inline-block">{{ form.errors.get('jpublisher') }}</span>
+                                        <i v-show="errors.has('form2.publisher') || form.errors.has('publisher')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form2.publisher')" class="red d-inline-block">{{ errors.first('form2.publisher') }}</span>
+                                        <span v-show="form.errors.has('publisher')" class="red d-inline-block">{{ form.errors.get('publisher') }}</span>
                                     </div>
 
                                     <div v-if="journalForm" class="form-group my-3 text-right">
                                         <label class="blue ">ISSN<i class="red mx-1">*</i>:</label>
-                                        <input    type="text" name="jISSN"
+                                        <input    type="text" name="issn"
                                                   placeholder="1111-1111"
                                                   v-mask="'####-###X'"
                                                   v-validate="'required'"
-                                                  class="form-control" v-model="form.jISSN"
-                                                  :class="[( errors.has('form2.jISSN') || form.errors.has('jISSN') ? 'is-invalid': ''  ) ]"
+                                                  class="form-control" v-model="form.issn"
+                                                  :class="[( errors.has('form2.issn') || form.errors.has('issn') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show="errors.has('form2.jISSN') || form.errors.has('jISSN')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form2.jISSN')" class="red d-inline-block">{{ errors.first('form2.jISSN') }}</span>
-                                        <span v-show="form.errors.has('jISSN')" class="red d-inline-block">{{ form.errors.get('jISSN') }}</span>
+                                        <i v-show="errors.has('form2.issn') || form.errors.has('issn')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form2.issn')" class="red d-inline-block">{{ errors.first('form2.issn') }}</span>
+                                        <span v-show="form.errors.has('issn')" class="red d-inline-block">{{ form.errors.get('issn') }}</span>
                                     </div>
 
-                                    <div class="form-group my-4 text-right">
-                                        <label v-if="journalForm"  class="blue ">pISSN:</label>
-                                        <input v-if="journalForm"  type="text" name="pISSN"
+                                    <div class="form-group my-3 text-right">
+                                        <label v-if="journalForm"  class="blue ">pissn:</label>
+                                        <input v-if="journalForm"  type="text" name="pissn"
                                                placeholder="1111-1111"
                                                v-mask="'####-###X'"
-                                               class="form-control" v-model="form.pISSN" >
+                                               class="form-control" v-model="form.pissn" >
                                     </div>
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">IF:</label>
-                                        <input v-if="journalForm"  type="number" min="0" name="pIF"
+                                        <input v-if="journalForm"  type="number" min="0" name="IFactor"
                                                placeholder=""
-                                               class="form-control" v-model="form.pIF" >
+                                               class="form-control" v-model="form.IFactor" >
                                     </div>
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">IF پنج ساله:</label>
-                                        <input v-if="journalForm"  type="number" min="0" name="pFIF"
+                                        <input v-if="journalForm"  type="number" min="0" name="FIF"
                                                placeholder=""
-                                               class="form-control" v-model="form.pFIF" >
+                                               class="form-control" v-model="form.FIF" >
                                     </div>
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">JCR</label>
-                                        <input v-if="journalForm"  type="text"  name="pJCR"
+                                        <input v-if="journalForm"  type="text"  name="JCR"
                                                placeholder="Q1"
-                                               v-mask="'Q#'"
-                                               class="form-control" v-model="form.pJCR" >
+                                               v-mask="'##'"
+                                               class="form-control" v-model="form.JCR" >
                                     </div>
 
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">JRK:</label>
-                                        <input v-if="journalForm"  type="number" min="0" max="100" name="pJRK"
+                                        <input v-if="journalForm"  type="number" min="0" max="100" name="JRK"
                                                placeholder=""
-                                               class="form-control" v-model="form.pJRK" >
+                                               class="form-control" v-model="form.JRK" >
                                     </div>
-                                </div>
+                                </div><!--  /journal detail end -->
                             </form>
                         </tab-content>
+
                         <!--  -->
                         <tab-content title="اطلاعات نویسندگان"  icon="fa fa-user-plus" :before-change="authorValidation"   >
-                           <form @submit.prevent="addAuthor"
+                            <form @submit.prevent="addAuthor"
                                   @keydown="form.onKeydown($event)" @change="form.onKeydown($event)"  data-vv-scope="form-4" id="Form4">
                                 <div class="text-right ">
                                     <span>لیست نویسندگان:</span><br>
@@ -906,13 +908,13 @@
                                         <th scope="row">{{index+1 | faDigit}}</th>
                                         <td><span v-show="editOffset != index">{{author}}</span>
                                             <input :id = "'item-author-'+index" v-show="editOffset == index"  type="text" name="author"
-                                                    :placeholder="'نام و نام خانواگی نویسنده'"
-                                                    class="form-control"  v-model="form.authors[index]">
+                                                   :placeholder="'نام و نام خانواگی نویسنده'"
+                                                   class="form-control"  v-model="form.authors[index]">
                                         </td>
                                         <td ><label  v-show="editOffset != index">{{form.affiliations[index]}}</label>
                                             <input :id = "'item-affiliation-'+index" v-show="editOffset == index"  type="text" name="author"
-                                                    :placeholder="'نام و نام خانواگی نویسنده'"
-                                                    class="form-control"
+                                                   :placeholder="'نام و نام خانواگی نویسنده'"
+                                                   class="form-control"
                                                    @keydown.enter="updateAuthor"
                                                    v-model="form.affiliations[index]">
                                         </td>
@@ -1067,19 +1069,19 @@
                     files:[],
                     fileChangeType:'',    // sets of the file change type, whether it is addition to previous files or replacement
                     confname:'',
-                    confcity:'',
-                    conforganizer:'',
-                    confperiod:'',
+                    city:'',
+                    organizer:'',
+                    period:'',
                     conftype_id:'',
                     jtype_id:'',
                     jname:'',
-                    jpublisher:'',
-                    jISSN:'',
-                    pISSN:'',
-                    pIF:'',
-                    pFIF:'',
-                    pJRK:'',
-                    pJCR:'',
+                    publisher:'',
+                    issn:'',
+                    pissn:'',
+                    IFactor:'',
+                    FIF:'',
+                    JRK:'',
+                    JCR:'',
                     authors:[],
                     affiliations:[],
                     isresponsible:'',
@@ -1129,8 +1131,10 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.paper.status;
+                    if (this.checkListItems.length > 0){
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.paper.status;
+                    }
                 }
             },
             checkListSubmit(){
@@ -1188,9 +1192,10 @@
                 }).then((response) => {
                     // sets the data
                     this.resetFormWizard();
-                    this.paper = response.data.paper;// set the received paper data to paper property
-                    this.conftypename = response.data.conftypename;  // if paper type is conference sets the conf type name
-                    this.jtypename = response.data.jtypename;   // if paper type is journal sets the journal type name
+                    this.paper = response.data.data;// set the received paper data to paper property
+                    this.type = response.data.data.type;  // sets the paper type if 0 means journal and 1 means conference
+                    this.checkListItems = response.data.data.checkList;
+                    this.prepareCheckList();
                     this.editFormPrepare();
                     if(this.type == '0'){
                         this.journalForm = true;
@@ -1250,17 +1255,15 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
               var fileName = file.name.split(".");
-              return fileName[1] == 'zip'? true:false;
+              return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets paper data based on the received it
             getpaperdata(id){
                 axios.get('/api/paper/'+id)
                     .then(response => {
-                       this.paper = response.data.paper;// set the received paper data to paper property
-                       this.type = response.data.type;  // sets the paper type if 0 means journal and 1 means conference
-                       this.conftypename = response.data.conftypename;  // if paper type is conference sets the conf type name
-                       this.jtypename = response.data.jtypename;   // if paper type is journal sets the journal type name
-                        this.checkListItems = response.data.checklist;
+                       this.paper = response.data.data;// set the received paper data to paper property
+                       this.type = response.data.data.type;  // sets the paper type if 0 means journal and 1 means conference
+                        this.checkListItems = response.data.data.checkList;
                         this.prepareCheckList();
                        this.editFormPrepare();
                         if(this.type == '0'){
@@ -1291,44 +1294,32 @@
             },
             // prepares the edit form data
             editFormPrepare(){
-              this.form.title = this.paper.title;
-              this.form.abstract = this.paper.abstract;
-              this.form.doi = this.paper.doi;
-              this.form.link = this.paper.link;
-              this.form.excerpt_id = this.paper.excerpt_id.toString();
-              this.form.license = this.paper.license;
-              if(this.paper.license_to != null){
-                  this.form.license_to = this.paper.license_to.toString();
-              }
-              this.form.publish_date = this.paper.publish_date;
-              this.form.accept_date = this.paper.accept_date;
 
-              for(var i = 0; i < this.paper.tags.length; i++){
-                  this.form.tags.push( this.paper.tags[i].name);
-              }
+                this.form.fill(this.paper);
+                this.form.paperType = this.paper.type;
+                this.form.fileChangeType = '';
+                this.form.authors = [];
+                this.form.affiliations = [];
+                this.form.isresponsible='';
+                this.form.files =[];
+                if(this.paper.license_to != null){
+                    this.form.license_to = this.paper.license_to.toString();
+                }
+                this.form.tags = [];
+                 for(var i = 0; i < this.paper.tags.length; i++){
+                     this.form.tags.push( this.paper.tags[i].name);
+                 }
+                 if(this.type == '0') {
+                     this.form.jname = this.paper.name;
+                 }else{
+                     this.form.confname = this.paper.name;
+                 }
 
-              if(this.type == '0'){
-                  this.form.jtype_id = this.paper.paperable.jtype_id;
-                  this.form.jname = this.paper.paperable.name;
-                  this.form.jpublisher = this.paper.paperable.publisher;
-                  this.form.jISSN = this.paper.paperable.issn;
-                  this.form.pISSN = this.paper.paperable.pissn;
-                  this.form.pIF = this.paper.paperable.IFactor;
-                  this.form.pFIF = this.paper.paperable.FIF;
-                  this.form.pJCR = this.paper.paperable.JCR;
-                  this.form.pJRK = this.paper.paperable.JRK;
-              }else{
-                  this.form.conftype_id = this.paper.paperable.conftype_id;
-                  this.form.confname = this.paper.paperable.name;
-                  this.form.confcity = this.paper.paperable.city;
-                  this.form.conforganizer = this.paper.paperable.organizer;
-                  this.form.confperiod = this.paper.paperable.period;
-              }
-                for(var j=0; j<this.paper.authors.length; j++){
-                    this.form.authors.push(this.paper.authors[j].name);
-                    this.form.affiliations.push(this.paper.authors[j].affiliation);
-                    if(this.paper.authors[j].corresponding != '-1'){
-                        this.form.isresponsible = this.paper.authors[j].corresponding;
+                for(var j=0; j<this.paper.Authors.length; j++){
+                    this.form.authors.push(this.paper.Authors[j].name);
+                    this.form.affiliations.push(this.paper.Authors[j].affiliation);
+                    if(this.paper.Authors[j].corresponding != '-1'){
+                        this.form.isresponsible = this.paper.Authors[j].corresponding;
                     }
                 }
 
@@ -1421,7 +1412,7 @@
             },
         },
         created(){
-            this.$parent.pageName = 'جزئیات مقالات';
+            this.$parent.pageName = 'جزئیات مقاله';
             this.$validator.localize('farsi', {
                 messages: farsi.messages,
                 attributes: {
@@ -1437,14 +1428,14 @@
                     license_to:'نوع موظفی ',
                     license:'توضیحات مجوز شورای پژوهش  ',
                     confname:'نام کنفرانس',
-                    confcity:'شهر کنفرانس',
-                    conforganizer:'برگزارکننده کنفرانس',
-                    confperiod:'دوره کنفرانس',
+                    city:'شهر کنفرانس',
+                    organizer:'برگزارکننده کنفرانس',
+                    period:'دوره کنفرانس',
                     conftype_id:'نوع کنفرانس',
                     jtype_id:'نوع مجله',
                     jname:'نام مجله',
-                    jpublisher:'نام ناشر',
-                    jISSN:'شماره ISSN',
+                    publisher:'نام ناشر',
+                    issn:'شماره ISSN',
                     isresponsible:'انتخاب نویسنده مسئول'
                 }
             });

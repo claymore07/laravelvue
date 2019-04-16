@@ -209,11 +209,11 @@
                             <h2 slot="title">تکمیل اطلاعات جزوه یا اسلاید</h2>
                             <!--  -->
                             <tab-content title="اطلاعات جزوه یا اسلاید" :before-change="bookletsValidation"  icon="far fa-presentation">
-                                <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" id="Form">
+                                <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" data-vv-scope="form" @change="form.onKeydown($event)" id="Form">
 
                                     <div class="modal-body">
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">نقش در دوره:</label>
+                                            <label class="blue">نقش در جزوه<i class="red mx-1">*</i>:</label>
                                             <select v-model="form.booklet_type"
                                                     data-vv-name="booklet_type"
                                                     :class="{ 'is-invalid': form.errors.has('booklet_type')|| errors.has('form.booklet_type') }"
@@ -229,10 +229,13 @@
                                             <span v-show="form.errors.has('booklet_type')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('booklet_type') }}</span>
                                         </div>
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">مقطع تحصیلی:</label>
+                                            <label class="blue">مقطع تحصیلی<i class="red mx-1">*</i>:</label>
                                             <Select2 class="form-control select2-form-control"
-                                                     :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')  }" v-model="form.degree_id"
+                                                     :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')  }"
+                                                     v-model="form.degree_id"
                                                      :options="degrees"
+                                                     data-vv-name="degree_id"
+                                                     v-validate="'required'"
                                                      @change="removeError('degree_id')"
                                                      :settings="{theme: 'bootstrap4', placeholder: 'مقطع تحصیلی', width: '100%' }">
                                             </Select2>
@@ -246,8 +249,7 @@
                                             <label class="blue">عنوان جزوه یا اسلاید:</label>
                                             <input  type="text"  name="title" placeholder="عنوان جزوه یا اسلاید"
                                                     class="form-control" v-model="form.title"
-                                                    required
-
+                                                    v-validate="'required'"
                                                     :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " @input="() => {}">
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
@@ -262,20 +264,22 @@
                                             <label class="blue">نام درس:</label>
                                             <input  type="text"  name="name" placeholder="نام درس"
                                                     class="form-control" v-model="form.name"
-                                                    required
+                                                    v-validate="'required'"
                                                     :class="{ 'is-invalid': form.errors.has('name') || errors.has('form.name')} " @input="() => {}">
                                             <div class="text-rtl">
-                                                <i v-show="errors.has('form.name') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
+                                                <i v-show="errors.has('form.name') || form.errors.has('name')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form.name')" class="red d-inline-block">{{ errors.first('form.name') }}</span>
-                                                <span v-show="form.errors.has('name')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('title') }}</span>
+                                                <span v-show="form.errors.has('name')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('name') }}</span>
                                             </div>
                                         </div>
 
                                         <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ تالیف<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.compilation_date | myDate}}</span>
-                                            <date-picker @change="removeError('compilation_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('compilation_date') ? 'is-invalid': ''  ] "
-                                                         name="accept_date" v-model="form.compilation_date" locale="fa,en"></date-picker>
+                                            <date-picker @change="removeError('compilation_date')" format="YYYY-MM-DD"
+                                                         :class="[ form.errors.has('compilation_date') ? 'is-invalid': ''  ] "
+                                                         v-validate="'required'"
+                                                         name="compilation_date" v-model="form.compilation_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form.compilation_date') || form.errors.has('compilation_date')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form.compilation_date')" class="red d-inline-block">{{ errors.first('form.compilation_date') }}</span>
@@ -284,13 +288,13 @@
                                         </div>
 
 
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         </div>
                                         <div class="mt-2 text-right">
                                             <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                            <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                            <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                            <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                            <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
                                             <div class="form-group mt-4 text-right">
@@ -587,8 +591,10 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.booklet.status;
+                    if (this.checkListItems.length > 0){
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.booklet.status;
+                    }
                 }
             },
             toggleCheckList(){
@@ -622,7 +628,7 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets ted data based on the received it
             gettedData(id){
@@ -666,6 +672,7 @@
                     degree_id: 'مقظع تدریس',
                     compilation_date: 'تاریخ تالیف',
                     files: 'فایل های ضمیمه',
+                    fileChangeType: 'نوع تغییر فایل ها',
                 }
             });
             this.id = this.$route.params.id;

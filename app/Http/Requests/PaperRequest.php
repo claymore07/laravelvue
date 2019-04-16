@@ -26,7 +26,7 @@ class PaperRequest extends FormRequest
         $rules = [
 
             'lang'=>'required',
-            'link'=>'required',
+            //'link'=>'required',
             'title'=>'required|string',
             'abstract'=>'required',
             'excerpt_id'=>'required',
@@ -35,26 +35,25 @@ class PaperRequest extends FormRequest
             'license'=>'required_if:excerpt_id,3',
             'accept_date' => 'required',
             'publish_date' => 'required',
-            //'files'=>'required',
-            //'files.*'=>'mimes:zip,pdf',
+            'files'=>'required',
+            'files.*'=>'mimes:rar,zip,pdf',
             'confname'=>'required_if:paperType,==,conf',
-            'confcity'=>'required_if:paperType,==,conf',
-            'conforganizer'=>'required_if:paperType,==,conf',
+            'city'=>'required_if:paperType,==,conf',
+            'organizer'=>'required_if:paperType,==,conf',
             'conftype_id'=>'required_if:paperType,==,conf',
-            'confperiod'=>'required_if:paperType,==,conf',
+            'period'=>'required_if:paperType,==,conf',
             'jtype_id'=>'required_if:paperType,==,jur',
             'jname'=>'required_if:paperType,==,jur',
-            'jpublisher'=>'required_if:paperType,==,jur',
-            'jISSN'=>'required_if:paperType,==,jur',
+            'publisher'=>'required_if:paperType,==,jur',
+            'issn'=>'required_if:paperType,==,jur',
             'isresponsible'=>'required',
             'authors' => 'required',
 
 
         ];
-        switch ($this->method()) {
-            case 'PUT':
-            case 'PATCH':
-                break;
+        if ($this->is('api/paperUpdate/*')) {
+            $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
+            $rules['files.*'] = 'sometimes|mimes:rar,zip,pdf';
         }
         return $rules;
     }
@@ -73,14 +72,14 @@ class PaperRequest extends FormRequest
             'accept_date.required' => 'تاربخ پذیرش الزامی است.',
             'publish_date.required' => 'تاربخ چاپ الزامی است.',
             'confname.required_if'=>'نام کنفرانس الزامی است.',
-            'confcity.required_if'=>'شهر کنفرانس الزامی است.',
-            'conforganizer.required_if'=>'برگزار کننده کنفرانس الزامی است.',
+            'city.required_if'=>'شهر کنفرانس الزامی است.',
+            'organizer.required_if'=>'برگزار کننده کنفرانس الزامی است.',
             'conftype_id.required_if'=>'نوع کنفرانس الزامی است.',
-            'confperiod.required_if'=>'دوره برگزاری کنفرانس الزامی است.',
+            'period.required_if'=>'دوره برگزاری کنفرانس الزامی است.',
             'jtype_id.required_if'=>'نوع مجله الزامی است.',
-            'jpublisher.required_if'=>'نام ناشر الزامی است.',
+            'publisher.required_if'=>'نام ناشر الزامی است.',
             'jname.required_if'=>'نام مجله الزامی است.',
-            'jISSN.required_if'=>'شماره ISSN الزامی است.',
+            'issn.required_if'=>'شماره ISSN الزامی است.',
             'isresponsible.required'=>'انتخاب نویسنده مسئول الزامی است.',
             'authors.required' => 'نام نویسندگان الزامی است.',
             'authorsjson.min' => 'نام نویسندگان الزامی است.',

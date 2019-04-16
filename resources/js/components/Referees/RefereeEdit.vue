@@ -210,7 +210,7 @@
                             ref="wizard">
                             <h2 slot="title">تکمیل اطلاعات داوری</h2>
                             <!--  -->
-                            <tab-content title="اطلاعات داوری" :before-change="refereeValidation"  icon="far fa-gavel">
+                            <tab-content title="اطلاعات داوری" :before-change="refereeValidation" icon="far fa-gavel">
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
@@ -225,14 +225,14 @@
                                             <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
                                             <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                         </div>
-                                        <div class="form-group my-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نوع اثر داوری شده<i class="red mx-1">*</i>:</label>
                                             <Select2 v-validate="'required'" data-vv-name="referee_types_id"
                                                      class="form-control select2-form-control" id="referee_types_id"
                                                      :class="[( errors.has('form.referee_types_id') || form.errors.has('referee_types_id') ? 'is-invalid': ''  )]"
                                                      v-model="form.referee_types_id"
                                                      :options="referee_types"
-                                                     autofocus
+                                                     @change="removeError('referee_types_id')"
                                                      :settings="{theme: 'bootstrap4', placeholder: 'نوع اثر داوری شده', width: '100%' }">
                                             </Select2>
 
@@ -272,7 +272,7 @@
                                             <date-picker @change="removeError('referee_date')" format="YYYY-MM-DD"
                                                          v-validate="'required'"
                                                          :class="[ errors.has('form.referee_date') || form.errors.has('referee_date') ? 'is-invalid': ''  ] "
-                                                         name="holding_date" v-model="form.referee_date" locale="fa,en"></date-picker>
+                                                         name="referee_date" v-model="form.referee_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form.referee_date') || form.errors.has('referee_date')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form.referee_date')" class="red d-inline-block">{{ errors.first('form.referee_date') }}</span>
@@ -286,8 +286,8 @@
                                         </div>
                                         <div class="mt-2 text-right">
                                             <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                            <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                            <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                            <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                            <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
                                             <div class="form-group my-3 text-right">
@@ -320,7 +320,7 @@
                                             </span>
                                         </div>
                                         <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                            <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                            <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                             <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                             <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                                   v-for="item in fileName">{{item}}</span>
@@ -584,8 +584,10 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.referee.status;
+                    if (this.checkListItems.length > 0){
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.referee.status;
+                    }
                 }
             },
             toggleCheckList(){
@@ -619,7 +621,7 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets ted data based on the received it
             gettedData(id){

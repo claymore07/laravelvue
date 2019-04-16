@@ -55,7 +55,6 @@ Route::get('profile','API\UserController@profile');
 
 // post route for update instead of PUT and Patch
 
-Route::post('paperValidation','API\PapersController@paperValidation');
 Route::post('paperUpdate/{paper}','API\PapersController@paperUpdate');
 Route::post('bookUpdate/{book}','API\BookController@update');
 Route::post('rewardUpdate/{reward}','API\RewardController@update');

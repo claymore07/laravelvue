@@ -4,7 +4,7 @@
             <div class="card card-4 my-5">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
-                        <h3 class=" text-right">اطلاعات کتاب</h3>
+                        <h3 class=" text-right"><i class="fal fa-books fa-fw"></i> اطلاعات کتاب</h3>
                     </div>
                     <div class="card-tools">
                         <button class="btn btn-success" @click="goback"><i style="font-size: 16px" class="fal fa-undo"></i> بازگشت</button>
@@ -14,7 +14,7 @@
                     <table class="table table-hover table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="font-18"><i class="fal fa-file-edit fa-fw"></i>اطلاعات کتاب</th>
+                            <th class="font-18"><i class="fal fa-book fa-fw"></i>اطلاعات کتاب</th>
                             <th v-if="checkList">موارد ناقص</th>
                         </tr>
                         </thead>
@@ -340,7 +340,7 @@
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i
+                        <h5 class="modal-title" id="exampleModalLabel1"><i
                             class="far fa-book-medical fa-fw"></i> ویرایش اطلاعات کتاب </h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -356,27 +356,28 @@
                             @on-complete="onComplete"
                             ref="wizard">
                             <h2 slot="title">تکمیل اطلاعات کتاب</h2>
-                            <!--  -->
-                            <tab-content title="اطلاعات کتاب" :before-change="bookValidation"  icon="far fa-book">
+                            <!-- :before-change="bookValidation"  -->
+                            <tab-content title="اطلاعات کتاب"  icon="far fa-book">
 
                                 <form @submit.prevent="createBook()"
                                       @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form-1" id="Form">
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue">نوع کتاب<i class="red mx-1">*</i>:</label>
                                         <Select2 v-validate="'required'" data-vv-name="booktype_id"
                                                  class="form-control select2-form-control" id="booktype_id"
                                                  :class="[( errors.has('form-1.booktype_id') || form.errors.has('booktype_id') ? 'is-invalid': ''  )]"
                                                  v-model="form.booktype_id"
                                                  :options="bookTypes"
+                                                 @change="removeError('booktype_id')"
                                                  autofocus
-                                                 :settings="{theme: 'bootstrap4', placeholder: 'نوع کتاب:', width: '100%' }">
+                                                 :settings="{theme: 'bootstrap4', placeholder: 'نوع کتاب', width: '100%' }">
                                         </Select2>
 
                                         <i v-show="errors.has('form-1.booktype_id') || form.errors.has('booktype_id')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.booktype_id')" class="red d-inline-block">{{ errors.first('form-1.booktype_id') }}</span>
                                         <span v-show="form.errors.has('booktype_id')" class="red d-inline-block">{{ form.errors.get('booktype_id') }}</span>
                                     </div>
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">عنوان کتاب<i class="red mx-1">*</i>:</label>
                                         <input   type="text" name="title"
                                                  placeholder="عنوان کتاب"
@@ -388,13 +389,14 @@
                                         <span v-show=" errors.has('form-1.title')" class="red d-inline-block">{{ errors.first('form-1.title') }}</span>
                                         <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                     </div>
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue">مستخرج از<i class="red mx-1">*</i>:</label>
                                         <Select2 v-validate="'required'" data-vv-name="excerpt_id"
                                                  class="form-control select2-form-control" id="excerpt_id"
                                                  :class="[( errors.has('form-1.excerpt_id') || form.errors.has('excerpt_id') ? 'is-invalid': ''  )]"
                                                  v-model="form.excerpt_id"
                                                  :options="excerpts"
+                                                 @change="removeError('excerpt_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'نوع مستخرج از:', width: '100%' }">
                                         </Select2>
 
@@ -433,8 +435,8 @@
                                     </div>
                                     <div class="mt-2 text-right">
                                         <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                        <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                        <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                        <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                        <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                     </div>
                                     <div v-if="fileChanging" class="mt-2 text-right">
                                         <div class="form-group mt-4 text-right">
@@ -469,7 +471,7 @@
                                             </span>
                                     </div>
                                     <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                        <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                        <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                         <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                         <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                               v-for="item in fileName">{{item}}</span>
@@ -484,10 +486,11 @@
                                 </form>
 
                             </tab-content>
-                            <tab-content  title="اطلاعات شناسنامه کتاب" :before-change="detailValidation"  icon="far fa-clipboard-list-check">
+                            <!-- :before-change="detailValidation" -->
+                            <tab-content  title="اطلاعات شناسنامه کتاب"   icon="far fa-clipboard-list-check">
                                 <form  @submit.prevent="createBook()"
                                        @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form-2"  id="form-2">
-                                    <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                    <div class=" my-3" style="direction: ltr; text-align: right" >
                                         <label class="blue text-right  text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
                                         <br> <span class="float-left font-16 "> {{form.publish_year | myDate}}</span>
                                         <date-picker @change="removeError('publish_year')" format="YYYY-MM-DD"
@@ -536,16 +539,16 @@
                                         <span v-show="form.errors.has('pages')" class="red d-inline-block">{{ form.errors.get('pages') }}</span>
                                     </div>
 
-                                    <div class="form-group mt-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue text-right">آیا کتاب ویرایش شده است؟<i class="red mx-1">*</i>:</label>
                                     </div>
                                     <div class="form-group mb-4 text-right border-bottom">
-                                        <p-radio v-model.number="form.edited" name="edited" :value="1" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
+                                        <p-radio v-model="form.edited" name="edited" value="1" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
                                             <i slot="extra" class="icon far fa-check"></i>
                                             آری
                                         </p-radio>
-                                        <p-radio v-validate="'required'" v-model.number="form.edited"
-                                                 name="edited" :value="0" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                        <p-radio v-validate="'required'" v-model="form.edited"
+                                                 name="edited" value="0" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                             <i slot="extra" class="icon far fa-check"></i>
                                             خیر
                                         </p-radio>
@@ -569,7 +572,7 @@
                                         <span v-show="form.errors.has('edited_number')" class="red d-inline-block">{{ form.errors.get('edited_number') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">شابک کتاب<i class="red mx-1">*</i>:</label>
                                         <input   type="text" name="isbn"
                                                  placeholder="شابک کتاب"
@@ -582,7 +585,7 @@
                                         <span v-show="form.errors.has('isbn')" class="red d-inline-block">{{ form.errors.get('isbn') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">شماره کتابخانه ملی:</label>
                                         <input   type="text" name="national_code"
                                                  placeholder="شماره کتابخانه ملی"
@@ -594,26 +597,26 @@
                                         <span v-show="form.errors.has('national_code')" class="red d-inline-block">{{ form.errors.get('national_code') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">رتبه بندی گنگره:</label>
                                         <input   type="text" name="congress_code"
                                                  placeholder="رتبه بندی گنگره"
                                                  class="form-control" v-model="form.congress_code"
                                                  :class="[( errors.has('form-2.congress_code') || form.errors.has('congress_code') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show=" errors.has('form-2.congress_code') || form.errors.has('isbn')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show=" errors.has('form-2.congress_code') || form.errors.has('congress_code')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show=" errors.has('form-2.congress_code')" class="red d-inline-block">{{ errors.first('form-2.congress_code') }}</span>
                                         <span v-show="form.errors.has('congress_code')" class="red d-inline-block">{{ form.errors.get('congress_code') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">رتبه بندی دیویی:</label>
                                         <input   type="text" name="dewey_code"
                                                  placeholder="رتبه بندی دیویی"
                                                  class="form-control" v-model="form.dewey_code"
                                                  :class="[( errors.has('form-2.dewey_code') || form.errors.has('dewey_code') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show=" errors.has('form-2.dewey_code') || form.errors.has('isbn')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show=" errors.has('form-2.dewey_code') || form.errors.has('dewey_code')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show=" errors.has('form-2.dewey_code')" class="red d-inline-block">{{ errors.first('form-2.dewey_code') }}</span>
                                         <span v-show="form.errors.has('dewey_code')" class="red d-inline-block">{{ form.errors.get('dewey_code') }}</span>
                                     </div>
@@ -989,8 +992,11 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.book.status;
+                    if (this.checkListItems.length > 0){
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.book.status;
+                    }
+
                 }
             },
             toggleCheckList(){
@@ -1032,7 +1038,7 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets thesis data based on the received it
             getBookData(id){
@@ -1082,6 +1088,7 @@
                     copy_number:'تعداد نسخه چاپ',
                     pages:'تعداد صفحات',
                     files: 'فایل های ضمیمه',
+                    fileChangeType: 'نوع تغییر فایل ها',
                 }
             });
             this.$parent.pageName = 'آرشیو کتب';

@@ -203,7 +203,7 @@ class TEDChairController extends Controller
      * @return TEDChairResource
      * @throws \Exception
      */
-    public function update(Request $request, $id)
+    public function update(TEDChairRequest $request, $id)
     {
         //
 

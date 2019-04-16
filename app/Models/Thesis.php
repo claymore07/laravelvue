@@ -18,7 +18,7 @@ class Thesis extends Model
 
     // Forward
     public function checklists(){
-        return $this->morphMany('App\Models\Checklist', 'checkable');
+        return $this->morphMany(Checklist::class, 'checkable');
     }
     // Backward
     public function profile(){

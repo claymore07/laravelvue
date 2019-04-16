@@ -235,34 +235,35 @@
                                 <form @submit.prevent="createReward()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
-                                        <div class="form-group mt-4 text-right">
-                                            <label class="blue">عنوان جشنواره، رقابت و یا مراسم:</label>
+                                        <div class="form-group my-3 text-right">
+                                            <label class="blue">عنوان جشنواره، رقابت و یا مراسم<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="name" placeholder="عنوان جشنواره، رقابت و یا مراسم"
                                                     class="form-control" v-model="form.name"
                                                     v-validate="'required'"
                                                     autofocus
                                                     :class="{ 'is-invalid': form.errors.has('name') || errors.has('form.name') } " >
                                             <i v-show="errors.has('form.name') || form.errors.has('name')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.form.name')" class="red d-inline-block">{{ errors.first('form.name') }}</span>
-                                            <has-error :form="form" field="title"></has-error>
+                                            <span v-show="errors.has('form.name')" class="red d-inline-block">{{ errors.first('form.name') }}</span>
+                                            <span v-show="form.errors.has('name')" class="red d-inline-block">{{ form.errors.get('name') }}</span>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
-                                            <label class="blue">عنوان جایزه:</label>
+                                        <div class="form-group my-3 text-right">
+                                            <label class="blue">عنوان جایزه<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="title" placeholder="عنوان جایزه"
                                                     class="form-control" v-model="form.title"
                                                     v-validate="'required'"
                                                     :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title')} " @input="() => {}">
                                             <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
-                                            <has-error :form="form" field="title"></has-error>
+                                            <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                         </div>
 
-                                        <div class="form-group my-5 text-right">
-                                            <label class="blue">نوع جشنواره، رقابت یا مراسم:</label>
+                                        <div class="form-group  my-3 text-right">
+                                            <label class="blue">نوع جشنواره، رقابت یا مراسم<i class="red mx-1">*</i>:</label>
                                             <select v-model="form.type"
                                                     data-vv-name="type"
                                                     :class="{ 'is-invalid': form.errors.has('type')|| errors.has('form.type') }"
                                                     v-validate="'required'"
+                                                    @change="removeError('type')"
                                                     class="form-control">
                                                 <option selected disabled  value="">انتخاب گزینه ...</option>
                                                 <option value="داخلی">داخلی</option>
@@ -270,13 +271,14 @@
                                             </select>
                                             <i v-show="errors.has('form.type') || form.errors.has('type')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.type')" class="red d-inline-block">{{ errors.first('form.type') }}</span>
-                                            <has-error :form="form" field="type"></has-error>
+                                            <span v-show="form.errors.has('type')" class="red d-inline-block">{{ form.errors.get('type') }}</span>
                                         </div>
-                                        <div class="form-group my-5 text-right">
-                                            <label class="blue">رتبه کسب شده:</label>
+                                        <div class="form-group  my-3 text-right">
+                                            <label class="blue">رتبه کسب شده<i class="red mx-1">*</i>:</label>
                                             <select v-model="form.place"
                                                     data-vv-name="place"
                                                     v-validate="'required'"
+                                                    @change="removeError('place')"
                                                     :class="{ 'is-invalid': form.errors.has('place') || errors.has('form.place') }"
                                                     class="form-control">
                                                 <option selected disabled value="">انتخاب گزینه ...</option>
@@ -286,7 +288,7 @@
                                             </select>
                                             <i v-show="errors.has('form.place') || form.errors.has('place')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.place')" class="red d-inline-block">{{ errors.first('form.place') }}</span>
-                                            <has-error :form="form" field="place"></has-error>
+                                            <span v-show="form.errors.has('place')" class="red d-inline-block">{{ form.errors.get('place') }}</span>
                                         </div>
                                         <div  class="form-group my-3 text-right">
                                             <label class="blue ">دوره برگزاری<i class="red mx-1">*</i>:</label>
@@ -300,7 +302,7 @@
                                             <span v-show="errors.has('form.period')" class="red d-inline-block">{{ errors.first('form.period') }}</span>
                                             <span v-show="form.errors.has('period')" class="red d-inline-block">{{ form.errors.get('period') }}</span>
                                         </div>
-                                        <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ دریافت جایزه:<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.holding_date | myDate}}</span>
                                             <date-picker @change="removeError('holding_date')" format="YYYY-MM-DD"
@@ -313,19 +315,19 @@
                                                 <span v-show="form.errors.has('holding_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('holding_date') }}</span>
                                             </div>
                                         </div>
-                                        <div class="form-group mt-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         </div>
                                         <div class="mt-2 text-right">
                                             <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                            <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                            <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                            <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                            <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
-                                            <div class="form-group mt-4 text-right">
+                                            <div class="form-group my-3 text-right">
                                                 <label class="blue text-right">نوع تغییر<i class="red mx-1">*</i>:</label>
                                             </div>
-                                            <div class="form-group mb-4 text-right border-bottom">
+                                            <div class="form-group my-3 text-right border-bottom">
                                                 <p-radio v-model="form.fileChangeType" name="fileChangeType" value="0" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
                                                     <i slot="extra" class="icon far fa-check"></i>
                                                     جایگزینی با فایل های قبلی
@@ -338,12 +340,12 @@
 
                                                 <br>
                                                 <has-error :form="form" field="fileChangeType"></has-error>
-                                                <i v-show="errors.has('form-1.fileChangeType') || form.errors.has('fileChangeType')" class="red far fa-exclamation-triangle"></i>
-                                                <span v-show="errors.has('form-1.fileChangeType')" class="red d-inline-block">{{ errors.first('form-1.fileChangeType') }}</span>
+                                                <i v-show="errors.has('form.fileChangeType') || form.errors.has('fileChangeType')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.fileChangeType')" class="red d-inline-block">{{ errors.first('form.fileChangeType') }}</span>
                                                 <span v-show="form.errors.has('fileChangeType')" class="red d-inline-block">{{ form.errors.get('fileChangeType') }}</span>
                                             </div>
                                         </div>
-                                        <div v-if="fileChanging" class="form-group mt-4 text-right">
+                                        <div v-if="fileChanging" class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                             <span class="red"><br/>
                                                 اسکن گواهی جایزه بصورت pdf<br>
@@ -351,14 +353,14 @@
                                             </span>
                                         </div>
                                         <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                            <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                            <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                             <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                             <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                                   v-for="item in fileName">{{item}}</span>
                                             <has-error :form="form" field="files"></has-error>
                                             <div class="text-rtl">
-                                                <i v-show="errors.has('form-1.files')|| form.errors.has('files')" class="red far fa-exclamation-triangle"></i>
-                                                <span v-show="errors.has('form-1.files') " class="red d-inline-block">{{ errors.first('form-1.files') }}</span>
+                                                <i v-show="errors.has('form.files')|| form.errors.has('files')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.files') " class="red d-inline-block">{{ errors.first('form.files') }}</span>
                                                 <span v-show="form.errors.has('files')" class="red d-inline-block">{{ form.errors.get('files') }}</span>
                                             </div>
                                         </div>
@@ -380,7 +382,7 @@
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i
+                        <h5 class="modal-title" id="exampleModalLabel1"><i
                             class="far fa-file-alt fa-fw"></i> مشاهده ضمیمه مقاله</h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -619,8 +621,11 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.reward.status;
+                    if (this.checkListItems.length > 0){
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.reward.status;
+                    }
+
                 }
             },
             toggleCheckList(){
@@ -654,7 +659,7 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets reward data based on the received it
             getRewardData(id){
@@ -685,6 +690,7 @@
                     type: 'نوع جایزه',
                     period:'دوره برگزاری',
                     place:'محل برگزاری',
+                    fileChangeType: 'نوع تغییر فایل ها',
                     files: 'فایل های ضمیمه',
                 }
             });

@@ -186,7 +186,7 @@ class CourseController extends Controller
      * @return CourseResource | \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function update(Request $request, Course $course)
+    public function update(CourseRequest $request, Course $course)
     {
         DB::beginTransaction();
         try {

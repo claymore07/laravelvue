@@ -73,7 +73,13 @@ class BookController extends Controller
                         }
                         $query->where('title', 'LIKE', "%$search%");
                         $query->orWhere('subject', 'LIKE', "%$search%");
-                    })->orderBy('created_at', $order)->paginate($this->perPage);
+                    })->orWhereHas ('booktype',function ($query) use ($search,$user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                        $query->where('name', 'LIKE', "%$search%");
+                    })
+                    ->orderBy('created_at', $order)->paginate($this->perPage);
                 //dd(\DB::getQueryLog());
             } else {
                 $books = Book::where(function ($query) use ($user) {
@@ -110,6 +116,11 @@ class BookController extends Controller
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                         $query->orWhere('subject', 'LIKE', "%$search%")->where('status', $filter);
 
+                    })->orWhereHas ('booktype',function ($query) use ($search, $filter, $user) {
+                        if ($user->type != 'admin') {
+                            $query->where('profile_id', '=', $user->profile->id);
+                        }
+                        $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
                     })->orderBy('created_at', $order)->paginate($this->perPage);
                 // dd(\DB::getQueryLog());
 

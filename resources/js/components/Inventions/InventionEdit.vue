@@ -280,7 +280,7 @@
                             ref="wizard">
                             <h2 slot="title">تکمیل اطلاعات اختراع، اکتشاف یا تولید علمی جدید</h2>
                             <!--  -->
-                            <tab-content title="اطلاعات اختراع" :before-change="inventionValidation"  icon="far fa-microscope">
+                            <tab-content title="اطلاعات اختراع"   :before-change="inventionValidation" icon="far fa-microscope">
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
@@ -292,7 +292,7 @@
                                                     autofocus
                                                     :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " >
                                             <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
+                                            <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
                                             <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                         </div>
                                         <div class="form-group my-3 text-right">
@@ -302,7 +302,7 @@
                                                      :class="[( errors.has('form.invention_types_id') || form.errors.has('invention_types_id') ? 'is-invalid': ''  )]"
                                                      v-model="form.invention_types_id"
                                                      :options="invention_types"
-                                                     @change="resetErrors()"
+                                                     @change="removeError('invention_types_id')"
                                                      :settings="{theme: 'bootstrap4', placeholder: 'نوع عنوان اختراع، اکتشاف یا تولید علمی', width: '100%' }">
                                             </Select2>
 
@@ -311,11 +311,12 @@
                                             <span v-show="form.errors.has('invention_types_id')" class="red d-inline-block">{{ form.errors.get('invention_types_id') }}</span>
                                         </div>
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">نقش در اختراع، اکتشاف یا تولید علمی:</label>
+                                            <label class="blue">نقش در اختراع، اکتشاف یا تولید علمی<i class="red mx-1">*</i>:</label>
                                             <select v-model="form.post"
                                                     data-vv-name="post"
                                                     :class="{ 'is-invalid': form.errors.has('post')|| errors.has('form.post') }"
                                                     v-validate="'required'"
+                                                    @change="removeError('post')"
                                                     class="form-control">
                                                 <option selected disabled  value="">انتخاب گزینه ...</option>
                                                 <option value="مسئول">مسئول</option>
@@ -323,7 +324,7 @@
                                             </select>
                                             <i v-show="errors.has('form.post') || form.errors.has('post')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form.post')" class="red d-inline-block">{{ errors.first('form.post') }}</span>
-                                            <has-error :form="form" field="post"></has-error>
+                                            <span v-show="form.errors.has('post')" class="red d-inline-block">{{ form.errors.get('post') }}</span>
                                         </div>
                                         <div  class="form-group my-3 text-right">
                                             <label   class="blue ">نام مرجع تایید کننده<i class="red mx-1">*</i>:</label>
@@ -352,104 +353,14 @@
                                                 <span v-show="form.errors.has('submit_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('submit_date') }}</span>
                                             </div>
                                         </div>
-                                        <div v-if="form.invention_types_id == 9" class="form-group my-3 text-right ">
-                                            <label class="blue text-right  text-rtl">آیا پتنت ثبت شده به فروش رسیده یا بصورت لیسانس از آن استفاده شده است؟<i class="red mx-1">*</i></label>
-                                            <p-radio v-model="form.license" name="license" value="1" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
-                                                <i slot="extra" class="icon far fa-check"></i>
-                                                بله
-                                            </p-radio>
-                                            <p-radio v-validate="'required'" v-model="form.license"
-                                                     name="license" value="0" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                                <i slot="extra" class="icon far fa-check"></i>
-                                                خیر
-                                            </p-radio>
-
-                                            <br>
-                                            <i v-show="errors.has('form.license') || form.errors.has('license')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.license')" class="red d-inline-block">{{ errors.first('form.license') }}</span>
-                                            <span v-show="form.errors.has('license')" class="red d-inline-block">{{ form.errors.get('license') }}</span>
-                                        </div>
-
-                                        <div  v-if="form.invention_types_id == 9"  class="form-group my-3 text-right">
-                                            <label   class="blue ">نام موسسه وابسته یا Affiliation ثبت شده در پتنت<i class="red mx-1">*</i>:</label>
-                                            <input   type="text" name="affiliation"
-                                                     placeholder="نام موسسه وابسته"
-                                                     v-validate="'required'"
-                                                     class="form-control" v-model="form.affiliation"
-                                                     :class="[( errors.has('form.affiliation') || form.errors.has('affiliation') ? 'is-invalid': ''  ) ]"
-                                            >
-                                            <i v-show="errors.has('form.affiliation') || form.errors.has('affiliation')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.affiliation')" class="red d-inline-block">{{ errors.first('form.affiliation') }}</span>
-                                            <span v-show="form.errors.has('affiliation')" class="red d-inline-block">{{ form.errors.get('affiliation') }}</span>
-                                        </div>
-                                        <div v-if="form.invention_types_id == 9"  class="form-group my-3 text-right">
-                                            <label   class="blue ">شماره ثبت پتنت<i class="red mx-1">*</i>:</label>
-                                            <input   type="text" name="license_number"
-                                                     placeholder="شماره ثبت پتنت"
-                                                     v-validate="'required'"
-                                                     class="form-control" v-model="form.license_number"
-                                                     :class="[( errors.has('form.license_number') || form.errors.has('license_number') ? 'is-invalid': ''  ) ]"
-                                            >
-                                            <i v-show="errors.has('form.license_number') || form.errors.has('license_number')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.license_number')" class="red d-inline-block">{{ errors.first('form.license_number') }}</span>
-                                            <span v-show="form.errors.has('license_number')" class="red d-inline-block">{{ form.errors.get('license_number') }}</span>
-                                        </div>
-                                        <div v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
-                                            <label   class="blue ">نام شرکت<i class="red mx-1">*</i>:</label>
-                                            <input   type="text" name="company_name"
-                                                     placeholder="نام شرکت"
-                                                     v-validate="'required'"
-                                                     class="form-control" v-model="form.company_name"
-                                                     :class="[( errors.has('form.company_name') || form.errors.has('company_name') ? 'is-invalid': ''  ) ]"
-                                            >
-                                            <i v-show="errors.has('form.company_name') || form.errors.has('company_name')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.company_name')" class="red d-inline-block">{{ errors.first('form.company_name') }}</span>
-                                            <span v-show="form.errors.has('company_name')" class="red d-inline-block">{{ form.errors.get('company_name') }}</span>
-                                        </div>
-                                        <div  v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
-                                            <label   class="blue ">نوع شرکت ثبت شده<i class="red mx-1">*</i>:</label>
-                                            <input   type="text" name="company_type"
-                                                     placeholder="نوع شرکت ثبت شده( سهامی عام و...)"
-                                                     v-validate="'required'"
-                                                     class="form-control" v-model="form.company_type"
-                                                     :class="[( errors.has('form.company_type') || form.errors.has('company_type') ? 'is-invalid': ''  ) ]"
-                                            >
-                                            <i v-show="errors.has('form.company_type') || form.errors.has('company_type')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.company_type')" class="red d-inline-block">{{ errors.first('form.company_type') }}</span>
-                                            <span v-show="form.errors.has('company_type')" class="red d-inline-block">{{ form.errors.get('company_type') }}</span>
-                                        </div>
-                                        <div  v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
-                                            <label   class="blue ">آدرس شرکت ثبت شده<i class="red mx-1">*</i>:</label>
-                                            <input   type="text" name="company_address"
-                                                     placeholder="آدرس شرکت ثبت شده"
-                                                     v-validate="'required'"
-                                                     class="form-control" v-model="form.company_address"
-                                                     :class="[( errors.has('form.company_address') || form.errors.has('company_address') ? 'is-invalid': ''  ) ]"
-                                            >
-                                            <i v-show="errors.has('form.company_address') || form.errors.has('company_address')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.company_address')" class="red d-inline-block">{{ errors.first('form.company_address') }}</span>
-                                            <span v-show="form.errors.has('company_address')" class="red d-inline-block">{{ form.errors.get('company_address') }}</span>
-                                        </div>
-                                        <div  v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
-                                            <label   class="blue ">شماره ثبت شرکت<i class="red mx-1">*</i>:</label>
-                                            <input   type="text" name="registration_number"
-                                                     placeholder="شماره ثبت شرکت"
-                                                     v-validate="'required'"
-                                                     class="form-control" v-model="form.registration_number"
-                                                     :class="[( errors.has('form.registration_number') || form.errors.has('registration_number') ? 'is-invalid': ''  ) ]"
-                                            >
-                                            <i v-show="errors.has('form.registration_number') || form.errors.has('registration_number')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.registration_number')" class="red d-inline-block">{{ errors.first('form.registration_number') }}</span>
-                                            <span v-show="form.errors.has('registration_number')" class="red d-inline-block">{{ form.errors.get('registration_number') }}</span>
-                                        </div>
 
                                         <div class="form-group my-3 text-right">
                                             <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         </div>
                                         <div class="mt-2 text-right">
                                             <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                            <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                            <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                            <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                            <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
                                             <div class="form-group my-3 text-right">
@@ -482,7 +393,7 @@
                                             </span>
                                         </div>
                                         <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                            <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                            <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                             <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                             <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                                   v-for="item in fileName">{{item}}</span>
@@ -498,6 +409,111 @@
 
                                 </form>
                             </tab-content>
+                            <tab-content v-if="form.invention_types_id == 8 || form.invention_types_id == 9" title="اطلاعات سایر اطلاعات" :before-change="detailValidation"  icon="far fa-clipboard-list-check">
+                                <form  @submit.prevent="createBook()"
+                                       @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form-2"  id="form-2">
+                                    <div >
+                                        <div v-if="form.invention_types_id == 9" class="form-group my-3 text-right ">
+                                            <label class="blue text-right  text-rtl"><i class="red mx-1">*</i>آیا پتنت ثبت شده به فروش رسیده یا بصورت لیسانس از آن استفاده شده است؟<i class="red mx-1">*</i></label>
+                                            <p-radio v-model="form.license"   name="license" value="1"  class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
+                                                <i slot="extra" class="icon far fa-check"></i>
+                                                بله
+                                            </p-radio>
+                                            <p-radio v-validate="'required'" v-model="form.license"
+                                                     name="license" value="0"   type="radio"  class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                                <i slot="extra" class="icon far fa-check"></i>
+                                                خیر
+                                            </p-radio>
+
+                                            <br>
+                                            <i v-show="errors.has('form-2.license') || form.errors.has('license')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.license')" class="red d-inline-block">{{ errors.first('form-2.license') }}</span>
+                                            <span v-show="form.errors.has('license')" class="red d-inline-block">{{ form.errors.get('license') }}</span>
+                                        </div>
+
+                                        <div  v-if="form.invention_types_id == 9"  class="form-group my-3 text-right">
+                                            <label   class="blue ">نام موسسه وابسته یا Affiliation ثبت شده در پتنت<i class="red mx-1">*</i>:</label>
+                                            <input   type="text" name="affiliation"
+                                                     data-vv-name="affiliation"
+                                                     placeholder="نام موسسه وابسته"
+                                                     v-validate="'required'"
+                                                     class="form-control" v-model="form.affiliation"
+                                                     :class="[( errors.has('form-2.affiliation') || form.errors.has('affiliation') ? 'is-invalid': ''  ) ]"
+                                            >
+                                            <i v-show="errors.has('form-2.affiliation') || form.errors.has('affiliation')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.affiliation')" class="red d-inline-block">{{ errors.first('form-2.affiliation') }}</span>
+                                            <span v-show="form.errors.has('affiliation')" class="red d-inline-block">{{ form.errors.get('affiliation') }}</span>
+                                        </div>
+                                        <div v-if="form.invention_types_id == 9"  class="form-group my-3 text-right">
+                                            <label   class="blue ">شماره ثبت پتنت<i class="red mx-1">*</i>:</label>
+                                            <input   type="text" name="license_number"
+                                                     data-vv-name="license_number"
+                                                     placeholder="شماره ثبت پتنت"
+                                                     v-validate="'required'"
+                                                     class="form-control" v-model="form.license_number"
+                                                     :class="[( errors.has('form-2.license_number') || form.errors.has('license_number') ? 'is-invalid': ''  ) ]"
+                                            >
+                                            <i v-show="errors.has('form-2.license_number') || form.errors.has('license_number')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.license_number')" class="red d-inline-block">{{ errors.first('form-2.license_number') }}</span>
+                                            <span v-show="form.errors.has('license_number')" class="red d-inline-block">{{ form.errors.get('license_number') }}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
+                                            <label   class="blue ">نام شرکت<i class="red mx-1">*</i>:</label>
+                                            <input   type="text" name="company_name"
+                                                     placeholder="نام شرکت"
+                                                     v-validate="'required'"
+                                                     class="form-control" v-model="form.company_name"
+                                                     :class="[( errors.has('form-2.company_name') || form.errors.has('company_name') ? 'is-invalid': ''  ) ]"
+                                            >
+                                            <i v-show="errors.has('form-2.company_name') || form.errors.has('company_name')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.company_name')" class="red d-inline-block">{{ errors.first('form-2.company_name') }}</span>
+                                            <span v-show="form.errors.has('company_name')" class="red d-inline-block">{{ form.errors.get('company_name') }}</span>
+                                        </div>
+                                        <div  v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
+                                            <label   class="blue ">نوع شرکت ثبت شده<i class="red mx-1">*</i>:</label>
+                                            <input   type="text" name="company_type"
+                                                     data-vv-name="company_type"
+                                                     placeholder="نوع شرکت ثبت شده( سهامی عام و...)"
+                                                     v-validate="'required'"
+                                                     class="form-control" v-model="form.company_type"
+                                                     :class="[( errors.has('form-2.company_type') || form.errors.has('company_type') ? 'is-invalid': ''  ) ]"
+                                            >
+                                            <i v-show="errors.has('form-2.company_type') || form.errors.has('company_type')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.company_type')" class="red d-inline-block">{{ errors.first('form-2.company_type') }}</span>
+                                            <span v-show="form.errors.has('company_type')" class="red d-inline-block">{{ form.errors.get('company_type') }}</span>
+                                        </div>
+                                        <div  v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
+                                            <label   class="blue ">آدرس شرکت ثبت شده<i class="red mx-1">*</i>:</label>
+                                            <input   type="text" name="company_address"
+                                                     data-vv-name="company_address"
+                                                     placeholder="آدرس شرکت ثبت شده"
+                                                     v-validate="'required'"
+                                                     class="form-control" v-model="form.company_address"
+                                                     :class="[( errors.has('form-2.company_address') || form.errors.has('company_address') ? 'is-invalid': ''  ) ]"
+                                            >
+                                            <i v-show="errors.has('form-2.company_address') || form.errors.has('company_address')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.company_address')" class="red d-inline-block">{{ errors.first('form-2.company_address') }}</span>
+                                            <span v-show="form.errors.has('company_address')" class="red d-inline-block">{{ form.errors.get('company_address') }}</span>
+                                        </div>
+                                        <div  v-if="form.invention_types_id == 8" class="form-group my-3 text-right">
+                                            <label   class="blue ">شماره ثبت شرکت<i class="red mx-1">*</i>:</label>
+                                            <input   type="text" name="registration_number"
+                                                     data-vv-name="registration_number"
+                                                     placeholder="شماره ثبت شرکت"
+                                                     v-validate="'required'"
+                                                     class="form-control" v-model="form.registration_number"
+                                                     :class="[( errors.has('form-2.registration_number') || form.errors.has('registration_number') ? 'is-invalid': ''  ) ]"
+                                            >
+                                            <i v-show="errors.has('form-2.registration_number') || form.errors.has('registration_number')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form-2.registration_number')" class="red d-inline-block">{{ errors.first('form-2.registration_number') }}</span>
+                                            <span v-show="form.errors.has('registration_number')" class="red d-inline-block">{{ form.errors.get('registration_number') }}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </tab-content>
+
                         </form-wizard>
                     </div>
 
@@ -666,7 +682,16 @@
                     return true;
                 });
             },
-
+            // validate invention form in step 1
+            detailValidation(){
+                return this.$validator.validateAll('form-2').then(result => {
+                    if (!result) {
+                        this.errorSwal('اطلاعات تکمیلی، دارای خطا می باشد!');
+                        return false;
+                    }
+                    return true;
+                });
+            },
             // gets necessary data for form like excerpts and conference types and journal types
             /** these functions are responsible for form input error handling and change state*/
             // resets all the form modal related state and variables
@@ -751,8 +776,10 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.invention.status;
+                    if (this.checkListItems.length > 0) {
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.invention.status;
+                    }
                 }
             },
             toggleCheckList(){
@@ -786,7 +813,7 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar' ? true:false;
             },
             // on page load gets ted data based on the received it
             gettedData(id){
@@ -837,6 +864,7 @@
                     company_address: 'آدرس شرکت',
                     submit_date: 'تاریخ ثبت یا صدور تاییدیه',
                     files: 'فایل های ضمیمه',
+                    fileChangeType: 'نوع تغییر فایل ها',
                 }
             });
             this.id = this.$route.params.id;

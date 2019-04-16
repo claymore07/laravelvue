@@ -5,11 +5,22 @@
             <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
-                        <div class="justify-content-around d-lg-flex text-right">
-                            <div class="col-lg-2 m-3">
+                        <div class="row justify-content-between  text-right">
+                            <div class="col-xl-4 m-3">
                                 <h4 class=" text-right"><i class="fal fa-books fa-fw"></i> آرشیو کتب</h4>
                             </div>
-                            <div class="col-lg-5 mt-3">
+                            <div class="col-xl-4  " >
+                                <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن کتاب</button>
+                                <button class="btn btn-block-only btn-info ripple mt-3 mx-xl-2 float-left" @click="infoModal"><i style="font-size: 16px" class="far fa-info-circle"></i> راهنمای بخشنامه</button>
+                            </div>
+
+                        </div><!-- /card-tools -->
+
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <div class="row justify-content-center no-gutters">
+                            <div class="col-lg-7 mt-3  mr-2">
 
                                 <div class="input-group  ">
                                     <input class="form-control"  type="search" placeholder="جستجو..." aria-label="جستجو"
@@ -22,32 +33,24 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-5  mt-3" >
-                                <div class="d-xl-inline-block  ">
-                                    <div class="input-group mb-3 ">
-                                        <select v-model="filter" @change="searchit" class="custom-select">
-                                            <option selected disabled>پالایش بر اساس:</option>
-                                            <option value="5">همه</option>
-                                            <option value="0">بررسی نشده</option>
-                                            <option value="4">اصلاح شده</option>
-                                            <option value="1">تایید شده</option>
-                                            <option value="2">عدم تایید موقت</option>
-                                            <option value="3">عدم تایید قطعی</option>
-                                        </select>
-                                        <div class="input-group-append " >
-                                            <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
-                                        </div>
+                            <div class="col-lg-3  mt-3 mr-2" >
+                                <div class="input-group mb-3 ">
+                                    <select v-model="filter" @change="searchit" class="custom-select">
+                                        <option selected disabled>پالایش بر اساس:</option>
+                                        <option value="5">همه</option>
+                                        <option value="0">بررسی نشده</option>
+                                        <option value="4">اصلاح شده</option>
+                                        <option value="1">تایید شده</option>
+                                        <option value="2">عدم تایید موقت</option>
+                                        <option value="3">عدم تایید قطعی</option>
+                                    </select>
+                                    <div class="input-group-append " >
+                                        <span class="input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
                                     </div>
                                 </div>
-                                <div class="d-xl-inline-block float-xl-left">
-                                    <button class="btn btn-success ripple " @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن کتاب</button>
-                                </div>
                             </div>
-                        </div><!-- /card-tools -->
+                        </div>
 
-
-                    </div><!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
                         <table class="table table-hover text-right">
                             <tbody>
                             <tr>
@@ -59,6 +62,9 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                            </tr>
+                            <tr v-if="books.length <= 0">
+                                <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(book, index) in books" :key="book.id">
                                 <td>{{counter(index) | faDigit}}</td>
@@ -101,16 +107,14 @@
                 </div>
             </div><!-- /col-md-12 --->
 
-            <div v-if="!$gate.isAdmin()">
-                <not-found></not-found>
-            </div><!-- /404 page -->
+
         </div><!-- /container-fluid -->
         <div  v-if="$gate.isAdmin()||$gate.isAuthor()" class="modal  fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><i
-                            class="far fa-book-medical fa-fw"></i> ثبت کتاب جدید</h5>
+                            class="fa fa-book fa-fw"></i> ثبت کتاب جدید</h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -126,26 +130,27 @@
                             ref="wizard">
                             <h2 slot="title">تکمیل اطلاعات کتاب</h2>
                             <!--  -->
-                            <tab-content title="اطلاعات کتاب" :before-change="bookValidation"  icon="far fa-book">
+                            <tab-content title="اطلاعات کتاب"  :before-change="bookValidation" icon="far fa-book">
 
                                 <form @submit.prevent="createBook()"
                                       @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form-1" id="Form">
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue">نوع کتاب<i class="red mx-1">*</i>:</label>
                                         <Select2 v-validate="'required'" data-vv-name="booktype_id"
                                                  class="form-control select2-form-control" id="booktype_id"
                                                  :class="[( errors.has('form-1.booktype_id') || form.errors.has('booktype_id') ? 'is-invalid': ''  )]"
                                                  v-model="form.booktype_id"
                                                  :options="bookTypes"
+                                                 @change="removeError('booktype_id')"
                                                  autofocus
-                                                 :settings="{theme: 'bootstrap4', placeholder: 'نوع کتاب:', width: '100%' }">
+                                                 :settings="{theme: 'bootstrap4', placeholder: 'نوع کتاب', width: '100%' }">
                                         </Select2>
 
                                         <i v-show="errors.has('form-1.booktype_id') || form.errors.has('booktype_id')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form-1.booktype_id')" class="red d-inline-block">{{ errors.first('form-1.booktype_id') }}</span>
                                         <span v-show="form.errors.has('booktype_id')" class="red d-inline-block">{{ form.errors.get('booktype_id') }}</span>
                                     </div>
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">عنوان کتاب<i class="red mx-1">*</i>:</label>
                                         <input   type="text" name="title"
                                                  placeholder="عنوان کتاب"
@@ -157,13 +162,14 @@
                                         <span v-show=" errors.has('form-1.title')" class="red d-inline-block">{{ errors.first('form-1.title') }}</span>
                                         <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                     </div>
-                                    <div class="form-group my-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue">مستخرج از<i class="red mx-1">*</i>:</label>
                                         <Select2 v-validate="'required'" data-vv-name="excerpt_id"
                                                  class="form-control select2-form-control" id="excerpt_id"
                                                  :class="[( errors.has('form-1.excerpt_id') || form.errors.has('excerpt_id') ? 'is-invalid': ''  )]"
                                                  v-model="form.excerpt_id"
                                                  :options="excerpts"
+                                                 @change="removeError('excerpt_id')"
                                                  :settings="{theme: 'bootstrap4', placeholder: 'نوع مستخرج از:', width: '100%' }">
                                         </Select2>
 
@@ -197,7 +203,7 @@
                                     </div>
 
 
-                                    <div class="form-group mt-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue text-right">فایل های ضمیمه<i class="red mx-1">*</i>:</label>
                                         <span class="red"><br/>
                                                 اسکن روی جلد
@@ -211,6 +217,7 @@
                                     <div class="custom-file text-ltr text-right mb-5">
                                         <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                         <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
+
                                         <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                               v-for="item in fileName">{{item}}</span>
                                         <has-error :form="form" field="files"></has-error>
@@ -224,10 +231,11 @@
                                 </form>
 
                             </tab-content>
-                            <tab-content  title="اطلاعات شناسنامه کتاب" :before-change="detailValidation"  icon="far fa-clipboard-list-check">
+                            <!--    -->
+                            <tab-content  title="اطلاعات شناسنامه کتاب" :before-change="detailValidation" icon="far fa-clipboard-list-check">
                                 <form  @submit.prevent="createBook()"
                                        @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form-2"  id="form-2">
-                                    <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                    <div class=" my-3" style="direction: ltr; text-align: right" >
                                         <label class="blue text-right  text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
                                         <br> <span class="float-left font-16 "> {{form.publish_year | myDate}}</span>
                                         <date-picker @change="removeError('publish_year')" format="YYYY-MM-DD"
@@ -276,7 +284,7 @@
                                         <span v-show="form.errors.has('pages')" class="red d-inline-block">{{ form.errors.get('pages') }}</span>
                                     </div>
 
-                                    <div class="form-group mt-4 text-right">
+                                    <div class="form-group my-3 text-right">
                                         <label class="blue text-right">آیا کتاب ویرایش شده است؟<i class="red mx-1">*</i>:</label>
                                     </div>
                                     <div class="form-group mb-4 text-right border-bottom">
@@ -309,7 +317,7 @@
                                         <span v-show="form.errors.has('edited_number')" class="red d-inline-block">{{ form.errors.get('edited_number') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">شابک کتاب<i class="red mx-1">*</i>:</label>
                                         <input   type="text" name="isbn"
                                                  placeholder="شابک کتاب"
@@ -322,7 +330,7 @@
                                         <span v-show="form.errors.has('isbn')" class="red d-inline-block">{{ form.errors.get('isbn') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">شماره کتابخانه ملی:</label>
                                         <input   type="text" name="national_code"
                                                  placeholder="شماره کتابخانه ملی"
@@ -334,33 +342,33 @@
                                         <span v-show="form.errors.has('national_code')" class="red d-inline-block">{{ form.errors.get('national_code') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">رتبه بندی گنگره:</label>
                                         <input   type="text" name="congress_code"
                                                  placeholder="رتبه بندی گنگره"
                                                  class="form-control" v-model="form.congress_code"
                                                  :class="[( errors.has('form-2.congress_code') || form.errors.has('congress_code') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show=" errors.has('form-2.congress_code') || form.errors.has('isbn')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show=" errors.has('form-2.congress_code') || form.errors.has('congress_code')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show=" errors.has('form-2.congress_code')" class="red d-inline-block">{{ errors.first('form-2.congress_code') }}</span>
                                         <span v-show="form.errors.has('congress_code')" class="red d-inline-block">{{ form.errors.get('congress_code') }}</span>
                                     </div>
 
-                                    <div  class="form-group my-4 text-right">
+                                    <div  class="form-group my-3 text-right">
                                         <label class="blue ">رتبه بندی دیویی:</label>
                                         <input   type="text" name="dewey_code"
                                                  placeholder="رتبه بندی دیویی"
                                                  class="form-control" v-model="form.dewey_code"
                                                  :class="[( errors.has('form-2.dewey_code') || form.errors.has('dewey_code') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show=" errors.has('form-2.dewey_code') || form.errors.has('isbn')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show=" errors.has('form-2.dewey_code') || form.errors.has('dewey_code')" class="red far fa-exclamation-triangle"></i>
                                         <span v-show=" errors.has('form-2.dewey_code')" class="red d-inline-block">{{ errors.first('form-2.dewey_code') }}</span>
                                         <span v-show="form.errors.has('dewey_code')" class="red d-inline-block">{{ form.errors.get('dewey_code') }}</span>
                                     </div>
                                 </form>
                             </tab-content>
                             <!--  -->
-                            <tab-content title="اطلاعات نویسندگان"  icon="fa fa-user-plus"    >
+                            <tab-content title="اطلاعات نویسندگان"   icon="fa fa-user-plus"    >
                                 <form @submit.prevent="addAuthor"
                                       @keydown="form.onKeydown($event)" @change="form.onKeydown($event)"  data-vv-scope="form-4" id="Form4">
                                     <div class="text-right ">
@@ -416,6 +424,55 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /modal -->
+        <!-- Info Modal -->
+        <div class="modal  fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModal" aria-hidden="true">
+            <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="InfoModal2"><i
+                            class="fal fa-info-circle fa-fw"></i>مشاهد آیین نامه</h5>
+                        <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="height: 600px; overflow-y: scroll" >
+                        <table class="table table-bordered table-hover text-right">
+                            <thead>
+                            <td class="align-middle text-center">شماره بند</td>
+                            <td class="align-middle text-center" colspan="1">موضوعات</td>
+                            <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
+                            <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
+                            <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
+                            </thead>
+                            <tr>
+                                <td class="align-middle text-center"  rowspan="2">بند 8</td>
+                                <td width="40%" class="align-middle" rowspan="1">1. گزارش های علمی طرح های پژوهشی و فناوری خاتمه یافته در داخل موسسه با تایید معاون پژوهشی
+                                </td>
+                                <td class="align-middle  text-center">تا 2</td>
+                                <td class="align-middle  text-center" rowspan="1"> 6 </td>
+                                <td class="align-middle  text-center" rowspan="1"> - </td>
+                            </tr>
+                            <tr>
+                                <td width="40%" class="align-middle" rowspan="1">2. گزارش های علمی طرح های پژوهشی و فناوری با طرف قرارداد خارج از موسسه تایید شده نهاد سفارش دهنده، که تا حدامکان نکات زیر در نظر گرفته شود: <br>
+                                    - استانی، منطقه ای، ملی یا بین المللی بودن موضوع طرح
+                                    <br>
+                                    - گزارش طرح های تحقیقاتی مشترک با دانشگاه ها و موسسه های علمی خارج از کشور تا 1/2 برار.
+                                </td>
+                                <td class="align-middle  text-center">تا 15</td>
+                                <td class="align-middle  text-center" rowspan="1"> - </td>
+                                <td class="align-middle  text-center" rowspan="1"> - </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    تبصره 1. ویژه اعضای هیات علمی موسسه های تحت نظارت وزارت علوم<br/>
+                                    تبصره 2. طرح های که نتیجه مسئولیت اجرایی یا حقوقی باشد امتیازی تعلق نمی گیرد.
+                                </td>
+                            </tr>
+                        </table>
+                    </div><!-- modal-body -->
+                </div><!-- /modal-content -->
+            </div><!-- /modal-dialog -->
+        </div><!-- / Info show modal  -->
 
     </div>
 </template>
@@ -577,7 +634,9 @@
                     $(this).find('[autofocus]').focus();
                 });
             },
-
+            infoModal() {
+                $('#InfoModal').modal('show');
+            },
             deleteBook(id){
                 swal({
                     title: 'آیا از حذف کتاب مورد نظر مطمئن هستید؟',

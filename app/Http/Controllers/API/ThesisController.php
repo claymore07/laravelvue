@@ -194,9 +194,9 @@ class ThesisController extends Controller
         DB::beginTransaction();
         try {
             $thesis = Thesis::findOrFail($id);
-            $this->checklists()->delete();
+            $thesis->checklists()->delete();
             $thesis->delete();
-        }catch (\Exception $e){
+       }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }

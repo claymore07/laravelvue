@@ -5,11 +5,22 @@
             <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
-                        <div class="justify-content-around d-lg-flex text-right">
-                            <div class="col-lg-2 m-3">
+                        <div class="row justify-content-between  text-right">
+                            <div class="col-xl-4 m-3">
                                 <h4 class=" text-right"><i class="fal fa-gavel fa-fw"></i> آرشیو داوری‌ها</h4>
                             </div>
-                            <div class="col-lg-5 mt-3">
+                            <div class="col-xl-4  " >
+                                <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن داوری</button>
+                                <button class="btn btn-block-only btn-info ripple mt-3 mx-xl-2 float-left" @click="infoModal"><i style="font-size: 16px" class="far fa-info-circle"></i> راهنمای بخشنامه</button>
+                            </div>
+                        </div><!-- /card-tools -->
+
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+
+                        <div class="row justify-content-center no-gutters">
+                            <div class="col-lg-7 mt-3  mr-2">
 
                                 <div class="input-group  ">
                                     <input class="form-control"  type="search" placeholder="جستجو..." aria-label="جستجو"
@@ -22,33 +33,23 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-5  mt-3" >
-                                <div class="d-xl-inline-block  ">
-                                    <div class="input-group mb-3 ">
-                                        <select v-model="filter" @change="searchit" class="custom-select">
-                                            <option selected disabled>پالایش بر اساس:</option>
-                                            <option value="5">همه</option>
-                                            <option value="0">بررسی نشده</option>
-                                            <option value="4">اصلاح شده</option>
-                                            <option value="1">تایید شده</option>
-                                            <option value="2">عدم تایید موقت</option>
-                                            <option value="3">عدم تایید قطعی</option>
-                                        </select>
-                                        <div class="input-group-append " >
-                                            <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
-                                        </div>
+                            <div class="col-lg-3  mt-3 mr-2" >
+                                <div class="input-group mb-3 ">
+                                    <select v-model="filter" @change="searchit" class="custom-select">
+                                        <option selected disabled>پالایش بر اساس:</option>
+                                        <option value="5">همه</option>
+                                        <option value="0">بررسی نشده</option>
+                                        <option value="4">اصلاح شده</option>
+                                        <option value="1">تایید شده</option>
+                                        <option value="2">عدم تایید موقت</option>
+                                        <option value="3">عدم تایید قطعی</option>
+                                    </select>
+                                    <div class="input-group-append " >
+                                        <span class="input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
                                     </div>
                                 </div>
-                                <div class="d-xl-inline-block float-xl-left">
-                                    <button class="btn btn-success ripple " @click="newModal">
-                                        <i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن داوری</button>
-                                </div>
                             </div>
-                        </div><!-- /card-tools -->
-
-
-                    </div><!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
+                        </div>
                         <table class="table table-hover text-right">
                             <tbody>
                             <tr>
@@ -59,6 +60,10 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                            </tr>
+
+                            <tr v-if="referees.length <= 0">
+                                <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(referee, index) in referees" :key="referee.id">
                                 <td>{{counter(index) | faDigit}}</td>
@@ -120,7 +125,7 @@
                             ref="wizard">
                             <h2 slot="title">تکمیل اطلاعات داوری</h2>
                             <!--  -->
-                            <tab-content title="اطلاعات داوری" :before-change="refereeValidation"  icon="far fa-gavel">
+                            <tab-content title="اطلاعات داوری"   icon="far fa-gavel">
                                 <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
@@ -135,14 +140,14 @@
                                             <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
                                             <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                         </div>
-                                        <div class="form-group my-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نوع اثر داوری شده<i class="red mx-1">*</i>:</label>
                                             <Select2 v-validate="'required'" data-vv-name="referee_types_id"
                                                      class="form-control select2-form-control" id="referee_types_id"
                                                      :class="[( errors.has('form.referee_types_id') || form.errors.has('referee_types_id') ? 'is-invalid': ''  )]"
                                                      v-model="form.referee_types_id"
                                                      :options="referee_types"
-                                                     autofocus
+                                                     @change="removeError('referee_types_id')"
                                                      :settings="{theme: 'bootstrap4', placeholder: 'نوع اثر داوری شده', width: '100%' }">
                                             </Select2>
 
@@ -219,9 +224,43 @@
                     </div>
                 </div>
             </div><!-- /modal -->
-            <div v-if="!$gate.isAdmin()">
-                <not-found></not-found>
-            </div><!-- /404 page -->
+            <!-- Info Modal -->
+            <div class="modal  fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModal" aria-hidden="true">
+                <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="InfoModal2"><i
+                                class="fal fa-info-circle fa-fw"></i>مشاهد آیین نامه</h5>
+                            <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
+                            <table class="table table-bordered table-hover text-right">
+                                <thead>
+                                <td class="align-middle text-center">شماره بند</td>
+                                <td class="align-middle text-center" colspan="1">موضوعات</td>
+                                <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
+                                <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
+                                <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
+                                </thead>
+                                <tr>
+                                    <td class="align-middle text-center"  rowspan="1">بند 16</td>
+                                    <td width="40%" class="align-middle" rowspan="1">داوری و نظارت بر فعالیت های پژوهشی: <br>
+                                    1. داوری مقالات علمی و پژوهشی محلات معتبر و آثار بدیع و ارزنده هنری هر مورد تا 1 امتیاز
+                                        <br>
+                                        2. داوری کتاب، داوری یا نظارت بر طرح های پژوهشی یا فناوری هر مورد تا 2 امتیاز
+                                    </td>
+                                    <td class="align-middle  text-center"> - </td>
+                                    <td class="align-middle  text-center" rowspan="1"> 10 </td>
+                                    <td class="align-middle  text-center" rowspan="1">  </td>
+                                </tr>
+                            </table>
+                        </div><!-- modal-body -->
+                    </div><!-- /modal-content -->
+                </div><!-- /modal-dialog -->
+            </div><!-- / Info show modal  -->
+
         </div><!-- /container-fluid -->
     </div>
 </template>
@@ -277,6 +316,9 @@
                 $('#addNew').on('shown.bs.modal', function() {
                     $(this).find('[autofocus]').focus();
                 });
+            },
+            infoModal() {
+                $('#InfoModal').modal('show');
             },
             fieldChange(e){
                 let selectedFiles=e.target.files;

@@ -5,11 +5,23 @@
             <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
-                        <div class="justify-content-around d-lg-flex text-right">
-                            <div class="col-lg-2 m-3">
-                                <h4 class=" text-right"><i class="fal fa-book-reader fa-fw"></i> آرشیو پایان نامه ها</h4>
+                        <div class="row justify-content-between  text-right">
+                            <div class="col-xl-3 m-3">
+                                <h4 class=" text-right"><i class="fal fa-book fa-fw"></i> آرشیو پایان نامه‌ها</h4>
                             </div>
-                            <div class="col-lg-5 mt-3">
+
+
+                            <div class="col-xl-4  " >
+                                    <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن پایان نامه</button>
+                                    <button class="btn btn-block-only btn-info ripple mt-3 mx-xl-2 float-left" @click="infoModal"><i style="font-size: 16px" class="far fa-info-circle"></i> راهنمای بخشنامه</button>
+                            </div>
+                        </div><!-- /card-tools -->
+
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <div class="row justify-content-center no-gutters">
+                            <div class="col-lg-7 mt-3  mr-2">
 
                                 <div class="input-group  ">
                                     <input class="form-control"  type="search" placeholder="جستجو..." aria-label="جستجو"
@@ -22,8 +34,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-5  mt-3" >
-                                <div class="d-xl-inline-block  ">
+                            <div class="col-lg-3  mt-3 mr-2" >
                                     <div class="input-group mb-3 ">
                                         <select v-model="filter" @change="searchit" class="custom-select">
                                             <option selected disabled>پالایش بر اساس:</option>
@@ -35,19 +46,11 @@
                                             <option value="3">عدم تایید قطعی</option>
                                         </select>
                                         <div class="input-group-append " >
-                                            <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
+                                            <span class="input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="d-xl-inline-block float-xl-left">
-                                    <button class="btn btn-success ripple " @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن پایان نامه</button>
                                 </div>
                             </div>
-                        </div><!-- /card-tools -->
-
-
-                    </div><!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
+                        </div>
                         <table class="table table-hover text-right">
                             <tbody>
                             <tr>
@@ -58,6 +61,9 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                            </tr>
+                            <tr v-if="theses.length <= 0">
+                                <td colspan="6"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(thesis, index) in theses" :key="thesis.id">
                                 <td>{{counter(index) | faDigit}}</td>
@@ -104,112 +110,172 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel"><i
-                                class="fas fa-book-open fa-fw"></i> ثبت پایان نامه جدید</h5>
+                                class="fas fa-book fa-fw"></i> ثبت پایان نامه جدید</h5>
 
                             <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form @submit.prevent="createThesis()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" id="Form">
+                        <form-wizard
+                            back-button-text="مرحله قبل"
+                            next-button-text="مرحله بعد"
+                            finish-button-text="ثبت نهایی"
+                            :start-index="0"
+                            @on-complete="onComplete"
+                            ref="wizard">
+                            <h2 slot="title">تکمیل اطلاعات پایان نامه</h2>
+                            <!--  -->
+                            <tab-content title="اطلاعات پایان نامه" :before-change="thesisValidation"  icon="far fa-book">
+                                <form @submit.prevent="createThesis()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
-                            <div class="modal-body">
-                                <div class="form-group my-3 text-right">
-                                    <label class="blue">عنوان پایان نامه:</label>
-                                    <input  type="text"  name="title" placeholder="عنوان پایان نامه"
-                                            class="form-control" v-model="form.title"
-                                            data-error-pattern-mismatch="نام باید فارسی باشد!"
-                                            required
-                                            autofocus
-                                            :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " @input="() => {}">
-                                    <i v-show="errors.has('form.title') || form.errors.has('location')" class="red far fa-exclamation-triangle"></i>
-                                    <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
-                                    <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
+                                    <div class="modal-body">
+                                        <div class="form-group my-3 text-right">
+                                            <label class="blue">عنوان پایان نامه<i class="red mx-1">*</i>:</label>
+                                            <input  type="text"  name="title" placeholder="عنوان پایان نامه"
+                                                    class="form-control" v-model="form.title"
+                                                    v-validate="'required'"
+                                                    autofocus
+                                                    :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title') } " @input="() => {}">
+                                            <i v-show="errors.has('form.title') || form.errors.has('location')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
+                                            <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
 
-                                </div>
+                                        </div>
 
-                                <div class="form-group my-3 text-right">
-                                    <label class="blue">مقطع تحصیلی:</label>
-                                    <Select2 class="form-control select2-form-control"
-                                             :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')}" v-model="form.degree_id"
-                                             :options="degrees"
-                                             @change="removeError('degree_id')"
-                                             :settings="{theme: 'bootstrap4', placeholder: 'مقطع تحصیلی', width: '100%' }">
-                                    </Select2>
-                                    <i v-show="errors.has('form.degree_id') || form.errors.has('degree_id')" class="red far fa-exclamation-triangle"></i>
-                                    <span v-show="errors.has('form.degree_id')" class="red d-inline-block">{{ errors.first('form.degree_id') }}</span>
-                                    <span v-show="form.errors.has('degree_id')" class="red d-inline-block">{{ form.errors.get('degree_id') }}</span>
-                                </div>
-                                <div class="form-group my-3 text-right">
-                                    <label class="blue">مسئولیت استاد در پایان نامه:</label>
-                                    <select name="type" v-model="form.responsible" id="type" class="form-control test1"
-                                            :class="{ 'is-invalid': form.errors.has('responsible') || errors.has('form.responsible')}">
-                                        <option selected disabled value="">مسئولیت استاد در پایان نامه</option>
-                                        <option value="0">استاد راهنما</option>
-                                        <option value="1">استاد مشاور</option>
+                                        <div class="form-group my-3 text-right">
+                                            <label class="blue">مقطع تحصیلی<i class="red mx-1">*</i>:</label>
+                                            <Select2 class="form-control select2-form-control"
+                                                     :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')}" v-model="form.degree_id"
+                                                     :options="degrees"
+                                                     data-vv-name="degree_id"
+                                                     v-validate="'required'"
+                                                     @change="removeError('degree_id')"
+                                                     :settings="{theme: 'bootstrap4', placeholder: 'مقطع تحصیلی', width: '100%' }">
+                                            </Select2>
+                                            <i v-show="errors.has('form.degree_id') || form.errors.has('degree_id')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form.degree_id')" class="red d-inline-block">{{ errors.first('form.degree_id') }}</span>
+                                            <span v-show="form.errors.has('degree_id')" class="red d-inline-block">{{ form.errors.get('degree_id') }}</span>
+                                        </div>
+                                        <div class="form-group my-3 text-right">
+                                            <label class="blue">مسئولیت استاد در پایان نامه<i class="red mx-1">*</i>:</label>
+                                            <select name="responsible"
+                                                    v-model="form.responsible"
+                                                    id="type" class="form-control test1"
+                                                    :class="{ 'is-invalid': form.errors.has('responsible') || errors.has('form.responsible')}"
+                                                    v-validate="'required'"
+                                            >
+                                                <option selected disabled value="">مسئولیت استاد در پایان نامه</option>
+                                                <option value="0">استاد راهنما</option>
+                                                <option value="1">استاد مشاور</option>
 
-                                    </select>
-                                    <i v-show="errors.has('form.responsible') || form.errors.has('responsible')" class="red far fa-exclamation-triangle"></i>
-                                    <span v-show="errors.has('form.responsible')" class="red d-inline-block">{{ errors.first('form.responsible') }}</span>
-                                    <span v-show="form.errors.has('responsible')" class="red d-inline-block">{{ form.errors.get('responsible') }}</span>
-                                </div>
-                                <div class=" my-3" style="direction: ltr; text-align: right" >
-                                    <label class="blue text-right  text-rtl">تاریخ تصویب در گروه<i class="red mx-1">*</i>:</label>
-                                    <br> <span class="float-left font-16 "> {{form.group_aprovedate | myDate}}</span>
-                                    <date-picker @change="removeError('group_aprovedate')" format="YYYY-MM-DD"  :class="[ form.errors.has('group_aprovedate') ? 'is-invalid': ''  ] "
-                                                 name="accept_date" v-model="form.group_aprovedate" locale="fa,en"></date-picker>
-                                    <div class="text-rtl">
-                                        <i v-show="errors.has('form.group_aprovedate') || form.errors.has('group_aprovedate')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form.group_aprovedate')" class="red d-inline-block">{{ errors.first('form.group_aprovedate') }}</span>
-                                        <span v-show="form.errors.has('group_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('group_aprovedate') }}</span>
+                                            </select>
+                                            <i v-show="errors.has('form.responsible') || form.errors.has('responsible')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form.responsible')" class="red d-inline-block">{{ errors.first('form.responsible') }}</span>
+                                            <span v-show="form.errors.has('responsible')" class="red d-inline-block">{{ form.errors.get('responsible') }}</span>
+                                        </div>
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
+                                            <label class="blue text-right  text-rtl">تاریخ تصویب در گروه<i class="red mx-1">*</i>:</label>
+                                            <br> <span class="float-left font-16 "> {{form.group_aprovedate | myDate}}</span>
+                                            <date-picker @change="removeError('group_aprovedate')" format="YYYY-MM-DD"
+                                                         :class="[ form.errors.has('group_aprovedate') ? 'is-invalid': ''  ] "
+                                                         v-validate="'required'"
+                                                         name="group_aprovedate" v-model="form.group_aprovedate" locale="fa,en"></date-picker>
+                                            <div class="text-rtl">
+                                                <i v-show="errors.has('form.group_aprovedate') || form.errors.has('group_aprovedate')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.group_aprovedate')" class="red d-inline-block">{{ errors.first('form.group_aprovedate') }}</span>
+                                                <span v-show="form.errors.has('group_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('group_aprovedate') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
+                                            <label class="blue text-right  text-rtl">تاریخ تصویب در شورای پژوهشی<i class="red mx-1">*</i>:</label>
+                                            <br> <span class="float-left font-16 "> {{form.council_aprovedate | myDate}}</span>
+                                            <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD"
+                                                         :class="[ form.errors.has('council_aprovedate') ? 'is-invalid': ''  ] "
+                                                         v-validate="'required'"
+                                                         name="council_aprovedate" v-model="form.council_aprovedate" locale="fa,en"></date-picker>
+                                            <div class="text-rtl">
+                                                <i v-show="errors.has('form.council_aprovedate') || form.errors.has('council_aprovedate')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.council_aprovedate')" class="red d-inline-block">{{ errors.first('form.council_aprovedate') }}</span>
+                                                <span v-show="form.errors.has('council_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('council_aprovedate') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
+                                            <label class="blue text-right  text-rtl">تاریخ دریافت کد<i class="red mx-1">*</i>:</label>
+                                            <br> <span class="float-left font-16 "> {{form.code_date | myDate}}</span>
+                                            <date-picker @change="removeError('code_date')" format="YYYY-MM-DD"
+                                                         :class="[ form.errors.has('code_date') ? 'is-invalid': ''  ] "
+                                                         v-validate="'required'"
+                                                         name="code_date" v-model="form.code_date" locale="fa,en"></date-picker>
+                                            <div class="text-rtl">
+                                                <i v-show="errors.has('form.code_date') || form.errors.has('code_date')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.code_date')" class="red d-inline-block">{{ errors.first('form.code_date') }}</span>
+                                                <span v-show="form.errors.has('code_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('code_date') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class=" my-3" style="direction: ltr; text-align: right" >
+                                            <label class="blue text-right  text-rtl">تاریخ تصویب دفاع<i class="red mx-1">*</i>:</label>
+                                            <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
+                                            <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"
+                                                         :class="[ form.errors.has('defense_date') ? 'is-invalid': ''  ] "
+                                                         v-validate="'required'"
+                                                         name="defense_date" v-model="form.defense_date" locale="fa,en"></date-picker>
+                                            <div class="text-rtl">
+                                                <i v-show="errors.has('form.defense_date') || form.errors.has('defense_date')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.defense_date')" class="red d-inline-block">{{ errors.first('form.defense_date') }}</span>
+                                                <span v-show="form.errors.has('defense_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('defense_date') }}</span>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-                                <div class=" my-3" style="direction: ltr; text-align: right" >
-                                    <label class="blue text-right  text-rtl">تاریخ تصویب در شورای پژوهشی<i class="red mx-1">*</i>:</label>
-                                    <br> <span class="float-left font-16 "> {{form.council_aprovedate | myDate}}</span>
-                                    <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD"  :class="[ form.errors.has('council_aprovedate') ? 'is-invalid': ''  ] "
-                                                 name="accept_date" v-model="form.council_aprovedate" locale="fa,en"></date-picker>
-                                    <div class="text-rtl">
-                                        <i v-show="errors.has('form.council_aprovedate') || form.errors.has('council_aprovedate')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form.council_aprovedate')" class="red d-inline-block">{{ errors.first('form.council_aprovedate') }}</span>
-                                        <span v-show="form.errors.has('council_aprovedate')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('council_aprovedate') }}</span>
-                                    </div>
-                                </div>
-                                <div class=" my-3" style="direction: ltr; text-align: right" >
-                                    <label class="blue text-right  text-rtl">تاریخ دریافت کد<i class="red mx-1">*</i>:</label>
-                                    <br> <span class="float-left font-16 "> {{form.code_date | myDate}}</span>
-                                    <date-picker @change="removeError('code_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('code_date') ? 'is-invalid': ''  ] "
-                                                 name="accept_date" v-model="form.code_date" locale="fa,en"></date-picker>
-                                    <div class="text-rtl">
-                                        <i v-show="errors.has('form.code_date') || form.errors.has('code_date')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form.code_date')" class="red d-inline-block">{{ errors.first('form.code_date') }}</span>
-                                        <span v-show="form.errors.has('code_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('code_date') }}</span>
-                                    </div>
-                                </div>
-                                <div class=" my-3" style="direction: ltr; text-align: right" >
-                                    <label class="blue text-right  text-rtl">تاریخ تصویب دفاع<i class="red mx-1">*</i>:</label>
-                                    <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
-                                    <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"  :class="[ form.errors.has('defense_date') ? 'is-invalid': ''  ] "
-                                                 name="accept_date" v-model="form.defense_date" locale="fa,en"></date-picker>
-                                    <div class="text-rtl">
-                                        <i v-show="errors.has('form.defense_date') || form.errors.has('defense_date')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form.defense_date')" class="red d-inline-block">{{ errors.first('form.defense_date') }}</span>
-                                        <span v-show="form.errors.has('defense_date')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('defense_date') }}</span>
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="modal-footer">
-                                <button :disabled="form.busy"  type="submit"   class="btn ripple btn-lg btn-block btn-primary mx-3">ثبت اطلاعات</button>
-                                <button type="button" class="btn ripple  btn-lg btn-block btn-danger mx-3 mt-0" data-dismiss="modal">لغو عملیات</button>
-                            </div>
-
-                        </form>
+                                </form>
+                            </tab-content>
+                        </form-wizard>
                     </div>
                 </div>
             </div><!-- /modal -->
-            <div v-if="!$gate.isAdmin()">
-                <not-found></not-found>
-            </div><!-- /404 page -->
+
+            <!-- Info Modal -->
+            <div class="modal  fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModal" aria-hidden="true">
+                <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="InfoModal2"><i
+                                class="fal fa-info-circle fa-fw"></i>مشاهد آیین نامه</h5>
+                            <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
+                            <table class="table table-bordered table-hover text-right">
+                                    <tr>
+                                        <td class="align-middle text-center"  rowspan="4">بند 13</td>
+                                        <td width="40%" class="align-middle" rowspan="2">1. راهنمایی و مشاوره پایان نامه کارشناسی ارشد یا دکتری حرفه ای یا سطح 3 حوزه( سقف برای پایان نامه های کاربردی با ضریب 1.5 برابر)</td>
+                                        <td class="align-middle  text-center">1. استاد راهنما</td>
+                                        <td class="align-middle  text-center">2</td>
+                                        <td class="align-middle  text-center" rowspan="4">25</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle  text-center">2. استاد مشاور</td>
+                                        <td class="align-middle  text-center">0.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle  text-center" rowspan="2">2. راهنمایی و مشاوره پایان نامه دکتری تخصصی یا سطح 4 حوزه( سقف برای پایان نامه های کاربردی با ضریب 1.5 برابر)</td>
+                                        <td width="40%" class="align-middle  text-center">1. استاد راهنما</td>
+                                        <td class="align-middle  text-center">6</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="align-middle  text-center">2. استاد مشاور</td>
+                                        <td class="align-middle  text-center">1.5</td>
+                                    </tr>
+
+                            </table>
+                        </div><!-- modal-body -->
+                    </div><!-- /modal-content -->
+                </div><!-- /modal-dialog -->
+            </div><!-- / Info show modal  -->
+
         </div><!-- /container-fluid -->
     </div>
 </template>
@@ -264,7 +330,10 @@
                     $(this).find('[autofocus]').focus();
                 });
             },
-            createThesis(){
+            infoModal() {
+                $('#InfoModal').modal('show');
+            },
+            onComplete(){
                 this.$Progress.start();
                 let loader1 = Vue.$loading.show();
                 this.form.busy;
@@ -273,15 +342,29 @@
                         loader1.hide();
                         this.theses.unshift(response.data.data);
                         $('#addNew').modal('hide');
-                        this.successToast('اطلاعات کاربر جدید با موفقیت ثبت شد.');
+                        this.successToast('اطلاعات پایان نامه جدید با موفقیت ثبت شد.');
                         this.$Progress.finish();
-                        this.form.reset();
+                        this.resetFormWizard();
                     })
                     .catch(() => {
                         loader1.hide();
                         this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
                         this.$Progress.fail();
                     })
+            },
+            thesisValidation(){
+                return this.$validator.validateAll('form').then(result => {
+                    if (!result) {
+                        this.errorSwal('اطلاعات پایان نامه دارای خطا می باشد!');
+                        return false;
+                    }
+                    return true;
+                });
+            },
+            resetFormWizard() {
+                this.form.reset();
+                this.$refs.wizard.reset();
+                this.$validator.reset();
             },
             deleteThesis(id){
                 swal({
@@ -351,6 +434,9 @@
                         }
                     );
             },
+            createThesis(){
+
+            }
         },
         computed:{
             sortType() {
@@ -359,7 +445,19 @@
         },
         created(){
             this.$parent.pageName = 'آرشیو پایان نامه ها';
-            //this.getThesisRelation();
+            this.$validator.localize('farsi', {
+                messages: farsi.messages,
+                attributes: {
+                    title: 'عنوان پایان نامه',
+                    group_aprovedate: 'تاربخ تصویب در گروه',
+                    council_aprovedate: 'تاربخ تصویب در شورای پژوهشی',
+                    code_date: 'تاربخ دریافت کد',
+                    defense_date: 'تاربخ دفاع',
+                    responsible: 'نوع مسئولیت استاد',
+                    degree_id : 'مقطع تحصیلی'
+
+                }
+            });
 
             Fire.$on('searching', () => {
                 let page = 1;

@@ -5,11 +5,22 @@
             <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
-                        <div class="justify-content-around d-lg-flex text-right">
-                            <div class="col-lg-2 m-3">
-                                <h4 class=" text-right"><i class="fal fa-users-class fa-fw"></i> آرشیو دوره ها</h4>
+                        <div class="row justify-content-between  text-right">
+                            <div class="col-xl-4 m-3">
+                                <h4 class=" text-right"><i class="fal fa-users-class fa-fw"></i> آرشیو دوره‌ها</h4>
                             </div>
-                            <div class="col-lg-5 mt-3">
+                            <div class="col-xl-4  " >
+                            <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن دوره</button>
+                            <button class="btn btn-block-only btn-info ripple mt-3 mx-xl-2 float-left" @click="infoModal"><i style="font-size: 16px" class="far fa-info-circle"></i> راهنمای بخشنامه</button>
+                        </div>
+
+                        </div><!-- /card-tools -->
+
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <div class="row justify-content-center no-gutters">
+                            <div class="col-lg-7 mt-3  mr-2">
 
                                 <div class="input-group  ">
                                     <input class="form-control"  type="search" placeholder="جستجو..." aria-label="جستجو"
@@ -22,33 +33,23 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-5  mt-3" >
-                                <div class="d-xl-inline-block  ">
-                                    <div class="input-group mb-3 ">
-                                        <select v-model="filter" @change="searchit" class="custom-select">
-                                            <option selected disabled>پالایش بر اساس:</option>
-                                            <option value="5">همه</option>
-                                            <option value="0">بررسی نشده</option>
-                                            <option value="4">اصلاح شده</option>
-                                            <option value="1">تایید شده</option>
-                                            <option value="2">عدم تایید موقت</option>
-                                            <option value="3">عدم تایید قطعی</option>
-                                        </select>
-                                        <div class="input-group-append " >
-                                            <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
-                                        </div>
+                            <div class="col-lg-3  mt-3 mr-2" >
+                                <div class="input-group mb-3 ">
+                                    <select v-model="filter" @change="searchit" class="custom-select">
+                                        <option selected disabled>پالایش بر اساس:</option>
+                                        <option value="5">همه</option>
+                                        <option value="0">بررسی نشده</option>
+                                        <option value="4">اصلاح شده</option>
+                                        <option value="1">تایید شده</option>
+                                        <option value="2">عدم تایید موقت</option>
+                                        <option value="3">عدم تایید قطعی</option>
+                                    </select>
+                                    <div class="input-group-append " >
+                                        <span class="input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
                                     </div>
                                 </div>
-                                <div class="d-xl-inline-block float-xl-left">
-                                    <button class="btn btn-success ripple " @click="newModal">
-                                        <i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن دوره</button>
-                                </div>
                             </div>
-                        </div><!-- /card-tools -->
-
-
-                    </div><!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
+                        </div>
                         <table class="table table-hover text-right">
                             <tbody>
                             <tr>
@@ -60,6 +61,9 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                            </tr>
+                            <tr v-if="courses.length <= 0">
+                                <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(course, index) in courses" :key="course.id">
                                 <td>{{counter(index) | faDigit}}</td>
@@ -127,7 +131,7 @@
 
                                     <div class="modal-body">
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">عنوان دوره:</label>
+                                            <label class="blue">عنوان دوره<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="title" placeholder="عنوان دوره"
                                                     class="form-control" v-model="form.title"
                                                     v-validate="'required'"
@@ -138,7 +142,7 @@
                                             <span v-show="form.errors.has('title')" class="red d-inline-block text-rtl text-rtl">{{ form.errors.get('title') }}</span>
                                         </div>
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">نام سازمان برگزارکننده:</label>
+                                            <label class="blue">نام سازمان برگزارکننده<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="organization" placeholder="نام سازمان برگزارکننده"
                                                     class="form-control" v-model="form.organization"
                                                     v-validate="'required'"
@@ -149,11 +153,12 @@
                                         </div>
 
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">نقش در دوره:</label>
+                                            <label class="blue">نقش در دوره<i class="red mx-1">*</i>:</label>
                                             <select v-model="form.role"
                                                     data-vv-name="role"
                                                     :class="{ 'is-invalid': form.errors.has('role')|| errors.has('form.role') }"
                                                     v-validate="'required'"
+                                                    @change="removeError('role')"
                                                     class="form-control">
                                                 <option selected disabled  value="">انتخاب گزینه ...</option>
                                                 <option value="مدرس">مدرس</option>
@@ -218,9 +223,57 @@
                     </div>
                 </div>
             </div><!-- /modal -->
-            <div v-if="!$gate.isAdmin()">
-                <not-found></not-found>
-            </div><!-- /404 page -->
+
+            <!-- Info Modal -->
+            <div class="modal  fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModal" aria-hidden="true">
+                <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="InfoModal2"><i
+                                class="fal fa-info-circle fa-fw"></i>مشاهد آیین نامه</h5>
+                            <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
+                            <table class="table table-bordered table-hover text-right">
+                                <thead>
+                                <td class="align-middle text-center">شماره بند</td>
+                                <td class="align-middle text-center" colspan="1">موضوعات</td>
+                                <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
+                                <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
+                                <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
+                                </thead>
+                                <tr>
+                                    <td class="align-middle text-center"  rowspan="2">بند 8</td>
+                                    <td width="40%" class="align-middle" rowspan="1">1. گزارش های علمی طرح های پژوهشی و فناوری خاتمه یافته در داخل موسسه با تایید معاون پژوهشی
+                                    </td>
+                                    <td class="align-middle  text-center">تا 2</td>
+                                    <td class="align-middle  text-center" rowspan="1"> 6 </td>
+                                    <td class="align-middle  text-center" rowspan="1"> - </td>
+                                </tr>
+                                <tr>
+                                    <td width="40%" class="align-middle" rowspan="1">2. گزارش های علمی طرح های پژوهشی و فناوری با طرف قرارداد خارج از موسسه تایید شده نهاد سفارش دهنده، که تا حدامکان نکات زیر در نظر گرفته شود: <br>
+                                        - استانی، منطقه ای، ملی یا بین المللی بودن موضوع طرح
+                                        <br>
+                                        - گزارش طرح های تحقیقاتی مشترک با دانشگاه ها و موسسه های علمی خارج از کشور تا 1/2 برار.
+                                    </td>
+                                    <td class="align-middle  text-center">تا 15</td>
+                                    <td class="align-middle  text-center" rowspan="1"> - </td>
+                                    <td class="align-middle  text-center" rowspan="1"> - </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        تبصره 1. ویژه اعضای هیات علمی موسسه های تحت نظارت وزارت علوم<br/>
+                                        تبصره 2. طرح های که نتیجه مسئولیت اجرایی یا حقوقی باشد امتیازی تعلق نمی گیرد.
+                                    </td>
+                                </tr>
+                            </table>
+                        </div><!-- modal-body -->
+                    </div><!-- /modal-content -->
+                </div><!-- /modal-dialog -->
+            </div><!-- / Info show modal  -->
+
         </div><!-- /container-fluid -->
     </div>
 </template>
@@ -276,6 +329,9 @@
                 $('#addNew').on('shown.bs.modal', function() {
                     $(this).find('[autofocus]').focus();
                 });
+            },
+            infoModal() {
+                $('#InfoModal').modal('show');
             },
             fieldChange(e){
                 let selectedFiles=e.target.files;
@@ -396,6 +452,9 @@
                     });
                 }
             },
+            createCourse(){
+
+            }
 
         },
         computed:{

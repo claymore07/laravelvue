@@ -198,7 +198,7 @@ class BookletController extends Controller
      * @return BookletResource
      * @throws \Exception
      */
-    public function update(Request $request, Booklet $booklet)
+    public function update(BookletRequest $request, Booklet $booklet)
     {
         //
         DB::beginTransaction();

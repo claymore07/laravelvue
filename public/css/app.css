@@ -32601,6 +32601,14 @@ readers do not read off random characters that represent icons */
   direction: rtl;
 }
 
+.under-line {
+  text-decoration: underline;
+}
+
+.left {
+  float: left;
+}
+
 .main-footer-login {
   padding: 15px;
   color: #555;
@@ -33192,5 +33200,33 @@ div.form-control.is-invalid > span.select2-container--bootstrap4 .select2-select
 .tags-input-typeahead-item-highlighted-default {
   color: #fff;
   background-color: #007bff;
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .btn-block-only {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .btn-block-only {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .btn-block-only {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .btn-block-only {
+    display: block;
+    width: 100%;
+  }
 }
 

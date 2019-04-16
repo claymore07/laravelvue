@@ -5,11 +5,22 @@
             <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
-                        <div class="justify-content-around d-lg-flex text-right">
-                            <div class="col-lg-2 m-3">
+                        <div class="row justify-content-between  text-right">
+                            <div class="col-xl-4 m-3">
                                 <h4 class=" text-right"><i class="fal fa-award fa-fw"></i> آرشیو جوایز</h4>
                             </div>
-                            <div class="col-lg-5 mt-3">
+                            <div class="col-xl-4  " >
+                                <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن جایزه</button>
+                                <button class="btn btn-block-only btn-info ripple mt-3 mx-xl-2 float-left" @click="infoModal"><i style="font-size: 16px" class="far fa-info-circle"></i> راهنمای بخشنامه</button>
+                            </div>
+
+                        </div><!-- /card-tools -->
+
+
+                    </div><!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <div class="row justify-content-center no-gutters">
+                            <div class="col-lg-7 mt-3  mr-2">
 
                                 <div class="input-group  ">
                                     <input class="form-control"  type="search" placeholder="جستجو..." aria-label="جستجو"
@@ -22,33 +33,23 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-5  mt-3" >
-                                <div class="d-xl-inline-block  ">
-                                    <div class="input-group mb-3 ">
-                                        <select v-model="filter" @change="searchit" class="custom-select">
-                                            <option selected disabled>پالایش بر اساس:</option>
-                                            <option value="5">همه</option>
-                                            <option value="0">بررسی نشده</option>
-                                            <option value="4">اصلاح شده</option>
-                                            <option value="1">تایید شده</option>
-                                            <option value="2">عدم تایید موقت</option>
-                                            <option value="3">عدم تایید قطعی</option>
-                                        </select>
-                                        <div class="input-group-append " >
-                                            <span class="ml-3 input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
-                                        </div>
+                            <div class="col-lg-3  mt-3 mr-2" >
+                                <div class="input-group mb-3 ">
+                                    <select v-model="filter" @change="searchit" class="custom-select">
+                                        <option selected disabled>پالایش بر اساس:</option>
+                                        <option value="5">همه</option>
+                                        <option value="0">بررسی نشده</option>
+                                        <option value="4">اصلاح شده</option>
+                                        <option value="1">تایید شده</option>
+                                        <option value="2">عدم تایید موقت</option>
+                                        <option value="3">عدم تایید قطعی</option>
+                                    </select>
+                                    <div class="input-group-append " >
+                                        <span class="input-group-text" style="border: none!important; background: none"  title="پالایش براساس"><i class="fal  blue fa-filter"></i> </span>
                                     </div>
                                 </div>
-                                <div class="d-xl-inline-block float-xl-left">
-                                    <button class="btn btn-success ripple " @click="newModal">
-                                        <i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن جایزه</button>
-                                </div>
                             </div>
-                        </div><!-- /card-tools -->
-
-
-                    </div><!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
+                        </div>
                         <table class="table table-hover text-right">
                             <tbody>
                             <tr>
@@ -60,6 +61,9 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                            </tr>
+                            <tr v-if="rewards.length <= 0">
+                                <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(reward, index) in rewards" :key="reward.id">
                                 <td>{{counter(index) | faDigit}}</td>
@@ -126,34 +130,35 @@
                         <form @submit.prevent="createReward()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                             <div class="modal-body">
-                                <div class="form-group mt-4 text-right">
-                                    <label class="blue">عنوان جشنواره، رقابت و یا مراسم:</label>
+                                <div class="form-group my-3 text-right">
+                                    <label class="blue">عنوان جشنواره، رقابت و یا مراسم<i class="red mx-1">*</i>:</label>
                                     <input  type="text"  name="name" placeholder="عنوان جشنواره، رقابت و یا مراسم"
                                             class="form-control" v-model="form.name"
                                             v-validate="'required'"
                                             autofocus
                                             :class="{ 'is-invalid': form.errors.has('name') || errors.has('form.name') } " >
                                     <i v-show="errors.has('form.name') || form.errors.has('name')" class="red far fa-exclamation-triangle"></i>
-                                    <span v-show="errors.has('form.form.name')" class="red d-inline-block">{{ errors.first('form.name') }}</span>
-                                    <has-error :form="form" field="name"></has-error>
+                                    <span v-show="errors.has('form.name')" class="red d-inline-block">{{ errors.first('form.name') }}</span>
+                                    <span v-show="form.errors.has('name')" class="red d-inline-block">{{ form.errors.get('name') }}</span>
                                 </div>
-                                <div class="form-group mt-4 text-right">
-                                    <label class="blue">عنوان جایزه:</label>
+                                <div class="form-group my-3 text-right">
+                                    <label class="blue">عنوان جایزه<i class="red mx-1">*</i>:</label>
                                     <input  type="text"  name="title" placeholder="عنوان جایزه"
                                             class="form-control" v-model="form.title"
                                             v-validate="'required'"
                                             :class="{ 'is-invalid': form.errors.has('title') || errors.has('form.title')} " @input="() => {}">
                                     <i v-show="errors.has('form.title') || form.errors.has('title')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
-                                    <has-error :form="form" field="title"></has-error>
+                                    <span v-show="form.errors.has('title')" class="red d-inline-block">{{ form.errors.get('title') }}</span>
                                 </div>
 
-                                <div class="form-group my-5 text-right">
-                                    <label class="blue">نوع جشنواره، رقابت یا مراسم:</label>
+                                <div class="form-group  my-3 text-right">
+                                    <label class="blue">نوع جشنواره، رقابت یا مراسم<i class="red mx-1">*</i>:</label>
                                     <select v-model="form.type"
                                             data-vv-name="type"
                                             :class="{ 'is-invalid': form.errors.has('type')|| errors.has('form.type') }"
                                             v-validate="'required'"
+                                            @change="removeError('type')"
                                             class="form-control">
                                         <option selected disabled  value="">انتخاب گزینه ...</option>
                                         <option value="داخلی">داخلی</option>
@@ -161,13 +166,14 @@
                                     </select>
                                     <i v-show="errors.has('form.type') || form.errors.has('type')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form.type')" class="red d-inline-block">{{ errors.first('form.type') }}</span>
-                                    <has-error :form="form" field="type"></has-error>
+                                    <span v-show="form.errors.has('type')" class="red d-inline-block">{{ form.errors.get('type') }}</span>
                                 </div>
-                                <div class="form-group my-5 text-right">
-                                    <label class="blue">رتبه کسب شده:</label>
+                                <div class="form-group  my-3 text-right">
+                                    <label class="blue">رتبه کسب شده<i class="red mx-1">*</i>:</label>
                                     <select v-model="form.place"
                                             data-vv-name="place"
                                             v-validate="'required'"
+                                            @change="removeError('place')"
                                             :class="{ 'is-invalid': form.errors.has('place') || errors.has('form.place') }"
                                             class="form-control">
                                         <option selected disabled value="">انتخاب گزینه ...</option>
@@ -177,7 +183,7 @@
                                     </select>
                                     <i v-show="errors.has('form.place') || form.errors.has('place')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="errors.has('form.place')" class="red d-inline-block">{{ errors.first('form.place') }}</span>
-                                    <has-error :form="form" field="place"></has-error>
+                                    <span v-show="form.errors.has('place')" class="red d-inline-block">{{ form.errors.get('place') }}</span>
                                 </div>
                                 <div  class="form-group my-3 text-right">
                                     <label class="blue ">دوره برگزاری<i class="red mx-1">*</i>:</label>
@@ -191,7 +197,7 @@
                                     <span v-show="errors.has('form.period')" class="red d-inline-block">{{ errors.first('form.period') }}</span>
                                     <span v-show="form.errors.has('period')" class="red d-inline-block">{{ form.errors.get('period') }}</span>
                                 </div>
-                                <div class=" mt-4" style="direction: ltr; text-align: right" >
+                                <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ دریافت جایزه:<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.holding_date | myDate}}</span>
                                     <date-picker @change="removeError('holding_date')" format="YYYY-MM-DD"
@@ -205,7 +211,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group mt-4 text-right">
+                                <div class="form-group my-3 text-right">
                                     <label class="blue text-right">فایل های ضمیمه:<i class="red mx-1">*</i>:</label>
                                     <span class="red"><br/>
                                                 اسکن گواهی جایزه بصورت pdf<br>
@@ -233,9 +239,39 @@
                     </div>
                 </div>
             </div><!-- /modal -->
-            <div v-if="!$gate.isAdmin()">
-                <not-found></not-found>
-            </div><!-- /404 page -->
+            <!-- Info Modal -->
+            <div class="modal  fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModal" aria-hidden="true">
+                <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="InfoModal2"><i
+                                class="fal fa-info-circle fa-fw"></i>مشاهد آیین نامه</h5>
+                            <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
+                            <table class="table table-bordered table-hover text-right">
+                                <thead>
+                                <td class="align-middle text-center">شماره بند</td>
+                                <td class="align-middle text-center" colspan="1">موضوعات</td>
+                                <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
+                                <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
+                                <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
+                                </thead>
+                                <tr>
+                                    <td class="align-middle text-center"  rowspan="1">بند 15</td>
+                                    <td width="40%" class="align-middle" rowspan="1">1. کسب رتبه در جشنواره های داخلی و خارجی، که در محاسبه امتیاز آنها اعتبار جسنواره و رتبه متقاضی در جشنواره در نظر گرفته می شود.</td>
+                                    <td class="align-middle  text-center"> تا 6</td>
+                                    <td class="align-middle  text-center" rowspan="1"> 10 </td>
+                                    <td class="align-middle  text-center" rowspan="1"> - </td>
+                                </tr>
+                            </table>
+                        </div><!-- modal-body -->
+                    </div><!-- /modal-content -->
+                </div><!-- /modal-dialog -->
+            </div><!-- / Info show modal  -->
+
         </div><!-- /container-fluid -->
     </div>
 </template>
@@ -292,6 +328,9 @@
                 $('#addNew').on('shown.bs.modal', function() {
                     $(this).find('[autofocus]').focus();
                 });
+            },
+            infoModal() {
+                $('#InfoModal').modal('show');
             },
             fieldChange(e){
                 let selectedFiles=e.target.files;

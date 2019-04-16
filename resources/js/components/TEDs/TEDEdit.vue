@@ -4,7 +4,7 @@
             <div class="card card-4 my-5">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
-                        <h3 class=" text-right"><i class="fal fa-lightbulb-on fa-fw"></i> اطلاعات کرسی‌ ‌</h3>
+                        <h3 class=" text-right"><i class="fal fa-lightbulb-on fa-fw"></i> اطلاعات کرسی‌  نظریه پردازی ‌</h3>
                     </div>
                     <div class="card-tools">
                         <button class="btn btn-success" @click="goback"><i style="font-size: 16px" class="fal fa-undo"></i> بازگشت</button>
@@ -14,7 +14,7 @@
                     <table class="table table-hover table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="font-18"><i class="fal fa-lightbulb-on fa-fw"></i> اطلاعات کرسی‌ </th>
+                            <th class="font-18"><i class="fal fa-lightbulb-on fa-fw"></i> اطلاعات کرسی‌  نظریه پردازی </th>
                             <th v-if="checkList">موارد ناقص</th>
                         </tr>
                         </thead>
@@ -210,14 +210,14 @@
                                             <span v-show="errors.has('form.form.title')" class="red d-inline-block">{{ errors.first('form.title') }}</span>
                                             <has-error :form="form" field="title"></has-error>
                                         </div>
-                                        <div class="form-group my-4 text-right">
+                                        <div class="form-group my-3 text-right">
                                             <label class="blue">نوع کرسی<i class="red mx-1">*</i>:</label>
                                             <Select2 v-validate="'required'" data-vv-name="ted_types_id"
                                                      class="form-control select2-form-control" id="ted_types_id"
                                                      :class="[( errors.has('form.ted_types_id') || form.errors.has('ted_types_id') ? 'is-invalid': ''  )]"
                                                      v-model="form.ted_types_id"
                                                      :options="ted_types"
-                                                     autofocus
+                                                     @change="removeError('ted_types_id')"
                                                      :settings="{theme: 'bootstrap4', placeholder: 'نوع کرسی', width: '100%' }">
                                             </Select2>
 
@@ -242,7 +242,7 @@
                                             <date-picker @change="removeError('presentation_date')" format="YYYY-MM-DD"
                                                          v-validate="'required'"
                                                          :class="[ errors.has('form.presentation_date') || form.errors.has('presentation_date') ? 'is-invalid': ''  ] "
-                                                         name="holding_date" v-model="form.presentation_date" locale="fa,en"></date-picker>
+                                                         name="presentation_date" v-model="form.presentation_date" locale="fa,en"></date-picker>
                                             <div class="text-rtl">
                                                 <i v-show="errors.has('form.presentation_date') || form.errors.has('presentation_date')" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form.presentation_date')" class="red d-inline-block">{{ errors.first('form.presentation_date') }}</span>
@@ -256,8 +256,8 @@
                                         </div>
                                         <div class="mt-2 text-right">
                                             <span>آیا می خواهید در فایل های ضمیمه تغییر اعمال کنید؟</span>
-                                            <button @click="fileChange(true)" class="btn btn-info btn-lg">آری</button>
-                                            <button v-if="fileChanging" @click="fileChange(false)" class="btn btn-warning btn-lg">خیر</button>
+                                            <a @click="fileChange(true)" class="text-white btn btn-info btn-lg">آری</a>
+                                            <a v-if="fileChanging" @click="fileChange(false)" class="text-white btn btn-warning btn-lg">خیر</a>
                                         </div>
                                         <div v-if="fileChanging" class="mt-2 text-right">
                                             <div class="form-group my-3 text-right">
@@ -276,8 +276,8 @@
 
                                                 <br>
                                                 <has-error :form="form" field="fileChangeType"></has-error>
-                                                <i v-show="errors.has('form-1.fileChangeType') || form.errors.has('fileChangeType')" class="red far fa-exclamation-triangle"></i>
-                                                <span v-show="errors.has('form-1.fileChangeType')" class="red d-inline-block">{{ errors.first('form-1.fileChangeType') }}</span>
+                                                <i v-show="errors.has('form.fileChangeType') || form.errors.has('fileChangeType')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.fileChangeType')" class="red d-inline-block">{{ errors.first('form.fileChangeType') }}</span>
                                                 <span v-show="form.errors.has('fileChangeType')" class="red d-inline-block">{{ form.errors.get('fileChangeType') }}</span>
                                             </div>
                                         </div>
@@ -290,14 +290,14 @@
                                             </span>
                                         </div>
                                         <div v-if="fileChanging" class="custom-file text-ltr text-right mt-3 mb-5">
-                                            <input @change="fieldChange" multiple v-validate="'required|ext:zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
+                                            <input @change="fieldChange" multiple v-validate="'required|ext:rar,zip,pdf|size:5000'" name="files" type="file" class="custom-file-input" id="customFile" >
                                             <label  class="custom-file-label"   for="customFile">انتخاب فایل های ضمیمه</label>
                                             <span class="badge badge-info my-2 mx-2" style="font-size: 14px; color: #ffffff; background-color: #17a2b8;"
                                                   v-for="item in fileName">{{item}}</span>
                                             <has-error :form="form" field="files"></has-error>
                                             <div class="text-rtl">
-                                                <i v-show="errors.has('form-1.files')|| form.errors.has('files')" class="red far fa-exclamation-triangle"></i>
-                                                <span v-show="errors.has('form-1.files') " class="red d-inline-block">{{ errors.first('form-1.files') }}</span>
+                                                <i v-show="errors.has('form.files')|| form.errors.has('files')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form.files') " class="red d-inline-block">{{ errors.first('form.files') }}</span>
                                                 <span v-show="form.errors.has('files')" class="red d-inline-block">{{ form.errors.get('files') }}</span>
                                             </div>
                                         </div>
@@ -556,8 +556,10 @@
                             return [value];
                         });
                     }
-                    this.checkListForm.comment = this.checkListItems[0].comment;
-                    this.checkListForm.status = this.ted.status;
+                    if (this.checkListItems.length > 0 ) {
+                        this.checkListForm.comment = this.checkListItems[0].comment;
+                        this.checkListForm.status = this.ted.status;
+                    }
                 }
             },
             toggleCheckList(){
@@ -591,19 +593,21 @@
             // checks the file type on render to see if it is pdf or zip
             checkFileType(file){
                 var fileName = file.name.split(".");
-                return fileName[1] == 'zip'? true:false;
+                return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets ted data based on the received it
             gettedData(id){
                 axios.get(`/api/tedChair/${id}`)
                     .then(response => {
                         this.ted = response.data.data;
+                        console.log(this.ted);
                         this.checkListItems = response.data.data.checkList;
                         this.prepareCheckList();
                         this.editFormPrepare();
+
                     })
                     .catch((e)=>{
-                            console.log(e);
+                            console.log('asdasdasdasdajkasa');
                         }
                     );
             },

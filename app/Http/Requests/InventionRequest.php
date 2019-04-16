@@ -53,6 +53,7 @@ class InventionRequest extends FormRequest
             'post.required' => 'نوع سمت در اختراع یا تولید دانش الزامی است.',
             'authorities.required' => 'نام سازمان صادر کننده تاییدیه الزامی است.',
             'license.required_if' => 'تعیین به فروش رفتن یا لیسان شدن پتنت الزامی است.',
+            'license_number.required_if' => 'شماره ثبت پتنت الزامی است.',
             'affiliation.required_if' => 'تعیین نام موسسه ای که پتنت به نام آن ثبت شده، الزامی است.',
             'registration_number.required_if' => 'شماره ثبت شرکت الزامی است.',
             'company_name.required_if' => 'نام شرکت الزامی است.',
