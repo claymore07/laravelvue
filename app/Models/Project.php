@@ -9,7 +9,7 @@ class Project extends Model
     //
     protected $fillable=[
         'profile_id', 'project_types_id', 'status', 'title', 'organization',
-        'budget', 'council_aprovedate', 'defense_date', 'score'
+        'budget', 'council_aprovedate', 'defense_date', 'score', 'term_id'
     ];
 
     // Forward
@@ -33,5 +33,9 @@ class Project extends Model
     }
     public function profile(){
         return $this->belongsTo(Profile::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 }

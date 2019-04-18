@@ -146,6 +146,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </footer>
 
 </div>
+<script>
+    window.term = @json(\App\Models\Term::whereStatus(1)->first())
+</script>
 <!-- ./wrapper -->
 <script src="{{ asset('js/app.js') }}" ></script>
 </body>

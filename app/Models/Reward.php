@@ -9,7 +9,7 @@ class Reward extends Model
     //
     protected $fillable = [
         'profile_id', 'name', 'type', 'title',
-        'place', 'period', 'holding_date', 'score', 'status'
+        'place', 'period', 'holding_date', 'score', 'status', 'term_id'
     ];
 
     // Forward
@@ -23,5 +23,9 @@ class Reward extends Model
     // Backward
     public function profile(){
         return $this->belongsTo(Profile::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 }

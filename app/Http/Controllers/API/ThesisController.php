@@ -7,7 +7,9 @@ use App\Http\Resources\DegreeResource;
 
 use App\Http\Resources\ThesisResource;
 use App\Models\Degree;
+use App\Models\Term;
 use App\Models\Thesis;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -140,11 +142,19 @@ class ThesisController extends Controller
     public function store(ThesisResquest $request)
     {
         //
-        $request['profile_id'] = auth('api')->user()->profile['id'];
-        $request['status'] = 0;
-        $thesis = Thesis::create($request->all());
+        $term = Term::whereStatus(1)->first();
 
-        return new ThesisResource($thesis);
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)){
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            $request['term_id'] = $term->id;
+            $thesis = Thesis::create($request->all());
+
+            return new ThesisResource($thesis);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
+        }
+
 
     }
 

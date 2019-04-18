@@ -11,7 +11,7 @@ class Book extends Model
     protected $fillable = [
         'booktype_id', 'profile_id', 'excerpt_id', 'status', 'title', 'isbn',
         'subject', 'publisher', 'edited', 'edited_number', 'publish_number',
-        'publish_year', 'pages', 'copy_number','national_code', 'congress_code', 'dewey_code', 'score'
+        'publish_year', 'pages', 'copy_number','national_code', 'congress_code', 'dewey_code', 'score', 'term_id'
     ];
 
     // Forward
@@ -38,5 +38,9 @@ class Book extends Model
     }
     public function excerpt(){
         return $this->belongsTo(Excerpt::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 }

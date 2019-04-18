@@ -346,9 +346,15 @@
                         this.$Progress.finish();
                         this.resetFormWizard();
                     })
-                    .catch(() => {
+                    .catch((e) => {
                         loader1.hide();
-                        this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                        if(e.response.status == 405){
+                            let starts = this.$options.filters.myDate(window.term.starts_at);
+                            let ends = this.$options.filters.myDate(window.term.ends_at);
+                            this.errorSwal(`تاریخ ثبت اطلاعات در ترم جاری از بازه ${starts} تا بازه ${ends} می باشد. امکان ثبت در تاریخ کنون وجود ندارد.`);
+                        }else{
+                            this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                        }
                         this.$Progress.fail();
                     })
             },

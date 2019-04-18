@@ -9,7 +9,7 @@ class Referee extends Model
     //
     protected $fillable = [
         'profile_id', 'referee_types_id', 'title', 'status',
-        'score', 'journal_name', 'journal_issn', 'referee_date'
+        'score', 'journal_name', 'journal_issn', 'referee_date', 'term_id'
     ];
 
     // Forward
@@ -26,5 +26,9 @@ class Referee extends Model
     }
     public function profile(){
         return $this->belongsTo(Profile::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 }

@@ -9,7 +9,7 @@ class Booklet extends Model
     //
     protected $fillable = [
         'profile_id', 'degree_id', 'status', 'booklet_type',
-        'title', 'name', 'compilation_date', 'score'
+        'title', 'name', 'compilation_date', 'score', 'term_id'
     ];
 
     // Forward
@@ -25,5 +25,9 @@ class Booklet extends Model
     }
     public function degree(){
         return $this->belongsTo(Degree::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 }

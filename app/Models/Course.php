@@ -9,7 +9,7 @@ class Course extends Model
     //
     protected $fillable = [
         'profile_id', 'status', 'title', 'role',
-        'organization', 'holding_date', 'duration', 'score'
+        'organization', 'holding_date', 'duration', 'score', 'term_id'
     ];
 
     // Forward
@@ -23,5 +23,9 @@ class Course extends Model
     // Backward
     public function profile(){
         return $this->belongsTo(Profile::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 }

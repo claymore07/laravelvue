@@ -10,7 +10,7 @@ class TEDChair extends Model
     protected $table = 'tedchairs';
     protected $fillable = [
       'title', 'profile_id', 'ted_types_id', 'location',
-        'council_aprovedate', 'status', 'score', 'presentation_date'
+        'council_aprovedate', 'status', 'score', 'presentation_date', 'term_id'
     ];
 
     // Forward
@@ -28,6 +28,10 @@ class TEDChair extends Model
     }
     public function profile(){
         return $this->belongsTo(Profile::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
     }
 
     public function getRouteKeyName()

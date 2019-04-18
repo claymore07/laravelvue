@@ -13,7 +13,7 @@ class Thesis extends Model
     protected $fillable = [
         'profile_id', 'degree_id', 'status', 'title', 'responsible',
         'group_aprovedate', 'council_aprovedate', 'code_date',
-        'defense_date', 'score'
+        'defense_date', 'score', 'term_id'
     ];
 
     // Forward
@@ -26,6 +26,9 @@ class Thesis extends Model
     }
     public function degree(){
         return $this->belongsTo(Degree::class);
+    }
+    public function term(){
+        return $this->belongsTo(Term::class);
     }
     public function getRouteKeyName()
     {
