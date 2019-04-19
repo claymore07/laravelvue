@@ -12,9 +12,11 @@ use App\Http\Requests\PaperUpdateRequest;
 use App\Models\Journal;
 use App\Models\Jtype;
 use App\Models\Paper;
+use App\Models\Term;
 use App\User;
 
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -156,56 +158,64 @@ class PapersController extends Controller
         })->toArray();
         return Response::json(array('excerpts'=>$excerpts, 'jtypes'=>$jtypes, 'conftypes'=>$conftypes));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse | PaperResource
+     * @throws \Exception
      */
     public function store(PaperRequest $request){
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $isresposible = $request->isresponsible;
-            $tags = $request->tags;
-            $request['profile_id'] = auth('api')->user()->profile['id'];
-            $paperType = $request->paperType;
-            if ($paperType == 'jur') {
-                $request['name'] = $request->jname;
-                $journal_db = Journal::create($request->all(['jtype_id','name','publisher','issn','pissn', 'IFactor','FIF',
-                    'JRK', 'JCR']));
-                $paper_db = $journal_db->papers()->create($request->all());
-            } else {
-                $request['name'] = $request->confname;
-                $conference_db = Conference::create($request->all(['conftype_id','name', 'period', 'city', 'organizer']));
-                $paper_db = $conference_db->papers()->create($request->all());
-            }
-            foreach ($tags as $tag) {
-                $paper_db->tags()->create(['name' => $tag]);
-            }
-            foreach ($authors as $key => $author) {
-                if ($key == $isresposible) {
-                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                } else {
-                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-                }
-            }
-            foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/papers', $name);
-                    $paper_db->files()->create(['name' => $name]);
-                }
-            }
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
-        }
+        $term = Term::whereStatus(1)->first();
 
-        DB::commit();
-        return Response::json(['مقاله جدید با موفقیت ثبت شد.'], 200);
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $authors = $request->authors;
+                $affiliations = $request->affiliations;
+                $isresposible = $request->isresponsible;
+                $tags = $request->tags;
+                $request['profile_id'] = auth('api')->user()->profile['id'];
+                $paperType = $request->paperType;
+                if ($paperType == 'jur') {
+                    $request['name'] = $request->jname;
+                    $journal_db = Journal::create($request->all(['jtype_id', 'name', 'publisher', 'issn', 'pissn', 'IFactor', 'FIF',
+                        'JRK', 'JCR']));
+                    $paper_db = $journal_db->papers()->create($request->all());
+                } else {
+                    $request['name'] = $request->confname;
+                    $conference_db = Conference::create($request->all(['conftype_id', 'name', 'period', 'city', 'organizer']));
+                    $paper_db = $conference_db->papers()->create($request->all());
+                }
+                foreach ($tags as $tag) {
+                    $paper_db->tags()->create(['name' => $tag]);
+                }
+                foreach ($authors as $key => $author) {
+                    if ($key == $isresposible) {
+                        $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
+                    } else {
+                        $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                    }
+                }
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/papers', $name);
+                        $paper_db->files()->create(['name' => $name]);
+                    }
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
+            }
+
+            DB::commit();
+            return new PaperResource($paper_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
+        }
     }
 
 

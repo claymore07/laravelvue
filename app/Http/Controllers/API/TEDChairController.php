@@ -6,6 +6,8 @@ use App\Http\Requests\TEDChairRequest;
 use App\Http\Resources\TEDChairResource;
 use App\Models\TEDChair;
 use App\Models\TEDType;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -149,35 +151,41 @@ class TEDChairController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return TEDChairResource
+     * @return \Illuminate\Http\JsonResponse | TEDChairResource
      * @throws \Exception
      */
     public function store(TEDChairRequest $request)
     {
         //
         //
-        $request['profile_id'] =  auth('api')->user()->profile['id'];
-        $request['status'] = 0;
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $tedchair_db = TEDChair::create($request->all());
+        $term = Term::whereStatus(1)->first();
 
-             foreach ($fileBag as $files) {
-                 foreach ($files as $file) {
-                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                     $file->move('files/tedchairs', $name);
-                     $tedchair_db->files()->create(['name' => $name]);
-                 }
-             }
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $tedchair_db = TEDChair::create($request->all());
+
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/tedchairs', $name);
+                        $tedchair_db->files()->create(['name' => $name]);
+                    }
+                }
 
 
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
+            }
+            DB::commit();
+            return new TEDChairResource($tedchair_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new TEDChairResource($tedchair_db);
     }
 
     /**

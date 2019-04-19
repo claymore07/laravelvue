@@ -6,6 +6,8 @@ use App\Http\Requests\RefereeRequest;
 use App\Http\Resources\RefereeResource;
 use App\Models\Referee;
 use App\Models\RefereeType;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -148,34 +150,38 @@ class RefereeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return RefereeResource
+     * @return \Illuminate\Http\JsonResponse | RefereeResource
      * @throws \Exception
      */
     public function store(RefereeRequest $request)
     {
         //
-        $request['profile_id'] =  auth('api')->user()->profile['id'];
-        $request['status'] = 0;
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $referee_db = Referee::create($request->all());
+        $term = Term::whereStatus(1)->first();
 
-            foreach ($fileBag as $files) {
-                 foreach ($files as $file) {
-                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                     $file->move('files/referees', $name);
-                     $referee_db->files()->create(['name' => $name]);
-                 }
-             }
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $referee_db = Referee::create($request->all());
 
-
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/referees', $name);
+                        $referee_db->files()->create(['name' => $name]);
+                    }
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
+            }
+            DB::commit();
+            return new RefereeResource($referee_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new RefereeResource($referee_db);
     }
 
     /**

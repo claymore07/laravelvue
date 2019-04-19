@@ -7,6 +7,8 @@ use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\ProjectType;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -153,45 +155,51 @@ class ProjectController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return ProjectResource
+     * @return \Illuminate\Http\JsonResponse | ProjectResource
      * @throws \Exception
      */
     public function store(ProjectRequest $request)
     {
         //
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $isresposible = $request->isresponsible;
+        $term = Term::whereStatus(1)->first();
 
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-            $request['status'] = 0;
-            $project_db = Project::create($request->all());
-            foreach ($authors as $key => $author) {
-                if ($key == $isresposible) {
-                    $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                } else {
-                    $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $authors = $request->authors;
+                $affiliations = $request->affiliations;
+                $isresposible = $request->isresponsible;
+
+                $request['profile_id'] = auth('api')->user()->profile['id'];
+                $request['status'] = 0;
+                $project_db = Project::create($request->all());
+                foreach ($authors as $key => $author) {
+                    if ($key == $isresposible) {
+                        $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
+                    } else {
+                        $project_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                    }
                 }
-            }
 
-            foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/projects', $name);
-                    $project_db->files()->create(['name' => $name]);
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/projects', $name);
+                        $project_db->files()->create(['name' => $name]);
+                    }
                 }
+
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
             }
-
-
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            DB::commit();
+            return new ProjectResource($project_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new ProjectResource($project_db);
     }
 
     /**

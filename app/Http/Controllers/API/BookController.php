@@ -9,6 +9,8 @@ use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\BookType;
 use App\Models\Excerpt;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -155,39 +157,45 @@ class BookController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return BookResource
+     * @return \Illuminate\Http\JsonResponse | BookResource
      * @throws \Exception
      */
     public function store(BookResquest $request)
     {
         //
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $authors = $request->authors;
-            $affiliations = $request->affiliations;
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-            $request['status'] = 0;
-            $book_db = Book::create($request->all());
-            foreach ($authors as $key => $author) {
-                $book_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-            }
+        $term = Term::whereStatus(1)->first();
 
-         foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/books', $name);
-                    $book_db->files()->create(['name' => $name]);
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $authors = $request->authors;
+                $affiliations = $request->affiliations;
+                $request['profile_id'] = auth('api')->user()->profile['id'];
+                $request['status'] = 0;
+                $book_db = Book::create($request->all());
+                foreach ($authors as $key => $author) {
+                    $book_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
                 }
+
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/books', $name);
+                        $book_db->files()->create(['name' => $name]);
+                    }
+                }
+
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
             }
-
-
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            DB::commit();
+            return new BookResource($book_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new BookResource($book_db);
     }
 
     /**

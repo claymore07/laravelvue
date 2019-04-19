@@ -54,6 +54,8 @@ class BookResource extends JsonResource
                 'congress_code' => $this->congress_code != null? $this->congress_code:'',
                 'dewey_code' => $this->dewey_code != null? $this->dewey_code:'',
                 'score' => $this->score,
+                'term_id' => $this->term_id,
+                'term_name' => $this->term->name,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
                 'checkList' => $checkList,

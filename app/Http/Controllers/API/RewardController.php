@@ -7,7 +7,9 @@ use App\Http\Requests\RewardRequest;
 
 use App\Http\Resources\RewardResource;
 use App\Models\Reward;
+use App\Models\Term;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Response;
@@ -139,28 +141,34 @@ class RewardController extends Controller
     public function store(RewardRequest $request)
     {
         //
-        $request['profile_id'] =  auth('api')->user()->profile['id'];
-        $request['status'] = 0;
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $reward_db = Reward::create($request->all());
+        $term = Term::whereStatus(1)->first();
 
-           foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/rewards', $name);
-                    $reward_db->files()->create(['name' => $name]);
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $reward_db = Reward::create($request->all());
+
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/rewards', $name);
+                        $reward_db->files()->create(['name' => $name]);
+                    }
                 }
+
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
             }
-
-
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            DB::commit();
+            return new RewardResource($reward_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new RewardResource($reward_db);
     }
 
     /**

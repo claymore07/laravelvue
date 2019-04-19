@@ -50,6 +50,8 @@ class InventionResource extends JsonResource
                 'company_address' => $this->invention_types_id == 8 ? $this->company_address : '',
                 'status' => $this->status,
                 'score' => $this->score,
+                'term_id' => $this->term_id,
+                'term_name' => $this->term->name,
                 'submit_date' => $this->submit_date,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),

@@ -7,6 +7,8 @@ use App\Http\Requests\InventionRequest;
 use App\Http\Resources\InventionResource;
 use App\Models\Invention;
 use App\Models\InventionType;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;
 use Auth;
@@ -146,34 +148,40 @@ class InventionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return InventionResource
+     * @return \Illuminate\Http\JsonResponse | InventionResource
      * @throws \Exception
      */
     public function store(InventionRequest $request)
     {
         //
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
-            $request['status'] = 0;
-            $invention_db = Invention::create($request->all());
+        $term = Term::whereStatus(1)->first();
 
-            foreach ($fileBag as $files) {
-                foreach ($files as $file) {
-                    $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                    $file->move('files/inventions', $name);
-                    $invention_db->files()->create(['name' => $name]);
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $request['profile_id'] = auth('api')->user()->profile['id'];
+                $request['status'] = 0;
+                $invention_db = Invention::create($request->all());
+
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/inventions', $name);
+                        $invention_db->files()->create(['name' => $name]);
+                    }
                 }
+
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
             }
-
-
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            DB::commit();
+            return new InventionResource($invention_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new InventionResource($invention_db);
     }
 
     /**

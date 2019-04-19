@@ -45,6 +45,8 @@ class ThesisResource extends JsonResource
                 'code_date' => $this->code_date,
                 'defense_date' => $this->defense_date,
                 'score' => $this->score,
+                'term_id' => $this->term_id,
+                'term_name' => $this->term->name,
                 'checkList' => $checkList,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),

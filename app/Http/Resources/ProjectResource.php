@@ -46,6 +46,9 @@ class ProjectResource extends JsonResource
                 'defense_date' => $this->defense_date,
                 'status' => $this->status,
                 'score' => $this->score,
+
+                'term_id' => $this->term_id,
+                'term_name' => $this->term->name,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
                 'checkList' => $checkList,

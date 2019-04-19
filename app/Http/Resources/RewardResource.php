@@ -43,6 +43,8 @@ class RewardResource extends JsonResource
                 'period' => $this->period,
                 'status' => $this->status,
                 'score' => $this->score,
+                'term_id' => $this->term_id,
+                'term_name' => $this->term->name,
                 'holding_date' => $this->holding_date,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),

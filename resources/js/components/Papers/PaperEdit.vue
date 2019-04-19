@@ -449,6 +449,24 @@
                         </td>
                     </tr>
 
+
+                    <tr>
+                        <td class="font-16">
+                            <span class="orange ">ترم ثبت شده:</span>
+                            <span  class="mr-3">{{paper.term_name}}</span>
+
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')"
+                                @change.native="onChange('ترم ثبت شده', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td class="font-16">
                             <span class="blue ">وضعیت بررسی:</span>

@@ -8,6 +8,8 @@ use App\Http\Resources\BookletResource;
 use App\Http\Resources\DegreeResource;
 use App\Models\Booklet;
 use App\Models\Degree;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -147,34 +149,40 @@ class BookletController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return BookletResource
+     * @return \Illuminate\Http\JsonResponse | BookletResource
      * @throws \Exception
      */
     public function store(BookletRequest $request)
     {
         //
-        $request['profile_id'] =  auth('api')->user()->profile['id'];
-        $request['status'] = 0;
-        DB::beginTransaction();
-        try {
-            $fileBag = $request->files;
-            $booklet_db = Booklet::create($request->all());
+        $term = Term::whereStatus(1)->first();
 
-             foreach ($fileBag as $files) {
-                 foreach ($files as $file) {
-                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                     $file->move('files/booklets', $name);
-                     $booklet_db->files()->create(['name' => $name]);
-                 }
-             }
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
+                $booklet_db = Booklet::create($request->all());
+
+                foreach ($fileBag as $files) {
+                    foreach ($files as $file) {
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/booklets', $name);
+                        $booklet_db->files()->create(['name' => $name]);
+                    }
+                }
 
 
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
+            }
+            DB::commit();
+            return new BookletResource($booklet_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new BookletResource($booklet_db);
     }
 
     /**

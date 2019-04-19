@@ -550,7 +550,14 @@
                         } else {
                             this.form.errors.set('files', 'نوع فایل باید یکی از انواع pdf یا zip باشد.')
                         }
-                        this.errorSwal('در یکی از مراحل خطا دارید، لطفا مجدد بررسی کنید.');
+
+                        if(e.response.status == 405){
+                            let starts = this.$options.filters.myDate(window.term.starts_at);
+                            let ends = this.$options.filters.myDate(window.term.ends_at);
+                            this.errorSwal(`تاریخ ثبت اطلاعات در ترم جاری از بازه ${starts} تا بازه ${ends} می باشد. امکان ثبت در تاریخ کنون وجود ندارد.`);
+                        }else{
+                            this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                        }
                         return false;
                     }
                 );

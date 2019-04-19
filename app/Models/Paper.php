@@ -41,5 +41,9 @@ class Paper extends Model
     public function excerpt(){
         return $this->belongsTo('App\Models\Excerpt');
     }
+    public function term(){
+        return $this->belongsTo(Term::class);
+    }
+
 
 }

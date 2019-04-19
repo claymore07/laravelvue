@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
+use App\Models\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -138,31 +140,37 @@ class CourseController extends Controller
     public function store(CourseRequest $request)
     {
         //
-        $request['profile_id'] =  auth('api')->user()->profile['id'];
-        $request['status'] = 0;
-        DB::beginTransaction();
-        try {
-             $fileBag = $request->files;
+        $term = Term::whereStatus(1)->first();
 
-            $course_db = Course::create($request->all());
+        if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
+            $request['profile_id'] = auth('api')->user()->profile['id'];
+            $request['status'] = 0;
+            DB::beginTransaction();
+            try {
+                $fileBag = $request->files;
 
-             foreach ($fileBag as $files) {
+                $course_db = Course::create($request->all());
 
-                 foreach ($files as $file) {
+                foreach ($fileBag as $files) {
 
-                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
-                     $file->move('files/courses', $name);
-                     $course_db->files()->create(['name' => $name]);
-                 }
-             }
+                    foreach ($files as $file) {
+
+                        $name = time() . rand() . '.' . $file->getClientOriginalExtension();
+                        $file->move('files/courses', $name);
+                        $course_db->files()->create(['name' => $name]);
+                    }
+                }
 
 
-        }catch (\Exception $e){
-            DB::rollback();
-            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
+            }
+            DB::commit();
+            return new CourseResource($course_db);
+        }else{
+            return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
-        DB::commit();
-        return new CourseResource($course_db);
     }
 
     /**

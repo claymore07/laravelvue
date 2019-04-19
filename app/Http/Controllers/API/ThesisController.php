@@ -136,8 +136,8 @@ class ThesisController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  ThesisResquest  $request
+     * @return \Illuminate\Http\JsonResponse | ThesisResource
      */
     public function store(ThesisResquest $request)
     {
