@@ -453,7 +453,18 @@
                     <tr>
                         <td class="font-16">
                             <span class="orange ">ترم ثبت شده:</span>
-                            <span  class="mr-3">{{paper.term_name}}</span>
+                            <span v-show="!TermChange"  class="mr-3">{{paper.term_name}}</span>
+                            <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                    id="term_id"
+                                    v-model="term_form.term_id"
+                                    @change="removeError('term_id')"
+                            >
+                                <option selected disabled value="">انتخاب ترم ...</option>
+                                <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
+                            </select>
+                            <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrUser">ثبت تغییر ترم</a>
+                            <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrUser">لغو عملیات</a>
+                            <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrUser">تغییر ترم</a>
 
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
@@ -1055,6 +1066,7 @@
                 excerpts:[],        // excerpts list
                 conftypes:[],       // conference type list
                 jtypes:[],          // conference type list
+                terms:[],
                 fileName:[],        // For UI rendering and displaying the choosen file Names
                 attachments:[],
                 paperType:'',
@@ -1062,6 +1074,7 @@
                 affiliation:'',
 
                 checkList:false,
+                TermChange:false,
                 checkListItems:'',
                 checkListForm: new Form({
                     id:'',
@@ -1104,7 +1117,12 @@
                     affiliations:[],
                     isresponsible:'',
                     paperType:''
-                })
+                }),
+                term_form: new Form({
+                    id:'',
+                    model:'Paper',
+                    term_id:'',
+                }),
             };
         },
         computed:{
@@ -1202,6 +1220,8 @@
             // if the all paper submission validate it will submit the data to server
             onComplete: function(){
                 this.$Progress.start();
+                let loader1 = Vue.$loading.show();
+
                 this.form.submit('post', '/api/paperUpdate/'+this.paper.id, {
                     // Transform form data to FormData
                     transformRequest: [function (data, headers) {
@@ -1209,6 +1229,7 @@
                     }]
                 }).then((response) => {
                     // sets the data
+                    loader1.hide();
                     this.resetFormWizard();
                     this.paper = response.data.data;// set the received paper data to paper property
                     this.type = response.data.data.type;  // sets the paper type if 0 means journal and 1 means conference
@@ -1227,7 +1248,7 @@
                     this.successToast('مقاله با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
-
+                       loader1.hide();
                         this.$Progress.fail();
                         // checks if uploaded files has error
                         let t = Object.keys(this.form.errors.all()).filter(function (key) {
@@ -1275,41 +1296,7 @@
               var fileName = file.name.split(".");
               return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
-            // on page load gets paper data based on the received it
-            getpaperdata(id){
-                axios.get('/api/paper/'+id)
-                    .then(response => {
-                       this.paper = response.data.data;// set the received paper data to paper property
-                       this.type = response.data.data.type;  // sets the paper type if 0 means journal and 1 means conference
-                        this.checkListItems = response.data.data.checkList;
-                        this.prepareCheckList();
-                       this.editFormPrepare();
-                        if(this.type == '0'){
-                            this.journalForm = true;
-                            this.form.paperType = 'jur';
-                        }else{
-                            this.confForm = true;
-                            this.form.paperType = 'conf';
-                        }
-                    })
-                    .catch((e)=>{
-                            console.log(e);
-                        }
-                    );
-            },
-            // gets the necessary data for edit form
-            getPaperRelation(){
-                axios.get('/api/paperRelation')
-                    .then(response => {
-                        this.excerpts = response.data.excerpts;
-                        this.conftypes = response.data.conftypes;
-                        this.jtypes = response.data.jtypes;
-                    })
-                    .catch((e)=>{
-                            console.log(e);
-                        }
-                    );
-            },
+
             // prepares the edit form data
             editFormPrepare(){
 
@@ -1425,6 +1412,64 @@
                 if(!term){
                     this.form.files=[];
                 }
+            },
+            // on page load gets paper data based on the received it
+            getpaperdata(id){
+                axios.get('/api/paper/'+id)
+                    .then(response => {
+                        this.paper = response.data.data;// set the received paper data to paper property
+                        this.type = response.data.data.type;  // sets the paper type if 0 means journal and 1 means conference
+                        this.term_form.term_id = this.paper.term_id;
+                        this.checkListItems = response.data.data.checkList;
+                        this.prepareCheckList();
+                        this.editFormPrepare();
+                        if(this.type == '0'){
+                            this.journalForm = true;
+                            this.form.paperType = 'jur';
+                        }else{
+                            this.confForm = true;
+                            this.form.paperType = 'conf';
+                        }
+                    })
+                    .catch((e)=>{
+                            console.log(e);
+                        }
+                    );
+            },
+            // gets the necessary data for edit form
+            getPaperRelation(){
+                axios.get('/api/paperRelation')
+                    .then(response => {
+                        this.excerpts = response.data.excerpts;
+                        this.conftypes = response.data.conftypes;
+                        this.jtypes = response.data.jtypes;
+                        this.terms = response.data.terms;
+                    })
+                    .catch((e)=>{
+                            console.log(e);
+                        }
+                    );
+            },
+            showTermChange(){
+                return this.TermChange = ! this.TermChange;
+            },
+            termChangeSubmit(){
+                this.term_form.id = this.id;
+                this.$Progress.start();
+                let loader1 = Vue.$loading.show();
+                this.term_form.post('/api/termChange')
+                    .then((res)=>{
+                        loader1.hide();
+                        this.paper.term_name = res.data.term_name;
+                        this.paper.term_id = res.data.term_id;
+                        this.TermChange = false;
+                        this.$Progress.finish();
+                    })
+                    .catch((e)=>{
+                        loader1.hide();
+                        console.log(e);
+                        this.$Progress.fail();
+                    })
             },
             createPaper(){
             },

@@ -130,6 +130,12 @@ class CourseController extends Controller
 
     }
 
+    public function courseRelation(){
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('terms'=>$termes));
+    }
     /**
      * Store a newly created resource in storage.
      *

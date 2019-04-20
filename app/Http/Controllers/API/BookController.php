@@ -149,8 +149,10 @@ class BookController extends Controller
         $booktypes = BookType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-
-        return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes));
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes, 'terms'=>$termes));
     }
 
     /**

@@ -158,7 +158,18 @@
                         <tr>
                             <td class="font-16">
                                 <span class="orange ">ترم ثبت شده:</span>
-                                <span  class="mr-3">{{project.term_name}}</span>
+                                <span  v-show="!TermChange" class="mr-3">{{project.term_name}}</span>
+                                <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                        id="term_id"
+                                        v-model="term_form.term_id"
+                                        @change="removeError('term_id')"
+                                >
+                                    <option selected disabled value="">انتخاب ترم ...</option>
+                                    <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
+                                </select>
+                                <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrUser">ثبت تغییر ترم</a>
+                                <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrUser">لغو عملیات</a>
+                                <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrUser">تغییر ترم</a>
 
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
@@ -528,6 +539,7 @@
                 },
                 project:{},
                 project_types:[],
+                terms:[],
                 pdfFileName:'',     // will be used to display pdf files in modal
                 fileName:[],    // For UI rendering and displaying the choosen file Names
                 fileChanging:false, // if user wants to change any file or upload file
@@ -536,6 +548,7 @@
                 author:'',
                 affiliation:'',
                 checkList:false,
+                TermChange:false,
                 checkListItems:{},
                 checkListForm: new Form({
                     id:'',
@@ -558,12 +571,18 @@
                     affiliations:[],
                     files:[],
                 }),
+                term_form: new Form({
+                    id:'',
+                    model:'Project',
+                    term_id:'',
+                }),
             }
         },
         methods:{
             // if the all paper submission validate it will submit the data to server
             onComplete: function(){
                 this.$Progress.start();
+                let loader1 = Vue.$loading.show();
                 this.form.submit('post', `/api/projectUpdate/${this.project.id}`, {
                     // Transform form data to FormData
                     transformRequest: [function (data, headers) {
@@ -571,6 +590,7 @@
                     }]
                 }).then((response) => {
                     // sets the data
+                    loader1.hide();
                     this.resetFormWizard();
                     this.project = response.data.data;
                     this.checkListItems = response.data.data.checkList;
@@ -580,7 +600,7 @@
                     this.successToast('مقاله با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
-
+                        loader1.hide();
                         this.$Progress.fail();
                         // checks if uploaded files has error
                         let t = Object.keys(this.form.errors.all()).filter(function (key) {
@@ -677,9 +697,6 @@
             removeError(field){
                 this.form.errors.clear(field)
             },
-
-
-
 
 
             deleteCheckListItem(id, index) {
@@ -799,8 +816,8 @@
                 axios.get(`/api/project/${id}`)
                     .then(response => {
                         this.project = response.data.data;
-
                         this.checkListItems = response.data.data.checkList;
+                        this.term_form.term_id = this.project.term_id;
                         this.prepareCheckList();
                         this.editFormPrepare();
                     })
@@ -814,11 +831,33 @@
                 axios.get('/api/projectRelation')
                     .then(response => {
                         this.project_types = response.data.project_types;
+                        this.terms = response.data.terms;
                     })
                     .catch((e)=>{
                             //  console.log(e);
                         }
                     );
+            },
+            showTermChange(){
+                return this.TermChange = ! this.TermChange;
+            },
+            termChangeSubmit(){
+                this.term_form.id = this.id;
+                this.$Progress.start();
+                let loader1 = Vue.$loading.show();
+                this.term_form.post('/api/termChange')
+                    .then((res)=>{
+                        loader1.hide();
+                        this.project.term_name = res.data.term_name;
+                        this.project.term_id = res.data.term_id;
+                        this.TermChange = false;
+                        this.$Progress.finish();
+                    })
+                    .catch((e)=>{
+                        loader1.hide();
+                        console.log(e);
+                        this.$Progress.fail();
+                    })
             },
             createProject(){
 

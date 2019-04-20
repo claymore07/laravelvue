@@ -142,8 +142,13 @@ class BookletController extends Controller
     }
 
     public function bookletRelation(){
-        $degrees = Degree::all();
-        return  DegreeResource::collection($degrees);
+        $degrees = Degree::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('degrees'=>$degrees, 'terms'=>$termes));
     }
     /**
      * Store a newly created resource in storage.

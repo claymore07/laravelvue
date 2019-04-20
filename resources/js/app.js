@@ -232,6 +232,7 @@ const app = new Vue({
         search:'',
         pageName:'داشبورد',
         is_loggedIn: false,
+        active_menu: 0,
     },
     methods:{
         searchit: _.debounce(() => {
@@ -241,6 +242,9 @@ const app = new Vue({
         loggedIn(){
             this.is_loggedIn =  User.loggedIn();
         },
+        setActive(num){
+            this.active_menu = num;
+        }
     },
     computed:{
 

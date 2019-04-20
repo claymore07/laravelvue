@@ -433,7 +433,7 @@
             getThesisRelation(){
                 axios.get('/api/thesisRelation')
                     .then(response => {
-                        this.degrees = response.data.data;
+                        this.degrees = response.data.degrees;
                     })
                     .catch((e)=>{
                             //  console.log(e);

@@ -142,8 +142,10 @@ class RefereeController extends Controller
         $referee_types = RefereeType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-
-        return Response::json(array('referee_types'=>$referee_types));
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('referee_types'=>$referee_types, 'terms'=>$termes));
     }
 
     /**

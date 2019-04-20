@@ -75,6 +75,8 @@ Route::get('tedChairRelation','API\TEDChairController@tedChairRelation');
 Route::get('refereeRelation','API\RefereeController@refereeRelation');
 Route::get('bookletRelation','API\BookletController@bookletRelation');
 Route::get('inventionRelation','API\InventionController@inventionRelation');
+Route::get('rewardRelation','API\RewardController@rewardRelation');
+Route::get('courseRelation','API\CourseController@courseRelation');
 
 // Search Routes
 Route::post('findPaper','API\PapersController@search');
@@ -105,6 +107,9 @@ Route::post('inventionCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
+
+// Terms Update route
+Route::post('termChange','API\TermsController@termChange');
 
 Route::get('getJournalType','API\ScoreController@getJournalType');
 Route::get('getConfType','API\ScoreController@getConfType');

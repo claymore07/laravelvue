@@ -140,8 +140,10 @@ class InventionController extends Controller
         $invention_types = InventionType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-
-        return Response::json(array( 'invention_types'=>$invention_types));
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array( 'invention_types'=>$invention_types, 'terms'=>$termes));
     }
 
     /**

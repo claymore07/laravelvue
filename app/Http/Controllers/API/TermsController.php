@@ -2,7 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Book;
+use App\Models\Booklet;
+use App\Models\Course;
+use App\Models\Invention;
+use App\Models\Paper;
+use App\Models\Project;
+use App\Models\Referee;
+use App\Models\Reward;
+use App\Models\TEDChair;
 use App\Models\Term;
+use App\Models\Thesis;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
@@ -35,8 +45,10 @@ class TermsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
@@ -61,11 +73,41 @@ class TermsController extends Controller
         return Response::json(['term'=>$term],200);
     }
 
+    public function termChange(Request $request){
+
+        if($request->model == 'Thesis' ){
+            $item_db = Thesis::findOrFail($request->id);
+        }elseif ($request->model == 'TED'){
+            $item_db = TEDChair::findOrFail($request->id);
+        }elseif ($request->model == 'Reward'){
+            $item_db = Reward::findOrFail($request->id);
+        }elseif ($request->model == 'Referee'){
+            $item_db = Referee::findOrFail($request->id);
+        }elseif ($request->model == 'Project'){
+            $item_db = Project::findOrFail($request->id);
+        }elseif ($request->model == 'Paper'){
+            $item_db = Paper::findOrFail($request->id);
+        }elseif ($request->model == 'Invention'){
+            $item_db = Invention::findOrFail($request->id);
+        }elseif ($request->model == 'Course'){
+            $item_db = Course::findOrFail($request->id);
+        }elseif ($request->model == 'Book'){
+            $item_db = Book::findOrFail($request->id);
+        }elseif ($request->model == 'Booklet'){
+            $item_db = Booklet::findOrFail($request->id);
+        }
+
+        $item_db->update(['term_id'=>$request['term_id']]);
+       // dd($item_db);
+        $term = Term::findOrFail($request['term_id']);
+        return Response::json(['term_name'=>$term->name,'term_id'=>$term->id ], 200);
+    }
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
@@ -77,9 +119,11 @@ class TermsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {

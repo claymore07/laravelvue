@@ -148,8 +148,18 @@
                         <tr>
                             <td class="font-16">
                                 <span class="orange ">ترم ثبت شده:</span>
-                                <span  class="mr-3">{{thesis.term_name}}</span>
-
+                                <span v-show="!TermChange"  class="mr-3">{{thesis.term_name}}</span>
+                                <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                        id="term_id"
+                                        v-model="term_form.term_id"
+                                        @change="removeError('term_id')"
+                                >
+                                    <option selected disabled value="">انتخاب ترم ...</option>
+                                    <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
+                                </select>
+                                <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrUser">ثبت تغییر ترم</a>
+                                <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrUser">لغوو</a>
+                                <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrUser">تغییر ترم</a>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
                             <td v-if="checkList">
@@ -400,7 +410,9 @@
                 id:'',
                 thesis:{},
                 degrees:[],
+                terms:[],
                 checkList:false,
+                TermChange:false,
                 checkListItems:{},
                 checkListForm: new Form({
                     id:'',
@@ -416,6 +428,11 @@
                     council_aprovedate:'',
                     code_date:'',
                     defense_date:''
+                }),
+                term_form: new Form({
+                    id:'',
+                    model:'Thesis',
+                    term_id:'',
                 }),
             }
         },
@@ -559,6 +576,7 @@
                         this.thesis = response.data.data;
                         this.form.fill(this.thesis);
                         this.checkListItems = response.data.data.checkList;
+                        this.term_form.term_id = this.thesis.term_id;
                         this.prepareCheckList();
                     })
                     .catch((e)=>{
@@ -570,13 +588,38 @@
             getThesisRelation(){
                 axios.get('/api/thesisRelation')
                     .then(response => {
-                        this.degrees = response.data.data;
+                        this.degrees = response.data.degrees;
+                        this.terms = response.data.terms;
                     })
                     .catch((e)=>{
                             //  console.log(e);
                         }
                     );
             },
+            showTermChange(){
+                return this.TermChange = ! this.TermChange;
+            },
+            termChangeSubmit(){
+                this.$Progress.start();
+                let loader1 = Vue.$loading.show();
+                this.term_form.id = this.id;
+                this.term_form.post('/api/termChange')
+                    .then((res)=>{
+                        loader1.hide();
+                        this.thesis.term_name = res.data.term_name;
+                        this.thesis.term_id = res.data.term_id;
+                        this.TermChange = false;
+                        this.$Progress.finish();
+                    })
+                    .catch((e)=>{
+                        loader1.hide();
+                        this.$Progress.fail();
+                        console.log(e);
+                    })
+            }
+        },
+        computed:{
+
         },
         created(){
             this.$parent.pageName = 'آرشیو پایان نامه ها';

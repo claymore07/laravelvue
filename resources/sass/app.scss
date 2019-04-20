@@ -153,7 +153,13 @@ $fa-font-path: "../webfonts";
 .card-4 {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
-
+#my_nav::-webkit-scrollbar {
+    display: none !important;  // Safari and Chrome
+}
+#my_nav{
+    -ms-overflow-style: none !important;  // IE 10+
+    scrollbar-width: none !important;  // Firefox
+}
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

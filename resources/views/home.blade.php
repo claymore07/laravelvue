@@ -58,7 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
-    <aside  v-if="is_loggedIn" class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside    v-if="is_loggedIn" class="main-sidebar sidebar-light-success elevation-4">
         <!-- Brand Logo -->
         <a href="/dashboard" class="brand-link">
             <img src="{{asset('img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -67,7 +67,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </a>
 
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div id="my_nav" class="sidebar">
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">

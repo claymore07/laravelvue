@@ -148,8 +148,10 @@ class ProjectController extends Controller
         $project_types = ProjectType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-
-        return Response::json(array('project_types'=>$project_types));
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('project_types'=>$project_types, 'terms'=>$termes));
     }
     /**
      * Store a newly created resource in storage.

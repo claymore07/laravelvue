@@ -143,8 +143,10 @@ class TEDChairController extends Controller
         $ted_types = TEDType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-
-        return Response::json(array('ted_types'=>$ted_types));
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('ted_types'=>$ted_types, 'terms'=>$termes));
     }
 
     /**

@@ -129,7 +129,12 @@ class RewardController extends Controller
         return RewardResource::collection($rewards);
 
     }
-
+    public function rewardRelation(){
+        $termes = Term::all()->map(function ($item){
+            return ['id'=> $item['id'], 'text'=>$item['name']];
+        })->toArray();
+        return Response::json(array('terms'=>$termes));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -170,6 +175,8 @@ class RewardController extends Controller
             return Response::json(['message'=>'تاریخ ثبت اطلاعات برای ترم جاری به اتمام رسیده است'],405);
         }
     }
+
+
 
     /**
      * Display the specified resource.

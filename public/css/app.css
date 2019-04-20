@@ -9424,17 +9424,18 @@ body,
 
 .sidebar-light-success .nav-sidebar > .nav-item > .nav-link:active, .sidebar-light-success .nav-sidebar > .nav-item > .nav-link:focus {
   color: #343a40;
+
 }
 
 .sidebar-light-success .nav-sidebar > .nav-item.menu-open > .nav-link,
 .sidebar-light-success .nav-sidebar > .nav-item:hover > .nav-link {
   color: #212529;
-  background-color: #f4f4f5;
+  background-color: #F4F4FF;
 }
 
 .sidebar-light-success .nav-sidebar > .nav-item > .nav-link.active {
-  color: #ffffff;
-  background-color: #28a745;
+  color: #212529;
+  background-color: #F4F4FF;
 }
 
 .sidebar-light-success .nav-sidebar > .nav-item > .nav-treeview {
@@ -13112,7 +13113,7 @@ a.text-muted:hover {
 }
 
 .elevation-1, .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-secondary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-secondary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-success .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-success .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-info .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-info .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-warning .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-warning .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-danger .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-danger .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-light .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-light .nav-sidebar > .nav-item > .nav-link.active, .sidebar-dark-dark .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-dark .nav-sidebar > .nav-item > .nav-link.active, .callout {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);*/
 }
 
 .elevation-2 {
@@ -32656,6 +32657,15 @@ readers do not read off random characters that represent icons */
 
 .card-4 {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+#my_nav::-webkit-scrollbar {
+  display: none !important;
+}
+
+#my_nav {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 .navbar-laravel {

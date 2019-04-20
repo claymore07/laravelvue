@@ -122,7 +122,18 @@
                         <tr>
                             <td class="font-16">
                                 <span class="orange ">ترم ثبت شده:</span>
-                                <span  class="mr-3">{{ted.term_name}}</span>
+                                <span v-show="!TermChange" class="mr-3">{{ted.term_name}}</span>
+                                <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                        id="term_id"
+                                        v-model="term_form.term_id"
+                                        @change="removeError('term_id')"
+                                >
+                                    <option selected disabled value="">انتخاب ترم ...</option>
+                                    <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
+                                </select>
+                                <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrUser">ثبت تغییر ترم</a>
+                                <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrUser">لغو عملیات</a>
+                                <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrUser">تغییر ترم</a>
 
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
@@ -400,13 +411,15 @@
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
                 ted:{},
+                ted_types:[],
+                terms:[],
                 pdfFileName:'',     // will be used to display pdf files in modal
                 fileName:[],    // For UI rendering and displaying the choosen file Names
                 fileChanging:false, // if user wants to change any file or upload file
                 editOffset: -1,     // for managing author editing form status used if -1 the form will be hide
                 attachments:[],
-                ted_types:[],
                 checkList:false,
+                TermChange:false,
                 checkListItems:{},
                 checkListForm: new Form({
                     id:'',
@@ -423,12 +436,18 @@
                     presentation_date: '',
                     files:[],
                 }),
+                term_form: new Form({
+                    id:'',
+                    model:'TED',
+                    term_id:'',
+                }),
             }
         },
         methods:{
             // if the all paper submission validate it will submit the data to server
             onComplete: function(){
                 this.$Progress.start();
+                let loader1 = Vue.$loading.show();
                 this.form.submit('post', `/api/tedChairUpdate/${this.ted.id}`, {
                     // Transform form data to FormData
                     transformRequest: [function (data, headers) {
@@ -436,6 +455,7 @@
                     }]
                 }).then((response) => {
                     // sets the data
+                    loader1.hide();
                     this.resetFormWizard();
                     this.ted = response.data.data;
                     this.checkListItems = response.data.data.checkList;
@@ -445,7 +465,7 @@
                     this.successToast('اطلاعات کرسی با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
-
+                    loader1.hide();
                         this.$Progress.fail();
                         // checks if uploaded files has error
                         let t = Object.keys(this.form.errors.all()).filter(function (key) {
@@ -616,8 +636,8 @@
                 axios.get(`/api/tedChair/${id}`)
                     .then(response => {
                         this.ted = response.data.data;
-                        console.log(this.ted);
                         this.checkListItems = response.data.data.checkList;
+                        this.term_form.term_id = this.ted.term_id;
                         this.prepareCheckList();
                         this.editFormPrepare();
 
@@ -632,11 +652,33 @@
                 axios.get('/api/tedChairRelation')
                     .then(response => {
                         this.ted_types = response.data.ted_types;
+                        this.terms = response.data.terms;
                     })
                     .catch((e)=>{
                             //  console.log(e);
                         }
                     );
+            },
+            showTermChange(){
+                return this.TermChange = ! this.TermChange;
+            },
+            termChangeSubmit(){
+                this.$Progress.start();
+                let loader1 = Vue.$loading.show();
+                this.term_form.id = this.id;
+                this.term_form.post('/api/termChange')
+                    .then((res)=>{
+                        loader1.hide();
+                        this.ted.term_name = res.data.term_name;
+                        this.ted.term_id = res.data.term_id;
+                        this.TermChange = false;
+                        this.$Progress.finish();
+                    })
+                    .catch((e)=>{
+                        loader1.hide();
+                        this.$Progress.fail();
+                        console.log(e);
+                    })
             },
             updateTed(){
             }
