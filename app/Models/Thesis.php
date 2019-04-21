@@ -11,7 +11,7 @@ class Thesis extends Model
     protected $table = 'theses';
 
     protected $fillable = [
-        'profile_id', 'degree_id', 'status', 'title', 'responsible',
+        'profile_id', 'theses_types_id', 'status', 'title',
         'group_aprovedate', 'council_aprovedate', 'code_date',
         'defense_date', 'score', 'term_id'
     ];
@@ -29,6 +29,9 @@ class Thesis extends Model
     }
     public function term(){
         return $this->belongsTo(Term::class);
+    }
+    public function thesisType(){
+        return $this->belongsTo(ThesesType::class,'theses_types_id');
     }
     public function getRouteKeyName()
     {

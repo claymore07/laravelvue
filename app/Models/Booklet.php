@@ -26,8 +26,11 @@ class Booklet extends Model
     public function degree(){
         return $this->belongsTo(Degree::class);
     }
-    public function term()
-    {
+    public function term(){
         return $this->belongsTo(Term::class);
     }
+    public function scores(){
+        return $this->belongsTo(Score::class,'score_id');
+    }
+
 }

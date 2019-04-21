@@ -193,7 +193,6 @@
                                 <span v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</span>
                             </td>
                             <td v-if="checkList">
-
                             </td>
                         </tr>
                         <tr>

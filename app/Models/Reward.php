@@ -28,4 +28,7 @@ class Reward extends Model
     {
         return $this->belongsTo(Term::class);
     }
+    public function scores(){
+        return $this->belongsTo(Score::class,'score_id');
+    }
 }

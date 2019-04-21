@@ -25,9 +25,8 @@ class ThesisResquest extends FormRequest
     {
 
         $rules = [
-            'degree_id'=>'required',
+            'theses_types_id'=>'required',
             'title'=>'required',
-            'responsible'=>'required',
             'group_aprovedate'=>'required',
             'council_aprovedate'=>'required',
             'code_date'=>'required',
@@ -43,9 +42,8 @@ class ThesisResquest extends FormRequest
     public function messages()
     {
         return [
-            'degree_id.required' => 'مقطع پایان نامه الزامی است.',
+            'theses_types_id.required' => 'نوع مسئولیت در پایان نامه الزامی است.',
             'title.required' => 'عنوان پایان نامه الزامی است.',
-            'responsible.required' => 'نوع مسئولیت در پایان نامه الزامی است.',
             'group_aprovedate.required' => 'تاریخ تصویب در گروه الزامی است.',
             'council_aprovedate.required' => 'تاریخ تصویب در شورای پژوهشی الزامی است.',
             'code_date.required' => 'تاریخ دریافت کد پایان نامه الزامی است.',

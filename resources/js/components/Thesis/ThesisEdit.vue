@@ -47,27 +47,11 @@
                                 </p-check>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="font-16">
-                                <span class="blue ">مقطع:</span>
-                                <span class="mr-3">{{thesis.degree}}</span>
 
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('مقطع')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                            </td>
-                            <td v-if="checkList">
-                                <p-check
-                                    :checked="checkListForm.list && checkListForm.list.includes('مقطع')"
-                                    @change.native="onChange('مقطع', $event)"
-                                    type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                    <i slot="extra" class="icon far fa-check"></i>
-                                </p-check>
-                            </td>
-                        </tr>
                         <tr>
                             <td class="font-16">
                                 <span class="blue ">مسئولیت استاد:</span>
-                                <span v-if="thesis.responsible == 0" class="mr-3">استاد راهنما</span>
-                                <span v-if="thesis.responsible == 1" class="mr-3">استاد مشاور</span>
+                                <span  class="mr-3">{{thesis.thesisType_name}}</span>
 
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('مسئولیت استاد')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                             </td>
@@ -147,32 +131,6 @@
                         </tr>
                         <tr>
                             <td class="font-16">
-                                <span class="orange ">ترم ثبت شده:</span>
-                                <span v-show="!TermChange"  class="mr-3">{{thesis.term_name}}</span>
-                                <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
-                                        id="term_id"
-                                        v-model="term_form.term_id"
-                                        @change="removeError('term_id')"
-                                >
-                                    <option selected disabled value="">انتخاب ترم ...</option>
-                                    <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
-                                </select>
-                                <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrUser">ثبت تغییر ترم</a>
-                                <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrUser">لغوو</a>
-                                <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrUser">تغییر ترم</a>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
-                            </td>
-                            <td v-if="checkList">
-                                <p-check
-                                    :checked="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')"
-                                    @change.native="onChange('ترم ثبت شده', $event)"
-                                    type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                    <i slot="extra" class="icon far fa-check"></i>
-                                </p-check>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-16">
                                 <span class="blue ">وضعیت بررسی:</span>
                                 <span v-if="thesis.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</span>
                                 <span v-else-if="thesis.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
@@ -183,28 +141,67 @@
                             <td v-if="checkList">
                             </td>
                         </tr>
-                        <tr v-show="checkList">
-                            <td colspan="2">
-                                <label for="status" class="blue mt-3">وضعیت بررسی: </label>
-                                <select v-model="checkListForm.status"
-                                        :class="[(  checkListForm.errors.has('status') ? 'is-invalid': ''  )]"
-                                        @change="checkListForm.errors.clear('status')"
-                                        class="custom-select" name="" id="status">
-                                    <option  selected disabled>انتخاب گزینه</option>
-                                    <option value="1" ><i class="fa-check"></i>تایید</option>
-                                    <option value="2" >عدم تایید موقت</option>
-                                    <option value="3" >عدم تایید قطعی</option>
-                                </select>
-                                <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
-                                <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
-                                <br>
-                                <label for="id2" class="blue mt-3">توضیحات: </label>
-                                <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
-                                <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
-                                <tinymce dir="rtl" @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
-
+                        <tr>
+                            <td class="font-16">
+                                <span class="blue ">امتیاز کسب شده:</span>
+                                <span v-if="thesis.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
+                                <span v-else >  {{thesis.score | faDigits }}</span>
+                            </td>
+                            <td v-if="checkList">
                             </td>
                         </tr>
+                        <tr  v-show="checkList">
+                            <td colspan="2">
+                                <form  data-vv-scope="checkListForm">
+                                    <label for="status" class="blue ">وضعیت بررسی: </label>
+                                    <select v-model="checkListForm.status"
+                                            :class="[(  checkListForm.errors.has('status') ? 'is-invalid': ''  )]"
+                                            @change="checkListForm.errors.clear('status')"
+                                            class="custom-select" name="" id="status">
+                                        <option  selected disabled>انتخاب گزینه</option>
+                                        <option value="1" ><i class="fa-check"></i>تایید</option>
+                                        <option value="2" >عدم تایید موقت</option>
+                                        <option value="3" >عدم تایید قطعی</option>
+                                    </select>
+                                    <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr  v-show="checkList">
+                            <td colspan="2">
+                                <form  data-vv-scope="checkListForm">
+                                    <div v-if="checkListForm.status == 1" class="form-inline">
+                                        <div class="form-group w-25 text-right">
+                                            <label class="blue ml-3">امتیاز:</label>
+                                            <input type="number" :min="thesis.minScore" :max="thesis.maxScore" name="score"
+                                                   placeholder=""
+                                                   :class="[( errors.has('checkListForm.score') || checkListForm.errors.has('score') ? 'is-invalid': ''  )]"
+                                                   v-validate="{min_value:thesis.minScore,max_value:thesis.maxScore}"
+                                                   class="form-control w-50" v-model="checkListForm.score" >
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{thesis.minScore}} و {{thesis.maxScore}} در نظر گرفته میشود.</span>
+                                        </div>
+                                    </div>
+                                    <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="errors.has('checkListForm.score')" class="red d-inline-block">{{ errors.first('checkListForm.score') }}</span>
+                                    <span v-show="checkListForm.errors.has('score')" class="red d-inline-block">{{ checkListForm.errors.get('score') }}</span>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr  v-show="checkList">
+                            <td colspan="2">
+                                <form  data-vv-scope="checkListForm">
+                                    <label for="id2" class="blue mt-3">توضیحات: </label>
+                                    <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
+                                    <tinymce dir="rtl" @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
+                                </form>
+                            </td>
+                        </tr>
+
+
                         <tr   class="text-center">
                             <td colspan="2">
                             </td>
@@ -264,35 +261,18 @@
                                     </div>
 
                                     <div class="form-group my-3 text-right">
-                                        <label class="blue">مقطع تحصیلی<i class="red mx-1">*</i>:</label>
-                                        <Select2 class="form-control select2-form-control"
-                                                 :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')}" v-model="form.degree_id"
-                                                 :options="degrees"
-                                                 data-vv-name="degree_id"
-                                                 v-validate="'required'"
-                                                 @change="removeError('degree_id')"
-                                                 :settings="{theme: 'bootstrap4', placeholder: 'مقطع تحصیلی', width: '100%' }">
-                                        </Select2>
-                                        <i v-show="errors.has('form.degree_id') || form.errors.has('degree_id')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form.degree_id')" class="red d-inline-block">{{ errors.first('form.degree_id') }}</span>
-                                        <span v-show="form.errors.has('degree_id')" class="red d-inline-block">{{ form.errors.get('degree_id') }}</span>
-                                    </div>
-                                    <div class="form-group my-3 text-right">
                                         <label class="blue">مسئولیت استاد در پایان نامه<i class="red mx-1">*</i>:</label>
-                                        <select name="responsible"
-                                                v-model="form.responsible"
-                                                id="type" class="form-control test1"
-                                                :class="{ 'is-invalid': form.errors.has('responsible') || errors.has('form.responsible')}"
-                                                v-validate="'required'"
-                                        >
-                                            <option selected disabled value="">مسئولیت استاد در پایان نامه</option>
-                                            <option value="0">استاد راهنما</option>
-                                            <option value="1">استاد مشاور</option>
-
-                                        </select>
-                                        <i v-show="errors.has('form.responsible') || form.errors.has('responsible')" class="red far fa-exclamation-triangle"></i>
-                                        <span v-show="errors.has('form.responsible')" class="red d-inline-block">{{ errors.first('form.responsible') }}</span>
-                                        <span v-show="form.errors.has('responsible')" class="red d-inline-block">{{ form.errors.get('responsible') }}</span>
+                                        <Select2 class="form-control select2-form-control"
+                                                 :class="{ 'is-invalid': form.errors.has('theses_types_id') || errors.has('form.theses_types_id')}" v-model="form.theses_types_id"
+                                                 :options="theses_types"
+                                                 data-vv-name="theses_types_id"
+                                                 v-validate="'required'"
+                                                 @change="removeError('theses_types_id')"
+                                                 :settings="{theme: 'bootstrap4', placeholder: 'مسئولیت استاد در پایان نامه', width: '100%' }">
+                                        </Select2>
+                                        <i v-show="errors.has('form.theses_types_id') || form.errors.has('theses_types_id')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form.theses_types_id')" class="red d-inline-block">{{ errors.first('form.theses_types_id') }}</span>
+                                        <span v-show="form.errors.has('theses_types_id')" class="red d-inline-block">{{ form.errors.get('theses_types_id') }}</span>
                                     </div>
                                     <div class=" my-3" style="direction: ltr; text-align: right" >
                                         <label class="blue text-right  text-rtl">تاریخ تصویب در گروه<i class="red mx-1">*</i>:</label>
@@ -409,7 +389,7 @@
                 },
                 id:'',
                 thesis:{},
-                degrees:[],
+                theses_types:[],
                 terms:[],
                 checkList:false,
                 TermChange:false,
@@ -418,12 +398,12 @@
                     id:'',
                     list:[],
                     status:null,
-                    comment:''
+                    comment:'',
+                    score:''
                 }),
                 form: new Form({
                     title:'',
-                    degree_id:'',
-                    responsible:'',
+                    theses_types_id:'',
                     group_aprovedate:'',
                     council_aprovedate:'',
                     code_date:'',
@@ -467,6 +447,7 @@
                     .then((response) => {
                         this.checkListItems.unshift(response.data.checkListItem);
                         this.thesis.status = this.checkListForm.status;
+                        this.thesis.score = response.data.score;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
                         this.$Progress.finish();
 
@@ -504,6 +485,7 @@
                         this.checkListForm.status = this.thesis.status;
                     }
                 }
+                this.checkListForm.score = this.thesis.score;
             },
             toggleCheckList(){
                 this.checkList = !this.checkList;
@@ -588,7 +570,7 @@
             getThesisRelation(){
                 axios.get('/api/thesisRelation')
                     .then(response => {
-                        this.degrees = response.data.degrees;
+                        this.theses_types = response.data.theses_types;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -631,9 +613,8 @@
                     council_aprovedate: 'تاربخ تصویب در شورای پژوهشی',
                     code_date: 'تاربخ دریافت کد',
                     defense_date: 'تاربخ دفاع',
-                    responsible: 'نوع مسئولیت استاد',
-                    degree_id : 'مقطع تحصیلی'
-
+                    theses_types_id: 'نوع مسئولیت استاد',
+                    score: 'امتیاز',
                 }
             });
             this.id = this.$route.params.id;

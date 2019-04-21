@@ -143,35 +143,18 @@
                                         </div>
 
                                         <div class="form-group my-3 text-right">
-                                            <label class="blue">مقطع تحصیلی<i class="red mx-1">*</i>:</label>
-                                            <Select2 class="form-control select2-form-control"
-                                                     :class="{ 'is-invalid': form.errors.has('degree_id') || errors.has('form.degree_id')}" v-model="form.degree_id"
-                                                     :options="degrees"
-                                                     data-vv-name="degree_id"
-                                                     v-validate="'required'"
-                                                     @change="removeError('degree_id')"
-                                                     :settings="{theme: 'bootstrap4', placeholder: 'مقطع تحصیلی', width: '100%' }">
-                                            </Select2>
-                                            <i v-show="errors.has('form.degree_id') || form.errors.has('degree_id')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.degree_id')" class="red d-inline-block">{{ errors.first('form.degree_id') }}</span>
-                                            <span v-show="form.errors.has('degree_id')" class="red d-inline-block">{{ form.errors.get('degree_id') }}</span>
-                                        </div>
-                                        <div class="form-group my-3 text-right">
                                             <label class="blue">مسئولیت استاد در پایان نامه<i class="red mx-1">*</i>:</label>
-                                            <select name="responsible"
-                                                    v-model="form.responsible"
-                                                    id="type" class="form-control test1"
-                                                    :class="{ 'is-invalid': form.errors.has('responsible') || errors.has('form.responsible')}"
-                                                    v-validate="'required'"
-                                            >
-                                                <option selected disabled value="">مسئولیت استاد در پایان نامه</option>
-                                                <option value="0">استاد راهنما</option>
-                                                <option value="1">استاد مشاور</option>
-
-                                            </select>
-                                            <i v-show="errors.has('form.responsible') || form.errors.has('responsible')" class="red far fa-exclamation-triangle"></i>
-                                            <span v-show="errors.has('form.responsible')" class="red d-inline-block">{{ errors.first('form.responsible') }}</span>
-                                            <span v-show="form.errors.has('responsible')" class="red d-inline-block">{{ form.errors.get('responsible') }}</span>
+                                            <Select2 class="form-control select2-form-control"
+                                                     :class="{ 'is-invalid': form.errors.has('theses_types_id') || errors.has('form.theses_types_id')}" v-model="form.theses_types_id"
+                                                     :options="theses_types"
+                                                     data-vv-name="theses_types_id"
+                                                     v-validate="'required'"
+                                                     @change="removeError('theses_types_id')"
+                                                     :settings="{theme: 'bootstrap4', placeholder: 'مسئولیت استاد در پایان نامه', width: '100%' }">
+                                            </Select2>
+                                            <i v-show="errors.has('form.theses_types_id') || form.errors.has('theses_types_id')" class="red far fa-exclamation-triangle"></i>
+                                            <span v-show="errors.has('form.theses_types_id')" class="red d-inline-block">{{ errors.first('form.theses_types_id') }}</span>
+                                            <span v-show="form.errors.has('theses_types_id')" class="red d-inline-block">{{ form.errors.get('theses_types_id') }}</span>
                                         </div>
                                         <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ تصویب در گروه<i class="red mx-1">*</i>:</label>
@@ -291,7 +274,7 @@
                 filter:5,
                 theses:{},
                 allData :{},
-                degrees:[],
+                theses_types:[],
                 search: '',     // search term
                 order: 1,       // order 1 for desc and 0  for asc
                 total: 0,       // total number of papers
@@ -301,8 +284,7 @@
                 searchResult: false,
                 form: new Form({
                     title:'',
-                    degree_id:'',
-                    responsible:'',
+                    theses_types_id:'',
                     group_aprovedate:'',
                     council_aprovedate:'',
                     code_date:'',
@@ -433,7 +415,7 @@
             getThesisRelation(){
                 axios.get('/api/thesisRelation')
                     .then(response => {
-                        this.degrees = response.data.degrees;
+                        this.theses_types = response.data.theses_types;
                     })
                     .catch((e)=>{
                             //  console.log(e);
@@ -459,9 +441,7 @@
                     council_aprovedate: 'تاربخ تصویب در شورای پژوهشی',
                     code_date: 'تاربخ دریافت کد',
                     defense_date: 'تاربخ دفاع',
-                    responsible: 'نوع مسئولیت استاد',
-                    degree_id : 'مقطع تحصیلی'
-
+                    theses_types_id: 'نوع مسئولیت استاد',
                 }
             });
 

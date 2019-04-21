@@ -8,6 +8,7 @@ use App\Http\Resources\DegreeResource;
 use App\Http\Resources\ThesisResource;
 use App\Models\Degree;
 use App\Models\Term;
+use App\Models\ThesesType;
 use App\Models\Thesis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -130,13 +131,13 @@ class ThesisController extends Controller
     }
 
     public function thesisRelation(){
-        $degrees = Degree::all()->map(function ($item){
+        $theses_types = ThesesType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('degrees'=>$degrees, 'terms'=>$termes));
+        return Response::json(array('theses_types'=>$theses_types, 'terms'=>$termes));
 
     }
     /**
