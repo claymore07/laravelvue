@@ -49,6 +49,7 @@ Route::apiResources([
     'course'=>'API\CourseController',
     'booklet'=>'API\BookletController',
     'invention'=>'API\InventionController',
+    'grant'=>'API\GrantController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -64,6 +65,7 @@ Route::post('refereeUpdate/{referee}','API\RefereeController@update');
 Route::post('courseUpdate/{course}','API\CourseController@update');
 Route::post('bookletUpdate/{booklet}','API\BookletController@update');
 Route::post('inventionUpdate/{invention}','API\InventionController@update');
+Route::post('grantUpdate/{grant}','API\GrantController@update');
 
 // helper routes to get relations collections
 Route::get('profileRelation','API\UserController@profileRelation');
@@ -77,6 +79,7 @@ Route::get('bookletRelation','API\BookletController@bookletRelation');
 Route::get('inventionRelation','API\InventionController@inventionRelation');
 Route::get('rewardRelation','API\RewardController@rewardRelation');
 Route::get('courseRelation','API\CourseController@courseRelation');
+Route::get('grantRelation','API\GrantController@grantRelation');
 
 // Search Routes
 Route::post('findPaper','API\PapersController@search');
@@ -89,6 +92,7 @@ Route::get('findReferee','API\RefereeController@search');
 Route::get('findCourse','API\CourseController@search');
 Route::get('findBooklet','API\BookletController@search');
 Route::get('findInvention','API\InventionController@search');
+Route::get('findGrant','API\GrantController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
@@ -104,6 +108,7 @@ Route::post('refereeCheckList','API\CheckListController@store');
 Route::post('courseCheckList','API\CheckListController@store');
 Route::post('bookletCheckList','API\CheckListController@store');
 Route::post('inventionCheckList','API\CheckListController@store');
+Route::post('grantCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');

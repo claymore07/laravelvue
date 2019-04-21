@@ -151,6 +151,7 @@ class CourseController extends Controller
         if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
             $request['profile_id'] = auth('api')->user()->profile['id'];
             $request['status'] = 0;
+            $request['term_id'] = $term->id;
             DB::beginTransaction();
             try {
                 $fileBag = $request->files;
@@ -258,6 +259,6 @@ class CourseController extends Controller
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
         }
         DB::commit();
-        return Response::json(['اطلاعات جایزه مورد نظر با موفقیت حذف شد.'], 200);
+        return Response::json(['اطلاعات دوره مورد نظر با موفقیت حذف شد.'], 200);
     }
 }

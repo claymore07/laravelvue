@@ -181,6 +181,7 @@ class PapersController extends Controller
                 $isresposible = $request->isresponsible;
                 $tags = $request->tags;
                 $request['profile_id'] = auth('api')->user()->profile['id'];
+                $request['term_id'] = $term->id;
                 $paperType = $request->paperType;
                 if ($paperType == 'jur') {
                     $request['name'] = $request->jname;

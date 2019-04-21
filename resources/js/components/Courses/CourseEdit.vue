@@ -4,7 +4,7 @@
             <div class="card card-4 my-5">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
-                        <h3 class=" text-right">اطلاعات دوره</h3>
+                        <h3 class=" text-right"><i class="fal fa-users-class fa-fw"></i> اطلاعات دوره</h3>
                     </div>
                     <div class="card-tools">
                         <button class="btn btn-success" @click="goback"><i style="font-size: 16px" class="fal fa-undo"></i> بازگشت</button>
@@ -14,7 +14,7 @@
                     <table class="table table-hover table-striped">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="font-18"><i class="fal fa-file-edit fa-fw"></i> اطلاعات دوره </th>
+                            <th class="font-18"><i class="fal fa-users-class fa-fw"></i> اطلاعات دوره </th>
                             <th v-if="checkList">موارد ناقص</th>
                         </tr>
                         </thead>
@@ -280,7 +280,7 @@
                             <!--  -->
                             <tab-content title="اطلاعات دوره" :before-change="courseValidation"  icon="far fa-users-class">
 
-                                <form @submit.prevent="createcourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
+                                <form @submit.prevent="createCourse()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
                                         <div class="form-group my-3 text-right">
@@ -667,7 +667,7 @@
                         this.checkListForm.status = this.course.status;
                     }
                 }
-                this.checkListForm.score = this.book.score;
+                this.checkListForm.score = this.course.score;
             },
             toggleCheckList(){
                 this.checkList = !this.checkList;
@@ -750,7 +750,7 @@
                     })
             },
             createCourse(){
-                this.fileChanging = false;
+               // this.fileChanging = false;
             }
         },
         created(){

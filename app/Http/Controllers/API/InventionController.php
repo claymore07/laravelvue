@@ -164,6 +164,7 @@ class InventionController extends Controller
                 $fileBag = $request->files;
                 $request['profile_id'] = auth('api')->user()->profile['id'];
                 $request['status'] = 0;
+                $request['term_id'] = $term->id;
                 $invention_db = Invention::create($request->all());
 
                 foreach ($fileBag as $files) {

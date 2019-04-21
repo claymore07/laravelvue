@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Book;
 use App\Models\Booklet;
 use App\Models\Course;
+use App\Models\Grant;
 use App\Models\Invention;
 use App\Models\Paper;
 use App\Models\Project;
@@ -95,6 +96,8 @@ class TermsController extends Controller
             $item_db = Book::findOrFail($request->id);
         }elseif ($request->model == 'Booklet'){
             $item_db = Booklet::findOrFail($request->id);
+        }elseif ($request->model == 'Grant'){
+            $item_db = Grant::findOrFail($request->id);
         }
 
         $item_db->update(['term_id'=>$request['term_id']]);

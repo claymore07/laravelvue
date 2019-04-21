@@ -111,7 +111,7 @@ Vue.use(Loading, {
 
 Vue.use(VueCurrencyFilter,
     {
-        symbol : 'ریال',
+        symbol : '',
         thousandsSeparator: ',',
         fractionCount: 2,
         fractionSeparator: '.',

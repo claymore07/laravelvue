@@ -40,6 +40,12 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/grants" class="nav-link ">
+                        <i class="nav-icon fal fa-dollar-sign nav-icon  "></i>
+                        <p>گرنت جذب شده</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/projects" class="nav-link ">
                         <i class="nav-icon fal fa-project-diagram nav-icon  "></i>
                         <p>طرحی های پژوهشی و فناوری</p>

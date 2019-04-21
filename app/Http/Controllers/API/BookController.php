@@ -175,6 +175,7 @@ class BookController extends Controller
                 $affiliations = $request->affiliations;
                 $request['profile_id'] = auth('api')->user()->profile['id'];
                 $request['status'] = 0;
+                $request['term_id'] = $term->id;
                 $book_db = Book::create($request->all());
                 foreach ($authors as $key => $author) {
                     $book_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);

@@ -165,7 +165,7 @@
                                             <span v-show="form.errors.has('organization')" class="red d-inline-block">{{ form.errors.get('organization') }}</span>
                                         </div>
                                         <div  class="form-group my-3 text-right">
-                                            <label class="blue ">بودجه طرح پژوهشی<i class="red mx-1">*</i>:{{ form.budget | currency}}</label>
+                                            <label class="blue ">بودجه طرح پژوهشی<i class="red mx-1">*</i>:{{ form.budget | currency}}<span >ریال</span></label>
                                             <input  type="number" name="budget" step="1" min="1"
                                                     placeholder="1"
                                                     v-validate="'required|integer'"

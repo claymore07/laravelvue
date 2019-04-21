@@ -175,6 +175,7 @@ class ProjectController extends Controller
 
                 $request['profile_id'] = auth('api')->user()->profile['id'];
                 $request['status'] = 0;
+                $request['term_id'] = $term->id;
                 $project_db = Project::create($request->all());
                 foreach ($authors as $key => $author) {
                     if ($key == $isresposible) {

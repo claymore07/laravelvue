@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Booklet;
 use App\Models\Checklist;
 use App\Models\Course;
+use App\Models\Grant;
 use App\Models\Invention;
 use App\Models\Paper;
 use App\Models\Project;
@@ -81,6 +82,8 @@ class CheckListController extends Controller
             $item_db = Course::findOrFail($request->id);
         }elseif ($path == 'api/inventionCheckList') {
             $item_db = Invention::findOrFail($request->id);
+        }elseif ($path == 'api/grantCheckList') {
+            $item_db = Grant::findOrFail($request->id);
         }elseif ($path == 'api/bookletCheckList') {
             $item_db = Booklet::findOrFail($request->id);
         }
