@@ -323,26 +323,63 @@
                             <td v-if="checkList">
                             </td>
                         </tr>
-                        <tr v-show="checkList">
+                        <tr>
+                            <td class="font-16">
+                                <span class="blue ">امتیاز کسب شده:</span>
+                                <span v-if="book.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
+                                <span v-else >  {{book.score | faDigits }}</span>
+                            </td>
+                            <td v-if="checkList">
+                            </td>
+                        </tr>
+                        <tr  v-show="checkList">
                             <td colspan="2">
-                                <label for="status" class="blue mt-3">وضعیت بررسی: </label>
-                                <select v-model="checkListForm.status"
-                                        :class="[(  checkListForm.errors.has('status') ? 'is-invalid': ''  )]"
-                                        @change="checkListForm.errors.clear('status')"
-                                        class="custom-select" name="" id="status">
-                                    <option  selected disabled>انتخاب گزینه</option>
-                                    <option value="1" ><i class="fa-check"></i>تایید</option>
-                                    <option value="2" >عدم تایید موقت</option>
-                                    <option value="3" >عدم تایید قطعی</option>
-                                </select>
-                                <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
-                                <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
-                                <br>
-                                <label for="id2" class="blue mt-3">توضیحات: </label>
-                                <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
-                                <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
-                                <tinymce dir="rtl" @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
-
+                                <form  data-vv-scope="checkListForm">
+                                    <label for="status" class="blue ">وضعیت بررسی: </label>
+                                    <select v-model="checkListForm.status"
+                                            :class="[(  checkListForm.errors.has('status') ? 'is-invalid': ''  )]"
+                                            @change="checkListForm.errors.clear('status')"
+                                            class="custom-select" name="" id="status">
+                                        <option  selected disabled>انتخاب گزینه</option>
+                                        <option value="1" ><i class="fa-check"></i>تایید</option>
+                                        <option value="2" >عدم تایید موقت</option>
+                                        <option value="3" >عدم تایید قطعی</option>
+                                    </select>
+                                    <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr  v-show="checkList">
+                            <td colspan="2">
+                                <form  data-vv-scope="checkListForm">
+                                    <div v-if="checkListForm.status == 1" class="form-inline">
+                                        <div class="form-group w-25 text-right">
+                                            <label class="blue ml-3">امتیاز:</label>
+                                            <input type="number" :min="book.minScore" :max="book.maxScore" name="score"
+                                                   placeholder=""
+                                                   :class="[( errors.has('checkListForm.score') || checkListForm.errors.has('score') ? 'is-invalid': ''  )]"
+                                                   v-validate="{min_value:book.minScore,max_value:book.maxScore}"
+                                                   class="form-control w-50" v-model="checkListForm.score" >
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{book.minScore}} و {{book.maxScore}} در نظر گرفته میشود.</span>
+                                        </div>
+                                    </div>
+                                    <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="errors.has('checkListForm.score')" class="red d-inline-block">{{ errors.first('checkListForm.score') }}</span>
+                                    <span v-show="checkListForm.errors.has('score')" class="red d-inline-block">{{ checkListForm.errors.get('score') }}</span>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr  v-show="checkList">
+                            <td colspan="2">
+                                <form  data-vv-scope="checkListForm">
+                                    <label for="id2" class="blue mt-3">توضیحات: </label>
+                                    <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
+                                    <tinymce dir="rtl" @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id2"></tinymce>
+                                </form>
                             </td>
                         </tr>
                         <tr   class="text-center">
@@ -811,7 +848,8 @@
                     id:'',
                     list:[],
                     status:null,
-                    comment:''
+                    comment:'',
+                    score:''
                 }),
                 f:new FormData, // creates the new FormData object to store selected files data
                 // form data of VForm data object witch will be used to fill and submit the form
@@ -994,6 +1032,7 @@
                     .then((response) => {
                         this.checkListItems.unshift(response.data.checkListItem);
                         this.book.status = this.checkListForm.status;
+                        this.book.score = response.data.score;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
                         this.$Progress.finish();
 
@@ -1030,8 +1069,8 @@
                         this.checkListForm.comment = this.checkListItems[0].comment;
                         this.checkListForm.status = this.book.status;
                     }
-
                 }
+                this.checkListForm.score = this.book.score;
             },
             toggleCheckList(){
                 this.checkList = !this.checkList;
@@ -1145,6 +1184,7 @@
                     pages:'تعداد صفحات',
                     files: 'فایل های ضمیمه',
                     fileChangeType: 'نوع تغییر فایل ها',
+                    score: 'امتیاز',
                 }
             });
             this.$parent.pageName = 'آرشیو کتب';

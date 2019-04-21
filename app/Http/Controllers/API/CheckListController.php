@@ -52,10 +52,12 @@ class CheckListController extends Controller
         $this->validate($request,
             [
                 'status' => 'required',
-                'comment' => 'required'
+                'comment' => 'required',
+                'score' => 'required_if:status,1'
             ],
             [
                 'status.required' => 'وضعیت بررسی مقاله باید ثبت شود.',
+                'score.required_if' => 'امتیاز در حالت تایید باید ثبت شود.',
                 'comment.required' => 'توضیحات و راهنمایی ها برای ادامه روند توسط کاربر باید درج شود.'
             ]
         );
@@ -88,6 +90,7 @@ class CheckListController extends Controller
         try {
             $input = [];
             $input['status'] = $request->status;
+            $input['score'] = $request->score;
 
             if (count($request->list) > 0) {
                 $input['list'] = implode(",", $request->list);
@@ -106,7 +109,7 @@ class CheckListController extends Controller
         }
 
         DB::commit();
-        return Response::json(['checkListItem' => $checkListItem], 200);
+        return Response::json(['checkListItem' => $checkListItem, 'score'=> $item_db->score], 200);
     }
 
     /**

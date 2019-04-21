@@ -241,13 +241,9 @@ const app = new Vue({
         },1000),
         loggedIn(){
             this.is_loggedIn =  User.loggedIn();
-        },
-        setActive(num){
-            this.active_menu = num;
         }
     },
     computed:{
-
         photo(){
             return "/img/profile/"+User.photo();
         },

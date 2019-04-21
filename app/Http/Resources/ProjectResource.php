@@ -45,8 +45,9 @@ class ProjectResource extends JsonResource
                 'council_aprovedate' => $this->council_aprovedate,
                 'defense_date' => $this->defense_date,
                 'status' => $this->status,
-                'score' => $this->score,
-
+                'score' => $this->score != -1.00 ? $this->score : '',
+                'minScore' => $this->projectType->minscore,
+                'maxScore' => $this->projectType->maxscore,
                 'term_id' => $this->term_id,
                 'term_name' => $this->term->name,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
