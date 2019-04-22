@@ -76,11 +76,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="info">
                     <a href="#" class="d-block">@{{ name }}</a>
 
-                        <span v-if="type === 'admin'" style="color: white;">مسئول سیستم</span>
+                        <span v-if="type === 'admin'" >مسئول سیستم</span>
 
-                        <span v-else-if="type === 'author'"style="color: white;">کارشناس سیستم</span>
+                        <span v-else-if="type === 'author'">کارشناس سیستم</span>
 
-                        <span v-else style="color: white;">کاربر</span>
+                        <span v-else >کاربر</span>
 
                 </div>
             </div>

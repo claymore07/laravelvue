@@ -113,13 +113,37 @@ Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
 
-// Terms Update route
-Route::post('termChange','API\TermsController@termChange');
+
 
 Route::get('getJournalType','API\ScoreController@getJournalType');
 Route::get('getConfType','API\ScoreController@getConfType');
+Route::get('getBookType','API\ScoreController@getBookType');
+Route::get('getThesesType','API\ScoreController@getThesesType');
+Route::get('getTEDType','API\ScoreController@getTEDType');
+Route::get('getRefereeType','API\ScoreController@getRefereeType');
+Route::get('getProjectType','API\ScoreController@getProjectType');
+Route::get('getInventionType','API\ScoreController@getInventionType');
+Route::get('getRewardType','API\ScoreController@getRewardType');
+Route::get('getGrantType','API\ScoreController@getGrantType');
+Route::get('getCourseType','API\ScoreController@getCourseType');
+Route::get('getBookletType','API\ScoreController@getBookletType');
+
 Route::put('updateConfType/{confType}','API\ScoreController@updateConfType');
 Route::put('updateJType/{JType}','API\ScoreController@updateJType');
+Route::put('updateBookType/{BookType}','API\ScoreController@updateBookType');
+Route::put('updateThesesType/{ThesesType}','API\ScoreController@updateThesesType');
+Route::put('updateTEDType/{TEDType}','API\ScoreController@updateTEDType');
+Route::put('updateRefereeType/{RefereeType}','API\ScoreController@updateRefereeType');
+Route::put('updateProjectType/{RefereeType}','API\ScoreController@updateProjectType');
+Route::put('updateInventionType/{InventionType}','API\ScoreController@updateInventionType');
+Route::put('updateRewardType/{RewardType}','API\ScoreController@updateRewardType');
+Route::put('updateGrantType/{GrantType}','API\ScoreController@updateGrantType');
+Route::put('updateCourseType/{CourseType}','API\ScoreController@updateCourseType');
+Route::put('updateBookletType/{CourseType}','API\ScoreController@updateBookletType');
+
+// Terms Update route
+Route::post('termChange','API\TermsController@termChange');
 Route::put('termActive/{Term}','API\TermsController@termActivate');
+
 Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');
