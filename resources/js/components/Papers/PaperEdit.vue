@@ -188,8 +188,8 @@
                     <tr>
                         <td class="font-16">
                             <span class="blue ">تاریخ پذیرش:</span>
-                            <span class="mr-3 "> {{paper.publish_date | myDate}} هجری شمسی</span>
-                            <span class="mr-3 "> {{paper.publish_date | myDateEN}} میلادی</span>
+                            <span class="mr-3 "> {{paper.accept_date | myDate}} هجری شمسی</span>
+                            <span class="mr-3 "> {{paper.accept_date | myDateEN}} میلادی</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ پذیرش')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -204,8 +204,8 @@
                     <tr>
                         <td class="font-16">
                             <span class="blue ">تاریخ چاپ:</span>
-                            <span class="mr-3 "> {{paper.accept_date | myDate}} هجری شمسی</span>
-                            <span class="mr-3 "> {{paper.accept_date | myDateEN}} میلادی</span>
+                            <span class="mr-3 "> {{paper.publish_date | myDate}} هجری شمسی</span>
+                            <span class="mr-3 "> {{paper.publish_date | myDateEN}} میلادی</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ چاپ')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
                         <td v-if="checkList">
@@ -681,7 +681,7 @@
                                 </div>
 
                                 <div class=" my-3" style="direction: ltr; text-align: right" >
-                                    <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
+                                    <label class="blue text-right  text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.publish_date | myDate}}</span>
                                     <date-picker @change="removeError('publish_date')" format="YYYY-MM-DD"
                                                  :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )] "
@@ -1221,6 +1221,7 @@
                         this.paper.status = this.checkListForm.status;
                         this.paper.score = response.data.score;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
+                        this.toggleCheckList();
                         this.$Progress.finish();
 
                     })

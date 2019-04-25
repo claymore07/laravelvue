@@ -28,6 +28,7 @@ class User{
     }
 
     loggedIn(){
+        console.log('logged');
         return this.hasToken();
     }
     forceLogOut(){

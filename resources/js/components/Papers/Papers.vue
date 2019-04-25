@@ -236,7 +236,7 @@
                                         </div>
 
                                         <div class=" my-3" style="direction: ltr; text-align: right" >
-                                            <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
+                                            <label class="blue text-right  text-rtl">تاریخ چاپ<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.publish_date | myDate}}</span>
                                             <date-picker @change="removeError('publish_date')" format="YYYY-MM-DD"
                                                          :class="[( errors.has('form-1.publish_date') || form.errors.has('publish_date') ? 'is-invalid': ''  )] "

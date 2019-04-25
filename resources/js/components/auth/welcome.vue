@@ -20,7 +20,7 @@
     export default {
         name: "welcome",
         created(){
-            console.log('loaded11111111111')
+            console.log('welcome')
         }
     }
 </script>

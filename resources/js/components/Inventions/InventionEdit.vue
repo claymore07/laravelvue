@@ -891,7 +891,7 @@
                 return fileName[1] == 'zip' || fileName[1] == 'rar' ? true:false;
             },
             // on page load gets ted data based on the received it
-            gettedData(id){
+            getInventionData(id){
                 axios.get(`/api/invention/${id}`)
                     .then(response => {
                         this.invention = response.data.data;
@@ -967,7 +967,7 @@
                 }
             });
             this.id = this.$route.params.id;
-            this.gettedData(this.id);
+            this.getInventionData(this.id);
             this.getInventionRelation();
         },
         components: {

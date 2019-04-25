@@ -598,6 +598,7 @@
                         this.ted.status = this.checkListForm.status;
                         this.ted.score = response.data.score;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
+                        this.toggleCheckList();
                         this.$Progress.finish();
 
                     })
@@ -671,7 +672,7 @@
                 return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets ted data based on the received it
-            gettedData(id){
+            getTEDData(id){
                 axios.get(`/api/tedChair/${id}`)
                     .then(response => {
                         this.ted = response.data.data;
@@ -739,7 +740,7 @@
                 }
             });
             this.id = this.$route.params.id;
-            this.gettedData(this.id);
+            this.getTEDData(this.id);
             this.getTEDRelation();
         },
         components: {

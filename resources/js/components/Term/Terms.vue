@@ -37,7 +37,7 @@
                             <td v-if="term.status == '1'"><span class="green"><i class="fal fa-check ml-2"></i>فعال</span></td>
                             <td v-else><span class="red"><i class="fal fa-times ml-2"></i>غیر فعال</span></td>
                             <td>
-                                <a class="btn btn-success  ripple" href="#" @click="termActivate(term.id)" title="فعالسازی ترم">
+                                <a class="btn   ripple " :class="[term.status == '1'?'disabled btn-secondary':'btn-success']"  href="#" @click="termActivate(term.id)" title="فعالسازی ترم">
                                     <i class="fa fa-check "></i>
                                 </a>
                             </td>

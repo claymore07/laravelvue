@@ -629,6 +629,7 @@
                         this.referee.status = this.checkListForm.status;
                         this.referee.score = response.data.score;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
+                        this.toggleCheckList();
                         this.$Progress.finish();
 
                     })
@@ -701,7 +702,7 @@
                 return fileName[1] == 'zip' || fileName[1] == 'rar'? true:false;
             },
             // on page load gets ted data based on the received it
-            gettedData(id){
+            getRefereeData(id){
                 axios.get(`/api/referee/${id}`)
                     .then(response => {
                         this.referee = response.data.data;
@@ -777,7 +778,7 @@
                 }
             });
             this.id = this.$route.params.id;
-            this.gettedData(this.id);
+            this.getRefereeData(this.id);
             this.getRefereeRelation();
         },
         components: {

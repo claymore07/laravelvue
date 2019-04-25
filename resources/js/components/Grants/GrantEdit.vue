@@ -608,6 +608,7 @@
                     this.grant.status = this.checkListForm.status;
                     this.grant.score = response.data.score;
                     this.successToast('نتایج بررسی با موفقیت ثبت شد.');
+                    this.toggleCheckList();
                     this.$Progress.finish();
 
                 })

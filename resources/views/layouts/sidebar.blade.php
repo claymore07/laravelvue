@@ -140,6 +140,12 @@
                         <p>مدیریت ترم ها</p>
                     </router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/not-ready" class="nav-link ">
+                        <i class="nav-icon fal fa-shield-check  "></i>
+                        <p>لیست مجلات غیرمجاز</p>
+                    </router-link>
+                </li>
 
             </ul>
         </li>
