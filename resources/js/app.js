@@ -10,6 +10,10 @@ require('./bootstrap');
 window.Vue = require('vue');
 require('./jquery.html5cvm.min');
 require('./jquery.SimpleMask.min');
+
+import JsonExcel from 'vue-json-excel'
+
+Vue.component('downloadExcel', JsonExcel)
 var VueTruncate = require('vue-truncate-filter')
 import User from './Helpers/User';
 import moment from 'moment';

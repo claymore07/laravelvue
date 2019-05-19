@@ -160,7 +160,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/paperReport" class="nav-link ">
                         <i class="nav-icon fal fa-pencil-ruler nav-icon  "></i>
                         <p>گزارش مقالات</p>
                     </router-link>

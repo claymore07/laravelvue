@@ -147,3 +147,12 @@ Route::put('termActive/{Term}','API\TermsController@termActivate');
 
 Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');
+
+
+Route::get('journalExport','API\ReportController@journalExport');
+Route::get('conferenceExport','API\ReportController@journalExport');
+// Reports
+Route::post('journalReport','API\ReportController@journalReport');
+
+Route::post('conferenceReport','API\ReportController@conferenceReport');
+

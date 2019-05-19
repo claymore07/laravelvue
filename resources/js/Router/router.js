@@ -38,6 +38,7 @@ let routes = [
     { path: '/bookletEdit/:id', name:'bookletEdit', component: require('../components/Booklets/BookletEdit.vue').default },
     { path: '/grants', component: require('../components/Grants/Grants.vue').default },
     { path: '/grantEdit/:id', name:'grantEdit', component: require('../components/Grants/GrantEdit.vue').default },
+    { path: '/paperReport', component: require('../components/Reports/PaperReport.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];
