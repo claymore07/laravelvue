@@ -197,17 +197,18 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/thesisReport" class="nav-link ">
+                        <i class="nav-icon fal fa-book-reader  "></i>
+                        <p>گزارش پایان نامه ها</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/inventionReport" class="nav-link ">
                         <i class="nav-icon fal fa-microscope nav-icon  "></i>
                         <p>اختراعات و اکتشافات</p>
                     </router-link>
                 </li>
-                <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
-                        <i class="nav-icon fal fa-book-reader  "></i>
-                        <p>گزارش پایان نامه ها</p>
-                    </router-link>
-                </li>
+
                 <li class="nav-item">
                     <router-link to="/notready" class="nav-link ">
                         <i class="nav-icon fal fa-users-class  "></i>

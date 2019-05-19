@@ -8,6 +8,7 @@ use App\Http\Resources\InventionReportResource;
 use App\Http\Resources\JournalReportResource;
 use App\Http\Resources\ProjectReportResource;
 use App\Http\Resources\TEDReportResource;
+use App\Http\Resources\ThesesReportResource;
 use App\Models\Book;
 use App\Models\Conference;
 use App\Models\Invention;
@@ -15,6 +16,7 @@ use App\Models\Journal;
 use App\Models\Paper;
 use App\Models\Project;
 use App\Models\TEDChair;
+use App\Models\Thesis;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 /*use App\Exports\JournalExport;
@@ -255,6 +257,45 @@ class ReportController extends Controller
         }
       //  return \Response::json(['books'=>$teds]);
         return TEDReportResource::collection($teds);
+
+    }
+
+
+    public function thesesReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $thesis_type_id = \Request::get('thesis_type_id');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $thesesQuery = Thesis::with(['profile','term','thesisType'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })->whereHas('thesisType', function ($query) use ($thesis_type_id){
+                if ($thesis_type_id != 0) {
+                    $query->where('id', $thesis_type_id)   ;
+                }
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $theses =  $thesesQuery->get();
+        }else{
+            $theses =  $thesesQuery->paginate($this->perPage);
+        }
+        //return \Response::json(['books'=>$theses]);
+        return ThesesReportResource::collection($theses);
 
     }
 
