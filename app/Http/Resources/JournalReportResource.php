@@ -33,7 +33,7 @@ class JournalReportResource extends JsonResource
         } elseif ($paper->license_to != null && $paper->license_to == 1){
             $license_to = 'مازاد موظفی';
         }else{
-            $license_to = '';
+            $license_to = '-';
         }
         return [
             'title' => $paper->title,
@@ -45,20 +45,20 @@ class JournalReportResource extends JsonResource
             'publisher_name' => $this->publisher,
             'jtype_name' => $this->jtype->name,
             'excerpt_name' => $paper->excerpt->name,
-            'license' => $paper->license != null ? $paper->license : '',
+            'license' => $paper->license != null ? $paper->license : '-',
             'license_to' => $license_to,
             'publish_date' => $paper->publish_date,
             'accept_date' => $paper->accept_date,
-            'doi' => $paper->doi != null ? $paper->doi : '',
-            'link' => $paper->link != null ? $paper->link : '',
-            'IFactor' => $this->IFactor != null ? $this->IFactor : '',
-            'FIF' => $this->FIF != null ? $this->FIF : '',
-            'JRK' => $this->JRK != null ? $this->JRK : '',
-            'JCR' => $this->JCR != null ? $this->JCR : '',
+            'doi' => $paper->doi != null ? $paper->doi : '-',
+            'link' => $paper->link != null ? $paper->link : '-',
+            'IFactor' => $this->IFactor != null ? $this->IFactor : '-',
+            'FIF' => $this->FIF != null ? $this->FIF : '-',
+            'JRK' => $this->JRK != null ? $this->JRK : '-',
+            'JCR' => $this->JCR != null ? $this->JCR : '-',
             'issn' => $this->issn,
-            'pissn' => $this->pissn != null ? $this->pissn : '',
+            'pissn' => $this->pissn != null ? $this->pissn : '-',
             'status' => $paper->status,
-            'score' => $paper->score != -1.00 ? $this->score : '',
+            'score' => $paper->score != -1.00 ? $this->score : '-',
             'term_name' => $paper->term->name,
             'created_at' => Carbon::parse($paper->created_at)->format('Y-m-d'),
            // 'updated_at' => Carbon::parse($paper->updated_at)->format('Y-m-d'),

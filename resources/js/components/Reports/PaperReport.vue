@@ -94,7 +94,7 @@
                                 :fields="journal_fields"
 
                                 worksheet = "My Worksheet"
-                                name    = "filename.xls">
+                                name    = "journals.xls">
                                 <i  class="fal fa-file-excel text-white ml-3"></i>دریافت فایل
                             </download-excel>
                             <download-excel v-if="paperType === 1 "
@@ -104,7 +104,7 @@
                                 :fields="conf_fields"
 
                                 worksheet = "My Worksheet"
-                                name    = "filename.xls">
+                                name    = "conference.xls">
                                 <i  class="fal fa-file-excel text-white ml-3"></i>دریافت فایل
                             </download-excel>
                             <button @click="resetForm()"  type="button" class="btn btn-warning mr-3 mt-2 btn-lg"><i  class="fal fa-retweet text-white ml-3"></i>بازنشانی فرم گزارش</button>

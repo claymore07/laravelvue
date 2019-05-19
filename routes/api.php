@@ -153,4 +153,7 @@ Route::put('profile','API\UserController@updateProfile');
 Route::post('journalReport','API\ReportController@journalReport');
 Route::post('conferenceReport','API\ReportController@conferenceReport');
 Route::post('bookReport','API\ReportController@bookReport');
+Route::post('inventionReport','API\ReportController@inventionReport');
+Route::post('projectReport','API\ReportController@projectReport');
+Route::post('tedReport','API\ReportController@tedReport');
 

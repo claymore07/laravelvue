@@ -178,6 +178,31 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/grants" class="nav-link ">
+                        <i class="nav-icon fal fa-dollar-sign nav-icon  "></i>
+                        <p>گرنت جذب شده</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/projectReport" class="nav-link ">
+                        <i class="nav-icon fal fa-project-diagram nav-icon  "></i>
+                        <p>طرحی های پژوهشی و فناوری</p>
+                    </router-link>
+                </li>
+
+                <li class="nav-item">
+                    <router-link to="/tedReport" class="nav-link ">
+                        <i class="nav-icon fal fa-lightbulb-on nav-icon  "></i>
+                        <p>کرسی های نظریه پردازی</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/inventionReport" class="nav-link ">
+                        <i class="nav-icon fal fa-microscope nav-icon  "></i>
+                        <p>اختراعات و اکتشافات</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/notready" class="nav-link ">
                         <i class="nav-icon fal fa-book-reader  "></i>
                         <p>گزارش پایان نامه ها</p>

@@ -79,7 +79,7 @@
                                             :fields="book_fields"
 
                                             worksheet = "My Worksheet"
-                                            name    = "filename.xls">
+                                            name    = "Books.xls">
                                 <i  class="fal fa-file-excel text-white ml-3"></i>دریافت فایل
                             </download-excel>
 
@@ -348,7 +348,7 @@
             },
         },
         created() {
-            this.$parent.pageName = 'آرشیو مقالات';
+            this.$parent.pageName = 'گزارش کتب';
             Fire.$on('searching', () => {
                 let page = 1;
                 let query = this.search;

@@ -40,6 +40,9 @@ let routes = [
     { path: '/grantEdit/:id', name:'grantEdit', component: require('../components/Grants/GrantEdit.vue').default },
     { path: '/paperReport', component: require('../components/Reports/PaperReport.vue').default },
     { path: '/bookReport', component: require('../components/Reports/BookReport.vue').default },
+    { path: '/inventionReport', component: require('../components/Reports/InventionReport.vue').default },
+    { path: '/projectReport', component: require('../components/Reports/ProjectReport.vue').default },
+    { path: '/tedReport', component: require('../components/Reports/TEDReport.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

@@ -4,11 +4,17 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Resources\BookReportResource;
 use App\Http\Resources\conferenceReportResource;
+use App\Http\Resources\InventionReportResource;
 use App\Http\Resources\JournalReportResource;
+use App\Http\Resources\ProjectReportResource;
+use App\Http\Resources\TEDReportResource;
 use App\Models\Book;
 use App\Models\Conference;
+use App\Models\Invention;
 use App\Models\Journal;
 use App\Models\Paper;
+use App\Models\Project;
+use App\Models\TEDChair;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 /*use App\Exports\JournalExport;
@@ -137,6 +143,118 @@ class ReportController extends Controller
         }
         //return \Response::json(['books'=>$books]);
         return BookReportResource::collection($books);
+
+    }
+    public function inventionReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $inventionType_id = \Request::get('inventionType_id');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $inventionQuery = Invention::with(['profile','term','inventionType'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })->whereHas('inventionType', function ($query) use ($inventionType_id){
+                if ($inventionType_id != 0) {
+                    $query->where('id', $inventionType_id)   ;
+                }
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $inventions =  $inventionQuery->get();
+        }else{
+            $inventions =  $inventionQuery->paginate($this->perPage);
+        }
+        //return \Response::json(['books'=>$inventions]);
+        return InventionReportResource::collection($inventions);
+
+    }
+    public function projectReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $projectType_id = \Request::get('project_type_id');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $projectQuery = Project::with(['profile','term','authors','projectType'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })->whereHas('projectType', function ($query) use ($projectType_id){
+                if ($projectType_id != 0) {
+                    $query->where('id', $projectType_id)   ;
+                }
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $projects =  $projectQuery->get();
+        }else{
+            $projects =  $projectQuery->paginate($this->perPage);
+        }
+       // return \Response::json(['books'=>$projects]);
+        return ProjectReportResource::collection($projects);
+
+    }
+
+    public function tedReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $tedType_id = \Request::get('ted_type_id');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $tedQuery = TEDChair::with(['profile','term','TEDType'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })->whereHas('TEDType', function ($query) use ($tedType_id){
+                if ($tedType_id != 0) {
+                    $query->where('id', $tedType_id)   ;
+                }
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $teds =  $tedQuery->get();
+        }else{
+            $teds =  $tedQuery->paginate($this->perPage);
+        }
+      //  return \Response::json(['books'=>$teds]);
+        return TEDReportResource::collection($teds);
 
     }
 
