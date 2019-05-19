@@ -166,7 +166,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/bookReport" class="nav-link ">
                         <i class="nav-icon fal fa-books  "></i>
                         <p>گزارش کتب</p>
                     </router-link>
