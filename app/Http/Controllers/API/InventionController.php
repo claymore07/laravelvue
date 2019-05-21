@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InventionRequest;
 use App\Http\Resources\InventionResource;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Invention;
 use App\Models\InventionType;
 use App\Models\Term;
@@ -135,7 +137,7 @@ class InventionController extends Controller
         return InventionResource::collection($inventions);
 
     }
-    public function inventionRelation(){
+    public function inventionRelation(Request $request){
         $this->authorize('IsUserOrIsAdmin');
         $invention_types = InventionType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
@@ -143,7 +145,20 @@ class InventionController extends Controller
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array( 'invention_types'=>$invention_types, 'terms'=>$termes));
+        if($request->is('api/inventionReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('invention_types'=>$invention_types,
+                'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array( 'invention_types'=>$invention_types, 'terms'=>$termes));
+        }
     }
 
     /**

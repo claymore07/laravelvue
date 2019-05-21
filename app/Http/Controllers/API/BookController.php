@@ -8,7 +8,9 @@ use App\Http\Requests\BookUpdateRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\BookType;
+use App\Models\Department;
 use App\Models\Excerpt;
+use App\Models\Faculty;
 use App\Models\Term;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -141,7 +143,7 @@ class BookController extends Controller
         return BookResource::collection($books);
 
     }
-    public function bookRelation(){
+    public function bookRelation(Request $request){
         $this->authorize('IsUserOrIsAdmin');
         $excerpts = Excerpt::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
@@ -152,7 +154,20 @@ class BookController extends Controller
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes, 'terms'=>$termes));
+        if($request->is('api/bookReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes,
+                'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('excerpts'=>$excerpts, 'bookTypes'=>$booktypes, 'terms'=>$termes));
+        }
     }
 
     /**

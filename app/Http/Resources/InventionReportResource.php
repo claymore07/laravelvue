@@ -27,6 +27,8 @@ class InventionReportResource extends JsonResource
         $resource = [
             'title' => $this->title,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'inventiontype_name' => $this->inventionType->name,
             'post' => $this->post,
             'authorities' => $this->authorities,

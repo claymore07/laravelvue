@@ -163,3 +163,15 @@ Route::post('rewardsReport','API\ReportController@rewardsReport');
 Route::post('bookletsReport','API\ReportController@bookletsReport');
 Route::post('coursesReport','API\ReportController@coursesReport');
 
+// helper routes to get Report relations collections
+Route::get('paperReportRelation','API\PapersController@paperRelation');
+Route::get('bookReportRelation','API\BookController@bookRelation');
+Route::get('thesisReportRelation','API\ThesisController@thesisRelation');
+Route::get('projectReportRelation','API\ProjectController@projectRelation');
+Route::get('tedChairReportRelation','API\TEDChairController@tedChairRelation');
+Route::get('refereeReportRelation','API\RefereeController@refereeRelation');
+Route::get('bookletReportRelation','API\BookletController@bookletRelation');
+Route::get('inventionReportRelation','API\InventionController@inventionRelation');
+Route::get('rewardReportRelation','API\RewardController@rewardRelation');
+Route::get('courseReportRelation','API\CourseController@courseRelation');
+Route::get('grantReportRelation','API\GrantController@grantRelation');

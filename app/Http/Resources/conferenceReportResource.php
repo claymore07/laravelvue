@@ -41,6 +41,8 @@ class conferenceReportResource extends JsonResource
             'lang' => $paper->lang == 0 ? 'فارسی':'لاتین',
             'paper_type' =>  'کنفرانسی' ,
             'conf_name' => $this->name,
+            'faculty'=>$paper->profile->faculty->name,
+            'department'=>$paper->profile->department->name,
             'organizer' => $this->organizer ,
             'period' => $this->period,
             'conftype_name' => $this->conftype->name,

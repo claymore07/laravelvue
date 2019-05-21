@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RewardRequest;
 
 use App\Http\Resources\RewardResource;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Reward;
 use App\Models\Term;
 use Auth;
@@ -129,11 +131,24 @@ class RewardController extends Controller
         return RewardResource::collection($rewards);
 
     }
-    public function rewardRelation(){
+    public function rewardRelation(Request $request){
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('terms'=>$termes));
+        if($request->is('api/rewardReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('terms'=>$termes));
+        }
+
     }
 
     /**

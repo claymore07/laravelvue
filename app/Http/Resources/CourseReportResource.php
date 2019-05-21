@@ -19,6 +19,8 @@ class CourseReportResource extends JsonResource
         $resource = [
             'title' => $this->title,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'role' => $this->role,
             'organization' => $this->organization,
             'duration' => $this->duration,

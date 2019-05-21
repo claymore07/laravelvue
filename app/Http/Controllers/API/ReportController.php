@@ -51,6 +51,7 @@ class ReportController extends Controller
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $start_date = \Request::get('start_date');
         $end_date = \Request::get('end_date');
         $journalQuery = Journal::with(['papers.profile','papers.profile.faculty','papers.authors','papers.excerpt','papers.term','jtype'])
@@ -73,8 +74,12 @@ class ReportController extends Controller
             })->whereHas('papers.profile', function ($query) use ($faculty_id){
                 if ($faculty_id != 0) {
                     $query->where('faculty_id', $faculty_id)   ;
-                }})
-             ->orderBy('created_at', 'desc');
+                }
+            })->whereHas('papers.profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
+            })->orderBy('created_at', 'desc');
 
              if(\Request::get('excelReport') !=0){
                  $journalPapers =  $journalQuery->get();
@@ -93,6 +98,7 @@ class ReportController extends Controller
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $start_date = \Request::get('start_date');
         $end_date = \Request::get('end_date');
         //
@@ -117,8 +123,11 @@ class ReportController extends Controller
                 if ($faculty_id != 0) {
                     $query->where('faculty_id', $faculty_id)   ;
                 }
-        })
-        ->orderBy('created_at', 'desc');
+        })->whereHas('papers.profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
+            })->orderBy('created_at', 'desc');
         if(\Request::get('excelReport') !=0){
             $conferencePapers =  $conferenceQuery->get();
         }else{
@@ -135,6 +144,8 @@ class ReportController extends Controller
         $bookType_id = \Request::get('bookType_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $start_date = \Request::get('start_date');
         $end_date = \Request::get('end_date');
         $bookQuery = Book::with(['profile','authors','excerpt','term','booktype'])
@@ -154,6 +165,14 @@ class ReportController extends Controller
                 if ($bookType_id != 0) {
                     $query->where('id', $bookType_id)   ;
                 }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -170,6 +189,8 @@ class ReportController extends Controller
 
         $this->perPage = \Request::get('perPage');
         $inventionType_id = \Request::get('inventionType_id');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -191,6 +212,14 @@ class ReportController extends Controller
                 if ($inventionType_id != 0) {
                     $query->where('id', $inventionType_id)   ;
                 }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -207,6 +236,8 @@ class ReportController extends Controller
 
         $this->perPage = \Request::get('perPage');
         $projectType_id = \Request::get('project_type_id');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -228,6 +259,14 @@ class ReportController extends Controller
                 if ($projectType_id != 0) {
                     $query->where('id', $projectType_id)   ;
                 }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -245,6 +284,8 @@ class ReportController extends Controller
 
         $this->perPage = \Request::get('perPage');
         $tedType_id = \Request::get('ted_type_id');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -266,6 +307,14 @@ class ReportController extends Controller
                 if ($tedType_id != 0) {
                     $query->where('id', $tedType_id)   ;
                 }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -284,6 +333,8 @@ class ReportController extends Controller
 
         $this->perPage = \Request::get('perPage');
         $thesis_type_id = \Request::get('thesis_type_id');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -305,6 +356,14 @@ class ReportController extends Controller
                 if ($thesis_type_id != 0) {
                     $query->where('id', $thesis_type_id)   ;
                 }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -321,6 +380,8 @@ class ReportController extends Controller
 
         $this->perPage = \Request::get('perPage');
         $referee_types_id = \Request::get('referee_type_id');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -342,6 +403,14 @@ class ReportController extends Controller
                 if ($referee_types_id != 0) {
                     $query->where('id', $referee_types_id)   ;
                 }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -358,6 +427,8 @@ class ReportController extends Controller
     public function grantsReport(){
 
         $this->perPage = \Request::get('perPage');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -375,6 +446,14 @@ class ReportController extends Controller
                     $query->where('status', '=' , $status);
                 }
 
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -390,6 +469,8 @@ class ReportController extends Controller
     public function rewardsReport(){
 
         $this->perPage = \Request::get('perPage');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -407,6 +488,14 @@ class ReportController extends Controller
                     $query->where('status', '=' , $status);
                 }
 
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -423,6 +512,8 @@ class ReportController extends Controller
     public function bookletsReport(){
 
         $this->perPage = \Request::get('perPage');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -440,6 +531,14 @@ class ReportController extends Controller
                     $query->where('status', '=' , $status);
                 }
 
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 
@@ -456,6 +555,8 @@ class ReportController extends Controller
     public function coursesReport(){
 
         $this->perPage = \Request::get('perPage');
+        $faculty_id = \Request::get('faculty_id');
+        $department_id = \Request::get('department_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
         $start_date = \Request::get('start_date');
@@ -473,6 +574,14 @@ class ReportController extends Controller
                     $query->where('status', '=' , $status);
                 }
 
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if ($department_id != 0) {
+                    $query->where('department_id', $department_id)   ;
+                }
             })
             ->orderBy('created_at', 'desc');
 

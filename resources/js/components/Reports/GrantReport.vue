@@ -40,7 +40,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div  class="col-lg-3  mt-3 mr-2" ></div>
+                        </div>
+                        <div class="row">
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -85,8 +104,10 @@
                                 <tr>
                                     <th>شماره</th>
                                     <th>عنوان بودجه جذب شده</th>
-                                    <th>میزان بودجه</th>
                                     <th>نام ثبت کننده</th>
+                                    <th>نام دانشکده</th>
+                                    <th>نام گروه</th>
+                                    <th>میزان بودجه</th>
                                     <th>نوع بودجه</th>
                                     <th>تاریخ تصویب</th>
                                     <th>ترم</th>
@@ -104,15 +125,18 @@
                                 <tbody>
 
                                 <tr v-if="grants.length <= 0">
-                                    <td colspan="13"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(grant, index) in grants" :key="grant.id">
                                     <td>{{counter(index) | faDigit}}</td>
                                     <td>{{ grant.title | truncate(40) }}</td>
+                                    <td>{{ grant.Author_name }}</td>
+                                    <td>{{ grant.faculty }}</td>
+                                    <td>{{ grant.department }}</td>
                                     <td>{{ grant.budget | currency }}
                                         <span v-if="grant.type ==0">ریال</span>
                                         <span v-if="grant.type ==1">دلار</span> </td>
-                                    <td>{{ grant.Author_name }}</td>
+
                                     <td>{{ grant.type_name }}</td>
 
                                     <td>{{ grant.submit_date  | myDate  }}</td>
@@ -152,6 +176,8 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
+
     export default {
         name: "GrantReport",
         data(){
@@ -159,6 +185,8 @@
                 status:5,
                 allData :{},
                 grants:[],
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -172,12 +200,17 @@
                 term_id: 0,
                 start_date:'',
                 end_date:'',
+                referee_type_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
                 grants_fields:{
                     'عنوان بودجه جذب شده' : 'title',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'میزان بودجه' : {
                     field: 'budget',
                         callback: (value) => {
@@ -247,6 +280,8 @@
                 this.term_id= 0;
                 this.start_date='';
                 this.end_date='';
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -266,7 +301,8 @@
                 }
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/grantsReport?order=' + sortOrder + '&term_id=' + this.term_id+
-                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id+'&excelReport=' + this.excelReport);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -282,7 +318,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/grantsReport?order=' + sortOrder + '&term_id=' + this.term_id +
-                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;
@@ -299,8 +336,10 @@
             },
             // gets necessary data for form like
             getGrantRelation(){
-                axios.get('/api/grantRelation')
+                axios.get('/api/grantReportRelation')
                     .then(response => {
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -329,6 +368,9 @@
 
             this.getGrantRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

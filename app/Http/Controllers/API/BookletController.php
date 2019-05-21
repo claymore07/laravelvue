@@ -8,6 +8,8 @@ use App\Http\Resources\BookletResource;
 use App\Http\Resources\DegreeResource;
 use App\Models\Booklet;
 use App\Models\Degree;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Term;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -141,14 +143,27 @@ class BookletController extends Controller
 
     }
 
-    public function bookletRelation(){
+    public function bookletRelation(Request $request){
         $degrees = Degree::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('degrees'=>$degrees, 'terms'=>$termes));
+        if($request->is('api/bookletReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('degrees'=>$degrees,'terms'=> $termes,
+                'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('degrees'=>$degrees, 'terms'=>$termes));
+        }
     }
     /**
      * Store a newly created resource in storage.

@@ -40,7 +40,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div  class="col-lg-3  mt-3 mr-2" ></div>
+                        </div>
+                        <div class="row">
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -87,6 +106,8 @@
                                     <th>عنوان جشنواره، رقابت و یا مراسم</th>
                                     <th>عنوان جایزه</th>
                                     <th>نام ثبت کننده</th>
+                                    <th>نام دانشکده</th>
+                                    <th>نام گروه</th>
                                     <th>نوع جشنواره، رقابت یا مراسم</th>
                                     <th>رتبه کسب شده</th>
                                     <th>دوره برگزاری</th>
@@ -106,13 +127,15 @@
                                 <tbody>
 
                                 <tr v-if="rewards.length <= 0">
-                                    <td colspan="13"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(reward, index) in rewards" :key="reward.id">
                                     <td>{{counter(index) | faDigit}}</td>
                                     <td>{{ reward.name | truncate(40) }}</td>
                                     <td>{{ reward.title | truncate(40) }}</td>
                                     <td>{{ reward.Author_name }}</td>
+                                    <td>{{ reward.faculty }}</td>
+                                    <td>{{ reward.department }}</td>
                                     <td>{{ reward.type_name }}</td>
                                     <td><span v-if="reward.place == 1" class="mr-3">رتبه اول</span>
                                         <span v-else-if="reward.place == 2" class="mr-3">رتبه دوم</span>
@@ -156,6 +179,8 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
+
     export default {
         name: "RewardReport",
         data(){
@@ -163,6 +188,8 @@
                 status:5,
                 allData :{},
                 rewards:[],
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -176,6 +203,9 @@
                 term_id: 0,
                 start_date:'',
                 end_date:'',
+                referee_type_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
@@ -183,6 +213,8 @@
                     'عنوان جشنواره، رقابت و یا مراسم' : 'name',
                     'عنوان جایزه' : 'title',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'نوع جشنواره، رقابت یا مراسم' : 'type_name',
                     'رتبه کسب شده' :  {
                         field: 'place',
@@ -257,6 +289,8 @@
                 this.term_id= 0;
                 this.start_date='';
                 this.end_date='';
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -276,7 +310,8 @@
                 }
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/rewardsReport?order=' + sortOrder + '&term_id=' + this.term_id+
-                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -292,7 +327,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/rewardsReport?order=' + sortOrder + '&term_id=' + this.term_id +
-                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;
@@ -309,8 +345,10 @@
             },
             /// gets necessary data for form like excerpts and conference types and journal types
             getRewardRelation(){
-                axios.get('/api/rewardRelation')
+                axios.get('/api/rewardReportRelation')
                     .then(response => {
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -339,6 +377,9 @@
 
             this.getRewardRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

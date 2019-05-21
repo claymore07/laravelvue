@@ -50,6 +50,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -96,6 +114,8 @@
                                     <th>عنوان طرح پژوهشی</th>
                                     <th>نام نویسندگان</th>
                                     <th>نام ثبت کننده</th>
+                                    <th>نام دانشکده</th>
+                                    <th>نام گروه</th>
                                     <th>نوع طرح پژوهشی</th>
                                     <th>بودجه طرح پژوهشی(ریال)</th>
                                     <th>سازمان طرف قرارداد</th>
@@ -116,13 +136,15 @@
                                 <tbody>
 
                                 <tr v-if="projects.length <= 0">
-                                    <td colspan="13"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(project, index) in projects" :key="project.id">
                                     <td>{{counter(index) | faDigit}}</td>
                                     <td>{{ project.title | truncate(40) }}</td>
                                     <td>{{ project.Authors }}</td>
                                     <td>{{ project.Author_name }}</td>
+                                    <td>{{ project.faculty }}</td>
+                                    <td>{{ project.department }}</td>
                                     <td>{{ project.project_type_name }}</td>
                                     <td>{{ project.budget | currency }}</td>
                                     <td >{{project.organization}} </td>
@@ -163,6 +185,8 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
+
     export default {
         name: "ProjectReport",
         data(){
@@ -171,6 +195,8 @@
                 allData :{},
                 projects:[],
                 project_types:{},
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -185,6 +211,8 @@
                 start_date:'',
                 end_date:'',
                 project_type_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
@@ -192,6 +220,8 @@
                     'عنوان طرح پژوهشی' : 'title',
                     'نام نویسندگان' : 'Authors',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'نوع طرح پژوهشی' : 'project_type_name',
                     'بودجه طرح پژوهشی(ریال)' :  {
                         field: 'budget',
@@ -268,6 +298,8 @@
                 this.start_date='';
                 this.end_date='';
                 this.project_type_id=0;
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -287,7 +319,8 @@
                 }
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/projectReport?order=' + sortOrder + '&term_id=' + this.term_id + '&project_type_id=' + this.project_type_id +
-                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -303,7 +336,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/projectReport?order=' + sortOrder + '&term_id=' + this.term_id + '&project_type_id=' + this.project_type_id +
-                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;
@@ -321,9 +355,11 @@
 
             // gets necessary data for form like
             getProjectRelation(){
-                axios.get('/api/projectRelation')
+                axios.get('/api/projectReportRelation')
                     .then(response => {
                         this.project_types = response.data.project_types;
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -352,6 +388,9 @@
 
             this.getProjectRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

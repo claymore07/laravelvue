@@ -50,6 +50,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -95,6 +113,8 @@
                                     <th>شماره</th>
                                     <th>عنوان کرسی نظریه پزداری</th>
                                     <th>نام ثبت کننده</th>
+                                    <th>نام دانشکده</th>
+                                    <th>نام گروه</th>
                                     <th>نوع کرسی</th>
                                     <th>محل برگزاری</th>
                                     <th>تاریخ تصویب شورای</th>
@@ -115,12 +135,14 @@
                                 <tbody>
 
                                 <tr v-if="teds.length <= 0">
-                                    <td colspan="12"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="14"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(ted, index) in teds" :key="ted.id">
                                     <td>{{counter(index) | faDigit}}</td>
                                     <td>{{ ted.title | truncate(40) }}</td>
                                     <td>{{ ted.Author_name }}</td>
+                                    <td>{{ ted.faculty }}</td>
+                                    <td>{{ ted.department }}</td>
                                     <td>{{ ted.ted_type_name }}</td>
                                     <td>{{ ted.location  }}</td>
                                     <td>{{ ted.council_aprovedate  | myDate  }}</td>
@@ -160,6 +182,8 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
+
     export default {
         name: "TEDReport",
         data(){
@@ -168,6 +192,8 @@
                 allData :{},
                 teds:[],
                 ted_types:{},
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -182,12 +208,16 @@
                 start_date:'',
                 end_date:'',
                 ted_type_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
                 ted_fields:{
                     'عنوان کرسی نظریه پزداری' : 'title',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'نوع کرسی' : 'ted_type_name',
                     'محل برگزاری' : 'location',
 
@@ -258,6 +288,8 @@
                 this.start_date='';
                 this.end_date='';
                 this.ted_type_id=0;
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -277,7 +309,8 @@
                 }
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/tedReport?order=' + sortOrder + '&term_id=' + this.term_id + '&ted_type_id=' + this.ted_type_id +
-                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -293,7 +326,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/tedReport?order=' + sortOrder + '&term_id=' + this.term_id + '&ted_type_id=' + this.ted_type_id +
-                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;
@@ -310,9 +344,11 @@
             },
             // gets necessary data for form like
             getTEDRelation(){
-                axios.get('/api/tedChairRelation')
+                axios.get('/api/tedChairReportRelation')
                     .then(response => {
                         this.ted_types = response.data.ted_types;
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -341,6 +377,9 @@
 
             this.getTEDRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

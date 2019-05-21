@@ -20,6 +20,8 @@ class RewardReportResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'type_name' => $this->type,
             'place' => $this->place,
             'period' => $this->period,

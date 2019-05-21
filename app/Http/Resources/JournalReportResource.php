@@ -45,6 +45,7 @@ class JournalReportResource extends JsonResource
             'publisher_name' => $this->publisher,
             'jtype_name' => $this->jtype->name,
             'faculty'=>$paper->profile->faculty->name,
+            'department'=>$paper->profile->department->name,
             'excerpt_name' => $paper->excerpt->name,
             'license' => $paper->license != null ? $paper->license : '-',
             'license_to' => $license_to,

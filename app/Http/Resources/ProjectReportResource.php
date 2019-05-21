@@ -30,6 +30,8 @@ class ProjectReportResource extends JsonResource
             'title' => $this->title,
             'Authors' => $authors_name,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'budget' => $this->budget,
             'project_type_name' => $this->projectType->name,
             'organization' => $this->organization,

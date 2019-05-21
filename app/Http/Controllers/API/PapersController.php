@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Resources\PaperResource;
 use App\Models\Conference;
 use App\Models\ConfType;
+use App\Models\Department;
 use App\Models\Excerpt;
+use App\Models\Faculty;
 use App\Models\Files;
 use App\Http\Requests\PaperRequest;
 use App\Http\Requests\PaperUpdateRequest;
@@ -145,7 +147,7 @@ class PapersController extends Controller
     }
 
 
-    public function paperRelation(){
+    public function paperRelation(Request $request){
         $this->authorize('IsUserOrIsAdmin');
         $excerpts = Excerpt::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
@@ -159,7 +161,20 @@ class PapersController extends Controller
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('excerpts'=>$excerpts, 'jtypes'=>$jtypes, 'conftypes'=>$conftypes, 'terms'=>$termes));
+        if($request->is('api/paperReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('excerpts'=> $excerpts, 'jtypes'=> $jtypes,
+                'conftypes'=> $conftypes, 'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('excerpts'=>$excerpts, 'jtypes'=>$jtypes, 'conftypes'=>$conftypes, 'terms'=>$termes));
+        }
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\GrantRequest;
 use App\Http\Resources\GrantResource;
+use App\Models\Department;
+use App\Models\Faculty;
 use Illuminate\Http\Request;
 use App\Models\Grant;
 use App\Models\Term;
@@ -124,11 +126,23 @@ class GrantController extends Controller
         return GrantResource::collection($grants);
 
     }
-    public function grantRelation(){
+    public function grantRelation(Request $request){
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('terms'=>$termes));
+        if($request->is('api/grantReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('terms'=>$termes));
+        }
     }
 
 

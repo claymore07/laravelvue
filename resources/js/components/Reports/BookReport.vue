@@ -50,6 +50,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -96,9 +114,11 @@
                                     <th>نام کتاب</th>
                                     <th>نام نویسندگان</th>
                                     <th>نام ثبت کننده</th>
+                                    <th>نام دانشکده</th>
+                                    <th>نام گروه</th>
+                                    <th>نوع کتاب</th>
                                     <th>نام ناشر</th>
                                     <th>موضوع کتاب</th>
-                                    <th>نوع کتاب</th>
                                     <th>نوع مستخرج بودن</th>
                                     <th>تاریخ چاپ</th>
                                     <th>شابک</th>
@@ -128,6 +148,8 @@
                                     <td>{{ book.title | truncate(40) }}</td>
                                     <td>{{ book.Authors }}</td>
                                     <td>{{ book.Author_name }}</td>
+                                    <td>{{ book.faculty }}</td>
+                                    <td>{{ book.department }}</td>
                                     <td >{{book.publisher_name | truncate(50)}} </td>
                                     <td>{{ book.subject }}</td>
                                     <td>{{ book.booktype_name }}</td>
@@ -173,6 +195,8 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
+
     export default {
         name: "BookReport",
         data(){
@@ -181,6 +205,8 @@
                 allData :{},
                 books:[],
                 bookTypes:{},
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -195,6 +221,8 @@
                 start_date:'',
                 end_date:'',
                 bookType_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
@@ -202,9 +230,11 @@
                     'عنوان کتاب' : 'title',
                     'نام نویسندگان' : 'Authors',
                     'نام ثبت کننده' : 'Author_name',
-                    'نام ناشر' : 'publisher_name',
-                    'موضوع کتاب' : 'subject',
                     'نوع کتاب' : 'booktype_name',
+                    'نام ناشر' : 'publisher_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
+                    'موضوع کتاب' : 'subject',
                     'نوع مستخرج بودن' : 'excerpt_name',
                     'تاریخ چاپ' : {
                         field: 'publish_year',
@@ -276,6 +306,8 @@
                 this.start_date='';
                 this.end_date='';
                 this.bookType_id=0;
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -295,7 +327,8 @@
                 }
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/bookReport?order=' + sortOrder + '&term_id=' + this.term_id + '&bookType_id=' + this.bookType_id +
-                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -311,7 +344,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/bookReport?order=' + sortOrder + '&term_id=' + this.term_id + '&bookType_id=' + this.bookType_id  +
-                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;
@@ -328,12 +362,13 @@
             },
 
             // gets necessary data for form like excerpts and conference types and journal types
-            // gets necessary data for form like excerpts and conference types and journal types
             getBookRelation(){
-                axios.get('/api/bookRelation')
+                axios.get('/api/bookReportRelation')
                     .then(response => {
                         //this.excerpts = response.data.excerpts;
                         this.bookTypes = response.data.bookTypes;
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -363,6 +398,9 @@
 
             this.getBookRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

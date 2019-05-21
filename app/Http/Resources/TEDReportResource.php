@@ -20,6 +20,8 @@ class TEDReportResource extends JsonResource
             'title' => $this->title,
             'ted_type_name' => $this->TEDType->name,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'location' => $this->location,
             'status' => $this->status,
             'term_name' => $this->term->name,

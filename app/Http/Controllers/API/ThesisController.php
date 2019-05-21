@@ -7,6 +7,8 @@ use App\Http\Resources\DegreeResource;
 
 use App\Http\Resources\ThesisResource;
 use App\Models\Degree;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Term;
 use App\Models\ThesesType;
 use App\Models\Thesis;
@@ -130,14 +132,27 @@ class ThesisController extends Controller
 
     }
 
-    public function thesisRelation(){
+    public function thesisRelation(Request $request){
         $theses_types = ThesesType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('theses_types'=>$theses_types, 'terms'=>$termes));
+        if($request->is('api/thesisReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('theses_types'=>$theses_types,
+                'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('theses_types'=>$theses_types, 'terms'=>$termes));
+        }
 
     }
     /**

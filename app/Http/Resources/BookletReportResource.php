@@ -20,6 +20,8 @@ class BookletReportResource extends JsonResource
             'title' => $this->title,
             'name' => $this->name,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'booklet_type_name' => $this->booklet_type,
             'degree' => $this->degree->name,
             'compilation_date' => $this->compilation_date,

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Project;
 use App\Models\ProjectType;
 use App\Models\Term;
@@ -142,7 +144,7 @@ class ProjectController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function projectRelation(){
+    public function projectRelation(Request $request){
         //$this->authorize('IsUserOrIsAdmin');
 
         $project_types = ProjectType::all()->map(function ($item){
@@ -151,7 +153,20 @@ class ProjectController extends Controller
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('project_types'=>$project_types, 'terms'=>$termes));
+        if($request->is('api/projectReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('project_types'=>$project_types,
+                'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('project_types'=>$project_types, 'terms'=>$termes));
+        }
     }
     /**
      * Store a newly created resource in storage.

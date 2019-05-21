@@ -19,6 +19,8 @@ class RefereeReportResource extends JsonResource
         $resource = [
             'title' => $this->title,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'referee_type_name' => $this->refereeType->name,
             'journal_name' => $this->journal_name != null? $this->journal_name:'-',
             'journal_issn' => $this->journal_issn != null? $this->journal_issn:'-',

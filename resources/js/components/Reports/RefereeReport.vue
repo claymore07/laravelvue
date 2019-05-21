@@ -42,14 +42,32 @@
                             </div>
                             <div  class="col-lg-3  mt-3 mr-2" >
                                 <div class="form-group mb-3 text-right">
-                                    <label class="blue text-right  text-rtl">نوع پایان نامه :</label>
+                                    <label class="blue text-right  text-rtl">نوع داوری :</label>
                                     <!-- @change="searchit" -->
                                     <select  v-model="referee_type_id" class="custom-select">
-                                        <option selected value="0">تمام پایان نامه ها</option>
+                                        <option selected value="0">تمام داوری ها</option>
                                         <option v-for="referee_type in referee_types" :value="referee_type.id" :key="referee_type.id">{{referee_type.text}}</option>
                                     </select>
                                 </div>
                             </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -95,6 +113,8 @@
                                     <th>شماره</th>
                                     <th>عنوان اثر داوری شده</th>
                                     <th>نام ثبت کننده</th>
+                                    <th>نام دانشکده</th>
+                                    <th>نام گروه</th>
                                     <th>نوع اثر داوری شده</th>
                                     <th>نام مجله</th>
                                     <th>ISSN</th>
@@ -115,12 +135,14 @@
                                 <tbody>
 
                                 <tr v-if="referees.length <= 0">
-                                    <td colspan="13"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(referee, index) in referees" :key="referee.id">
                                     <td>{{counter(index) | faDigit}}</td>
                                     <td>{{ referee.title | truncate(40) }}</td>
                                     <td>{{ referee.Author_name }}</td>
+                                    <td>{{ referee.faculty }}</td>
+                                    <td>{{ referee.department }}</td>
                                     <td>{{ referee.referee_type_name }}</td>
                                     <td>{{ referee.journal_name }}</td>
                                     <td>{{ referee.journal_issn }}</td>
@@ -159,6 +181,8 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
+
     export default {
         name: "RefereeReport",
         data(){
@@ -167,6 +191,8 @@
                 allData :{},
                 referees:[],
                 referee_types:{},
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -181,12 +207,16 @@
                 start_date:'',
                 end_date:'',
                 referee_type_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
                 referees_fields:{
                     'عنوان اثر داوری شده' : 'title',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'نوع اثر داوری شده' : 'referee_type_name',
                     'نام مجله' : 'journal_name',
                     'ISSN' : 'journal_issn',
@@ -253,6 +283,8 @@
                 this.start_date='';
                 this.end_date='';
                 this.referee_type_id=0;
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -272,7 +304,8 @@
                 }
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/refereesReport?order=' + sortOrder + '&term_id=' + this.term_id + '&referee_type_id=' + this.referee_type_id +
-                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                    '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -288,7 +321,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/refereesReport?order=' + sortOrder + '&term_id=' + this.term_id + '&referee_type_id=' + this.referee_type_id +
-                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                    '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status  +'&faculty_id=' + this.faculty_id
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;
@@ -305,9 +339,11 @@
             },
             // gets necessary data for form like
             getRefereeRelation(){
-                axios.get('/api/refereeRelation')
+                axios.get('/api/refereeReportRelation')
                     .then(response => {
                         this.referee_types = response.data.referee_types;
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.terms = response.data.terms;
                     })
                     .catch((e)=>{
@@ -336,6 +372,9 @@
 
             this.getRefereeRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

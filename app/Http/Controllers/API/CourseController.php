@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Term;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -130,11 +132,23 @@ class CourseController extends Controller
 
     }
 
-    public function courseRelation(){
+    public function courseRelation(Request $request){
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('terms'=>$termes));
+        if($request->is('api/courseReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('terms'=>$termes));
+        }
     }
     /**
      * Store a newly created resource in storage.

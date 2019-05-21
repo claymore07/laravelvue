@@ -19,6 +19,8 @@ class ThesesReportResource extends JsonResource
         $resource = [
             'title' => $this->title,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'thesis_type_name' => $this->thesisType->name,
             //'degree_name' => $this->degree->name,
             'group_aprovedate' => $this->group_aprovedate,

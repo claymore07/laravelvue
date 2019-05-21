@@ -19,6 +19,8 @@ class GrantReportResource extends JsonResource
         $resource = [
             'title' => $this->title,
             'Author_name'=> $name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'budget' => $this->budget,
             'type' => $this->type,
             'type_name' => $this->type == 0? 'داخلی':'بین المللی',

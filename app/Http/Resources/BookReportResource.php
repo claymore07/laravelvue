@@ -32,6 +32,8 @@ class BookReportResource extends JsonResource
             'excerpt_name' => $this->excerpt->name,
             'booktype_name' => $this->booktype->name,
             'publisher_name' => $this->publisher,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
             'subject' => $this->subject,
             'isbn' => $this->isbn,
             'edited' => $this->edited == 0 ? 'ویرایش نشده':'ویرایش شده',

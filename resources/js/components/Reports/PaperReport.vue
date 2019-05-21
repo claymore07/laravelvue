@@ -55,6 +55,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div v-if="paperType == 1" class="col-lg-3  mt-3 mr-2" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع کنفرانس :</label>
@@ -65,6 +66,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">نام دانشکده:</label>
+                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                         v-model="faculty_id"
+                                         :options="faculties"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                </Select2>
+                            </div>
+                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                                <label class="blue">گروه آموزشی:</label>
+                                <Select2 class="form-control select2-form-control" id="department_id"
+                                         v-model="department_id"
+                                         :options="departments"
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                </Select2>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3 mt-3  mr-2">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
@@ -120,6 +139,8 @@
                                         <th>نام مقاله</th>
                                         <th>نام نویسندگان</th>
                                         <th>نام ثبت کننده</th>
+                                        <th>نام دانشکده</th>
+                                        <th>نام گروه</th>
                                         <th>زبان مقاله</th>
                                         <th>نوع مقاله</th>
                                         <th>عنوان ژونال</th>
@@ -147,12 +168,15 @@
                                 <tbody>
 
                                 <tr v-if="papers.length <= 0">
-                                    <td colspan="21"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="23"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(paper, index) in papers" :key="paper.id">
                                     <td>{{counter(index) | faDigit}}</td>
                                     <td>{{ paper.title | truncate(40) }}</td>
                                     <td>{{ paper.Authors }}</td>
+                                    <td>{{ paper.Author_name }}</td>
+                                    <td>{{ paper.faculty }}</td>
+                                    <td>{{ paper.department }}</td>
                                     <td>{{ paper.Author_name }}</td>
                                     <td>{{ paper.lang }}</td>
                                     <td>{{ paper.paper_type }}</td>
@@ -186,6 +210,8 @@
                                         <th>نام مقاله</th>
                                         <th>نام نویسندگان</th>
                                         <th>نام ثبت کننده</th>
+                                        <th>نام دانشکده</th>
+                                        <th>نام گروه</th>
                                         <th>زبان مقاله</th>
                                         <th>نوع مقاله</th>
                                         <th>عنوان کنفرانس</th>
@@ -218,6 +244,8 @@
                                     <td>{{ paper.title | truncate(40) }}</td>
                                     <td>{{ paper.Authors }}</td>
                                     <td>{{ paper.Author_name }}</td>
+                                    <td>{{ paper.faculty }}</td>
+                                    <td>{{ paper.department }}</td>
                                     <td>{{ paper.lang }}</td>
                                     <td>{{ paper.paper_type }}</td>
                                     <td >{{paper.conf_name | truncate(50)}} </td>
@@ -262,6 +290,7 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
     export default {
         name: "PaperReport",
         data(){
@@ -271,6 +300,8 @@
                 papers:[],
                 jtypes:{},
                 conftypes:{},
+                faculties:[],
+                departments:[],
                 terms:{},
 
                 order: 1,       // order 1 for desc and 0  for asc
@@ -287,6 +318,8 @@
                 end_date:'',
                 jtype_id:0,
                 conftype_id:0,
+                faculty_id:0,
+                department_id:0,
                 perPage:5,
                 loader : Vue.$loading,
 
@@ -294,6 +327,8 @@
                     'عنوان مقاله' : 'title',
                     'نام نویسندگان' : 'Authors',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'زبان مقاله' : 'lang',
                     'نوع مقاله' : 'paper_type',
                     'عنوان ژونال' : 'journal_name',
@@ -351,6 +386,8 @@
                     'عنوان مقاله' : 'title',
                     'نام نویسندگان' : 'Authors',
                     'نام ثبت کننده' : 'Author_name',
+                    'نام دانشکده' : 'faculty',
+                    'نام گروه' : 'department',
                     'زبان مقاله' : 'lang',
                     'نوع مقاله' : 'paper_type',
                     'عنوان کنفرانس' : 'conf_name',
@@ -434,6 +471,8 @@
                 this.end_date='';
                 this.jtype_id=0;
                 this.conftype_id=0;
+                this.faculty_id=0;
+                this.department_id=0;
                 this.status=5;
                 this.perPage=5;
             },
@@ -454,12 +493,12 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.paperType == 0) {
                     const response = await axios.post('/api/journalReport?order=' + sortOrder + '&term_id=' + this.term_id + '&jtype_id=' + this.jtype_id +
-                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                     this.excelReport = 0;
                     return response.data.data;
                 } else {
                     const response = await  axios.post('/api/conferenceReport?order=' + sortOrder + '&term_id=' + this.term_id + '&conftype_id=' + this.conftype_id +
-                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&excelReport=' + this.excelReport);
+                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                     this.excelReport = 0;
 
                     return response.data.data;
@@ -478,7 +517,8 @@
                 if (this.paperType == 0) {
 
                     axios.post('/api/journalReport?order=' + sortOrder + '&term_id=' + this.term_id + '&jtype_id=' + this.jtype_id +
-                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status+'&faculty_id=' + this.faculty_id
+                        +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -493,7 +533,8 @@
                     });
                 } else {
                     axios.post('/api/conferenceReport?order=' + sortOrder + '&term_id=' + this.term_id + '&conftype_id=' + this.conftype_id +
-                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status + '&page=' + page + '&perPage=' + this.perPage)
+                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status +'&faculty_id=' + this.faculty_id
+                        +'&department_id=' + this.department_id+ '&page=' + page + '&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -511,9 +552,12 @@
 
             // gets necessary data for form like excerpts and conference types and journal types
             getPaperRelation(){
-                axios.get('/api/paperRelation')
+                axios.get('/api/paperReportRelation')
                     .then(response => {
                         this.conftypes = response.data.conftypes;
+                        this.jtypes = response.data.jtypes;
+                        this.faculties = response.data.faculties;
+                        this.departments = response.data.departments;
                         this.jtypes = response.data.jtypes;
                         this.terms = response.data.terms;
                     })
@@ -544,6 +588,9 @@
 
             this.getPaperRelation();
             //this.getResults();
+        },
+        components: {
+            Select2,
         }
     }
 </script>

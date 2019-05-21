@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\TEDChairRequest;
 use App\Http\Resources\TEDChairResource;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\TEDChair;
 use App\Models\TEDType;
 use App\Models\Term;
@@ -137,7 +139,7 @@ class TEDChairController extends Controller
         return TEDChairResource::collection($TEDChairs);
 
     }
-    public function tedChairRelation(){
+    public function tedChairRelation(Request $request){
         //$this->authorize('IsUserOrIsAdmin');
 
         $ted_types = TEDType::all()->map(function ($item){
@@ -146,7 +148,20 @@ class TEDChairController extends Controller
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('ted_types'=>$ted_types, 'terms'=>$termes));
+        if($request->is('api/tedChairReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('ted_types'=>$ted_types,
+                'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('ted_types'=>$ted_types, 'terms'=>$termes));
+        }
     }
 
     /**

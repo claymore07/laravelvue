@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\RefereeRequest;
 use App\Http\Resources\RefereeResource;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Referee;
 use App\Models\RefereeType;
 use App\Models\Term;
@@ -136,7 +138,7 @@ class RefereeController extends Controller
         return RefereeResource::collection($referees);
 
     }
-    public function refereeRelation(){
+    public function refereeRelation(Request $request){
         //$this->authorize('IsUserOrIsAdmin');
 
         $referee_types = RefereeType::all()->map(function ($item){
@@ -145,7 +147,20 @@ class RefereeController extends Controller
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        return Response::json(array('referee_types'=>$referee_types, 'terms'=>$termes));
+        if($request->is('api/refereeReportRelation')) {
+            $departments = Department::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            $faculties = Faculty::all()->map(function ($item){
+                return ['id'=> $item['id'], 'text'=>$item['name']];
+            })->toArray();
+            return Response::json(array('referee_types'=>$referee_types,
+                'terms'=> $termes, 'departments'=> $departments,
+                'faculties' => $faculties));
+
+        }else{
+            return Response::json(array('referee_types'=>$referee_types, 'terms'=>$termes));
+        }
     }
 
     /**
