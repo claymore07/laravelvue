@@ -44,6 +44,8 @@ let routes = [
     { path: '/projectReport', component: require('../components/Reports/ProjectReport.vue').default },
     { path: '/tedReport', component: require('../components/Reports/TEDReport.vue').default },
     { path: '/thesisReport', component: require('../components/Reports/ThesisReport.vue').default },
+    { path: '/grantReport', component: require('../components/Reports/GrantReport.vue').default },
+    { path: '/refereeReport', component: require('../components/Reports/RefereeReport.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

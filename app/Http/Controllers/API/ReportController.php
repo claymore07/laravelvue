@@ -4,17 +4,21 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Resources\BookReportResource;
 use App\Http\Resources\conferenceReportResource;
+use App\Http\Resources\GrantReportResource;
 use App\Http\Resources\InventionReportResource;
 use App\Http\Resources\JournalReportResource;
 use App\Http\Resources\ProjectReportResource;
+use App\Http\Resources\RefereeReportResource;
 use App\Http\Resources\TEDReportResource;
 use App\Http\Resources\ThesesReportResource;
 use App\Models\Book;
 use App\Models\Conference;
+use App\Models\Grant;
 use App\Models\Invention;
 use App\Models\Journal;
 use App\Models\Paper;
 use App\Models\Project;
+use App\Models\Referee;
 use App\Models\TEDChair;
 use App\Models\Thesis;
 use Illuminate\Http\Request;
@@ -40,9 +44,10 @@ class ReportController extends Controller
         $jtype_id = \Request::get('jtype_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
+        $faculty_id = \Request::get('faculty_id');
         $start_date = \Request::get('start_date');
         $end_date = \Request::get('end_date');
-        $journalQuery = Journal::with(['papers.profile','papers.authors','papers.excerpt','papers.term','jtype'])
+        $journalQuery = Journal::with(['papers.profile','papers.profile.faculty','papers.authors','papers.excerpt','papers.term','jtype'])
             ->whereHas('papers',function ($query) use($status, $term, $start_date,$end_date) {
                 if ( $term != 0) {
                      $query->where('term_id','=',$term);
@@ -59,7 +64,10 @@ class ReportController extends Controller
                 if ($jtype_id != 0) {
                      $query->where('id', $jtype_id)   ;
                 }
-            })
+            })->whereHas('papers.profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }})
              ->orderBy('created_at', 'desc');
 
              if(\Request::get('excelReport') !=0){
@@ -78,6 +86,7 @@ class ReportController extends Controller
         $conftype_id = \Request::get('conftype_id');
         $status = \Request::get('status');
         $term = \Request::get('term_id');
+        $faculty_id = \Request::get('faculty_id');
         $start_date = \Request::get('start_date');
         $end_date = \Request::get('end_date');
         //
@@ -98,6 +107,10 @@ class ReportController extends Controller
             if ($conftype_id != 0) {
                  $query->where('id', $conftype_id)   ;
             }
+        })->whereHas('papers.profile', function ($query) use ($faculty_id){
+                if ($faculty_id != 0) {
+                    $query->where('faculty_id', $faculty_id)   ;
+                }
         })
         ->orderBy('created_at', 'desc');
         if(\Request::get('excelReport') !=0){
@@ -296,6 +309,76 @@ class ReportController extends Controller
         }
         //return \Response::json(['books'=>$theses]);
         return ThesesReportResource::collection($theses);
+
+    }
+    public function refereesReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $referee_types_id = \Request::get('referee_type_id');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $refereeQuery = Referee::with(['profile','term','refereeType'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })->whereHas('refereeType', function ($query) use ($referee_types_id){
+                if ($referee_types_id != 0) {
+                    $query->where('id', $referee_types_id)   ;
+                }
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $referees =  $refereeQuery->get();
+        }else{
+            $referees =  $refereeQuery->paginate($this->perPage);
+        }
+        //return \Response::json(['books'=>$referees]);
+        return RefereeReportResource::collection($referees);
+
+    }
+
+    public function grantsReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $grantsQuery = Grant::with(['profile','term'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $grants =  $grantsQuery->get();
+        }else{
+            $grants =  $grantsQuery->paginate($this->perPage);
+        }
+       // return \Response::json(['books'=>$grants]);
+        return GrantReportResource::collection($grants);
 
     }
 

@@ -157,4 +157,6 @@ Route::post('inventionReport','API\ReportController@inventionReport');
 Route::post('projectReport','API\ReportController@projectReport');
 Route::post('tedReport','API\ReportController@tedReport');
 Route::post('thesesReport','API\ReportController@thesesReport');
+Route::post('grantsReport','API\ReportController@grantsReport');
+Route::post('refereesReport','API\ReportController@refereesReport');
 

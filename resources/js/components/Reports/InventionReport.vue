@@ -269,6 +269,7 @@
                 this.start_date='';
                 this.end_date='';
                 this.inventionType_id=0;
+                this.status=5;
                 this.perPage=5;
             },
             /* startDownload(){

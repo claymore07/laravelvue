@@ -428,13 +428,14 @@
             },
             resetForm(){
                 this.showReport =false;
-                    this.excelReport=0;
-                    this.term_id= 0;
-                    this.start_date='';
-                    this.end_date='';
-                    this.jtype_id=0;
-                    this.conftype_id=0;
-                    this.perPage=5;
+                this.excelReport=0;
+                this.term_id= 0;
+                this.start_date='';
+                this.end_date='';
+                this.jtype_id=0;
+                this.conftype_id=0;
+                this.status=5;
+                this.perPage=5;
             },
            /* startDownload(){
                 this.loader.show();

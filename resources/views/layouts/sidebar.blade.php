@@ -178,9 +178,9 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/grants" class="nav-link ">
+                    <router-link to="/grantReport" class="nav-link ">
                         <i class="nav-icon fal fa-dollar-sign nav-icon  "></i>
-                        <p>گرنت جذب شده</p>
+                        <p>گزارش گرنت</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -200,6 +200,13 @@
                     <router-link to="/thesisReport" class="nav-link ">
                         <i class="nav-icon fal fa-book-reader  "></i>
                         <p>گزارش پایان نامه ها</p>
+                    </router-link>
+                </li>
+
+                <li class="nav-item">
+                    <router-link to="/refereeReport" class="nav-link ">
+                        <i class="nav-icon fal fa-gavel nav-icon  "></i>
+                        <p>گزارش داوری ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
