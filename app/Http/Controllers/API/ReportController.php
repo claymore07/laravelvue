@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\BookletReportResource;
 use App\Http\Resources\BookReportResource;
 use App\Http\Resources\conferenceReportResource;
+use App\Http\Resources\CourseReportResource;
 use App\Http\Resources\GrantReportResource;
 use App\Http\Resources\InventionReportResource;
 use App\Http\Resources\JournalReportResource;
 use App\Http\Resources\ProjectReportResource;
 use App\Http\Resources\RefereeReportResource;
+use App\Http\Resources\RewardReportResource;
 use App\Http\Resources\TEDReportResource;
 use App\Http\Resources\ThesesReportResource;
 use App\Models\Book;
+use App\Models\Booklet;
 use App\Models\Conference;
+use App\Models\Course;
 use App\Models\Grant;
 use App\Models\Invention;
 use App\Models\Journal;
 use App\Models\Paper;
 use App\Models\Project;
 use App\Models\Referee;
+use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\Thesis;
 use Illuminate\Http\Request;
@@ -379,6 +385,104 @@ class ReportController extends Controller
         }
        // return \Response::json(['books'=>$grants]);
         return GrantReportResource::collection($grants);
+
+    }
+    public function rewardsReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $rewardsQuery = Reward::with(['profile','term'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $rewards =  $rewardsQuery->get();
+        }else{
+            $rewards =  $rewardsQuery->paginate($this->perPage);
+        }
+        //return \Response::json(['books'=>$rewards]);
+        return RewardReportResource::collection($rewards);
+
+    }
+
+    public function bookletsReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $bookletsQuery = Booklet::with(['profile','term'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $booklets =  $bookletsQuery->get();
+        }else{
+            $booklets =  $bookletsQuery->paginate($this->perPage);
+        }
+        //return \Response::json(['books'=>$booklets]);
+        return BookletReportResource::collection($booklets);
+
+    }
+
+    public function coursesReport(){
+
+        $this->perPage = \Request::get('perPage');
+        $status = \Request::get('status');
+        $term = \Request::get('term_id');
+        $start_date = \Request::get('start_date');
+        $end_date = \Request::get('end_date');
+        $coursesQuery = Course::with(['profile','term'])
+           ->where(function ($query) use($status, $term, $start_date,$end_date) {
+                if ( $term != 0) {
+                    $query->where('term_id','=',$term);
+                }
+                if ( $start_date != '' &&  $end_date != '') {
+                    $query->whereBetween('created_at',[$start_date, $end_date]);
+                }
+
+                if($status != 5){
+                    $query->where('status', '=' , $status);
+                }
+
+            })
+            ->orderBy('created_at', 'desc');
+
+        if(\Request::get('excelReport') !=0){
+            $courses =  $coursesQuery->get();
+        }else{
+            $courses =  $coursesQuery->paginate($this->perPage);
+        }
+        //return \Response::json(['books'=>$courses]);
+        return CourseReportResource::collection($courses);
 
     }
 

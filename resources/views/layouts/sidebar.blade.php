@@ -172,7 +172,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/rewardReport" class="nav-link ">
                         <i class="nav-icon fal fa-award  "></i>
                         <p>گزارش جوایز</p>
                     </router-link>
@@ -217,9 +217,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/courseReport" class="nav-link ">
                         <i class="nav-icon fal fa-users-class  "></i>
                         <p>گزارش دوره</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/bookletReport" class="nav-link ">
+                        <i class="nav-icon fal fa-presentation nav-icon  "></i>
+                        <p>گزارش جزوات یا اسلایدها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
