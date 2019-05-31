@@ -175,6 +175,10 @@ Route::post('personalReport','API\ReportController@personalReport');
 Route::post('dashboardReport','API\ReportController@dashboardReport');
 Route::post('dashboardStats','API\ReportController@dashboardStats');
 
+Route::post('userStats','API\ReportController@personalStats');
+Route::post('userChart','API\ReportController@personalChart');
+Route::post('userReport','API\ReportController@personalReport');
+
 // helper routes to get Report relations collections
 Route::get('paperReportRelation','API\PapersController@paperRelation');
 Route::get('bookReportRelation','API\BookController@bookRelation');

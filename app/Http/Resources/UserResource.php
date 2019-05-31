@@ -15,10 +15,13 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $name = '';
+        $hasProfile = '';
         if(!is_null($this->profile)){
             $name = $this->profile->Fname.' '.$this->profile->Lname;
+            $hasProfile = true;
         }else{
             $name = 'بدون نام';
+            $hasProfile = false;
         }
         return [
             'id' => $this->id,
@@ -26,6 +29,7 @@ class UserResource extends JsonResource
             'type' => $this->type,
             'photo' => $this->photo,
             'name' => $name,
+            'hasProfile' => $hasProfile,
             'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }

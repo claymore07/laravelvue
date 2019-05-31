@@ -46,6 +46,10 @@
                             <td>{{ user.type | upText }}</td>
                             <td>{{ user.created_at | myDate }}</td>
                             <td>
+                                <router-link :to="{ name: 'userView', params: { id: user.id }}">
+                                    <i class="fa fa-eye green"></i>
+                                </router-link>
+                                /
                                 <a href="#" @click="editModal(user)">
                                     <i class="fa fa-edit blue"></i>
                                 </a>
@@ -53,6 +57,8 @@
                                 <a href="#" @click="deleteUser(user.id)">
                                     <i class="fa fa-trash red"></i>
                                 </a>
+
+
                             </td>
                         </tr>
                         </tbody>

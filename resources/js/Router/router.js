@@ -11,6 +11,7 @@ let routes = [
     { path: '/dashboard', component: require('../components/Dashboard.vue').default },
     { path: '/profile', component: require('../components/User/Profile.vue').default },
     { path: '/users', component: require('../components/User/Users.vue').default },
+    { path: '/userView/:id', name:'userView',component: require('../components/User/UserView').default },
     { path: '/paperedit/:id', name:'paperedit',component: require('../components/Papers/PaperEdit.vue').default },
     { path: '/papers', component: require('../components/Papers/Papers.vue').default },
     { path: '/faculties', component: require('../components/Faculty/Faculties.vue').default },

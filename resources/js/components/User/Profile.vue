@@ -6,34 +6,15 @@
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header text-white text-right" style="height: 250px;background: url('/img/photo1.png') center center;">
                         <h3 class="widget-user-username">پروفایل: <span v-if="form.hasProfile">{{form.Fname + ' ' + form.Lname}}</span> <span v-else>{{form.name}} پروفایل ناقص</span></h3>
-                        <h5 v-if="this.form.type == 'admin'" class="widget-user-desc">مسئول سیستم</h5>
-                        <h5 v-else-if="this.form.type == 'author'" class="widget-user-desc">کارشناس</h5>
-                        <h5 v-else class="widget-user-desc">گاربر</h5>
+                        <h5 v-if="form.type == 'admin'" class="widget-user-desc">مسئول سیستم</h5>
+                        <h5 v-else-if="form.type == 'author'" class="widget-user-desc">کارشناس</h5>
+                        <h5 v-else class="widget-user-desc">کاربر</h5>
                     </div>
                     <div class="widget-user-image">
                         <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
                     </div>
                     <div class="card-footer">
                          <div class="row">
-                       <!--     <div class="col-sm-6 ">
-                                <div class="description-block">
-                                    <h5 class="description-header">{{3 | faDigit}}</h5>
-                                    <span class="description-text">تعداد مقالات</span>
-                                </div>
-                                <!-- /.description-block
-                            </div>
-                            <!-- /.col
-                            <div class="col-sm-6 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header">{{0 | faDigit}}</h5>
-                                    <span class="description-text">تایید شده</span>
-                                </div>
-                                <!-- /.description-block
-                            </div><!-- /.col-->
-
-
-
-
 
                         </div>
                         <!-- /.row-->
@@ -1184,7 +1165,7 @@
             },
             // loads the user profile photo if there is any or default photo
             getProfilePhoto(){
-                let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/"+ this.form.photo ;
+                let photo = (this.form.photo === 'profile.png') ? "/img/profile.png" : "/img/profile/"+ this.form.photo ;
                 return photo;
             },
             // gets the necessary data to initialize user forms

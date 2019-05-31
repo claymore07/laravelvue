@@ -1247,7 +1247,12 @@ class ReportController extends Controller
 
     public function personalChart(Request $request){
 
-        $user_id = \Auth::user()->id;
+        if($request->is('api/userChart')){
+            $user_id = $request->get('user_id');
+        }elseif('api/personalChart'){
+            $user_id = \Auth::user()->id;
+        }
+
 
         $query[] = Profile::where('user_id','=',$user_id)->join('papers','profiles.id','=','papers.profile_id')
             ->where('papers.status','=',1)->
@@ -1308,8 +1313,13 @@ class ReportController extends Controller
 
     }
     public function personalStats(Request $request){
+        if($request->is('api/userStats')){
+            $profile = Profile::where('user_id', '=',$request->get('user_id'))->first();
+            $profile_id = $profile->id;
+        }elseif('api/personalStats'){
+            $profile_id = \Auth::user()->profile->id;
+        }
 
-        $profile_id = \Auth::user()->profile->id;
         $role = \Auth::user()->type;
         $term = $request->get('term_id');
         $result['Journal'] = Journal::with(['paper'])
@@ -1390,8 +1400,13 @@ class ReportController extends Controller
 
     }
     public function personalReport(Request $request){
+        if($request->is('api/userReport')){
+            $profile = Profile::where('user_id', '=',$request->get('user_id'))->first();
+            $profile_id = $profile->id;
+        }elseif('api/personalReport'){
+            $profile_id = \Auth::user()->profile->id;
+        }
 
-        $profile_id = \Auth::user()->profile->id;
 
         $term = $request->get('term_id');
         $query_type = $request->get('query_type');

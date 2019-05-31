@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\UserResource;
 use App\Models\Degree;
 use App\Models\Department;
 use App\Models\Faculty;
@@ -21,7 +22,7 @@ use Session;
 
 class UserController extends Controller
 {
-    protected $perPage=5;
+    protected $perPage=15;
     /**
      * Create a new controller instance.
      *
@@ -161,6 +162,8 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        $user = User::with('profile')->findOrFail($id);
+        return new UserResource($user);
 
     }
     /**

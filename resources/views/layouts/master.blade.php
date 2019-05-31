@@ -71,7 +71,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="/img//profile/{{auth()->user()->photo}}" class="img-circle elevation-2" alt="User Image">
+                    @if(auth()->user()->photo != 'profile.png')
+                    <img src="/img/profile/{{auth()->user()->photo}}" class="img-circle elevation-2" alt="User Image">
+                        @else
+                        <img src="/img/profile.png" class="img-circle elevation-2" alt="User Image">
+
+                    @endif
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">{{ Auth::user()->profile->Fname   }} {{ Auth::user()->profile->Lname }}</a>
