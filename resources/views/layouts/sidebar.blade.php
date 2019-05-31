@@ -229,15 +229,21 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
+                    <router-link to="/facultyStats" class="nav-link ">
                         <i class="nav-icon fal fa-university  "></i>
-                        <p>گزارش دانشکده ها</p>
+                        <p>گزارش نموداری دانشکده ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/notready" class="nav-link ">
-                        <i class="nav-icon fal fa-building  "></i>
-                        <p>گزارش گروه های آموزشی</p>
+                    <router-link to="/positionStats" class="nav-link ">
+                        <i class="nav-icon fal fa-user-friends  "></i>
+                        <p>گزارش نموداری نوع همکاری</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/typesStats" class="nav-link ">
+                        <i class="nav-icon fal fa-badge-check  "></i>
+                        <p>گزارش نموداری نوع آثار</p>
                     </router-link>
                 </li>
 

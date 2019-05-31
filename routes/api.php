@@ -163,6 +163,18 @@ Route::post('rewardsReport','API\ReportController@rewardsReport');
 Route::post('bookletsReport','API\ReportController@bookletsReport');
 Route::post('coursesReport','API\ReportController@coursesReport');
 
+// stats report
+Route::post('termsList','API\ReportController@termsList');
+Route::post('termStats','API\ReportController@termStats');
+Route::post('facultyStats','API\ReportController@facultyStats');
+Route::post('positionStats','API\ReportController@positionStats');
+Route::post('typesStats','API\ReportController@typesStats');
+Route::post('personalStats','API\ReportController@personalStats');
+Route::post('personalChart','API\ReportController@personalChart');
+Route::post('personalReport','API\ReportController@personalReport');
+Route::post('dashboardReport','API\ReportController@dashboardReport');
+Route::post('dashboardStats','API\ReportController@dashboardStats');
+
 // helper routes to get Report relations collections
 Route::get('paperReportRelation','API\PapersController@paperRelation');
 Route::get('bookReportRelation','API\BookController@bookRelation');
@@ -175,3 +187,5 @@ Route::get('inventionReportRelation','API\InventionController@inventionRelation'
 Route::get('rewardReportRelation','API\RewardController@rewardRelation');
 Route::get('courseReportRelation','API\CourseController@courseRelation');
 Route::get('grantReportRelation','API\GrantController@grantRelation');
+
+

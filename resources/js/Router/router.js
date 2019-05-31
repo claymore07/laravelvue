@@ -49,6 +49,9 @@ let routes = [
     { path: '/rewardReport', component: require('../components/Reports/RewardReport.vue').default },
     { path: '/bookletReport', component: require('../components/Reports/BookletReport.vue').default },
     { path: '/courseReport', component: require('../components/Reports/CourseReport.vue').default },
+    { path: '/facultyStats', component: require('../components/Reports/FacultyStats.vue').default },
+    { path: '/positionStats', component: require('../components/Reports/PositionStats.vue').default },
+    { path: '/typesStats', component: require('../components/Reports/TypeStats.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

@@ -17,6 +17,7 @@ class TEDReportResource extends JsonResource
     {
         $name = $this->profile->Fname.' '.$this->profile->Lname;
         $resource = [
+            'id' => $this->id,
             'title' => $this->title,
             'ted_type_name' => $this->TEDType->name,
             'Author_name'=> $name,

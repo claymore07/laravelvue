@@ -35,6 +35,7 @@ class conferenceReportResource extends JsonResource
             $license_to = '-';
         }
         return [
+            'id' => $this->id,
             'title' => $paper->title,
             'Authors' => $authors_name,
             'Author_name'=> $name,

@@ -26,7 +26,7 @@ class ProjectReportResource extends JsonResource
             }
         }
         $resource = [
-
+            'id' => $this->id,
             'title' => $this->title,
             'Authors' => $authors_name,
             'Author_name'=> $name,

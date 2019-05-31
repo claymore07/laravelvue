@@ -17,6 +17,7 @@ class BookletReportResource extends JsonResource
     {
         $name = $this->profile->Fname.' '.$this->profile->Lname;
         $resource = [
+            'id' => $this->id,
             'title' => $this->title,
             'name' => $this->name,
             'Author_name'=> $name,

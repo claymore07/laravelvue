@@ -669,3 +669,29 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
         width: 100%;
     }
 }
+
+.apexcharts-legend-marker,.apexcharts-tooltip-marker{
+    margin-left: 5px !important;
+    margin-right: 0 !important;
+    //
+}
+.apexcharts-tooltip-title,.apexcharts-tooltip-text, .apexcharts-title-text{
+    font-family: IRANSans, Arial !important;
+}
+.apexcharts-tooltip, .apexcharts-legend {
+    direction: rtl !important;
+    text-align: right !important;
+}
+.apexcharts-zoom-icon, .apexcharts-zoom-in-icon, .apexcharts-zoom-out-icon, .apexcharts-reset-zoom-icon, .apexcharts-pan-icon, .apexcharts-selection-icon, .apexcharts-menu-icon, .apexcharts-toolbar-custom-icon {
+    cursor: pointer;
+    width: 25px !important;
+    height: 25px !important;
+    line-height: 28px !important;
+
+}
+.apexcharts-legend {
+    top:35px;
+}
+.table-sm{
+    font-size: 0.77rem !important;
+}

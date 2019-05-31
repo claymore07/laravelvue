@@ -15,6 +15,9 @@ import JsonExcel from 'vue-json-excel'
 
 Vue.component('downloadExcel', JsonExcel)
 var VueTruncate = require('vue-truncate-filter')
+import VueApexCharts from 'vue-apexcharts'
+
+Vue.component('apexchart', VueApexCharts)
 import User from './Helpers/User';
 import moment from 'moment';
 import jmoments from 'moment-jalaali';

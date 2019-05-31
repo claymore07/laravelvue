@@ -26,6 +26,7 @@ class BookReportResource extends JsonResource
             }
         }
         $resource = [
+            'id' => $this->id,
             'title' => $this->title,
             'Author_name'=> $name,
             'Authors' => $authors_name,

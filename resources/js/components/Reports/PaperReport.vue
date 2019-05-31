@@ -132,7 +132,7 @@
 
                         <div v-if="showReport" class="card-body table-responsive p-0 table-sm my-5">
 
-                            <table v-if="paperType === 0" class="table  table-striped table-hover text-right">
+                            <table v-if="paperType === 0" class="table table-sm  table-striped table-hover text-right">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>شماره</th>
@@ -177,7 +177,6 @@
                                     <td>{{ paper.Author_name }}</td>
                                     <td>{{ paper.faculty }}</td>
                                     <td>{{ paper.department }}</td>
-                                    <td>{{ paper.Author_name }}</td>
                                     <td>{{ paper.lang }}</td>
                                     <td>{{ paper.paper_type }}</td>
                                     <td >{{paper.journal_name | truncate(50)}} </td>
@@ -203,7 +202,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <table v-if="paperType === 1" class="table  table-striped table-hover text-right">
+                            <table v-if="paperType === 1" class="table table-sm  table-striped table-hover text-right">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>شماره</th>

@@ -17,6 +17,7 @@ class RewardReportResource extends JsonResource
     {
         $name = $this->profile->Fname.' '.$this->profile->Lname;
         $resource = [
+            'id' => $this->id,
             'name' => $this->name,
             'title' => $this->title,
             'Author_name'=> $name,

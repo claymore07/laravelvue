@@ -13,6 +13,9 @@ class Conference extends Model
     public function papers(){
         return $this->morphMany('App\Models\Paper', 'paperable');
     }
+    public function paper(){
+        return $this->morphOne('App\Models\Paper', 'paperable');
+    }
 
     //backward
     public function conftype(){
