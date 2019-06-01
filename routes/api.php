@@ -50,9 +50,11 @@ Route::apiResources([
     'booklet'=>'API\BookletController',
     'invention'=>'API\InventionController',
     'grant'=>'API\GrantController',
+    'blacklist'=>'API\BlackListController',
 ]);
 
 Route::get('profile','API\UserController@profile');
+Route::post('blacklistimport','API\BlackListController@import');
 
 // post route for update instead of PUT and Patch
 
@@ -96,6 +98,7 @@ Route::get('findGrant','API\GrantController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
+Route::get('findBlackList','API\BlackListController@search');
 
 // CheckList Routes
 Route::post('paperCheckList','API\CheckListController@store');

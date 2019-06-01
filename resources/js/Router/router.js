@@ -19,6 +19,7 @@ let routes = [
     { path: '/developer', component: require('../components/Developer.vue').default },
     { path: '/score', component: require('../components/Score/Scores.vue').default },
     { path: '/term', component: require('../components/Term/Terms.vue').default },
+    { path: '/blacklist', component: require('../components/BlackList/BlackLists.vue').default },
     { path: '/thesis', component: require('../components/Thesis/Thesis.vue').default },
     { path: '/thesisEdit/:id', name:'thesisEdit', component: require('../components/Thesis/ThesisEdit.vue').default },
     { path: '/books', component: require('../components/Books/Books.vue').default },

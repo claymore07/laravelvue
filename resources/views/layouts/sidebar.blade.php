@@ -141,7 +141,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/not-ready" class="nav-link ">
+                    <router-link to="/blacklist" class="nav-link ">
                         <i class="nav-icon fal fa-shield-check  "></i>
                         <p>لیست مجلات غیرمجاز</p>
                     </router-link>

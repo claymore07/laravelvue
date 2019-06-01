@@ -357,7 +357,7 @@
                 }
             },
             bookletsValidation(){
-                console.log('asdasd')
+
                 return this.$validator.validateAll('form').then(result => {
                     if (!result) {
                         this.errorSwal('اطلاعات جزوه یا اسلاید دارای خطا می باشد!');
