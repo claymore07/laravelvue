@@ -265,6 +265,45 @@
                             </p-check>
                         </td>
                     </tr>
+                    <tr v-if="jourType ">
+                        <td class="font-16">
+                            <span class="blue ">بررسی بلک لیست:</span>
+                            <span class="mr-3 text-success" v-if="!blacklistFlag"> در لیست سیاه قرار ندارد</span>
+                            <span class="mr-3 text-danger" v-else> در لیست سیاه قرار دارد</span>
+                            <a v-if="blacklistFlag" class="btn btn-outline-danger" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                مشاهده اطلاعات مجله
+                            </a>
+                            <div v-if="blacklistFlag" class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <table class="table table-hover text-right">
+                                        <tbody>
+                                        <tr>
+
+                                            <th>عنوان مجله</th>
+                                            <th>ISSN</th>
+                                            <th>نمایه</th>
+                                            <th>آدرس اصلی</th>
+                                            <th>آدرس جعلی</th>
+                                            <th >تاریخ ثبت</th>
+                                        </tr>
+
+                                        <tr >
+                                            <td>{{ paper.blacklist.title | truncate(40) }}</td>
+                                            <td>{{  paper.blacklist.issn }}</td>
+                                            <td>{{  paper.blacklist.indexing  }}</td>
+                                            <td><a :href="paper.blacklist.url" target="_blank" class="btn btn-sm btn-success">مشاهده</a></td>
+                                            <td><a :href="paper.blacklist.fake" target="_blank" class="btn btn-sm btn-warning">مشاهده</a></td>
+                                            <td>{{ paper.blacklist.created_at | myDate  }}</td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
                       <tr v-if="jourType">
                          <td class="font-16">
                              <span class="blue ">نام ناشر:</span>
@@ -900,13 +939,17 @@
                                         <input    type="text" name="issn"
                                                   placeholder="1111-1111"
                                                   v-mask="'####-###X'"
+                                                  @keyup="blacklistCheck()"
                                                   v-validate="'required'"
                                                   class="form-control" v-model="form.issn"
                                                   :class="[( errors.has('form2.issn') || form.errors.has('issn') ? 'is-invalid': ''  ) ]"
                                         >
-                                        <i v-show="errors.has('form2.issn') || form.errors.has('issn')" class="red far fa-exclamation-triangle"></i>
+                                        <i v-show="errors.has('form2.issn') || form.errors.has('issn')|| formBlacklistFlag" class="red far fa-exclamation-triangle"></i>
                                         <span v-show="errors.has('form2.issn')" class="red d-inline-block">{{ errors.first('form2.issn') }}</span>
                                         <span v-show="form.errors.has('issn')" class="red d-inline-block">{{ form.errors.get('issn') }}</span>
+
+                                        <span v-if="formBlacklistFlag === true" class="red d-inline-block">مجله مورد نظر در لیست سیاه قرار دارد!</span>
+
                                     </div>
 
                                     <div class="form-group my-3 text-right">
@@ -1105,6 +1148,8 @@
                 jtypes:[],          // conference type list
                 terms:[],
                 fileName:[],        // For UI rendering and displaying the choosen file Names
+                blacklistFlag:false,
+                formBlacklistFlag:false,
                 attachments:[],
                 paperType:'',
                 author:'',
@@ -1145,6 +1190,7 @@
                     jtype_id:'',
                     jname:'',
                     publisher:'',
+                    blacklist_id:'',
                     issn:'',
                     pissn:'',
                     IFactor:'',
@@ -1172,6 +1218,18 @@
           },
         },
         methods:{
+
+            blacklistCheck(){
+                if(this.form.issn.length ===9){
+                    axios.get('/api/blackListCheck?q=' + this.form.issn )
+                        .then(response => {
+                            this.form.blacklist_id = response.data.data.id;
+                            this.formBlacklistFlag = response.data.flag;
+                        }).catch(error => {
+
+                    });
+                }
+            },
             deleteCheckListItem(id, index) {
 
                 if(this.checkListItems.length > 1){
@@ -1340,6 +1398,11 @@
 
                 this.form.fill(this.paper);
                 this.form.paperType = this.paper.type;
+                if(this.paper.blacklistFlag){
+                    this.form.blacklist_id = this.paper.blacklist.id;
+                    this.blacklistFlag = this.paper.blacklistFlag;
+                    this.formBlacklistFlag = this.paper.blacklistFlag;
+                }
                 this.form.fileChangeType = '';
                 this.form.authors = [];
                 this.form.affiliations = [];

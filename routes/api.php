@@ -99,6 +99,7 @@ Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
 Route::get('findBlackList','API\BlackListController@search');
+Route::get('blackListCheck','API\BlackListController@blackListCheck');
 
 // CheckList Routes
 Route::post('paperCheckList','API\CheckListController@store');

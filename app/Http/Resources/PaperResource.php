@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BlackList;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -34,6 +35,13 @@ class PaperResource extends JsonResource
                 $checkList[$key]['list'] = explode(",",$item['list']);
             }
             if($this->paperable_type == 'App\Models\Journal'){
+                $blacklistFlag = false;
+                if($this->paperable->blacklist_id != null){
+                    $blacklistFlag = true;
+                    $blacklist = new BlackListResource(BlackList::where('id','=',$this->paperable->blacklist_id)->first());
+                }else{
+                    $blacklist = null;
+                }
                 $resource = [
                     'id' => $this->id,
                     'title' => $this->title,
@@ -56,6 +64,8 @@ class PaperResource extends JsonResource
                     'accept_date' => $this->accept_date,
                     'name' => $this->paperable->name,
                     'publisher' => $this->paperable->publisher,
+                    'blacklist' =>$blacklist,
+                    'blacklistFlag' =>$blacklistFlag,
                     'IFactor' => $this->paperable->IFactor != null ? $this->paperable->IFactor : '',
                     'FIF' => $this->paperable->FIF != null ? $this->paperable->FIF : '',
                     'JRK' => $this->paperable->JRK != null ? $this->paperable->JRK : '',

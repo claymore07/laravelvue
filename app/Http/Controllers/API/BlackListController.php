@@ -43,6 +43,22 @@ class BlackListController extends Controller
             ->paginate($this->perPage);
         return BlackListResource::collection($blacklists);
     }
+    public function blackListCheck(Request $request){
+
+        $search = $request->get('q');
+
+        $blacklist = BlackList::where('issn', 'LIKE',"%$search%")
+            ->first();
+        $flag = false;
+        if(!is_null($blacklist)){
+            $flag = true;
+            return \Response::json(['data' =>new BlackListResource($blacklist),'flag'=>$flag],200);
+        }else{
+            $flag = false;
+            return \Response::json(['data' =>'','flag'=>$flag],200);
+        }
+
+    }
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse

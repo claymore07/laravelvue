@@ -428,13 +428,15 @@
                                                 <input    type="text" name="issn"
                                                         placeholder="1111-1111"
                                                         v-mask="'####-###X'"
+                                                          @change="blacklistCheck()"
                                                         v-validate="'required'"
                                                         class="form-control" v-model="form.issn"
                                                         :class="[( errors.has('form2.issn') || form.errors.has('issn') ? 'is-invalid': ''  ) ]"
                                                 >
-                                                <i v-show="errors.has('form2.issn') || form.errors.has('issn')" class="red far fa-exclamation-triangle"></i>
+                                                <i v-show="errors.has('form2.issn') || form.errors.has('issn') || blacklistFlag" class="red far fa-exclamation-triangle"></i>
                                                 <span v-show="errors.has('form2.issn')" class="red d-inline-block">{{ errors.first('form2.issn') }}</span>
                                                 <span v-show="form.errors.has('issn')" class="red d-inline-block">{{ form.errors.get('issn') }}</span>
+                                                <span v-if="blacklistFlag === true" class="red d-inline-block">مجله مورد نظر در لیست سیاه قرار دارد!</span>
                                             </div>
 
                                             <div class="form-group my-3 text-right">
@@ -623,6 +625,7 @@
                 attachments:[],
                 paperType:'',
                 paperSelected:'',
+                blacklistFlag:false,
                 author:'',
                 affiliation:'',
                 f:new FormData, // creates the new FormData object to store selected files data
@@ -649,6 +652,7 @@
                     jname:'',
                     publisher:'',
                     issn:'',
+                    blacklist_id:'',
                     pissn:'',
                     IFactor:'',
                     FIF:'',
@@ -679,6 +683,17 @@
               }else{
                   this.form.paperType='conf';
               }
+            },
+            blacklistCheck(){
+                if(this.form.issn.length ===9){
+                    axios.get('/api/blackListCheck?q=' + this.form.issn )
+                        .then(response => {
+                            this.form.blacklist_id = response.data.data.id;
+                            this.blacklistFlag = response.data.flag;
+                        }).catch(error => {
+
+                    });
+                }
             },
             // if the all paper submission validate it will submit the data to server
             onComplete: function(){

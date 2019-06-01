@@ -200,7 +200,7 @@ class PapersController extends Controller
                 $paperType = $request->paperType;
                 if ($paperType == 'jur') {
                     $request['name'] = $request->jname;
-                    $journal_db = Journal::create($request->all(['jtype_id', 'name', 'publisher', 'issn', 'pissn', 'IFactor', 'FIF',
+                    $journal_db = Journal::create($request->all(['jtype_id', 'name', 'publisher','blacklist_id', 'issn', 'pissn', 'IFactor', 'FIF',
                         'JRK', 'JCR']));
                     $paper_db = $journal_db->papers()->create($request->all());
                 } else {
@@ -280,7 +280,7 @@ class PapersController extends Controller
             $paperType = $request->paperType;
            if ($paperType == 'jur') {
                $request['name'] = $request->jname;
-                $paper_db->paperable->update($request->all(['jtype_id','name','publisher','issn','pissn', 'IFactor','FIF',
+                $paper_db->paperable->update($request->all(['jtype_id','name','publisher','blacklist_id','issn','pissn', 'IFactor','FIF',
                     'JRK', 'JCR']));
             } else {
                $request['name'] = $request->confname;
