@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers\API;
 
+
 use App\Http\Resources\UserResource;
+use App\Models\Book;
+use App\Models\Booklet;
+use App\Models\Conference;
+use App\Models\Course;
 use App\Models\Degree;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Http\Requests\UserRequest;
+use App\Models\Grant;
+use App\Models\Invention;
+use App\Models\Journal;
 use App\Models\Member;
 use App\Models\Position;
 use App\Models\Profile;
+use App\Models\Project;
 use App\Models\Rank;
+use App\Models\Referee;
+use App\Models\Reward;
+use App\Models\TEDChair;
+use App\Models\Thesis;
 use DB;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
@@ -19,6 +32,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Response;
 use Session;
+use niklasravnsborg\LaravelPdf\PdfWrapper;
+use PDF;
 
 class UserController extends Controller
 {
@@ -31,6 +46,106 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+    }
+    public function presonalExportPdf(Request $request){
+        if($request->is('api/userExportPdf')){
+            $user = User::with(['profile'])->where('id', '=',$request->get('user_id'))->first();
+            $profile_id = $user->profile->id;
+        }elseif('api/presonalExportPdf'){
+            $user = \Auth::user()->load('profile');
+            $profile_id = $user->profile->id;
+        }
+        $term = $request->get('term_id');
+
+        $journals = Journal::with(['paper','jtype','paper.authors','paper.excerpt'])
+            ->whereHas('paper',function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+            })->get();
+
+        $conferences = Conference::with(['paper', 'conftype','paper.authors','paper.excerpt'])
+            ->whereHas('paper',function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+            })->get();
+
+        $books = Book::with(['booktype','authors','excerpt'])
+            ->where(function ($query) use ($profile_id, $term) {
+            $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
+        $projects = Project::with(['projectType','authors'])
+            ->where(function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
+
+        $inventions = Invention::with(['inventionType'])
+            ->where(function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
+        $referes = Referee::with(['refereeType'])
+            ->where(function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
+        $teds= TEDChair::with(['TEDType'])
+            ->where(function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
+        $theses = Thesis::with(['thesisType'])
+            ->where(function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
+        $rewards = Reward::where(function ($query) use ($profile_id, $term) {
+            $query->where('profile_id',$profile_id);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
+            }
+        })->get();
+        $grants = Grant::where(function ($query) use ($profile_id, $term) {
+            $query->where('profile_id',$profile_id);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
+            }
+        })->get();
+        $courses = Course::where(function ($query) use ($profile_id, $term) {
+            $query->where('profile_id',$profile_id);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
+            }
+        })->get();
+        $booklets = Booklet::with(['degree'])->where(function ($query) use ($profile_id, $term) {
+            $query->where('profile_id',$profile_id);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
+            }
+        })->get();
+        $pdf = PDF::loadView('presonalExportPdf', compact('user','journals','conferences',
+            'books', 'projects','inventions','referes','teds','theses','rewards',
+            'grants','courses', 'booklets'))->download('FILE.pdf');
+       /* $pdf->loadView('pdf',compact('data'),[],[
+            'mode' => 'utf-8', 'format' => 'A4'
+        ])->download('FILE_NAME.pdf');*/
     }
     /**
      * Display a listing of the resource.

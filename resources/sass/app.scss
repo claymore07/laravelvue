@@ -695,3 +695,10 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 .table-sm{
     font-size: 0.77rem !important;
 }
+.select2-container .select2-search--inline .select2-search__field{
+    border: none !important;
+    direction: rtl;
+}
+.select2-container .select2-search--inline, .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice{
+    float: right !important;
+}

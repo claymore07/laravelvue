@@ -19,72 +19,78 @@
                             <button  @click="changePaperType(1)" type="button" class="btn btn-lg btn-success mr-3 mt-2"><i v-if="paperType === 1" class="fal fa-check text-white ml-3"></i>گزارش مقالات کنفرانسی</button>
 
                         </div>
-                        <div class="row justify-content-start no-gutters mt-3">
+                        <div class="row  justify-content-start no-gutters mt-3">
 
-                            <div class="col-lg-3  mt-3 mr-2" >
+                            <div class="col-lg-4  mt-3" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
-                                    <select  v-model="term_id" class="custom-select">
-                                        <option selected value="0">تمام ترم ها</option>
-                                        <option v-for="term in terms" :value="term.id" :key="term.id">{{term.text}}</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="term_id"
+                                              v-model="term_id"
+                                              :options="terms"
+
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
+                                    </Select2>
                                 </div>
                             </div>
-                            <div class="col-lg-3  mt-3 mr-2" >
+                            <div class="col-lg-4  mt-3" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">وضعیت بررسی :</label>
                                     <!-- @change="searchit" -->
-                                    <select  v-model="status" class="custom-select">
-                                        <option value="5">همه</option>
-                                        <option value="0">بررسی نشده</option>
-                                        <option value="4">اصلاح شده</option>
-                                        <option value="1">تایید شده</option>
-                                        <option value="2">عدم تایید موقت</option>
-                                        <option value="3">عدم تایید قطعی</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="status"
+                                              v-model="status"
+                                              :options="statuses"
+
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب وضعیت بررسی', width: '100%' ,multiple: true}">
+                                    </Select2>
+
                                 </div>
                             </div>
-                            <div v-if="paperType == 0" class="col-lg-3  mt-3 mr-2" >
+                            <div v-if="paperType == 0" class="col-lg-4  mt-3 " >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع مجله :</label>
                                     <!-- @change="searchit" -->
-                                    <select  v-model="jtype_id" class="custom-select">
-                                        <option selected value="0">تمام مجلات</option>
-                                        <option v-for="jtype in jtypes" :value="jtype.id" :key="jtype.id">{{jtype.text}}</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="jtype_id"
+                                              v-model="jtype_id"
+                                              :options="jtypes"
+
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب نوع مجله', width: '100%' ,multiple: true}">
+                                    </Select2>
                                 </div>
                             </div>
 
-                            <div v-if="paperType == 1" class="col-lg-3  mt-3 mr-2" >
+                            <div v-if="paperType == 1" class="col-lg-4  mt-3 " >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع کنفرانس :</label>
                                     <!-- @change="searchit" -->
-                                    <select  v-model="conftype_id" class="custom-select">
-                                        <option selected value="0">تمام کنفرانس ها</option>
-                                        <option v-for="conftype in conftypes" :value="conftype.id" :key="conftype.id">{{conftype.text}}</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="conftype_id"
+                                              v-model="conftype_id"
+                                              :options="conftypes"
+
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب نوع کنفرانس', width: '100%' ,multiple: true}">
+                                    </Select2>
                                 </div>
                             </div>
-                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                            <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">نام دانشکده:</label>
-                                <Select2 class="form-control select2-form-control" id="faculty_id"
+                                <Select2  class="form-control select2-form-control" id="faculty_id"
                                          v-model="faculty_id"
                                          :options="faculties"
-                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%',multiple: true}">
+                                    <!-- ,multiple: true  --->
                                 </Select2>
                             </div>
-                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                            <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">گروه آموزشی:</label>
                                 <Select2 class="form-control select2-form-control" id="department_id"
                                          v-model="department_id"
                                          :options="departments"
-                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' ,multiple: true}">
                                 </Select2>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 mt-3  mr-2">
+                            <div class="col-lg-4 mt-3  ">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
 
@@ -92,7 +98,7 @@
                                     <date-picker format="YYYY-MM-DD" v-model="start_date" name="start_date" locale="fa,en"></date-picker>
                                 </div>
                             </div>
-                            <div class="col-lg-3 mt-3  mr-2">
+                            <div class="col-lg-4 mt-3  ">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تا تاریخ :</label>
 
@@ -110,7 +116,7 @@
                                 class   = "btn btn-secondary mr-3 mt-2 btn-lg"
                                 :fetch="getExcel"
                                 :meta="json_meta"
-                                :fields="journal_fields"
+                                :exportFields="journal_fields"
 
                                 worksheet = "My Worksheet"
                                 name    = "journals.xls">
@@ -120,7 +126,7 @@
                                 class   = "btn btn-secondary mr-3 mt-2 btn-lg"
                                 :fetch="getExcel"
                                 :meta="json_meta"
-                                :fields="conf_fields"
+                                :exportFields="conf_fields"
 
                                 worksheet = "My Worksheet"
                                 name    = "conference.xls">
@@ -143,7 +149,7 @@
                                         <th>نام گروه</th>
                                         <th>زبان مقاله</th>
                                         <th>نوع مقاله</th>
-                                        <th>عنوان ژونال</th>
+                                        <th>عنوان ژورنال</th>
                                         <th>نام ناشر</th>
                                         <th>نوع ژورنال</th>
                                         <th>نوع مستخرج بودن</th>
@@ -236,7 +242,7 @@
                                 <tbody>
 
                                 <tr v-if="papers.length <= 0">
-                                    <td colspan="19"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="21"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(paper, index) in papers" :key="paper.id">
                                     <td>{{counter(index) | faDigit}}</td>
@@ -294,14 +300,14 @@
         name: "PaperReport",
         data(){
             return{
-                status:5,
+                status:[],
                 allData :{},
                 papers:[],
-                jtypes:{},
-                conftypes:{},
+                jtypes:[],
+                conftypes:[],
                 faculties:[],
                 departments:[],
-                terms:{},
+                terms:[],
 
                 order: 1,       // order 1 for desc and 0  for asc
                 total: 0,       // total number of papers
@@ -312,16 +318,22 @@
                 paperType:0,
                 showReport: false,
                 excelReport:0,
-                term_id: 0,
+                term_id: [],
                 start_date:'',
                 end_date:'',
-                jtype_id:0,
-                conftype_id:0,
-                faculty_id:0,
-                department_id:0,
+                jtype_id:[],
+                conftype_id:[],
+                faculty_id:[],
+                department_id:[],
                 perPage:5,
                 loader : Vue.$loading,
-
+                statuses:[
+                    {id:0, text:'بررسی نشده'},
+                    {id:4, text:'اصلاح شده'},
+                    {id:1, text:'تایید شده'},
+                    {id:2, text:'عدم تایید موقت'},
+                    {id:3, text:'عدم تایید قطعی'},
+                ],
                 journal_fields:{
                     'عنوان مقاله' : 'title',
                     'نام نویسندگان' : 'Authors',
@@ -451,6 +463,7 @@
             //  changes the paper Type and sets form.lang and form.paperType
             changePaperType(Selected) {
                 this.paperType = Selected;
+                this.resetForm();
             },
             searchit(){
                 this.$parent.searchit();
@@ -465,14 +478,14 @@
             resetForm(){
                 this.showReport =false;
                 this.excelReport=0;
-                this.term_id= 0;
+                this.term_id= [];
                 this.start_date='';
                 this.end_date='';
-                this.jtype_id=0;
-                this.conftype_id=0;
-                this.faculty_id=0;
-                this.department_id=0;
-                this.status=5;
+                this.jtype_id=[];
+                this.conftype_id=[];
+                this.faculty_id=[];
+                this.department_id=[];
+                this.status=[];
                 this.perPage=5;
             },
            /* startDownload(){

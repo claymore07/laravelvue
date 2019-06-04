@@ -56,42 +56,41 @@ class ReportController extends Controller
         $this->perPage=5;
     }
 
-    public function journalReport(){
+    public function journalReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $jtype_id = \Request::get('jtype_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $jtype_id = $request->get('jtype_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
         $journalQuery = Journal::with(['papers.profile','papers.profile.faculty','papers.authors','papers.excerpt','papers.term','jtype'])
             ->whereHas('papers',function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                     $query->where('term_id','=',$term);
-                 }
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
                  if ( $start_date != '' &&  $end_date != '') {
                      $query->whereBetween('created_at',[$start_date, $end_date]);
                  }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
+                if (isset($status)) {
+                    $query->whereIn('status',  explode(',',$status));
                 }
-
             })->whereHas('jtype', function ($query) use ($jtype_id){
-                if ($jtype_id != 0) {
-                     $query->where('id', $jtype_id)   ;
+                if (isset($jtype_id)) {
+                    $query->whereIn('id',  explode(',',$jtype_id));
                 }
             })->whereHas('papers.profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('papers.profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
-            })->orderBy('created_at', 'desc');
+            })->orderBy('created_at', $order);
 
              if(\Request::get('excelReport') !=0){
                  $journalPapers =  $journalQuery->get();
@@ -102,43 +101,43 @@ class ReportController extends Controller
        return JournalReportResource::collection($journalPapers);
 
    }
-    public function conferenceReport(){
+    public function conferenceReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $conftype_id = \Request::get('conftype_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $conftype_id = $request->get('conftype_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
         //
         //\DB::enableQueryLog();
         $conferenceQuery = Conference::with(['papers.profile','papers.authors','papers.excerpt','papers.term','conftype'])
             ->whereHas('papers',function ($query) use ($term, $status, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
                 }
                 if ( $start_date != '' &&  $end_date != '') {
                     $query->whereBetween('created_at',[$start_date, $end_date]);
                 }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
+                if (isset($status)) {
+                    $query->whereIn('status',  explode(',',$status));
                 }
         })->whereHas('conftype', function ($query) use ($conftype_id){
-            if ($conftype_id != 0) {
-                 $query->where('id', $conftype_id)   ;
-            }
+                if (isset($conftype_id)) {
+                    $query->whereIn('id',  explode(',',$conftype_id));
+                }
         })->whereHas('papers.profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
         })->whereHas('papers.profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
-            })->orderBy('created_at', 'desc');
+            })->orderBy('created_at', $order);
         if(\Request::get('excelReport') !=0){
             $conferencePapers =  $conferenceQuery->get();
         }else{
@@ -149,43 +148,43 @@ class ReportController extends Controller
         return conferenceReportResource::collection($conferencePapers);
 
     }
-    public function bookReport(){
+    public function bookReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $bookType_id = \Request::get('bookType_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $bookType_id = $request->get('bookType_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
         $bookQuery = Book::with(['profile','authors','excerpt','term','booktype'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
             })->whereHas('booktype', function ($query) use ($bookType_id){
-                if ($bookType_id != 0) {
-                    $query->where('id', $bookType_id)   ;
+                if (isset($bookType_id)) {
+                    $query->whereIn('id',  explode(',',$bookType_id));
                 }
             })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $books =  $bookQuery->get();
@@ -196,43 +195,44 @@ class ReportController extends Controller
         return BookReportResource::collection($books);
 
     }
-    public function inventionReport(){
+    public function inventionReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $inventionType_id = \Request::get('inventionType_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $inventionType_id = $request->get('inventionType_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $inventionQuery = Invention::with(['profile','term','inventionType'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
             })->whereHas('inventionType', function ($query) use ($inventionType_id){
-                if ($inventionType_id != 0) {
-                    $query->where('id', $inventionType_id)   ;
+                if (isset($inventionType_id)) {
+                    $query->whereIn('id',  explode(',',$inventionType_id));
                 }
             })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $inventions =  $inventionQuery->get();
@@ -243,43 +243,44 @@ class ReportController extends Controller
         return InventionReportResource::collection($inventions);
 
     }
-    public function projectReport(){
+    public function projectReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $projectType_id = \Request::get('project_type_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $projectType_id = $request->get('project_type_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $projectQuery = Project::with(['profile','term','authors','projectType'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
             })->whereHas('projectType', function ($query) use ($projectType_id){
-                if ($projectType_id != 0) {
-                    $query->where('id', $projectType_id)   ;
+                if (isset($projectType_id)) {
+                    $query->whereIn('id',  explode(',',$projectType_id));
                 }
             })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $projects =  $projectQuery->get();
@@ -290,43 +291,43 @@ class ReportController extends Controller
         return ProjectReportResource::collection($projects);
 
     }
-    public function tedReport(){
+    public function tedReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $tedType_id = \Request::get('ted_type_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $tedType_id = $request->get('ted_type_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $tedQuery = TEDChair::with(['profile','term','TEDType'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
-
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
             })->whereHas('TEDType', function ($query) use ($tedType_id){
-                if ($tedType_id != 0) {
-                    $query->where('id', $tedType_id)   ;
+                if (isset($tedType_id)) {
+                    $query->whereIn('id',  explode(',',$tedType_id));
                 }
             })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $teds =  $tedQuery->get();
@@ -337,43 +338,44 @@ class ReportController extends Controller
         return TEDReportResource::collection($teds);
 
     }
-    public function thesesReport(){
+    public function thesesReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $thesis_type_id = \Request::get('thesis_type_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $thesis_type_id = $request->get('thesis_type_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $thesesQuery = Thesis::with(['profile','term','thesisType'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
             })->whereHas('thesisType', function ($query) use ($thesis_type_id){
-                if ($thesis_type_id != 0) {
-                    $query->where('id', $thesis_type_id)   ;
+                if (isset($thesis_type_id)) {
+                    $query->whereIn('id',  explode(',',$thesis_type_id));
                 }
             })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $theses =  $thesesQuery->get();
@@ -384,43 +386,44 @@ class ReportController extends Controller
         return ThesesReportResource::collection($theses);
 
     }
-    public function refereesReport(){
+    public function refereesReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $referee_types_id = \Request::get('referee_type_id');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $referee_types_id = $request->get('referee_type_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $refereeQuery = Referee::with(['profile','term','refereeType'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
-
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
             })->whereHas('refereeType', function ($query) use ($referee_types_id){
-                if ($referee_types_id != 0) {
-                    $query->where('id', $referee_types_id)   ;
+                if (isset($referee_types_id)) {
+                    $query->whereIn('id',  explode(',',$referee_types_id));
                 }
             })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $referees =  $refereeQuery->get();
@@ -431,38 +434,39 @@ class ReportController extends Controller
         return RefereeReportResource::collection($referees);
 
     }
-    public function grantsReport(){
+    public function grantsReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $grantsQuery = Grant::with(['profile','term'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
-
-            })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+           })->whereHas('profile', function ($query) use ($faculty_id){
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $grants =  $grantsQuery->get();
@@ -473,38 +477,39 @@ class ReportController extends Controller
         return GrantReportResource::collection($grants);
 
     }
-    public function rewardsReport(){
+    public function rewardsReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $rewardsQuery = Reward::with(['profile','term'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
-
-            })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+           })->whereHas('profile', function ($query) use ($faculty_id){
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $rewards =  $rewardsQuery->get();
@@ -515,38 +520,38 @@ class ReportController extends Controller
         return RewardReportResource::collection($rewards);
 
     }
-    public function bookletsReport(){
+    public function bookletsReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
         $bookletsQuery = Booklet::with(['profile','term'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
-
-            })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+           })->whereHas('profile', function ($query) use ($faculty_id){
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $booklets =  $bookletsQuery->get();
@@ -557,38 +562,39 @@ class ReportController extends Controller
         return BookletReportResource::collection($booklets);
 
     }
-    public function coursesReport(){
+    public function coursesReport(Request $request){
 
-        $this->perPage = \Request::get('perPage');
-        $faculty_id = \Request::get('faculty_id');
-        $department_id = \Request::get('department_id');
-        $status = \Request::get('status');
-        $term = \Request::get('term_id');
-        $start_date = \Request::get('start_date');
-        $end_date = \Request::get('end_date');
+        $this->perPage = $request->get('perPage');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+
         $coursesQuery = Course::with(['profile','term'])
            ->where(function ($query) use($status, $term, $start_date,$end_date) {
-                if ( $term != 0) {
-                    $query->where('term_id','=',$term);
-                }
-                if ( $start_date != '' &&  $end_date != '') {
-                    $query->whereBetween('created_at',[$start_date, $end_date]);
-                }
+               if (isset($term)) {
+                   $query->whereIn('term_id',  explode(',',$term));
+               }
+               if ( $start_date != '' &&  $end_date != '') {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
 
-                if($status != 5){
-                    $query->where('status', '=' , $status);
-                }
-
-            })->whereHas('profile', function ($query) use ($faculty_id){
-                if ($faculty_id != 0) {
-                    $query->where('faculty_id', $faculty_id)   ;
+           })->whereHas('profile', function ($query) use ($faculty_id){
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
                 }
             })->whereHas('profile', function ($query) use ($department_id){
-                if ($department_id != 0) {
-                    $query->where('department_id', $department_id)   ;
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
                 }
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', $order);
 
         if(\Request::get('excelReport') !=0){
             $courses =  $coursesQuery->get();
@@ -1325,75 +1331,75 @@ class ReportController extends Controller
         $result['Journal'] = Journal::with(['paper'])
             ->whereHas('paper',function ($query) use ($role,$profile_id,$term) {
                 $query->where('profile_id',$profile_id);
-                if ($term != 0) {
-                    $query->where('term_id', '=', $term);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
                 }
             })->count();
         $result['Conference']= Conference::with(['paper'])
             ->whereHas('paper',function ($query) use ($role,$profile_id,$term) {
                 $query->where('profile_id',$profile_id);
-                if ($term != 0) {
-                    $query->where('term_id', '=', $term);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
                 }
             })->count();
         $result['Book']= Book::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Project']= Project::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Invention'] = Invention::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Referee']= Referee::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['TEDChair']= TEDChair::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Thesis']= Thesis::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Reward']= Reward::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Grant']= Grant::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Course']= Course::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Booklet']= Booklet::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         return \Response::json(['data'=>$result]);
@@ -1409,6 +1415,7 @@ class ReportController extends Controller
 
 
         $term = $request->get('term_id');
+       // dd(explode(',',$term));
         $query_type = $request->get('query_type');
         $start_date = $request->get('start_date');
         $end_date = $request->get('end_date');
@@ -1417,8 +1424,8 @@ class ReportController extends Controller
             $query = Journal::with(['paper'])
                 ->whereHas('paper',function ($query) use ($profile_id,$term, $start_date, $end_date) {
                     $query->where('profile_id',$profile_id);
-                    if ($term != 0) {
-                        $query->where('term_id', '=', $term);
+                    if (isset($term)) {
+                        $query->whereIn('term_id',  explode(',',$term));
                     }
                     if ($start_date != '' && $end_date != '') {
                         $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1429,8 +1436,8 @@ class ReportController extends Controller
                 $query = Conference::with(['paper'])
                     ->whereHas('paper',function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1440,8 +1447,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Book' ){
                 $query = Book::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1451,8 +1458,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Project' ){
                 $query = Project::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1462,8 +1469,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Invention' ){
                 $query = Invention::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1473,8 +1480,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Referee' ){
                 $query = Referee::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1484,8 +1491,8 @@ class ReportController extends Controller
         }elseif($query_type == 'TEDChair' ){
                 $query = TEDChair::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1495,8 +1502,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Thesis' ){
                 $query = Thesis::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1506,8 +1513,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Reward' ){
                 $query = Reward::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1517,8 +1524,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Grant' ){
                 $query = Grant::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1528,8 +1535,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Course' ){
                 $query = Course::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1539,8 +1546,8 @@ class ReportController extends Controller
         }elseif($query_type == 'Booklet' ){
                 $query = Booklet::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1567,8 +1574,8 @@ class ReportController extends Controller
                     }else{
                         $query->whereIn('status',[0,4]);
                     }
-                    if ($term != 0) {
-                        $query->where('term_id', '=', $term);
+                    if (isset($term)) {
+                        $query->whereIn('term_id',  explode(',',$term));
                     }
                 })->get();
 
@@ -1582,8 +1589,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1596,8 +1603,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1610,8 +1617,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1624,8 +1631,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1638,8 +1645,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1652,8 +1659,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1666,8 +1673,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1680,8 +1687,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1694,8 +1701,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1708,8 +1715,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
 
@@ -1722,8 +1729,8 @@ class ReportController extends Controller
                         }else{
                             $query->whereIn('status',[0,4]);
                         }
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                     })->get();
               return BookletReportResource::collection($query);
@@ -1742,8 +1749,8 @@ class ReportController extends Controller
                     }else{
                         $query->whereIn('status',[0,4]);
                     }
-                    if ($term != 0) {
-                        $query->where('term_id', '=', $term);
+                    if (isset($term)) {
+                        $query->whereIn('term_id',  explode(',',$term));
                     }
                 })->count();
         $result['Conference']= Conference::with(['paper'])
@@ -1754,8 +1761,8 @@ class ReportController extends Controller
                 }else{
                     $query->whereIn('status',[0,4]);
                 }
-                if ($term != 0) {
-                    $query->where('term_id', '=', $term);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
                 }
             })->count();
         $result['Book']= Book::where(function ($query) use ($role,$profile_id,$term) {
@@ -1765,8 +1772,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Project']= Project::where(function ($query) use ($role,$profile_id,$term) {
@@ -1776,8 +1783,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Invention'] = Invention::where(function ($query) use ($role,$profile_id,$term) {
@@ -1787,8 +1794,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Referee']= Referee::where(function ($query) use ($role,$profile_id,$term) {
@@ -1798,8 +1805,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['TEDChair']= TEDChair::where(function ($query) use ($role,$profile_id,$term) {
@@ -1809,8 +1816,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Thesis']= Thesis::where(function ($query) use ($role,$profile_id,$term) {
@@ -1820,8 +1827,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Reward']= Reward::where(function ($query) use ($role,$profile_id,$term) {
@@ -1831,8 +1838,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Grant']= Grant::where(function ($query) use ($role,$profile_id,$term) {
@@ -1842,8 +1849,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Course']= Course::where(function ($query) use ($role,$profile_id,$term) {
@@ -1853,8 +1860,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
         $result['Booklet']= Booklet::where(function ($query) use ($role,$profile_id,$term) {
@@ -1864,8 +1871,8 @@ class ReportController extends Controller
             }else{
                 $query->whereIn('status',[0,4]);
             }
-            if ($term != 0) {
-                $query->where('term_id', '=', $term);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
             return \Response::json(['data'=>$result]);

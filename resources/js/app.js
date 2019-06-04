@@ -10,7 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 require('./jquery.html5cvm.min');
 require('./jquery.SimpleMask.min');
-
+//window.fileDownload = require('js-file-download');
 import JsonExcel from 'vue-json-excel'
 
 Vue.component('downloadExcel', JsonExcel)

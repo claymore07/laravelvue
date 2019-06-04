@@ -36,18 +36,25 @@
                             <apexchart ref="charting1" id="chart1" class="col-lg-11 mt-2" height="450" type="line"
                                        :options="options" :series="series"></apexchart>
                         </div>
-                        <div class="row justify-content-start no-gutters mt-3">
+                        <div class="row justify-content-between no-gutters mt-3">
 
-                            <div class="col-lg-3  mt-3 mr-2">
+                            <div class="col-lg-6  mt-3 mr-2">
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
-                                    <select @change="changeTerm()" v-model="term_id" class="custom-select">
-                                        <option selected value="0">تمام ترم ها</option>
-                                        <option v-for="term in terms" :value="term.id" :key="term.id">{{term.text}}
-                                        </option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="term_id"
+                                              v-model="term_id"
+                                              :options="terms"
+                                              @change="changeTerm()"
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
+                                        <!--   --->
+                                    </Select2>
                                 </div>
+                            </div>
+                            <div class="col-lg-3  mt-5 mb-2 " >
+                                <button @click="getPersonalPdf()" class="btn  btn-block btn-lg btn-success ripple" >
+                                    <i class="fal fa-file-pdf"></i> دریافت فایل
+                                </button>
                             </div>
                         </div>
                         <div class="accordion text-right text-rtl" id="accordionExample">
@@ -632,7 +639,7 @@
                                 <div class="card-header" id="heading9">
                                     <h2 class="mb-0">
                                         <button @click="getResults('TEDChair')" class="btn btn-link collapsed"
-                                                :class="[query_type==='TEDChair'||Stats['Thesis']===0?'disabled':'']"
+                                                :class="[query_type==='TEDChair'||Stats['TEDChair']===0?'disabled':'']"
                                                 type="button" data-toggle="collapse" data-target="#collapse9"
                                                 aria-expanded="false" aria-controls="collapse9">
                                             <i class="nav-icon fal fa-lightbulb-on nav-icon  "></i>
@@ -929,6 +936,7 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
     export default {
         name: "UserView",
         data() {
@@ -944,7 +952,7 @@
                 numStart:1,
                 titles: [],
                 query_type: 'Journal',
-                term_id: 0,
+                term_id: [],
                 showResult: false,
                 options: {
                     chart: {
@@ -1031,6 +1039,23 @@
                 this.getProfileStats();
                 this.getResults(this.query_type);
             },
+            getPersonalPdf(){
+                let loader1 = Vue.$loading.show();
+                axios({
+                    url: '/api/userExportPdf?term_id=' + this.term_id+ '&user_id='+this.id,
+                    method: 'POST',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'file.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                    loader1.hide();
+                });
+
+            },
             getResults(type = 'Journal') {
                 let loader1 = Vue.$loading.show();
 
@@ -1116,6 +1141,9 @@
 
 
         },
+        components: {
+            Select2,
+        }
     }
 </script>
 

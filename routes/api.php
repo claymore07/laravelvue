@@ -54,6 +54,8 @@ Route::apiResources([
 ]);
 
 Route::get('profile','API\UserController@profile');
+Route::post('presonalExportPdf','API\UserController@presonalExportPdf');
+Route::post('userExportPdf','API\UserController@presonalExportPdf');
 Route::post('blacklistimport','API\BlackListController@import');
 
 // post route for update instead of PUT and Patch

@@ -14,53 +14,53 @@
                     </div><!-- /.card-header -->
                     <div class="card-body  p-4">
 
-                        <div class="row justify-content-start no-gutters mt-3">
+                        <div class="row justify-content-start  mt-3">
 
-                            <div class="col-lg-3  mt-3 mr-2" >
+                            <div class="col-lg-4  mt-3" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
-                                    <select  v-model="term_id" class="custom-select">
-                                        <option selected value="0">تمام ترم ها</option>
-                                        <option v-for="term in terms" :value="term.id" :key="term.id">{{term.text}}</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="term_id"
+                                              v-model="term_id"
+                                              :options="terms"
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
+                                    </Select2>
                                 </div>
                             </div>
-                            <div class="col-lg-3  mt-3 mr-2" >
+                            <div class="col-lg-4  mt-3" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">وضعیت بررسی :</label>
                                     <!-- @change="searchit" -->
-                                    <select  v-model="status" class="custom-select">
-                                        <option value="5">همه</option>
-                                        <option value="0">بررسی نشده</option>
-                                        <option value="4">اصلاح شده</option>
-                                        <option value="1">تایید شده</option>
-                                        <option value="2">عدم تایید موقت</option>
-                                        <option value="3">عدم تایید قطعی</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="status"
+                                              v-model="status"
+                                              :options="statuses"
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب وضعیت بررسی', width: '100%' ,multiple: true}">
+                                    </Select2>
+
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                            <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">نام دانشکده:</label>
-                                <Select2 class="form-control select2-form-control" id="faculty_id"
-                                         v-model="faculty_id"
-                                         :options="faculties"
-                                         :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%' }">
+                                <Select2  class="form-control select2-form-control" id="faculty_id"
+                                          v-model="faculty_id"
+                                          :options="faculties"
+                                          :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%',multiple: true}">
+                                    <!-- ,multiple: true  --->
                                 </Select2>
                             </div>
-                            <div  class="col-lg-3  mt-3 mr-2 text-right" >
+                            <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">گروه آموزشی:</label>
                                 <Select2 class="form-control select2-form-control" id="department_id"
                                          v-model="department_id"
                                          :options="departments"
-                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' }">
+                                         :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' ,multiple: true}">
                                 </Select2>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 mt-3  mr-2">
+                            <div class="col-lg-3 mt-3 ">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
 
@@ -68,7 +68,7 @@
                                     <date-picker format="YYYY-MM-DD" v-model="start_date" name="start_date" locale="fa,en"></date-picker>
                                 </div>
                             </div>
-                            <div class="col-lg-3 mt-3  mr-2">
+                            <div class="col-lg-3 mt-3 ">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تا تاریخ :</label>
 
@@ -86,7 +86,7 @@
                                 class   = "btn btn-secondary mr-3 mt-2 btn-lg"
                                 :fetch="getExcel"
                                 :meta="json_meta"
-                                :fields="courses_fields"
+                                :exportFields="courses_fields"
 
                                 worksheet = "My Worksheet"
                                 name    = "Courses.xls">
@@ -179,12 +179,12 @@
         name: "CourseReport",
         data(){
             return{
-                status:5,
+                status:[],
                 allData :{},
                 courses:[],
                 faculties:[],
                 departments:[],
-                terms:{},
+                terms:[],
 
                 order: 1,       // order 1 for desc and 0  for asc
                 total: 0,       // total number of courses
@@ -194,15 +194,21 @@
 
                 showReport: false,
                 excelReport:0,
-                term_id: 0,
+                term_id: [],
                 start_date:'',
                 end_date:'',
-                referee_type_id:0,
-                faculty_id:0,
-                department_id:0,
+                referee_type_id:[],
+                faculty_id:[],
+                department_id:[],
                 perPage:5,
                 loader : Vue.$loading,
-
+                statuses:[
+                    {id:0, text:'بررسی نشده'},
+                    {id:4, text:'اصلاح شده'},
+                    {id:1, text:'تایید شده'},
+                    {id:2, text:'عدم تایید موقت'},
+                    {id:3, text:'عدم تایید قطعی'},
+                ],
                 courses_fields:{
                     'عنوان دوره' : 'title',
                     'نام ثبت کننده' : 'Author_name',
@@ -269,12 +275,12 @@
             resetForm(){
                 this.showReport =false;
                 this.excelReport=0;
-                this.term_id= 0;
+                this.term_id= [];
                 this.start_date='';
                 this.end_date='';
-                this.faculty_id=0;
-                this.department_id=0;
-                this.status=5;
+                this.faculty_id=[];
+                this.department_id=[];
+                this.status=[];
                 this.perPage=5;
             },
             /* startDownload(){

@@ -30,16 +30,19 @@
                         <div v-if="showResult&&$gate.isUser()" class="row justify-content-center  mt-2">
                             <apexchart ref="charting1" id="chart2" class="col-lg-11 mt-2" height="450" type="line" :options="optionsUserChart" :series="seriesrChart"></apexchart>
                         </div>
-                        <div class="row justify-content-start no-gutters mt-3">
+                        <div class="row justify-content-between no-gutters mt-3">
 
-                            <div class="col-lg-3  mt-3 mr-2" >
+                            <div class="col-lg-6  mt-3 mr-2" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
-                                    <select @change="changeTerm()"  v-model="term_id" class="custom-select">
-                                        <option selected value="0">تمام ترم ها</option>
-                                        <option v-for="term in terms" :value="term.id" :key="term.id">{{term.text}}</option>
-                                    </select>
+                                    <Select2  class="form-control select2-form-control" id="term_id"
+                                              v-model="term_id"
+                                              :options="terms"
+                                              @change="changeTerm()"
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
+                                        <!--   --->
+                                    </Select2>
                                 </div>
                             </div>
                         </div>
@@ -761,6 +764,7 @@
 </template>
 
 <script>
+    import Select2 from 'v-select2-component';
     export default {
         name: "Dashboard",
         data(){
@@ -777,7 +781,9 @@
                 query_type: 'Journal',
                 start_date: '',
                 end_date: '',
-                term_id: 0,
+                term_id: [],
+                scores: [],
+                counts: [],
                 showResult: false,
                 radialchartOptions: {
 
@@ -980,7 +986,7 @@
                 }
             },
             getChartData(){
-                axios.post('/api/personalStats' )
+                axios.post('/api/personalChart' )
                     .then(response => {
 
                         this.optionsUserChart = {...this.optionsUserChart,...{
@@ -1122,6 +1128,9 @@
                 this.getChartData();
             }
 
+        },
+        components: {
+            Select2,
         }
     }
 </script>
