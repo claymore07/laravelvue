@@ -425,7 +425,7 @@ class UserController extends Controller
         }
 
         DB::commit();
-
+        $user_db = User::findOrFail($id);
         return Response::json(['success'=> ["با موققیت انجام شد!"] ], 200);
     }
 

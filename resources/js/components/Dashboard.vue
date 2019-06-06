@@ -13,24 +13,7 @@
 
                     </div><!-- /.card-header -->
                     <div class="card-body">
-
-                        <div v-if="showResult&&$gate.isAdmin()" class="row justify-content-center  no-gutters mt-2">
-                            <apexchart ref="charting" id="chart1" class="col-lg-7 mt-5 order-lg-1"  type="bar" :options="options" :series="series"></apexchart>
-
-                            <div class="col-sm-8 col-lg-5 mt-2 order-lg-0" >
-                                <div class="mr-5">
-                                    <button @click="changeDate(0)" class="btn btn-success btn-sm">تایید شده</button>
-                                    <button @click="changeDate(1)" class="btn btn-secondary btn-sm mr-1">بررسی نشده</button>
-                                    <button @click="changeDate(2)" class="btn btn-danger btn-sm mr-1">تایید نشده</button>
-                                </div>
-                                <apexchart type=pie  class="mt-2"   :options="radialchartOptions" :series="seriesRadial" />
-                            </div>
-
-                        </div>
-                        <div v-if="showResult&&$gate.isUser()" class="row justify-content-center  mt-2">
-                            <apexchart ref="charting1" id="chart2" class="col-lg-11 mt-2" height="450" type="line" :options="optionsUserChart" :series="seriesrChart"></apexchart>
-                        </div>
-                        <div class="row justify-content-between no-gutters mt-3">
+                        <div class="row justify-content-between no-gutters ">
 
                             <div class="col-lg-6  mt-3 mr-2" >
                                 <div class="form-group mb-3 text-right">
@@ -45,12 +28,50 @@
                                     </Select2>
                                 </div>
                             </div>
+                            <div class="col-lg-4  mt-3 mr-2" >
+                                <div class="form-group mb-3 text-right">
+                                    <label class="blue text-right  text-rtl">دسته ها :</label>
+                                    <!-- @change="searchit" -->
+                                    <select @change="changeType" v-model="query_type" class="custom-select">
+                                        <option selected value="Journal">مقالات ژورنالی</option>
+                                        <option selected value="Conference">مقالات کنفرانسی</option>
+                                        <option selected value="Book">کتاب ها</option>
+                                        <option selected value="Project">طرح های پژوهشی</option>
+                                        <option selected value="Invention">اختراعات</option>
+                                        <option selected value="TEDChair">کرسی های نظریه پردازی</option>
+                                        <option selected value="Referee">داوری ها</option>
+                                        <option selected value="Thesis">پایان نامه ها</option>
+                                        <option selected value="Reward">جوایز</option>
+                                        <option selected value="Grant">بودجه های جذب شده</option>
+                                        <option selected value="Booklet">جزوات</option>
+                                        <option selected value="Course">دوره ها</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="showResult&&$gate.isAdmin()" class="row justify-content-center  no-gutters mt-2">
+                            <apexchart ref="charting" id="chart1" class="col-lg-7 mt-5 order-lg-1"  type="bar" :options="options" :series="series"></apexchart>
+
+                            <div class="col-sm-8 col-lg-5 mt-2 order-lg-0" >
+                                <div class="mr-5">
+                                    <button @click="changeDate(0)"  class="btn btn-success btn-sm">تایید شده</button>
+                                    <button @click="changeDate(1)" class="btn btn-secondary btn-sm mr-1">بررسی نشده</button>
+                                    <button @click="changeDate(2)"  class="btn btn-danger btn-sm mr-1">تایید نشده</button>
+                                </div>
+                                <apexchart type=pie  class="mt-2"   :options="radialchartOptions" :series="seriesRadial" />
+                            </div>
+
+                        </div>
+                        <div v-if="showResult&&$gate.isUser()" class="row justify-content-center  mt-2">
+                            <apexchart ref="charting1" id="chart2" class="col-lg-11 mt-2" height="450" type="line" :options="optionsUserChart" :series="seriesrChart"></apexchart>
                         </div>
                         <div class="accordion" id="accordionExample">
-                            <div class="card">
+                            <div class="card mt-3">
                                 <div class="card-header" id="headingOne">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Journal')" class="btn btn-link"
+                                        <button ref="Journal" @click="getDashboardData('Journal')" class="btn btn-link"
                                                 :class="[query_type==='Journal'||Stats['Journal']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                             <i class="nav-icon fal fa-pencil-ruler nav-icon  "></i>
                                             مقالات ژورنالی <span class="badge badge-info">{{Stats['Journal'] | faDigit}}</span>
@@ -87,8 +108,8 @@
                                             <td>{{ paper.title | truncate(40) }}</td>
                                             <td>{{ paper.Authors }}</td>
                                             <td>{{ paper.paper_type }}</td>
-                                            <td >{{paper.journal_name | truncate(50)}} </td>
-                                            <td >{{paper.publisher_name | truncate(50)}} </td>
+                                            <td >{{paper.journal_name }} </td>
+                                            <td >{{paper.publisher_name }} </td>
                                             <td >{{paper.jtype_name}} </td>
                                             <td >{{paper.excerpt_name}} </td>
                                             <td >{{paper.term_name}} </td>
@@ -109,10 +130,10 @@
 
                                 </div>
                             </div>
-                            <div class="card">
+                            <div class="card ">
                                 <div class="card-header" id="headingTwo">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Conference')" class="btn btn-link collapsed"
+                                        <button ref="Conference" @click="getDashboardData('Conference')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Conference'||Stats['Conference']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                             <i class="nav-icon fal fa-pencil-ruler nav-icon  "></i>
                                             مقالات کنفرانسی <span class="badge badge-info">{{Stats['Conference'] | faDigit}}</span>
@@ -144,12 +165,12 @@
                                         <tr v-if="allDatas.length <= 0">
                                             <td colspan="17"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
-                                        <tr v-for="(paper, index) in allDatas" :key="paper.id">
+                                        <tr  v-for="(paper, index) in allDatas" >
                                             <td>{{counter(index) | faDigit}}</td>
                                             <td>{{ paper.title | truncate(40) }}</td>
                                             <td>{{ paper.Authors }}</td>
                                             <td>{{ paper.paper_type }}</td>
-                                            <td >{{paper.conf_name | truncate(50)}} </td>
+                                            <td >{{paper.conf_name }} </td>
                                             <td >{{paper.conftype_name}} </td>
                                             <td >{{paper.period}} </td>
                                             <td >{{paper.excerpt_name}} </td>
@@ -175,7 +196,7 @@
                             <div class="card">
                                 <div class="card-header" id="headingThree">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Book')" class="btn btn-link collapsed"
+                                        <button  ref="Book" @click="getDashboardData('Book')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Book'||Stats['Book']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                             <i class="nav-icon fal fa-books nav-icon  "></i>
                                             کتاب ها <span class="badge badge-info">{{Stats['Book'] | faDigit}}</span>
@@ -234,7 +255,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading4">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Project')" class="btn btn-link collapsed"
+                                        <button  ref="Project" @click="getDashboardData('Project')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Project'||Stats['Project']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
                                             <i class="nav-icon fal fa-project-diagram nav-icon  "></i>
                                             طرح های پژوهشی و فناوری <span class="badge badge-info">{{Stats['Project'] | faDigit}}</span>
@@ -292,7 +313,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading5">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Invention')" class="btn btn-link collapsed"
+                                        <button  ref="Invention" @click="getDashboardData('Invention')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Invention'||Stats['Invention']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
                                             <i class="nav-icon fal fa-microscope nav-icon  "></i>
                                             اختراعات و اکتشافات <span class="badge badge-info">{{Stats['Invention'] | faDigit}}</span>
@@ -346,7 +367,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading6">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Referee')" class="btn btn-link collapsed"
+                                        <button   ref="Referee" @click="getDashboardData('Referee')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Referee'||Stats['Referee']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
                                             <i class="nav-icon fal fa-gavel nav-icon  "></i>
                                             داوری ها <span class="badge badge-info">{{Stats['Referee'] | faDigit}}</span>
@@ -400,7 +421,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading7">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Reward')" class="btn btn-link collapsed"
+                                        <button ref="Reward" @click="getDashboardData('Reward')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Reward'||Stats['Reward']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
                                             <i class="nav-icon fal fa-award nav-icon  "></i>
                                             جوایز <span class="badge badge-info">{{Stats['Reward'] | faDigit}}</span>
@@ -432,7 +453,7 @@
                                         <tr v-for="(reward, index) in allDatas" :key="reward.id">
                                             <td>{{counter(index) | faDigit}}</td>
                                             <td>{{ reward.name | truncate(40) }}</td>
-                                            <td>{{ reward.title | truncate(40) }}</td>
+                                            <td>{{ reward.title }}</td>
                                             <td>{{ reward.type_name }}</td>
                                             <td><span v-if="reward.place == 1" class="mr-3">رتبه اول</span>
                                                 <span v-else-if="reward.place == 2" class="mr-3">رتبه دوم</span>
@@ -464,7 +485,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading8">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Thesis')" class="btn btn-link collapsed"
+                                        <button  ref="Thesis" @click="getDashboardData('Thesis')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Thesis'||Stats['Thesis']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
                                             <i class="nav-icon fal fa-book nav-icon  "></i>
                                             پابان نامه ها <span class="badge badge-info">{{Stats['Thesis'] | faDigit}}</span>
@@ -519,7 +540,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading9">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('TEDChair')" class="btn btn-link collapsed"
+                                        <button ref="TEDChair" @click="getDashboardData('TEDChair')" class="btn btn-link collapsed"
                                                 :class="[query_type==='TEDChair'||Stats['Thesis']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
                                             <i class="nav-icon fal fa-lightbulb-on nav-icon  "></i>
                                             کرسی های نظریه پردازی <span class="badge badge-info">{{Stats['TEDChair'] | faDigit}}</span>
@@ -576,7 +597,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading10">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Grant')" class="btn btn-link collapsed"
+                                        <button ref="Grant" @click="getDashboardData('Grant')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Grant'||Stats['Grant']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
                                             <i class="nav-icon fal fa-dollar-sign nav-icon  "></i>
                                             بودجه های جذب شده <span class="badge badge-info">{{Stats['Grant'] | faDigit}}</span>
@@ -638,7 +659,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading11">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Course')" class="btn btn-link collapsed"
+                                        <button ref="Course" @click="getDashboardData('Course')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Course'||Stats['Course']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
                                             <i class="nav-icon fal fa-users-class nav-icon  "></i>
                                             دوره ها <span class="badge badge-info">{{Stats['Course'] | faDigit}}</span>
@@ -697,7 +718,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading12">
                                     <h2 class="mb-0">
-                                        <button @click="getDashboardData('Booklet')" class="btn btn-link collapsed"
+                                        <button ref="Booklet" @click="getDashboardData('Booklet')" class="btn btn-link collapsed"
                                                 :class="[query_type==='Booklet'||Stats['Booklet']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
                                             <i class="nav-icon fal fa-presentation nav-icon  "></i>
                                             جزوه ها <span class="badge badge-info">{{Stats['Booklet'] | faDigit}}</span>
@@ -729,7 +750,7 @@
                                         <tr v-for="(booklet, index) in allDatas" :key="booklet.id">
                                             <td>{{counter(index) | faDigit}}</td>
                                             <td>{{ booklet.title | truncate(40) }}</td>
-                                            <td>{{ booklet.name | truncate(40) }}</td>
+                                            <td>{{ booklet.name  }}</td>
 
                                             <td>{{ booklet.booklet_type_name }}</td>
                                             <td>{{ booklet.degree }}</td>
@@ -935,6 +956,9 @@
             counter(i) {
                 return this.numStart + i;
             },
+            changeType(){
+                this.$refs[this.query_type].click();
+            },
             changeTerm(){
                 this.getDashboardStats();
                 this.getDashboardData(this.query_type);
@@ -1006,12 +1030,10 @@
                 });
             },
             getResults(){
-
-                let loader1 = Vue.$loading.show();
                 axios.post('/api/facultyStats?term_id=' + this.term_id +
                     '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&query_type=' + this.query_type )
                     .then(response => {
-                        loader1.hide();
+
                         this.options = {...this.options,...{
                                 title: {
                                     text: `نمودار وضعیت رسیدگی به ${this.chartTitle} براساس دانشکده`,
@@ -1035,7 +1057,7 @@
                         this.unchecked = response.data.unchecked;
                         this.showResult = true;
                     }).catch(error => {
-                    loader1.hide();
+
                 });
             },
 

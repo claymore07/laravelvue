@@ -29,7 +29,7 @@
                             <th>شماره</th>
                             <th>شناسه</th>
                             <th>نام</th>
-                            <th>رایان نامه</th>
+                            <th>رایانامه</th>
                             <th>نوع دسترسی</th>
                             <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت نام</th>
                             <th>ابزارهای ویرایشی</th>
@@ -132,7 +132,7 @@
                            <has-error :form="form" field="name"></has-error>
                        </div>
                        <div class="form-group my-5 text-right">
-                           <label class="blue">رایان نامه:</label>
+                           <label class="blue">رایانامه:</label>
                            <input v-model="form.email" type="email" name="email" placeholder="example@gmail.com"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('email') }"
                                   required >

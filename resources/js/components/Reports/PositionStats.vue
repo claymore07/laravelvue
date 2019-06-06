@@ -14,17 +14,18 @@
 
                     <div class="row justify-content-start no-gutters mt-3">
 
-                        <div class="col-lg-3  mt-3 mr-2" >
+                        <div class="col-lg-4  mt-3 mr-2" >
                             <div class="form-group mb-3 text-right">
                                 <label class="blue text-right  text-rtl">ترم :</label>
                                 <!-- @change="searchit" -->
-                                <select  v-model="term_id" class="custom-select">
-                                    <option selected value="0">تمام ترم ها</option>
-                                    <option v-for="term in terms" :value="term.id" :key="term.id">{{term.text}}</option>
-                                </select>
+                                <Select2  class="form-control select2-form-control" id="term_id"
+                                          v-model="term_id"
+                                          :options="terms"
+                                          :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
+                                </Select2>
                             </div>
                         </div>
-                        <div class="col-lg-3  mt-3 mr-2" >
+                        <div class="col-lg-4  mt-3 mr-2" >
                             <div class="form-group mb-3 text-right">
                                 <label class="blue text-right  text-rtl">دسته ها :</label>
                                 <!-- @change="searchit" -->
@@ -49,7 +50,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-3 mt-3  mr-2">
+                        <div class="col-lg-4 mt-3  mr-2">
                             <div  style="direction: ltr; text-align: right" >
                                 <label class="blue text-right  text-rtl">از تاریخ :</label>
 
@@ -57,7 +58,7 @@
                                 <date-picker format="YYYY-MM-DD" v-model="start_date" name="start_date" locale="fa,en"></date-picker>
                             </div>
                         </div>
-                        <div class="col-lg-3 mt-3  mr-2">
+                        <div class="col-lg-4 mt-3  mr-2">
                             <div  style="direction: ltr; text-align: right" >
                                 <label class="blue text-right  text-rtl">تا تاریخ :</label>
 
@@ -93,7 +94,7 @@
 </template>
 
 <script>
-
+    import Select2 from 'v-select2-component';
     export default {
         name: "PositionStats",
         data() {
@@ -108,7 +109,7 @@
                 query_type: 'Journal',
                 start_date: '',
                 end_date: '',
-                term_id: 0,
+                term_id: [],
                 showResult: false,
                 radialchartOptions: {
                     chart: {
@@ -212,7 +213,7 @@
                 }
             },
             resetForm(){
-                this.term_id= 0;
+                this.term_id= [];
                 this.start_date='';
                 this.end_date='';
                 this.query_type= 'Journal';
@@ -314,6 +315,9 @@
         created(){
             this.$parent.pageName = 'گزارش نموداری براساس نوع همکاری';
             this.getTermsList();
+        },
+        components: {
+            Select2,
         }
 
     }

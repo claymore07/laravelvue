@@ -2,7 +2,7 @@
     <ul style="overflow:auto;" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="nav-icon false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-        <li class="nav-item">
+        <li v-if="$gate.hasProfile()" class="nav-item">
             <router-link to="/dashboard" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt blue"></i>
                 <p>
@@ -12,7 +12,7 @@
             </router-link>
         </li>
 
-        <li class="nav-item has-treeview ">
+        <li  v-if="$gate.hasProfile()" class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs green"></i>
                 <p>
@@ -83,7 +83,7 @@
                 </li>
             </ul>
         </li>
-        <li class="nav-item has-treeview ">
+        <li  v-if="$gate.hasProfile()" class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs cyan"></i>
                 <p>
@@ -101,7 +101,7 @@
             </ul>
         </li>
 
-        <li v-if="type == 'admin'" class="nav-item has-treeview ">
+        <li v-if="type === 'admin' && $gate.hasProfile()" class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-server blue"></i>
                 <p>
@@ -150,7 +150,7 @@
             </ul>
         </li>
 
-        <li v-if="type == 'admin'"  class="nav-item has-treeview ">
+        <li v-if="type === 'admin' && $gate.hasProfile()"  class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-newspaper orange"></i>
                 <p>

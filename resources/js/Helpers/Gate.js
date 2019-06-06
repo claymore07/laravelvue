@@ -3,6 +3,9 @@ export default class Gate{
     constructor(){
         this.user = AppStorage.getUserDetail();
     }
+    hasProfile(){
+        return this.user.hasProfile;
+    }
     isAdmin(){
         return this.user.type === 'admin';
     }

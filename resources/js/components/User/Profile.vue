@@ -28,44 +28,42 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills text-right" style="direction: rtl!important;">
-                            <li class="nav-item "><a class="nav-link active show" href="#timeline" data-toggle="tab">فعالیت ها</a></li>
-                            <li class="nav-item "><a  class="nav-link " href="#settings" data-toggle="tab">تنظیمات</a></li>
+                            <li class="nav-item "><a class="nav-link " :class="[$gate.hasProfile()? 'active show' : '']" href="#timeline" data-toggle="tab">فعالیت ها</a></li>
+                            <li class="nav-item "><a  class="nav-link " :class="[!$gate.hasProfile()? 'active show' : '']" href="#settings" data-toggle="tab">تنظیمات</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
-                        <div v-if="showResult" class="row justify-content-center  mt-2">
-                            <apexchart ref="charting1" id="chart1" class="col-lg-11 mt-2" height="450" type="line" :options="options" :series="series"></apexchart>
-                        </div>
-                        <div class="row justify-content-between no-gutters mt-3">
 
-                            <div class="col-lg-6  mt-3 mr-2" >
-                                <div class="form-group mb-3 text-right">
-                                    <label class="blue text-right  text-rtl">ترم :</label>
-                                    <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="term_id"
-                                              v-model="term_id"
-                                              :options="terms"
-                                              @change="changeTerm()"
-                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
-                                        <!--   --->
-                                    </Select2>
-                                    <!--<select   v-model="term_id" class="custom-select">
-                                        <option selected value="0">تمام ترم ها</option>
-                                        <option v-for="term in terms" :value="term.id" :key="term.id">{{term.text}}</option>
-                                    </select>-->
-                                </div>
-                            </div>
-                            <div class="col-lg-3  mt-5 mb-2 " >
-                                <button @click="getPersonalPdf()" class="btn  btn-block btn-lg btn-success ripple" >
-                                    <i class="fal fa-file-pdf"></i> دریافت فایل
-                                </button>
-                            </div>
 
-                        </div>
-                        <div class="tab-content">
+                        <div  class="tab-content">
                             <!-- Activity Tab -->
-                            <div class="tab-pane active show text-right text-rtl" id="timeline">
+                            <div v-if="$gate.hasProfile()" class="tab-pane active show text-right text-rtl"
+                                 :class="[$gate.hasProfile()? 'active show' : '']"
+                                 id="timeline">
                                 <!-- The timeline -->
+                                <div v-if="showResult" class="row justify-content-center  mt-2">
+                                    <apexchart ref="charting1" id="chart1" class="col-lg-11 mt-2" height="450" type="line" :options="options" :series="series"></apexchart>
+                                </div>
+                                <div class="row justify-content-between no-gutters mt-3">
+
+                                    <div class="col-lg-6  mt-3 mr-2" >
+                                        <div class="form-group mb-3 text-right">
+                                            <label class="blue text-right  text-rtl">ترم :</label>
+                                            <Select2  class="form-control select2-form-control" id="term_id"
+                                                      v-model="term_id"
+                                                      :options="terms"
+                                                      @change="changeTerm()"
+                                                      :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
+                                            </Select2>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3  mt-5 mb-2 " >
+                                        <button @click="getPersonalPdf()" class="btn  btn-block btn-lg btn-success ripple" >
+                                            <i class="fal fa-file-pdf"></i> دریافت فایل
+                                        </button>
+                                    </div>
+
+                                </div>
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-header" id="headingOne">
@@ -778,7 +776,7 @@
                                 </div>
                             </div><!-- /END timeline tab -->
                             <!-- Setting Tab -->
-                            <div class="tab-pane " id="settings">
+                            <div class="tab-pane " :class="[!$gate.hasProfile()? 'active show' : '']" id="settings">
                                 <form class="form-horizontal" @submit.prevent="updateInfo" @keydown="form.onKeydown($event)" id="Form">
                                     <div class="form-group mt-4 text-right">
                                         <label class="blue">نام:</label>
@@ -811,7 +809,7 @@
                                         <has-error :form="form" field="name"></has-error>
                                     </div>
                                     <div class="form-group my-5 text-right">
-                                        <label class="blue">رایان نامه:</label>
+                                        <label class="blue">رایانامه:</label>
                                         <input v-model="form.email" type="email" name="email" placeholder="example@gmail.com"
                                                class="form-control" :class="{ 'is-invalid': form.errors.has('email') }"
                                                required >
@@ -873,7 +871,7 @@
                                     </div>
                                     <div class="form-group my-5 text-right">
                                         <label class="blue">آخرین مدرک تحصیلی:</label>
-                                        <Select2 class="form-control select2-form-control"
+                                        <Select2 class="form-control select2-form-control" id="degree_id"
                                                  :class="{ 'is-invalid': form.errors.has('degree_id') }" v-model="form.degree_id"
                                                  :options="degrees"
                                                  @change="removeError('degree_id')"
@@ -883,7 +881,7 @@
                                     </div>
                                     <div class="form-group my-5  text-right">
                                         <label class="blue">مرتبه علمی:</label>
-                                        <Select2 class="form-control select2-form-control"
+                                        <Select2 class="form-control select2-form-control" id="rank_id"
                                                  :class="{ 'is-invalid': form.errors.has('rank_id') }" v-model="form.rank_id"
                                                  :options="ranks"
                                                  @change="removeError('rank_id')"
@@ -1217,19 +1215,25 @@
             },
             // handles the user form when submited
             updateInfo(){
+
                 this.$Progress.start();
                 if(this.form.password == ''){
                     this.form.password = undefined;
                 }
                 this.form.put('/api/profile/')
                     .then(()=>{
+
                         Fire.$emit('AfterCreate');
                         this.successToast('پروفایل شما با موفقیت بروزرسانی شد.')
                         this.$Progress.finish();
+                        if(!this.$gate.hasProfile()){
+                            User.logout();
+                        }
                     })
                     .catch(()=>{
                         this.$Progress.fail();
                     });
+
             },
             // handles the user profile upload form when submited
             updateProfile(e){
@@ -1303,11 +1307,14 @@
             Fire.$on('AfterCreate',() => {
                 this.loadSetting();
             });
-            this.getTermsList();
-            this.getProfileStats();
-            this.getResults();
+            if(this.$gate.hasProfile()){
+                this.getTermsList();
+                this.getProfileStats();
+                this.getResults();
+                this.getChartData();
+            }
             this.loadSetting();
-            this.getChartData();
+
 
         },
         components: {

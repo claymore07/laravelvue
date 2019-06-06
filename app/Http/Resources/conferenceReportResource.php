@@ -35,13 +35,13 @@ class conferenceReportResource extends JsonResource
             $license_to = '-';
         }
         return [
-            'id' => $this->id,
+            'id' => $paper->id,
             'title' => $paper->title,
             'Authors' => $authors_name,
             'Author_name'=> $name,
             'lang' => $paper->lang == 0 ? 'فارسی':'لاتین',
             'paper_type' =>  'کنفرانسی' ,
-            'conf_name' => $this->name,
+            'conf_name' => $this->name,//str_limit($this->name,40, ' ...'),
             'faculty'=>$paper->profile->faculty->name,
             'department'=>$paper->profile->department->name,
             'organizer' => $this->organizer ,

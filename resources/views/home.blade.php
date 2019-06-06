@@ -16,11 +16,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 </head>
-<body class="hold-transition sidebar-mini"  style="direction: rtl">
+<body id="body1" class="hold-transition sidebar-mini "  style="direction: rtl">
 <div class="wrapper"  id="app">
     <!-- Navbar -->
 
-    <nav  class="main-header navbar navbar-expand bg-white navbar-light border-bottom" :class="[is_loggedIn? '':'w-100 mr-0']">
+    <nav  ref="ttt" class="main-header navbar navbar-expand bg-white navbar-light border-bottom" :class="[is_loggedIn? '':'w-100 mr-0']">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -43,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Right navbar links -->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" style="align-self: center;">
-                ترم فعال:
+                ترم فعال111:
                 <u><?php
                     $term = \App\Models\Term::whereStatus(1)->first();
                     echo $term->name;

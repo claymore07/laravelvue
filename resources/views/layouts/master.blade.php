@@ -16,20 +16,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 </head>
-<body class="hold-transition sidebar-mini" style="direction: rtl">
-<div class="wrapper"  id="app">
+<body class="hold-transition sidebar-mini sidebar-collapse" style="direction: rtl">
+<div class="wrapper"  id="app" >
 
     <!-- Navbar -->
     <nav  class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                <a class="nav-link" data-widget="pushmenu" href="#" ><i class="fa fa-bars"></i></a>
             </li>
         </ul>
 
         <!-- SEARCH FORM -->
-        <div class="form-inline ml-3">
+        <div  class="form-inline ml-3">
             <div class="input-group input-group-sm">
                 <input   class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
@@ -120,7 +120,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         <div class="content">
-            <router-view></router-view>
+            <router-view > </router-view>
 
             <vue-progress-bar></vue-progress-bar>
             @yield('content')

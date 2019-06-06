@@ -650,8 +650,8 @@ class ReportController extends Controller
                 $query = Paper::join('profiles', 'papers.profile_id', '=', 'profiles.id')
                     ->where('paperable_type', 'LIKE', "%{$query_type}")
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('papers.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('papers.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('papers.created_at', [$start_date, $end_date]);
@@ -666,8 +666,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Book::join('profiles', 'books.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('books.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('books.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('books.created_at', [$start_date, $end_date]);
@@ -682,8 +682,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Project::join('profiles', 'projects.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('projects.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('projects.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('projects.created_at', [$start_date, $end_date]);
@@ -698,8 +698,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Invention::join('profiles', 'inventions.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('inventions.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('inventions.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('inventions.created_at', [$start_date, $end_date]);
@@ -714,8 +714,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = TEDChair::join('profiles', 'tedchairs.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('tedchairs.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('tedchairs.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('tedchairs.created_at', [$start_date, $end_date]);
@@ -730,8 +730,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Referee::join('profiles', 'referees.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('referees.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('referees.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('referees.created_at', [$start_date, $end_date]);
@@ -747,8 +747,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Thesis::join('profiles', 'theses.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('theses.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('theses.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('theses.created_at', [$start_date, $end_date]);
@@ -763,8 +763,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Reward::join('profiles', 'rewards.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('rewards.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('rewards.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('rewards.created_at', [$start_date, $end_date]);
@@ -779,8 +779,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Grant::join('profiles', 'grants.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('grants.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('grants.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('grants.created_at', [$start_date, $end_date]);
@@ -795,8 +795,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Course::join('profiles', 'courses.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('courses.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('courses.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('courses.created_at', [$start_date, $end_date]);
@@ -811,8 +811,8 @@ class ReportController extends Controller
             foreach ($faculties as $faculty){
                 $query = Booklet::join('profiles', 'booklets.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('booklets.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('booklets.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('booklets.created_at', [$start_date, $end_date]);
@@ -845,8 +845,8 @@ class ReportController extends Controller
                 $query = Paper::join('profiles', 'papers.profile_id', '=', 'profiles.id')
                     ->where('paperable_type', 'LIKE', "%{$query_type}")
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('papers.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('papers.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('papers.created_at', [$start_date, $end_date]);
@@ -861,8 +861,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Book::join('profiles', 'books.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('books.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('books.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('books.created_at', [$start_date, $end_date]);
@@ -877,8 +877,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Project::join('profiles', 'projects.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('projects.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('projects.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('projects.created_at', [$start_date, $end_date]);
@@ -893,8 +893,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Invention::join('profiles', 'inventions.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('inventions.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('inventions.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('inventions.created_at', [$start_date, $end_date]);
@@ -909,8 +909,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = TEDChair::join('profiles', 'tedchairs.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('tedchairs.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('tedchairs.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('tedchairs.created_at', [$start_date, $end_date]);
@@ -925,8 +925,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Referee::join('profiles', 'referees.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('referees.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('referees.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('referees.created_at', [$start_date, $end_date]);
@@ -941,8 +941,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Thesis::join('profiles', 'theses.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('theses.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('theses.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('theses.created_at', [$start_date, $end_date]);
@@ -957,8 +957,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Reward::join('profiles', 'rewards.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('rewards.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('rewards.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('rewards.created_at', [$start_date, $end_date]);
@@ -973,8 +973,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Grant::join('profiles', 'grants.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('grants.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('grants.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('grants.created_at', [$start_date, $end_date]);
@@ -989,8 +989,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Course::join('profiles', 'courses.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('courses.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('courses.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('courses.created_at', [$start_date, $end_date]);
@@ -1005,8 +1005,8 @@ class ReportController extends Controller
             foreach ($positions as $position){
                 $query = Booklet::join('profiles', 'booklets.profile_id', '=', 'profiles.id')
                     ->where(function ($query) use ($position,$term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('booklets.term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('booklets.term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('booklets.created_at', [$start_date, $end_date]);
@@ -1043,8 +1043,8 @@ class ReportController extends Controller
                    // ->join('jtypes', 'journals.jtype_id', '=', 'jtypes.id')
                     ->where('journals.jtype_id', '=', $jtype->id)
                     ->whereHas('paper',function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1064,8 +1064,8 @@ class ReportController extends Controller
                    // ->join('conftypes', 'conferences.conftype_id', '=', 'conftypes.id')
                     ->where('conferences.conftype_id', '=', $conftype->id)
                     ->whereHas('paper',function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1084,8 +1084,8 @@ class ReportController extends Controller
                 $query = Book::select('id','booktype_id','status')
                     ->where('booktype_id', '=', $booktype->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1103,8 +1103,8 @@ class ReportController extends Controller
                 $query = Book::select('id','booktype_id','status')
                     ->where('booktype_id', '=', $projecttype->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1122,8 +1122,8 @@ class ReportController extends Controller
                 $query = Invention::select('id','invention_types_id','status')
                     ->where('invention_types_id', '=', $inventionype->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1141,8 +1141,8 @@ class ReportController extends Controller
                 $query = Referee::select('id','referee_types_id','status')
                     ->where('referee_types_id', '=', $refereeType->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1160,8 +1160,8 @@ class ReportController extends Controller
                 $query = TEDChair::select('id','ted_types_id','status')
                     ->where('ted_types_id', '=', $tedType->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1179,8 +1179,8 @@ class ReportController extends Controller
                 $query = Thesis::select('id','theses_types_id','status')
                     ->where('theses_types_id', '=', $thesesType->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1198,8 +1198,8 @@ class ReportController extends Controller
                 $query = Reward::select('id','type','status')
                     ->where('type', 'LIKE', "$type")
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1217,8 +1217,8 @@ class ReportController extends Controller
                 $query = Grant::select('id','type','status')
                     ->where('type', '=', "$type")
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);
@@ -1236,8 +1236,8 @@ class ReportController extends Controller
                 $query = Booklet::select('id','booklet_type','status')
                     ->where('booklet_type', 'LIKE', "$type")
                     ->where(function ($query) use ($term, $start_date, $end_date) {
-                        if ($term != 0) {
-                            $query->where('term_id', '=', $term);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('created_at', [$start_date, $end_date]);

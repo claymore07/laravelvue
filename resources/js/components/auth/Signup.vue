@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-2 col-form-label text-md-right">رایان نامه</label>
+                                <label for="email" class="col-md-2 col-form-label text-md-right">رایانامه</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email"
@@ -96,13 +96,13 @@
         },
         methods:{
             signup(){
-                this.errors ={};
+
                 this.form.post('/api/auth/signup')
                     .then(res => {
                         User.responseAfterLogin(res);
                         this.$router.push('/home');
                     })
-                    .catch(error => this.errors = error.response.data.errors)
+                    .catch(error => {})
             },
             removeError(field){
                 this.form.errors.clear(field)

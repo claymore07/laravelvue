@@ -266,6 +266,7 @@ class PapersController extends Controller
     public function paperUpdate(PaperRequest $request, $id)
     {
         $this->authorize('IsUserOrIsAdmin');
+
         $paper_db = Paper::findOrFail($id);
         DB::beginTransaction();
         try {

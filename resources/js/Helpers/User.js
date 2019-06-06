@@ -6,7 +6,12 @@ class User{
             .then(res => {
                 this.responseAfterLogin(res)
             }).catch(error => {
-            this.errorSwal('اطلاعات وارد شده صحیح نمی باشد، لطفا مجددا بررسی کنید!')
+            window.swal.fire({
+                title: 'خطا!',
+                type: 'error',
+                confirmButtonText: 'متوجه شدم!',
+                text: 'اطلاعات وارد شده صحیح نمی باشد، لطفا مجددا بررسی کنید!',
+            })
         })
     }
     responseAfterLogin(res){
@@ -16,7 +21,11 @@ class User{
 
         if(Token.isValid(access_token)){
             AppStorage.store(username, userDetail, access_token);
-            window.location = '/home';
+            if(AppStorage.getUserDetail().hasProfile){
+                window.location = '/home';
+            }else{
+                window.location = '/profile';
+            }
         }
     }
     hasToken(){
@@ -28,7 +37,7 @@ class User{
     }
 
     loggedIn(){
-        console.log('logged');
+       // console.log('logged');
         return this.hasToken();
     }
     forceLogOut(){
@@ -51,7 +60,7 @@ class User{
 
     name(){
         if(this.loggedIn()){
-            return AppStorage.getUser();
+           return AppStorage.getUser();
         }
     }
     type(){
@@ -64,9 +73,13 @@ class User{
             return AppStorage.getUserDetail().updated_at;
         }
     }
+    hasProfile(){
+        if(this.loggedIn()){
+            return AppStorage.getUserDetail().hasProfile;
+        }
+    }
     photo(){
         if(this.loggedIn()){
-            console.log(AppStorage.getUserDetail().photo);
             return AppStorage.getUserDetail().photo;
         }
     }

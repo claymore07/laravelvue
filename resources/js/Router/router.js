@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
+
 /** vue router */
 Vue.use(VueRouter);
 let routes = [
@@ -63,6 +64,6 @@ const router = new VueRouter({
     linkActiveClass: "active",
     linkExactActiveClass: "exact-active",
     routes // short for `routes: routes`
-});
-
+});/*
+*/
 export default router

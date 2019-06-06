@@ -231,7 +231,19 @@ Vue.filter('myDateEN', function (created) {
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+router.beforeEach((to, from, next) => {
+    console.log(User.hasProfile())
+    if(!User.hasProfile()){
+        if(to.fullPath === '/profile' || to.fullPath === '/logout'|| to.fullPath === '/login'|| to.fullPath === '/signup'|| to.fullPath === '/'){
+            next()
+        }else{
+            next('/profile')
+        }
+    }else{
 
+        next()
+    }
+});
 const app = new Vue({
     el: '#app',
     router,
@@ -240,6 +252,10 @@ const app = new Vue({
         pageName:'داشبورد',
         is_loggedIn: false,
         active_menu: 0,
+        window: {
+            width: 0,
+            height: 0
+        }
     },
     methods:{
         searchit: _.debounce(() => {
@@ -248,23 +264,41 @@ const app = new Vue({
         },1000),
         loggedIn(){
             this.is_loggedIn =  User.loggedIn();
+        },
+        handleResize() {
+            this.window.width = window.innerWidth;
+            this.window.height = window.innerHeight;
+            if(window.innerWidth > 992 && window.innerWidth < 1240){
+                document.getElementById('body1').classList.add('sidebar-collapse')
+            }else if(window.innerWidth >= 1240){
+                document.getElementById('body1').classList.remove('sidebar-collapse')
+            }
         }
     },
     computed:{
         photo(){
-            return "/img/profile/"+User.photo();
+            if(User.photo() === 'profile.png'){
+                return "/img/"+User.photo();
+            }else{
+                return "/img/profile/"+User.photo();
+            }
         },
         name(){
             return User.name();
         },
         type(){
             return User.type();
-        }
+        },
+
     },
     created(){
+
+        window.addEventListener('resize', this.handleResize)
+        this.handleResize();
         this.loggedIn();
         if(User.loggedIn()){
            // this.$router.push('/home');
+
         }else{
             this.$router.push('/');
         }

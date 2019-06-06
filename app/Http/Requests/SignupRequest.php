@@ -29,4 +29,16 @@ class SignupRequest extends FormRequest
             'password' => 'required|confirmed'
         ];
     }
+    public function messages()
+    {
+        return [
+            'name.required' => 'نام کاربری باید وارد شود.',
+            'email.required' => 'رایانامه باید وارد شود.',
+            'email.unique' => 'رایانامه وارد شده قبلا در سامانه ثبت نامه کرده است.',
+            'email.email' => 'رایانامه باید در فرمت صحیح باشد شود.',
+            'password.required' => 'کلمه عبور باید وارد شود.',
+            'password.confirmed' => 'تکرار کلمه عبور با کلمه عبور برار نیست.',
+            'password.min' => 'کلمه عبور باید حداقل 6 کاراکتر باشد شود.',
+        ];
+    }
 }
