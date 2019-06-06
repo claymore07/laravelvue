@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()">
+        <div class="col-md-12 mt-3" v-if="$gate.isAdminOrAuthor()">
             <div class="card card-4">
                 <div class="card-header justify-content-around d-flex " style="direction: rtl">
                     <div class="col">
@@ -54,7 +54,7 @@
                                     <i class="fa fa-edit blue"></i>
                                 </a>
                                 /
-                                <a href="#" @click="deleteUser(user.id)">
+                                <a v-if="$gate.isAdmin()" href="#" @click="deleteUser(user.id)">
                                     <i class="fa fa-trash red"></i>
                                 </a>
 
@@ -83,13 +83,13 @@
 
 
         <!-- Modal -->
-        <div  v-if="$gate.isAdmin()||$gate.isAuthor()" class="modal  fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div  v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" v-if="!editMode" id="exampleModalLabel"><i
+                        <h5 class="modal-title" v-if="!editMode" id="exampleModalLabel33"><i
                             class="fas fa-user-plus fa-fw"></i> ایجاد کاربر جدید</h5>
-                        <h5 class="modal-title" v-else="editMode" id="exampleModalLabel"><i
+                        <h5 class="modal-title" v-else="editMode" id="exampleModalLabel332"><i
                             class="fas fa-user-cog fa-fw"></i> بروزرسانی کاربر: <span v-if="form.hasProfile">{{form.Fname + ' ' + form.Lname}}</span>
                             <span v-else>{{form.name}} پروفایل ناقص</span></h5>
                         <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
@@ -276,7 +276,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="!$gate.isAdmin()">
+        <div v-if="!$gate.isAdminOrAuthor()">
             <not-found></not-found>
         </div><!-- /404 page -->
     </div><!-- /container-fluid -->

@@ -65,7 +65,8 @@ class User{
     }
     type(){
         if(this.loggedIn()){
-            return AppStorage.getUserDetail().type;
+            const storedToken = AppStorage.getToken();
+            return Token.payload(storedToken).type;
         }
     }
     lastSeen(){

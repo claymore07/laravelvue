@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="col-md-12 mt-3" v-if="$gate.isAdmin()">
+        <div class="col-md-12 mt-3" v-if="$gate.isAdminOrAuthor()">
             <div class="card card-4">
                 <div class="card-header  " style="direction: rtl">
                     <div class="justify-content-around d-lg-flex text-right">
@@ -145,7 +145,7 @@
                 </div><!-- /card-footer --->
             </div>
         </div>
-        <div class="modal  fade" id="confTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="confTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -216,7 +216,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="journalTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="journalTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -287,7 +287,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="bookTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="bookTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -358,7 +358,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="ThesisTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="ThesisTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -429,7 +429,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-       <div class="modal  fade" id="TedTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+       <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="TedTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -500,7 +500,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-       <div class="modal  fade" id="RefereeTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+       <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="RefereeTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -571,7 +571,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-       <div class="modal  fade" id="ProjectTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+       <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="ProjectTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -642,7 +642,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="InventionTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="InventionTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -713,7 +713,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="RewardTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="RewardTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -784,7 +784,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="GrantTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="GrantTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -855,7 +855,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="CourseTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="CourseTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -926,7 +926,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div class="modal  fade" id="BookletTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="BookletTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -997,7 +997,7 @@
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
-        <div v-if="!$gate.isAdmin()">
+        <div v-if="!$gate.isAdminOrAuthor()">
             <not-found></not-found>
         </div><!-- /404 page -->
     </div>

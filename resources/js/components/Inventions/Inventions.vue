@@ -2,7 +2,7 @@
     <div>
 
         <div class="container-fluid">
-            <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
+            <div class="col-md-12 mt-3" >
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
                         <div class="row justify-content-between  text-right">
@@ -103,7 +103,7 @@
                     </div><!-- /card-footer --->
                 </div>
             </div><!-- /col-md-12 --->
-            <div  v-if="$gate.isAdmin()||$gate.isAuthor()" class="modal  fade" id="addNew" tabindex="-1" post="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+            <div class="modal  fade" id="addNew" tabindex="-1" post="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl  modal-dialog-centered" post="document">
                     <div class="modal-content">
                         <div class="modal-header">

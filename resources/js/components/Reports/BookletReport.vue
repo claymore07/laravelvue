@@ -2,7 +2,7 @@
     <div>
 
         <div class="container-fluid">
-            <div class="col-md-12 mt-3" v-if="$gate.isAdminOrUser">
+            <div class="col-md-12 mt-3" v-if="$gate.isAdminOrAuthor()">
                 <div class="card card-4">
                     <div class="card-header  " style="direction: rtl">
                         <div class="row justify-content-between  text-right">
@@ -170,6 +170,9 @@
                 </div>
             </div><!-- /col-md-12 --->
         </div>
+        <div v-if="!$gate.isAdminOrAuthor()">
+            <not-found></not-found>
+        </div><!-- /404 page -->
     </div>
 </template>
 

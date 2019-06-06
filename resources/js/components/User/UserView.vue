@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="row ">
+        <div class="row " v-if="$gate.isAdminOrAuthor()">
             <div class="col-md-12 mt-3">
                 <div class="card card-widget widget-user">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -931,6 +931,9 @@
                 </div>
             </div>
         </div>
+        <div v-if="!$gate.isAdminOrAuthor()">
+            <not-found></not-found>
+        </div><!-- /404 page -->
     </div>
 
 </template>

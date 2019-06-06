@@ -232,7 +232,6 @@ Vue.filter('myDateEN', function (created) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 router.beforeEach((to, from, next) => {
-    console.log(User.hasProfile())
     if(!User.hasProfile()){
         if(to.fullPath === '/profile' || to.fullPath === '/logout'|| to.fullPath === '/login'|| to.fullPath === '/signup'|| to.fullPath === '/'){
             next()

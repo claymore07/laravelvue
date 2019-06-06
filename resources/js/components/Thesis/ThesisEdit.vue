@@ -131,6 +131,36 @@
                         </tr>
                         <tr>
                             <td class="font-16">
+                                <span class="orange ">ترم ثبت شده:</span>
+                                <span v-show="!TermChange" class="mr-3">{{thesis.term_name}}</span>
+                                <div class="d-inline-block" v-if="$gate.isAdminOrAuthor()">
+                                    <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                            id="term_id"
+                                            v-model="term_form.term_id"
+                                            @change="removeError('term_id')"
+                                    >
+                                        <option selected disabled value="">انتخاب ترم ...</option>
+                                        <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
+                                    </select>
+                                    <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple">ثبت تغییر ترم</a>
+                                    <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" >لغو عملیات</a>
+                                    <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" >تغییر ترم</a>
+
+                                </div>
+
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                            </td>
+                            <td v-if="checkList">
+                                <p-check
+                                    :checked="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')"
+                                    @change.native="onChange('ترم ثبت شده', $event)"
+                                    type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                    <i slot="extra" class="icon far fa-check"></i>
+                                </p-check>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-16">
                                 <span class="blue ">وضعیت بررسی:</span>
                                 <span v-if="thesis.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</span>
                                 <span v-else-if="thesis.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
@@ -218,12 +248,12 @@
                     <button v-if="thesis.status != 3 && thesis.status != 1" @click="thesisEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  پایان نامه</button>
                     <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
                     <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
-                    <button v-if="$gate.isAdmin()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
+                    <button v-if="$gate.isAdminOrAuthor()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
                 </div>
             </div>
         </div><!-- /container -->
         <!-- thesisEditModal -->
-        <div  v-if="$gate.isAdmin()||$gate.isAuthor()" class="modal  fade" id="thesisEditModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div  class="modal  fade" id="thesisEditModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -362,7 +392,7 @@
                                 </span>
                                 </td>
                                 <td style="vertical-align: middle">
-                                    <a  v-if="$gate.isAdmin()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                                    <a  v-if="$gate.isAdminOrAuthor()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         </table>
@@ -503,7 +533,7 @@
                 this.form.errors.clear(field)
             },
             goback(){
-                this.$router.push({path:'/thesis'});
+                this.$router.go(-1);
             },
             // shows thesisEditModal
             thesisEditModal(){

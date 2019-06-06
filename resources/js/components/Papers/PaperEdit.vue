@@ -501,9 +501,9 @@
                                 <option selected disabled value="">انتخاب ترم ...</option>
                                 <option v-for="term in terms" :key="term.id" :value="term.id">{{term.text}}</option>
                             </select>
-                            <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrUser">ثبت تغییر ترم</a>
-                            <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrUser">لغو عملیات</a>
-                            <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrUser">تغییر ترم</a>
+                            <a v-show="TermChange" @click="termChangeSubmit" class="btn btn-primary text-white ripple" v-if="$gate.isAdminOrAuthor()">ثبت تغییر ترم</a>
+                            <a v-show="TermChange" @click="showTermChange" class="btn btn-danger text-white ripple" v-if="$gate.isAdminOrAuthor()">لغو عملیات</a>
+                            <a v-show="!TermChange" @click="showTermChange" class="btn btn-success text-white ripple" v-if="$gate.isAdminOrAuthor()">تغییر ترم</a>
 
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
                         </td>
@@ -603,7 +603,7 @@
                 <button v-if="paper.status != 3 && paper.status != 1" @click="paperEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  مقاله</button>
                 <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
                 <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
-                <button v-if="$gate.isAdmin()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
+                <button v-if="$gate.isAdminOrAuthor()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
             </div>
         </div>
     </div><!-- /container -->
@@ -1109,7 +1109,7 @@
                                 </span>
                             </td>
                             <td style="vertical-align: middle">
-                                <a  v-if="$gate.isAdmin()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                                <a  v-if="$gate.isAdminOrAuthor()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
                             </td>
                         </tr>
                     </table>
@@ -1376,7 +1376,7 @@
             },
             // goes to papers list page
             goback(){
-                this.$router.push({path:'/papers'});
+                this.$router.go(-1);
             },
             // shows paperEditModal
             paperEditModal(){

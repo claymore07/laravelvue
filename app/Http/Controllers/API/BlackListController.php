@@ -17,7 +17,7 @@ class BlackListController extends Controller
     public function __construct()
     {
 
-        //$this->middleware('jwt');
+        $this->middleware('jwt');
         $this->perPage=5;
     }
     /**

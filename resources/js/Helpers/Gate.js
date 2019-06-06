@@ -19,12 +19,18 @@ export default class Gate{
         if(this.user.type === 'user' || this.user.type === 'author'){
             return true;
         }
-
     }
     isAdminOrUser(){
         if(this.user.type === 'user' || this.user.type === 'admin'){
             return true;
         }
 
+    }
+    isAdminOrAuthor(){
+        if(this.user.type === 'author' || this.user.type === 'admin'){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
