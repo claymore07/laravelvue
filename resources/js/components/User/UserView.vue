@@ -987,8 +987,17 @@
                         fontFamily: 'IRANSans, Arial',
                     },
                     yaxis: [{
+                        labels: {
+                            formatter:val => this.$options.filters.faDigits(val),
+                            style: {
+                                color: '#000000',
+                                fontSize: '16px',
+                                fontFamily: 'IRANSans, Arial, sans-serif',
+                            },
+                        },
                         title: {
                             text: 'امتیاز',
+                            offsetX: -10,
                             style: {
                                 color: undefined,
                                 fontSize: '16px',
@@ -1019,12 +1028,17 @@
                                 color: '#00E396'
                             },
                             labels: {
+                                formatter:val => this.$options.filters.faDigits(val),
                                 style: {
                                     color: '#00E396',
-                                }
+                                    fontSize: '16px',
+                                    fontFamily: 'IRANSans, Arial, sans-serif',
+                                },
                             },
+
                             title: {
                                 text: "تعداد",
+                                offsetX: -50,
                                 style: {
                                     color: undefined,
                                     fontSize: '16px',

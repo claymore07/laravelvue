@@ -115,6 +115,21 @@
                 term_id: [],
                 showResult: false,
                 radialchartOptions: {
+                    dataLabels: {
+                        enabled: true,
+                        enabledOnSeries: undefined,
+                        formatter: val => this.$options.filters.faDigits(Math.round(val*100)/100) + '%',
+                        style: {
+                            fontSize: '14px',
+                            fontFamily: 'IRANSans, Arial, sans-serif',
+                        },
+
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: val => this.$options.filters.faDigits(val) ,
+                        }
+                    },
                     chart: {
                         toolbar: {
                             show: true,
@@ -143,6 +158,16 @@
                     chart: {
                         id: 'vuechart-example'
                     },
+                    dataLabels: {
+                        enabled: true,
+                        enabledOnSeries: undefined,
+                        formatter: val => this.$options.filters.faDigits(val) ,
+                        style: {
+                            fontSize: '14px',
+                            fontFamily: 'IRANSans, Arial, sans-serif',
+                        },
+
+                    },
                     xaxis: {
                         categories: [],
                         labels: {
@@ -169,6 +194,14 @@
                         fontFamily: 'IRANSans, Arial',
                     },
                     yaxis: {
+                        labels: {
+                            formatter: val => this.$options.filters.faDigits(val),
+                            style: {
+                                color: '#000000',
+                                fontSize: '16px',
+                                fontFamily: 'IRANSans, Arial, sans-serif',
+                            },
+                        },
                         title: {
                             text: 'تعداد',
                             style: {
