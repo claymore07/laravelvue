@@ -41,7 +41,7 @@ class PapersController extends Controller
     public function index()
     {
         //
-        $this->authorize('IsUserOrIsAdmin');
+       // $this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
         $user = Auth::user('api')->load('profile');
 
@@ -59,7 +59,7 @@ class PapersController extends Controller
     }
 
     public function search(){
-        $this->authorize('IsUserOrIsAdmin');
+       // $this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
         $user = Auth::user('api')->load('profile');
@@ -148,7 +148,7 @@ class PapersController extends Controller
 
 
     public function paperRelation(Request $request){
-        $this->authorize('IsUserOrIsAdmin');
+      //  $this->authorize('IsUserOrIsAdmin');
         $excerpts = Excerpt::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
@@ -243,11 +243,11 @@ class PapersController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return PaperResource
      */
     public function show($id)
     {
-        $this->authorize('IsUserOrIsAdmin');
+        //$this->authorize('IsUserOrIsAdmin');
         $paper = Paper::with(['paperable','authors','tags','files','excerpt'])->findOrFail($id);
         return new PaperResource($paper);
 
@@ -261,11 +261,18 @@ class PapersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $this->authorize('IsUserOrIsAdmin');
+        //$this->authorize('IsUserOrIsAdmin');
     }
+
+    /**
+     * @param PaperRequest $request
+     * @param $id
+     * @return PaperResource|\Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function paperUpdate(PaperRequest $request, $id)
     {
-        $this->authorize('IsUserOrIsAdmin');
+       // $this->authorize('IsUserOrIsAdmin');
 
         $paper_db = Paper::findOrFail($id);
         DB::beginTransaction();
@@ -330,13 +337,13 @@ class PapersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Exception
      */
     public function destroy($id)
     {
-        $this->authorize('IsUserOrIsAdmin');
+        //$this->authorize('IsUserOrIsAdmin');
         //
         $paper = Paper::findOrFail($id);
         DB::beginTransaction();

@@ -147,15 +147,17 @@ class UserController extends Controller
             'mode' => 'utf-8', 'format' => 'A4'
         ])->download('FILE_NAME.pdf');*/
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
         if(Gate::allows('isAdmin')||Gate::allows('isAuthor')){
             $order = \Request::get('order');
             $users =User::with('profile')->orderBy('created_at', $order)->paginate($this->perPage);
@@ -164,8 +166,14 @@ class UserController extends Controller
         //
 
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function search(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $order = \Request::get('order');
         if ($search = \Request::get('q')) {
             $users = User::with('profile')->whereHas('profile', function($query)use($search){
@@ -189,10 +197,13 @@ class UserController extends Controller
         return Response::json(array('users'=>$users));
 
     }
+
     /**
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function profileRelation(){
+        //$this->authorize('IsAdminOrIsAuthor');
 
         $degrees = Degree::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
@@ -218,15 +229,18 @@ class UserController extends Controller
             'positions'=>$positions, 'faculties' => $faculties
         ));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function store(UserRequest $request)
     {
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
         $input = $request->all();
         DB::beginTransaction();
         try {
@@ -272,7 +286,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function show($id)
     {
@@ -285,7 +299,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function profile()
     {
@@ -294,11 +308,13 @@ class UserController extends Controller
         return Response::json(array('user'=>auth('api')->user()->load('profile')));
           //  return auth('api')->user();
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function updateProfile(UserRequest $request)
     {
@@ -372,14 +388,16 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function update(UserRequest $request, $id)
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
         $user_db = User::findOrFail($id);
         $input = $request->all();
         DB::beginTransaction();
@@ -433,8 +451,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy($id)
     {

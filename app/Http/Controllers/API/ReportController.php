@@ -56,7 +56,13 @@ class ReportController extends Controller
         $this->perPage=5;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function journalReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $jtype_id = $request->get('jtype_id');
@@ -101,7 +107,14 @@ class ReportController extends Controller
        return JournalReportResource::collection($journalPapers);
 
    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function conferenceReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $conftype_id = $request->get('conftype_id');
@@ -148,7 +161,14 @@ class ReportController extends Controller
         return conferenceReportResource::collection($conferencePapers);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function bookReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $bookType_id = $request->get('bookType_id');
@@ -195,7 +215,14 @@ class ReportController extends Controller
         return BookReportResource::collection($books);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function inventionReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $inventionType_id = $request->get('inventionType_id');
@@ -243,7 +270,14 @@ class ReportController extends Controller
         return InventionReportResource::collection($inventions);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function projectReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $projectType_id = $request->get('project_type_id');
@@ -291,7 +325,14 @@ class ReportController extends Controller
         return ProjectReportResource::collection($projects);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function tedReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $tedType_id = $request->get('ted_type_id');
@@ -338,7 +379,14 @@ class ReportController extends Controller
         return TEDReportResource::collection($teds);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function thesesReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $thesis_type_id = $request->get('thesis_type_id');
@@ -386,7 +434,14 @@ class ReportController extends Controller
         return ThesesReportResource::collection($theses);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function refereesReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $referee_types_id = $request->get('referee_type_id');
@@ -434,7 +489,14 @@ class ReportController extends Controller
         return RefereeReportResource::collection($referees);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function grantsReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $faculty_id = $request->get('faculty_id');
@@ -477,7 +539,14 @@ class ReportController extends Controller
         return GrantReportResource::collection($grants);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function rewardsReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $faculty_id = $request->get('faculty_id');
@@ -520,7 +589,14 @@ class ReportController extends Controller
         return RewardReportResource::collection($rewards);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function bookletsReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $faculty_id = $request->get('faculty_id');
@@ -562,7 +638,14 @@ class ReportController extends Controller
         return BookletReportResource::collection($booklets);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function coursesReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->perPage = $request->get('perPage');
         $faculty_id = $request->get('faculty_id');
@@ -630,7 +713,15 @@ class ReportController extends Controller
         }
         return  \Response::json(['papers'=>$papers,'projects'=>$projects,'books'=>$books/*,'theses'=>$theses,'inventions'=>$inventions*/]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function facultyStats(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
+
         //$faculty_id = $request->get('faculty_id');
         $term = $request->get('term_id');
         $query_type = $request->get('query_type');
@@ -826,7 +917,15 @@ class ReportController extends Controller
         }
         return \Response::json(['success'=>$success,'failed'=>$faild,'unchecked'=>$uncheck, 'titles'=>$faculties_name]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function positionStats(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
+
         $term = $request->get('term_id');
         $query_type = $request->get('query_type');
         $start_date = $request->get('start_date');
@@ -1021,7 +1120,14 @@ class ReportController extends Controller
         return \Response::json(['success'=>$success,'failed'=>$faild,'unchecked'=>$uncheck, 'titles'=>$positions_name]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function typesStats(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
+
         $term = $request->get('term_id');
         $query_type = $request->get('query_type');
         $start_date = $request->get('start_date');
@@ -1311,7 +1417,7 @@ class ReportController extends Controller
                 }
             }
             $counts[] = $count;
-           $scores[] = $score;
+           $scores[] = round($score,2);
         }
 
         return \Response::json(['counts' => $counts, 'scores'=>$scores, 'titles'=>$terms->pluck('name')]);
@@ -1556,6 +1662,11 @@ class ReportController extends Controller
               return BookletReportResource::collection($query);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function dashboardReport(Request $request){
 
         $profile_id = \Auth::user()->profile->id;
@@ -1736,6 +1847,11 @@ class ReportController extends Controller
               return BookletReportResource::collection($query);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function dashboardStats(Request $request){
 
         $profile_id = \Auth::user()->profile->id;
@@ -1880,6 +1996,9 @@ class ReportController extends Controller
     }
 
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function termsList(){
         $termes = Term::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];

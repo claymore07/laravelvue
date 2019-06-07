@@ -35,7 +35,7 @@ class TermsController extends Controller
     public function index()
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $order = \Request::get('order');
         /** @var Term $terms */
@@ -54,7 +54,7 @@ class TermsController extends Controller
     public function store(Request $request)
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
                 [
@@ -74,7 +74,13 @@ class TermsController extends Controller
         return Response::json(['term'=>$term],200);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function termChange(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
 
         if($request->model == 'Thesis' ){
             $item_db = Thesis::findOrFail($request->id);
@@ -124,14 +130,14 @@ class TermsController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -151,24 +157,32 @@ class TermsController extends Controller
         return Response::json(['term'=>$term],200);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function termActivate(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $term = Term::findOrFail($id);
         Term::query()->update(['status'=>0]);
         $term->update(['status'=>1]);
         return Response::json(['term'=>$term],200);
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
     }
 }

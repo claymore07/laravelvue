@@ -23,13 +23,15 @@ class CheckListController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('jwt');
 
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -49,7 +51,7 @@ class CheckListController extends Controller
     {
         //+
 
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
         $this->validate($request,
             [
                 'status' => 'required',
@@ -118,8 +120,9 @@ class CheckListController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
@@ -130,9 +133,10 @@ class CheckListController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
@@ -150,7 +154,7 @@ class CheckListController extends Controller
     public function destroy($id)
     {
         //
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
         $checkListItem = Checklist::findOrFail($id);
         $checkable = $checkListItem->checkable;
         //dd($checkable->checklists()->latest()->first());

@@ -29,7 +29,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getJournalType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $journalTypes = Jtype::all();
         return Response::json(['journalTypeList'=>$journalTypes], 200);
     }
@@ -42,7 +43,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateJType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -66,7 +67,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getConfType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $confTypes = ConfType::all();
         return Response::json(['confTypeList'=>$confTypes], 200);
@@ -80,7 +81,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateConfType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -106,7 +107,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateBookType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -130,7 +131,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getBookType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $bookTypes = BookType::all();
         return Response::json(['bookTypes'=>$bookTypes], 200);
     }
@@ -143,7 +145,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateThesesType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -167,7 +169,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getThesesType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $thesesTypes = ThesesType::all();
         return Response::json(['thesesTypes'=>$thesesTypes], 200);
     }
@@ -179,7 +182,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateTEDType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -203,7 +206,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getTEDType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $tedTypes = TEDType::all();
         return Response::json(['tedTypes'=>$tedTypes], 200);
     }
@@ -215,7 +219,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateRefereeType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -239,7 +243,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getRefereeType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $refereeTypes = RefereeType::all();
         return Response::json(['refereeTypes'=>$refereeTypes], 200);
     }
@@ -251,7 +256,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateProjectType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -275,7 +280,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getProjectType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $projectTypes = ProjectType::all();
         return Response::json(['projectTypes'=>$projectTypes], 200);
     }
@@ -287,7 +293,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateInventionType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -311,7 +317,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getInventionType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $inventionTypes = InventionType::all();
         return Response::json(['inventionTypes'=>$inventionTypes], 200);
     }
@@ -323,7 +330,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateRewardType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -347,7 +354,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getRewardType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $rewardType = score::findOrFail(1);
         return Response::json(['rewardTypes'=>[$rewardType]], 200);
     }
@@ -359,7 +367,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateGrantType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -383,7 +391,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getGrantType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $grantType = score::findOrFail(4);
         return Response::json(['grantTypes'=>[$grantType]], 200);
     }
@@ -395,7 +404,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateCourseType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -419,7 +428,8 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getCourseType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
+
         $courseType = score::findOrFail(2);
         return Response::json(['courseTypes'=>[$courseType]], 200);
     }
@@ -431,7 +441,7 @@ class ScoreController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function updateBookletType(Request $request, $id){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
 
         $this->validate($request,
             [
@@ -455,7 +465,7 @@ class ScoreController extends Controller
      * @throws AuthorizationException
      */
     public function getBookletType(){
-        $this->authorize('isAdmin');
+        $this->authorize('IsAdminOrIsAuthor');
         $bookletType = score::findOrFail(3);
         return Response::json(['bookletTypes'=>[$bookletType]], 200);
     }

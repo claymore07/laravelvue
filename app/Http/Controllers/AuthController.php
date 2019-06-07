@@ -89,7 +89,7 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => new UserResource(auth()->user()),
-            'user_type' => auth()->user()->type,
+            //'user_type' => auth()->user()->type,
         ]);
     }
     public function payload(){

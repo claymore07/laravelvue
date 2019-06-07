@@ -138,7 +138,7 @@ class InventionController extends Controller
 
     }
     public function inventionRelation(Request $request){
-        $this->authorize('IsUserOrIsAdmin');
+       // $this->authorize('IsUserOrIsAdmin');
         $invention_types = InventionType::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();

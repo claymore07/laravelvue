@@ -633,6 +633,7 @@
                         this.course.status = this.checkListForm.status;
                         this.course.score = response.data.score;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
+                        this.toggleCheckList();
                         this.$Progress.finish();
 
                     })

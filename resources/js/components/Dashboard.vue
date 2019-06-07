@@ -864,13 +864,20 @@
                     },
                     yaxis: [{
                         title: {
-                            text: 'تعداد',
+                            text: 'امتیاز',
                             style: {
                                 color: undefined,
                                 fontSize: '16px',
                                 fontFamily: 'IRANSans, Arial, sans-serif',
                                 cssClass: 'apexcharts-yaxis-title',
                             },
+                        },
+                        axisBorder: {
+                            show: true,
+                            color: '#1c86e3'
+                        },
+                        axisTicks: {
+                            show: true,
                         },
 
                         lines: {
@@ -893,7 +900,7 @@
                                 }
                             },
                             title: {
-                                text: "امتیاز",
+                                text: "تعداد",
                                 style: {
                                     color: undefined,
                                     fontSize: '16px',

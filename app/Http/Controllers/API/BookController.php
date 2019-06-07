@@ -144,7 +144,7 @@ class BookController extends Controller
 
     }
     public function bookRelation(Request $request){
-        $this->authorize('IsUserOrIsAdmin');
+       // $this->authorize('IsUserOrIsAdmin');
         $excerpts = Excerpt::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();

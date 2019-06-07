@@ -1,33 +1,36 @@
 import AppStorage from './AppStorage'
+import Token from './Token'
 export default class Gate{
     constructor(){
+        const storedToken = AppStorage.getToken();
+        this.type =  Token.payload(storedToken).type;
         this.user = AppStorage.getUserDetail();
     }
     hasProfile(){
         return this.user.hasProfile;
     }
     isAdmin(){
-        return this.user.type === 'admin';
+        return this.type === 'admin';
     }
     isUser(){
-        return this.user.type === 'user'
+        return this.type === 'user'
     }
     isAuthor(){
-        return this.user.type === 'author'
+        return this.type === 'author'
     }
     isAuthorOrUser(){
-        if(this.user.type === 'user' || this.user.type === 'author'){
+        if(this.type === 'user' || this.type === 'author'){
             return true;
         }
     }
     isAdminOrUser(){
-        if(this.user.type === 'user' || this.user.type === 'admin'){
+        if(this.type === 'user' || this.type === 'admin'){
             return true;
         }
 
     }
     isAdminOrAuthor(){
-        if(this.user.type === 'author' || this.user.type === 'admin'){
+        if(this.type === 'author' || this.type === 'admin'){
             return true;
         }else {
             return false;

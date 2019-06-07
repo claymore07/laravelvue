@@ -18,7 +18,7 @@ class BlackListController extends Controller
     {
 
         $this->middleware('jwt');
-        $this->perPage=5;
+        $this->perPage=10;
     }
     /**
      * Display a listing of the resource.
@@ -28,6 +28,7 @@ class BlackListController extends Controller
     public function index()
     {
         //
+
         $order = \Request::get('order');
         $blacklists = BlackList::orderBy('created_at', $order)->paginate($this->perPage);
         return BlackListResource::collection($blacklists);
@@ -59,13 +60,16 @@ class BlackListController extends Controller
         }
 
     }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function import(Request $request)
     {
+        $this->authorize('IsAdminOrIsAuthor');
         $this->validate($request,[
            'file'=>'required|mimes:xls,xlsx'
         ],[
@@ -89,57 +93,67 @@ class BlackListController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
         //
+        $this->authorize('IsAdminOrIsAuthor');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\BlackList  $blackList
+     * @param  \App\BlackList $blackList
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(BlackList $blackList)
     {
         //
+        $this->authorize('IsAdminOrIsAuthor');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BlackList  $blackList
+     * @param  \App\BlackList $blackList
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(BlackList $blackList)
     {
         //
+        $this->authorize('IsAdminOrIsAuthor');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BlackList  $blackList
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\BlackList $blackList
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, BlackList $blackList)
     {
         //
+        $this->authorize('IsAdminOrIsAuthor');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BlackList  $blackList
+     * @param  \App\BlackList $blackList
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
         //
+        $this->authorize('IsAdminOrIsAuthor');
         $blackList = BlackList::findOrFail($id);
         $counts = Journal::where('blacklist_id', $blackList->id)->count();
         if($counts > 0){

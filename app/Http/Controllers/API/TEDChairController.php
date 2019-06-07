@@ -180,6 +180,7 @@ class TEDChairController extends Controller
         if(Carbon::now()->between( $term->starts_at, $term->ends_at)) {
             $request['profile_id'] = auth('api')->user()->profile['id'];
             $request['status'] = 0;
+            $request['term_id'] = $term->id;
             DB::beginTransaction();
             try {
                 $fileBag = $request->files;
