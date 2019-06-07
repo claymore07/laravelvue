@@ -33305,3 +33305,12 @@ div.form-control.is-invalid > span.select2-container--bootstrap4 .select2-select
   background-color: #d5d6d8 !important;
 }
 
+.captcha.pretty.p-switch .state:before {
+  width: 4em !important;
+  top: calc((0% - (100% - 1.08em)) - 16%) !important;
+}
+
+.captcha.pretty.p-switch.p-fill input:checked ~ .state label:after {
+  left: 2.4em;
+}
+

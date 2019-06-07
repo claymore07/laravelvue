@@ -3,7 +3,9 @@ import Token from './Token'
 export default class Gate{
     constructor(){
         const storedToken = AppStorage.getToken();
-        this.type =  Token.payload(storedToken).type;
+        if(storedToken){
+            this.type =  Token.payload(storedToken).type;
+        }
         this.user = AppStorage.getUserDetail();
     }
     hasProfile(){

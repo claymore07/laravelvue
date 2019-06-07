@@ -6,13 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="58ad72a9-ac07-46e3-afcc-ed111ae5ada9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/SignupRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/SignupRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Reports/FacultyStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Reports/FacultyStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Reports/PositionStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Reports/PositionStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Reports/TypeStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Reports/TypeStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/User/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/User/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/User/UserView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/User/UserView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Helpers/Gate.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Helpers/Gate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/Signup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/Signup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,106 +30,102 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Profile.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/User/Profile.vue">
+      <file leaf-file-name="Login.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Login.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="1096" column="34" lean-forward="true" selection-start-line="1096" selection-start-column="34" selection-end-line="1096" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Terms.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Term/Terms.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2511" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Scores.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Score/Scores.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="178" column="104" lean-forward="true" selection-start-line="178" selection-start-column="104" selection-end-line="178" selection-end-column="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="191" column="20" selection-start-line="191" selection-start-column="12" selection-end-line="191" selection-end-column="20" />
+            <state relative-caret-position="206">
+              <caret line="61" column="109" lean-forward="true" selection-start-line="61" selection-start-column="87" selection-end-line="61" selection-end-column="109" />
               <folding>
-                <element signature="e#618#652#0" expanded="true" />
+                <element signature="n#style#0;n#p-check#0;n#div#0;n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserView.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/User/UserView.vue">
+      <file leaf-file-name="Signup.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Signup.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="993" column="49" selection-start-line="993" selection-start-column="49" selection-end-line="993" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Dashboard.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Dashboard.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="821" column="20" selection-start-line="821" selection-start-column="20" selection-end-line="825" selection-end-column="22" />
+            <state relative-caret-position="154">
+              <caret line="98" column="39" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="39" />
               <folding>
-                <element signature="n#template#0;n#!!top" />
-                <element signature="e#60528#64032#0" />
+                <element signature="n#style#0;n#p-check#0;n#div#1;n#div#0;n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PositionStats.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Reports/PositionStats.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="117" column="20" lean-forward="true" selection-start-line="117" selection-start-column="20" selection-end-line="131" selection-end-column="22" />
-              <folding>
-                <element signature="n#template#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TypeStats.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Reports/TypeStats.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="131" column="22" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
-              <folding>
-                <element signature="n#template#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FacultyStats.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/Reports/FacultyStats.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="131" column="22" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
-              <folding>
-                <element signature="n#template#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DepartmentsController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/DepartmentsController.php">
+      <file leaf-file-name="router.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/Router/router.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="248">
-              <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+              <caret line="8" column="19" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/Helpers/User.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="93">
+              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/api.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AuthController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SignupRequest.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Requests/SignupRequest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="341">
+              <caret line="35" column="64" selection-start-line="35" selection-start-column="64" selection-end-line="35" selection-end-column="64" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PaperEdit.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/Papers/PaperEdit.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-558" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Papers.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/Papers/Papers.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="213" column="33" lean-forward="true" selection-start-line="213" selection-start-column="33" selection-end-line="213" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="722" column="8" selection-start-line="722" selection-start-column="8" selection-end-line="722" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -220,11 +217,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/js/components/Term/Terms.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/Score/Scores.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/Faculty/Faculties.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/Department/Departments.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/BlackList/BlackLists.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Reports/BookletReport.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Reports/GrantReport.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Reports/ProjectReport.vue" />
@@ -251,12 +243,10 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/GrantController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/ScoreController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/TermsController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" />
         <option value="$PROJECT_DIR$/app/Http/Resources/UserResource.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/TEDChairController.php" />
-        <option value="$PROJECT_DIR$/resources/js/Helpers/Gate.js" />
         <option value="$PROJECT_DIR$/resources/js/components/Referees/RefereeEdit.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Inventions/InventionEdit.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Courses/CourseEdit.vue" />
@@ -271,6 +261,13 @@
         <option value="$PROJECT_DIR$/resources/js/components/Reports/PositionStats.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Reports/FacultyStats.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/Reports/TypeStats.vue" />
+        <option value="$PROJECT_DIR$/resources/js/Helpers/Gate.js" />
+        <option value="$PROJECT_DIR$/resources/js/Helpers/AppStorage.js" />
+        <option value="$PROJECT_DIR$/resources/sass/app.scss" />
+        <option value="$PROJECT_DIR$/resources/js/components/auth/Login.vue" />
+        <option value="$PROJECT_DIR$/resources/js/components/auth/Signup.vue" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/SignupRequest.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" />
       </list>
     </option>
   </component>
@@ -434,217 +431,6 @@
               <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Providers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="BlackList" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Booklets" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Books" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Courses" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Grants" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Inventions" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Papers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Projects" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Referees" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Reports" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Rewards" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Score" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="TEDs" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Term" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Thesis" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="User" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Helpers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Router" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="sass" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="layouts" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="laravelvue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravelvue" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="routes" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -764,14 +550,7 @@
       <workItem from="1559447150986" duration="14201000" />
       <workItem from="1559623812368" duration="34249000" />
       <workItem from="1559709368382" duration="42748000" />
-      <workItem from="1559879313826" duration="15789000" />
-    </task>
-    <task id="LOCAL-00023" summary="checklist added, next checklist history and [a[er stauts with عدم تایید قطعی و قابل اصلاح">
-      <created>1549395131329</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1549395131329</updated>
+      <workItem from="1559879313826" duration="22273000" />
     </task>
     <task id="LOCAL-00024" summary="checklist is done!">
       <created>1549522201545</created>
@@ -1109,11 +888,18 @@
       <option name="project" value="LOCAL" />
       <updated>1559904288286</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="All charts' numbers formatted to Persian">
+      <created>1559910161262</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1559910161262</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1549441000" />
+    <option name="totallyTimeSpent" value="1555925000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -1126,18 +912,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="PlantUML" order="4" weight="0.32995737" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
       <window_info id="DB Browser" order="4" />
       <window_info anchor="bottom" id="DB Execution Console" order="13" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5021322" side_tool="true" weight="0.28265524" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5026652" side_tool="true" weight="0.28265524" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32976446" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="npm" order="2" sideWeight="0.50159746" side_tool="true" weight="0.23081024" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4978678" visible="true" weight="0.28265524" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49733475" visible="true" weight="0.28265524" />
       <window_info anchor="bottom" id="TypeScript" order="14" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49840257" visible="true" weight="0.17590618" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
@@ -1216,7 +1001,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Booklets and Inventions front has been done" />
     <MESSAGE value="Papers front and backend refactored. the rest all checked and refactored." />
     <MESSAGE value="Term added to Tables and Models and tested on Thesis for submitting" />
     <MESSAGE value="Term store and show for resume models done, next term edit for models" />
@@ -1241,7 +1025,8 @@
     <MESSAGE value="Dashboard type select, user without profile route control, login and logout some bugs done." />
     <MESSAGE value="Front end access control done, and secure user type management done using getJWTclaims in User Model" />
     <MESSAGE value="backend access control done, and whole app tested on both admin and user access, some bugs fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="backend access control done, and whole app tested on both admin and user access, some bugs fixed" />
+    <MESSAGE value="All charts' numbers formatted to Persian" />
+    <option name="LAST_COMMIT_MESSAGE" value="All charts' numbers formatted to Persian" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1262,73 +1047,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/TermsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="181" column="25" selection-start-line="181" selection-start-column="25" selection-end-line="181" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/ScoreController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="31" column="33" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/CheckListController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="42" column="39" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="90" column="33" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/UserResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="84" column="34" selection-start-line="84" selection-start-column="34" selection-end-line="84" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="1419" column="38" selection-start-line="1419" selection-start-column="38" selection-end-line="1419" selection-end-column="38" />
-          <folding>
-            <element signature="e#68055#71971#0#PHP" />
-            <element signature="e#71976#80321#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5720">
@@ -1440,40 +1158,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/AppStorage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="666">
-          <caret line="34" column="15" selection-start-line="34" selection-start-column="15" selection-end-line="34" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/Token.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="67" column="12" lean-forward="true" selection-start-line="67" selection-start-column="12" selection-end-line="68" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/Gate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="620">
-          <caret line="32" column="41" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/Referees/RefereeEdit.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-11408">
@@ -1485,15 +1169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="774" column="24" lean-forward="true" selection-start-line="774" selection-start-column="24" selection-end-line="774" selection-end-column="47" />
-          <folding>
-            <element signature="n#div#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/Papers/PaperEdit.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4650">
           <folding>
             <element signature="n#div#0;n#template#0;n#!!top" />
           </folding>
@@ -1629,18 +1304,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/Term/Terms.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2511" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/Score/Scores.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="178" column="104" lean-forward="true" selection-start-line="178" selection-start-column="104" selection-end-line="178" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/vue-apexcharts/example/src/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="62">
@@ -1659,37 +1322,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28">
           <caret line="66" column="17" selection-start-line="66" selection-start-column="17" selection-end-line="66" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="191" column="20" selection-start-line="191" selection-start-column="12" selection-end-line="191" selection-end-column="20" />
-          <folding>
-            <element signature="e#618#652#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/User/UserView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="993" column="49" selection-start-line="993" selection-start-column="49" selection-end-line="993" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/User/Profile.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="1096" column="34" lean-forward="true" selection-start-line="1096" selection-start-column="34" selection-end-line="1096" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/DepartmentsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -1714,6 +1346,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Reports/TypeStats.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="557">
+          <caret line="131" column="22" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
+          <folding>
+            <element signature="n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/User/UserView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="993" column="49" selection-start-line="993" selection-start-column="49" selection-end-line="993" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/Reports/FacultyStats.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -1724,13 +1373,150 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/Reports/TypeStats.vue">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/User/Profile.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="131" column="22" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
+        <state relative-caret-position="278">
+          <caret line="1096" column="34" lean-forward="true" selection-start-line="1096" selection-start-column="34" selection-end-line="1096" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Term/Terms.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2511" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Score/Scores.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="178" column="104" lean-forward="true" selection-start-line="178" selection-start-column="104" selection-end-line="178" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="191" column="20" selection-start-line="191" selection-start-column="12" selection-end-line="191" selection-end-column="20" />
           <folding>
-            <element signature="n#template#0;n#!!top" />
+            <element signature="e#618#652#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/DepartmentsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/Gate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/AppStorage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/Token.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="40" column="25" lean-forward="true" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="722" column="8" selection-start-line="722" selection-start-column="8" selection-end-line="722" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Papers/Papers.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="213" column="33" lean-forward="true" selection-start-line="213" selection-start-column="33" selection-end-line="213" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/Papers/PaperEdit.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-558" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Router/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Login.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="61" column="109" lean-forward="true" selection-start-line="61" selection-start-column="87" selection-end-line="61" selection-end-column="109" />
+          <folding>
+            <element signature="n#style#0;n#p-check#0;n#div#0;n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/SignupRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="35" column="64" selection-start-line="35" selection-start-column="64" selection-end-line="35" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Signup.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="98" column="39" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="39" />
+          <folding>
+            <element signature="n#style#0;n#p-check#0;n#div#1;n#div#0;n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
         </state>
       </provider>
     </entry>

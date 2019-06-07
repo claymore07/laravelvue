@@ -46,13 +46,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-0 ">
+                                <div class="col-md-8 offset-md-4">
+                                    <div class="d-md-inline-block ml-5 ">ربات نیستم:</div>
+                                    <div class="mr-5 text-ltr text-left d-md-inline-block">
+                                    <p-check v-model="form.captcha"  style="font-size: 40px" class="captcha p-switch p-fill p-bigger "></p-check>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-5 row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <a class="btn btn-link" href="">
                                         آیا کلمه عبور خود را فراموش کرده اید؟
                                     </a>
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary mr-2" :disabled='isDisabled' >
                                         ورود
+                                    </button>
+                                    <button @click="goToSignUp" class="btn btn-success mr-2"  >
+                                        ثبت نام
                                     </button>
                                 </div>
                             </div>
@@ -65,27 +76,39 @@
 </template>
 
 <script>
+
     export default {
         name: "Login",
         data(){
             return{
+
                 form: new Form({
+                    captcha:false,
                     email:'',
                     password:''
                 })
             }
         },
+        computed: {
+            isDisabled: function(){
+                return !this.form.captcha;
+            }
+        },
         methods:{
+            goToSignUp(){
+                this.$router.push('/signup');
+            },
             login(){
                 User.login(this.form);
 
             }
         },
-        created(){
-            if(User.loggedIn()){
+        created() {
+            if (User.loggedIn()) {
                 this.$router.push('/home')
             }
         },
+
     }
 </script>
 

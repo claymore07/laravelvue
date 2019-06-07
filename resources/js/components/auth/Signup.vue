@@ -60,11 +60,21 @@
                                     <input v-model="form.password_confirmation" id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                                 </div>
                             </div>
-
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-0 mt-4">
+                                <div class="col-md-8 offset-md-4">
+                                    <div class="d-md-inline-block ml-5 ">ربات نیستم:</div>
+                                    <div class="mr-5 text-ltr text-left d-md-inline-block">
+                                        <p-check v-model="form.captcha"  style="font-size: 40px" class="captcha p-switch p-fill p-bigger "></p-check>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0 mt-4">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" :disabled='isDisabled'>
                                         ثبت نام
+                                    </button>
+                                    <button @click="goToLogin" class="btn btn-success mr-2"  >
+                                        ورود
                                     </button>
                                 </div>
                             </div>
@@ -82,6 +92,7 @@
         data(){
           return{
               form: new Form({
+                  captcha:false,
                   name:'',
                   email:'',
                   password:'',
@@ -94,7 +105,15 @@
                 this.$router.push('/home')
             }
         },
+        computed: {
+            isDisabled: function(){
+                return !this.form.captcha;
+            }
+        },
         methods:{
+            goToLogin(){
+                this.$router.push('/login');
+            },
             signup(){
 
                 this.form.post('/api/auth/signup')

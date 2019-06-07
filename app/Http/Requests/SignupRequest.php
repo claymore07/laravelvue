@@ -24,6 +24,7 @@ class SignupRequest extends FormRequest
     public function rules()
     {
         return [
+            'captcha' => 'required',
             'name' => 'required|min:6',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed'
@@ -32,6 +33,7 @@ class SignupRequest extends FormRequest
     public function messages()
     {
         return [
+            'captcha.required' => 'گزینه من ربات نیست ضروری است.',
             'name.required' => 'نام کاربری باید وارد شود.',
             'email.required' => 'رایانامه باید وارد شود.',
             'email.unique' => 'رایانامه وارد شده قبلا در سامانه ثبت نامه کرده است.',

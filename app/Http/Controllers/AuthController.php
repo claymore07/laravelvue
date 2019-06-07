@@ -30,17 +30,25 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
+        $captcha = request('captcha');
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if ($captcha === true) {
+            if (!$token = auth()->attempt($credentials)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            return $this->respondWithToken($token);
         }
-
-        return $this->respondWithToken($token);
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
     public function signup(SignupRequest $request){
+        $captcha = $request->get('captcha');
 
-        User::create($request->all());
-        return $this->login($request);
+        if($captcha === true ){
+            User::create($request->all());
+            return $this->login($request);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
+
     }
     /**
      * Get the authenticated User.
