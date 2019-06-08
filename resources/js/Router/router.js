@@ -55,6 +55,7 @@ let routes = [
     { path: '/facultyStats', component: require('../components/Reports/FacultyStats.vue').default },
     { path: '/positionStats', component: require('../components/Reports/PositionStats.vue').default },
     { path: '/typesStats', component: require('../components/Reports/TypeStats.vue').default },
+    { path: '/regulations', component: require('../components/Regulations/Regulations.vue').default },
     { path: '/notready', component: require('../components/NotFound.vue').default },
     { path: '/*', component: require('../components/NotFound.vue').default },
 ];

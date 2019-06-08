@@ -235,27 +235,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
-                            <table class="table table-bordered table-hover text-right">
-                                <thead>
-                                <td class="align-middle text-center">شماره بند</td>
-                                <td class="align-middle text-center" colspan="1">موضوعات</td>
-                                <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
-                                <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
-                                <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
-                                </thead>
-                                <tr>
-                                    <td class="align-middle text-center"  rowspan="1">بند 16</td>
-                                    <td width="40%" class="align-middle" rowspan="1">داوری و نظارت بر فعالیت های پژوهشی: <br>
-                                    1. داوری مقالات علمی و پژوهشی محلات معتبر و آثار بدیع و ارزنده هنری هر مورد تا 1 امتیاز
-                                        <br>
-                                        2. داوری کتاب، داوری یا نظارت بر طرح های پژوهشی یا فناوری هر مورد تا 2 امتیاز
-                                    </td>
-                                    <td class="align-middle  text-center"> - </td>
-                                    <td class="align-middle  text-center" rowspan="1"> 10 </td>
-                                    <td class="align-middle  text-center" rowspan="1">  </td>
-                                </tr>
-                            </table>
+                        <div class="modal-body text-right text-rtl" style="height: 600px; overflow-y: scroll" >
+                            <div v-html="regulation"></div>
                         </div><!-- modal-body -->
                     </div><!-- /modal-content -->
                 </div><!-- /modal-dialog -->
@@ -273,6 +254,7 @@
         data(){
             return{
                 filter:5,
+                regulation:'',
                 referees:{},
                 referee_types:[],
                 allData :{},
@@ -455,6 +437,13 @@
                         }
                     );
             },
+            prepareRegulation() {
+                axios.get(`/api/regulationDetail/5`).then((response)=>{
+                    this.regulation = response.data.data.detail;
+                }).catch(()=>{
+                    this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
+                });
+            },
 
         },
         computed:{
@@ -492,6 +481,7 @@
                 this.form.reset();
                 this.getResults();
             });
+            this.prepareRegulation();
             this.getResults();
             this.getRefereeRelation();
             this.form.reset();

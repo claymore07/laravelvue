@@ -300,40 +300,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
-                            <table class="table table-bordered table-hover text-right">
-                                <thead>
-                                <td class="align-middle text-center">شماره بند</td>
-                                <td class="align-middle text-center" colspan="1">موضوعات</td>
-                                <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
-                                <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
-                                <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
-                                </thead>
-                                <tr>
-                                    <td class="align-middle text-center"  rowspan="2">بند 16</td>
-                                    <td width="40%" class="align-middle" rowspan="1">1. گزارش های علمی طرح های پژوهشی و فناوری خاتمه یافته در داخل موسسه با تایید معاون پژوهشی
-                                    </td>
-                                    <td class="align-middle  text-center">تا 2</td>
-                                    <td class="align-middle  text-center" rowspan="1"> 6 </td>
-                                    <td class="align-middle  text-center" rowspan="1"> - </td>
-                                </tr>
-                                <tr>
-                                    <td width="40%" class="align-middle" rowspan="1">2. گزارش های علمی طرح های پژوهشی و فناوری با طرف قرارداد خارج از موسسه تایید شده نهاد سفارش دهنده، که تا حدامکان نکات زیر در نظر گرفته شود: <br>
-                                        - استانی، منطقه ای، ملی یا بین المللی بودن موضوع طرح
-                                        <br>
-                                        - گزارش طرح های تحقیقاتی مشترک با دانشگاه ها و موسسه های علمی خارج از کشور تا 1/2 برار.
-                                    </td>
-                                    <td class="align-middle  text-center">تا 15</td>
-                                    <td class="align-middle  text-center" rowspan="1"> - </td>
-                                    <td class="align-middle  text-center" rowspan="1"> - </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5">
-                                        تبصره 1. ویژه اعضای هیات علمی موسسه های تحت نظارت وزارت علوم<br/>
-                                        تبصره 2. طرح های که نتیجه مسئولیت اجرایی یا حقوقی باشد امتیازی تعلق نمی گیرد.
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="modal-body text-right text-rtl" style="height: 600px; overflow-y: scroll" >
+                            <div v-html="regulation"></div>
                         </div><!-- modal-body -->
                     </div><!-- /modal-content -->
                 </div><!-- /modal-dialog -->
@@ -352,6 +320,7 @@
         data(){
             return{
                 filter:5,
+                regulation:'',
                 projects:{},
                 project_types:[],
                 allData :{},
@@ -560,6 +529,13 @@
                         }
                     );
             },
+            prepareRegulation() {
+                axios.get(`/api/regulationDetail/6`).then((response)=>{
+                    this.regulation = response.data.data.detail;
+                }).catch(()=>{
+                    this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
+                });
+            },
 
         },
         computed:{
@@ -592,6 +568,7 @@
                 this.form.reset();
                 this.getResults();
             });
+            this.prepareRegulation();
             this.getResults();
             this.getProjectRelation();
             this.form.reset();

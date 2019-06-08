@@ -1047,7 +1047,7 @@
                     },
                     yaxis: [{
                         labels: {
-                            formatter:val => this.$options.filters.faDigits(val),
+                            formatter:val => this.$options.filters.faDigits(Math.round(val*100)/100),
                             style: {
                                 color: '#000000',
                                 fontSize: '16px',
@@ -1089,7 +1089,7 @@
                                 color: '#00E396'
                             },
                             labels: {
-                                formatter:val => this.$options.filters.faDigits(val),
+                                formatter:val => this.$options.filters.faDigits(Math.round(val*100)/100),
                                 style: {
                                     color: '#00E396',
                                     fontSize: '16px',

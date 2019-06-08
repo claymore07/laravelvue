@@ -54,8 +54,6 @@ Route::apiResources([
 ]);
 
 Route::get('profile','API\UserController@profile');
-Route::post('presonalExportPdf','API\UserController@presonalExportPdf');
-Route::post('userExportPdf','API\UserController@presonalExportPdf');
 Route::post('blacklistimport','API\BlackListController@import');
 
 // post route for update instead of PUT and Patch
@@ -181,9 +179,17 @@ Route::post('personalReport','API\ReportController@personalReport');
 Route::post('dashboardReport','API\ReportController@dashboardReport');
 Route::post('dashboardStats','API\ReportController@dashboardStats');
 
+// User Reports
 Route::post('userStats','API\ReportController@personalStats');
 Route::post('userChart','API\ReportController@personalChart');
 Route::post('userReport','API\ReportController@personalReport');
+Route::post('presonalExportPdf','API\UserController@presonalExportPdf');
+Route::post('userExportPdf','API\UserController@presonalExportPdf');
+
+// Regulations Route
+Route::get('regulationDetail/{regulation}','API\RegulationController@show');
+Route::put('regulationDetail/{regulation}','API\RegulationController@update');
+
 
 // helper routes to get Report relations collections
 Route::get('paperReportRelation','API\PapersController@paperRelation');

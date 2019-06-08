@@ -43,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Right navbar links -->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" style="align-self: center;">
-                ترم فعال111:
+                ترم فعال:
                 <u><?php
                     $term = \App\Models\Term::whereStatus(1)->first();
                     echo $term->name;

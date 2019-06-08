@@ -20,7 +20,7 @@ function arabic_w2e($str) {
         <td colspan="2" style="border: none; font-size: 12pt"><b>مشخصات فردی</b></td>.
         <td rowspan="8" style="border: none; vertical-align: middle; text-align: center">
             @if($user->photo == 'profile.png')
-                <img class="img-thumbnail" src="{{ base_path().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile.png' }}" alt="" width="100" height="100"> </td>
+                <img class="img-thumbnail" src="{{  base_path().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile.png' }}" alt="" width="100" height="100"> </td>
             @else
                 <img class="img-thumbnail" src="{{ base_path().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR."$user->photo" }}" alt="" width="100" height="100"> </td>
             @endif

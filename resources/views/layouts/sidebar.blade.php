@@ -146,6 +146,12 @@
                         <p>لیست مجلات غیرمجاز</p>
                     </router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/regulations" class="nav-link ">
+                        <i class="nav-icon fal fa-info-circle  "></i>
+                        <p>آیین نامه و بخشنامه ها</p>
+                    </router-link>
+                </li>
 
             </ul>
         </li>

@@ -223,42 +223,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
-                            <table class="table table-bordered table-hover text-right">
-                                <thead>
-                                    <td class="align-middle text-center">شماره بند</td>
-                                    <td class="align-middle text-center" colspan="1">موضوعات</td>
-                                    <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
-                                    <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
-                                    <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
-                                </thead>
-                                <tr>
-                                    <td class="align-middle text-center"  rowspan="5">بند 14</td>
-                                    <td width="40%" class="align-middle" rowspan="1">1. ارائه کرسی های علمی-ترویجی</td>
-                                    <td class="align-middle  text-center">2 تا 4</td>
-                                    <td class="align-middle  text-center" rowspan="5"> - </td>
-                                    <td class="align-middle  text-center" rowspan="5"> - </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="align-middle  text-center" rowspan="1">2. ارائه دستاوردها و نتایج علمی و پژوهشی برگرفته از کرسی های نظریه پردازی در همایش ها و میزگردهای علمی و بین المللی</td>
-                                    <td class="align-middle  text-center">4</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle  text-center" rowspan="1">3. نقد علمی در حوزه های علوم به ویژه علوم انسانی و معارف اسلامی</td>
-                                    <td class="align-middle  text-center">3 تا 7</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle  text-center" rowspan="1">3. نوآوری در حوزه های علوم به ویژه علوم انسانی و معارف اسلامی</td>
-                                    <td class="align-middle  text-center">3 تا 7</td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle  text-center" rowspan="1">3. نظریه پردازی در حوزه های علوم به ویژه علوم انسانی و معارف اسلامی</td>
-                                    <td class="align-middle  text-center">7 تا 12</td>
-                                </tr>
-
-
-                            </table>
+                        <div class="modal-body text-right text-rtl" style="height: 600px; overflow-y: scroll" >
+                            <div v-html="regulation"></div>
                         </div><!-- modal-body -->
                     </div><!-- /modal-content -->
                 </div><!-- /modal-dialog -->
@@ -276,6 +242,7 @@
         data(){
             return{
                 filter:5,
+                regulation:'',
                 teds:{},
                 ted_types:[],
                 allData :{},
@@ -457,6 +424,13 @@
                         }
                     );
             },
+            prepareRegulation() {
+                axios.get(`/api/regulationDetail/4`).then((response)=>{
+                    this.regulation = response.data.data.detail;
+                }).catch(()=>{
+                    this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
+                });
+            },
 
         },
         computed:{
@@ -486,6 +460,7 @@
                 this.form.reset();
                 this.getResults();
             });
+            this.prepareRegulation();
             this.getResults();
             this.getTEDRelation();
             this.form.reset();

@@ -229,31 +229,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" style="height: 600px; overflow-y: scroll" >
-                            <table class="table table-bordered table-hover text-right">
-                                    <tr>
-                                        <td class="align-middle text-center"  rowspan="4">بند 13</td>
-                                        <td width="40%" class="align-middle" rowspan="2">1. راهنمایی و مشاوره پایان نامه کارشناسی ارشد یا دکتری حرفه ای یا سطح 3 حوزه( سقف برای پایان نامه های کاربردی با ضریب 1.5 برابر)</td>
-                                        <td class="align-middle  text-center">1. استاد راهنما</td>
-                                        <td class="align-middle  text-center">2</td>
-                                        <td class="align-middle  text-center" rowspan="4">25</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle  text-center">2. استاد مشاور</td>
-                                        <td class="align-middle  text-center">0.5</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle  text-center" rowspan="2">2. راهنمایی و مشاوره پایان نامه دکتری تخصصی یا سطح 4 حوزه( سقف برای پایان نامه های کاربردی با ضریب 1.5 برابر)</td>
-                                        <td width="40%" class="align-middle  text-center">1. استاد راهنما</td>
-                                        <td class="align-middle  text-center">6</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="align-middle  text-center">2. استاد مشاور</td>
-                                        <td class="align-middle  text-center">1.5</td>
-                                    </tr>
-
-                            </table>
+                        <div class="modal-body text-right text-rtl" style="height: 600px; overflow-y: scroll" >
+                            <div v-html="regulation"></div>
                         </div><!-- modal-body -->
                     </div><!-- /modal-content -->
                 </div><!-- /modal-dialog -->
@@ -272,6 +249,7 @@
         data(){
             return{
                 filter:5,
+                regulation:'',
                 theses:{},
                 allData :{},
                 theses_types:[],
@@ -422,6 +400,13 @@
                         }
                     );
             },
+            prepareRegulation() {
+                axios.get(`/api/regulationDetail/3`).then((response)=>{
+                    this.regulation = response.data.data.detail;
+                }).catch(()=>{
+                    this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
+                });
+            },
             createThesis(){
 
             }
@@ -455,6 +440,7 @@
                 this.form.reset();
                 this.getResults();
             });
+            this.prepareRegulation();
             this.getResults();
             this.getThesisRelation();
             this.form.reset();
