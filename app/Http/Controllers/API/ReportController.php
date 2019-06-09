@@ -67,14 +67,16 @@ class ReportController extends Controller
         $this->perPage = $request->get('perPage');
         $jtype_id = $request->get('jtype_id');
         $status = $request->get('status');
+        $reward = $request->get('reward');
         $term = $request->get('term_id');
         $faculty_id = $request->get('faculty_id');
         $department_id = $request->get('department_id');
         $start_date = $request->get('start_date');
         $end_date = $request->get('end_date');
         $order = $request->get('order');
+
         $journalQuery = Journal::with(['papers.profile','papers.profile.faculty','papers.authors','papers.excerpt','papers.term','jtype'])
-            ->whereHas('papers',function ($query) use($status, $term, $start_date,$end_date) {
+            ->whereHas('papers',function ($query) use($reward, $status, $term, $start_date,$end_date) {
                 if (isset($term)) {
                     $query->whereIn('term_id',  explode(',',$term));
                 }
@@ -83,6 +85,9 @@ class ReportController extends Controller
                  }
                 if (isset($status)) {
                     $query->whereIn('status',  explode(',',$status));
+                }
+                if (isset($reward)) {
+                    $query->whereIn('reward',  explode(',',$reward));
                 }
             })->whereHas('jtype', function ($query) use ($jtype_id){
                 if (isset($jtype_id)) {
@@ -119,16 +124,18 @@ class ReportController extends Controller
         $this->perPage = $request->get('perPage');
         $conftype_id = $request->get('conftype_id');
         $status = $request->get('status');
+        $reward = $request->get('reward');
         $term = $request->get('term_id');
         $faculty_id = $request->get('faculty_id');
         $department_id = $request->get('department_id');
         $start_date = $request->get('start_date');
         $end_date = $request->get('end_date');
         $order = $request->get('order');
+
         //
         //\DB::enableQueryLog();
         $conferenceQuery = Conference::with(['papers.profile','papers.authors','papers.excerpt','papers.term','conftype'])
-            ->whereHas('papers',function ($query) use ($term, $status, $start_date,$end_date) {
+            ->whereHas('papers',function ($query) use ($reward,$term, $status, $start_date,$end_date) {
                 if (isset($term)) {
                     $query->whereIn('term_id',  explode(',',$term));
                 }
@@ -137,6 +144,10 @@ class ReportController extends Controller
                 }
                 if (isset($status)) {
                     $query->whereIn('status',  explode(',',$status));
+                }
+
+                if (isset($reward)) {
+                    $query->whereIn('reward',  explode(',',$reward));
                 }
         })->whereHas('conftype', function ($query) use ($conftype_id){
                 if (isset($conftype_id)) {

@@ -10,7 +10,7 @@ class Paper extends Model
     //
     protected $fillable=[
         'title', 'abstract', 'profile_id', 'doi','link', 'paperable_id', 'paperable_type',
-        'accept_date','status', 'publish_date', 'excerpt_id', 'license','license_to', 'lang',
+        'accept_date','status', 'reward', 'publish_date', 'excerpt_id', 'license','license_to', 'lang',
         'score', 'term_id'
     ];
 

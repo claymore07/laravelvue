@@ -302,7 +302,8 @@
                                 </div>
                             </div>
                         </td>
-
+                        <td v-if="checkList">
+                        </td>
                     </tr>
                       <tr v-if="jourType">
                          <td class="font-16">
@@ -538,6 +539,15 @@
                         <td v-if="checkList">
                         </td>
                     </tr>
+                    <tr>
+                        <td class="font-16">
+                            <span class="blue ">شامل پاداش می باشد؟:</span>
+                            <span class="red" v-if="paper.reward === '0'"  ><i class="fal fa-times red"></i>  شامل پاداش نمی باشد </span>
+                            <span class="green" v-else > <i class="fal fa-check "></i>  شامل پاداش می باشد </span>
+                        </td>
+                        <td v-if="checkList">
+                        </td>
+                    </tr>
                     <tr  v-show="checkList">
                         <td colspan="2">
                             <form  data-vv-scope="checkListForm">
@@ -553,6 +563,31 @@
                                 </select>
                                 <i v-show="checkListForm.errors.has('status')" class="red far fa-exclamation-triangle"></i>
                                 <span v-show="checkListForm.errors.has('status')" class="red d-inline-block">{{ checkListForm.errors.get('status') }}</span>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr  v-show="checkList">
+                        <td colspan="2">
+                            <form  data-vv-scope="checkListForm">
+                                <div class="form-group my-3 text-right">
+                                    <label class="blue text-right">شامل پاداش می شود؟<i class="red mx-1">*</i>:</label>
+                                </div>
+                                <div class="form-group mb-4 text-right border-bottom">
+                                    <p-radio v-model="checkListForm.reward" name="license_to" value="1" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
+                                        <i slot="extra" class="icon far fa-check"></i>
+                                        بله
+                                    </p-radio>
+                                    <p-radio v-validate="'required'" v-model="checkListForm.reward"
+                                             name="license_to" value="0" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                        <i slot="extra" class="icon far fa-check"></i>
+                                       خیر
+                                    </p-radio>
+
+                                    <br>
+                                    <i v-show="errors.has('checkListForm.reward') || checkListForm.errors.has('reward')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="errors.has('checkListForm.reward')" class="red d-inline-block">{{ errors.first('checkListForm.reward') }}</span>
+                                    <span v-show="form.errors.has('reward')" class="red d-inline-block">{{ form.errors.get('reward') }}</span>
+                                </div>
                             </form>
                         </td>
                     </tr>
@@ -1161,6 +1196,7 @@
                 checkListForm: new Form({
                     id:'',
                     list:[],
+                    reward:"0",
                     status:null,
                     comment:'',
                     score:''
@@ -1269,6 +1305,7 @@
                     }
                 }
                 this.checkListForm.score = this.paper.score;
+                this.checkListForm.reward = this.paper.reward;
             },
             checkListSubmit(){
                 this.$Progress.start();
@@ -1278,6 +1315,7 @@
                         this.checkListItems.unshift(response.data.checkListItem);
                         this.paper.status = this.checkListForm.status;
                         this.paper.score = response.data.score;
+                        this.paper.reward = response.data.reward;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
                         this.toggleCheckList();
                         this.$Progress.finish();

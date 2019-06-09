@@ -88,6 +88,8 @@ class CheckListController extends Controller
             $item_db = Grant::findOrFail($request->id);
         }elseif ($path == 'api/bookletCheckList') {
             $item_db = Booklet::findOrFail($request->id);
+        }else{
+            return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
         }
 
 
@@ -104,6 +106,7 @@ class CheckListController extends Controller
                 $input['list'] = null;
             }
             $input['comment'] = $request->comment;
+            $input['reward'] = $request->reward;
             $checkListItem = $item_db->checklists()->create($input);
             $checkListItem['list'] = $request->list;
             $item_db->update($input);
@@ -114,7 +117,7 @@ class CheckListController extends Controller
         }
 
         DB::commit();
-        return Response::json(['checkListItem' => $checkListItem, 'score'=> $item_db->score], 200);
+        return Response::json(['checkListItem' => $checkListItem, 'score'=> $item_db->score, 'reward'=> (string)$item_db->reward], 200);
     }
 
     /**

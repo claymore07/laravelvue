@@ -46,6 +46,19 @@
 
                                 </div>
                             </div>
+                            <div class="col-lg-4  mt-3" >
+                                <div class="form-group mb-3 text-right">
+                                    <label class="blue text-right  text-rtl">وضعیت پاداش :</label>
+                                    <!-- @change="searchit" -->
+                                    <Select2  class="form-control select2-form-control" id="reward"
+                                              v-model="reward"
+                                              :options="rewards"
+
+                                              :settings="{theme: 'bootstrap4', placeholder: 'انتخاب وضعیت بررسی', width: '100%' ,multiple: true}">
+                                    </Select2>
+
+                                </div>
+                            </div>
                             <div v-if="paperType == 0" class="col-lg-4  mt-3 " >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع مجله :</label>
@@ -162,6 +175,7 @@
                                         <th>IF</th>
                                         <th>ترم</th>
                                         <th>وضعیت بررسی</th>
+                                        <th>وضعیت پاداش</th>
                                         <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                         <th><select v-model="perPage" @change="getResults()">
                                             <option value="5">5</option>
@@ -174,7 +188,7 @@
                                 <tbody>
 
                                 <tr v-if="papers.length <= 0">
-                                    <td colspan="23"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="24"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(paper, index) in papers" :key="paper.id">
                                     <td>{{counter(index) | faDigit}}</td>
@@ -203,6 +217,8 @@
                                     <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
                                     <td v-else-if="paper.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                                     <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
+                                    <td v-if="paper.reward == '0'"  class="red"><i class="fal fa-times"></i>  خیر</td>
+                                    <td v-else-if="paper.reward == '1'"  class="green"><i class="fal fa-check"></i>  بله</td>
                                     <td colspan="2">{{ paper.created_at | myDate  }}</td>
 
                                 </tr>
@@ -230,6 +246,7 @@
                                         <th>تاریخ چاپ</th>
                                         <th>ترم</th>
                                         <th>وضعیت بررسی</th>
+                                        <th>وضعیت پاداش</th>
                                         <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                         <th><select v-model="perPage" @change="getResults()">
                                             <option value="5">5</option>
@@ -242,7 +259,7 @@
                                 <tbody>
 
                                 <tr v-if="papers.length <= 0">
-                                    <td colspan="21"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                    <td colspan="22"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(paper, index) in papers" :key="paper.id">
                                     <td>{{counter(index) | faDigit}}</td>
@@ -269,6 +286,9 @@
                                     <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
                                     <td v-else-if="paper.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                                     <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
+                                    <td v-if="paper.reward == '0'"  class="red"><i class="fal fa-times"></i>  خیر</td>
+                                    <td v-else-if="paper.reward == '1'"  class="green"><i class="fal fa-check"></i>  بله</td>
+
                                     <td colspan="2">{{ paper.created_at | myDate  }}</td>
 
                                 </tr>
@@ -304,6 +324,7 @@
         data(){
             return{
                 status:[],
+                reward:[],
                 allData :{},
                 papers:[],
                 jtypes:[],
@@ -330,6 +351,10 @@
                 department_id:[],
                 perPage:5,
                 loader : Vue.$loading,
+                rewards:[
+                    {id:1,text:'شامل پاداش می باشد'},
+                    {id:0,text:'شامل پاداش نمی باشد'},
+                ],
                 statuses:[
                     {id:0, text:'بررسی نشده'},
                     {id:4, text:'اصلاح شده'},
@@ -384,6 +409,16 @@
                                 return 'عدم تایید قطعی'
                             }else if(value === 4){
                                 return 'اصلاح شده'
+                            }
+                        }
+                    },
+                    'وضعیت پاداش' : {
+                        field: 'reward',
+                        callback: (value) => {
+                            if (value === "0"){
+                                return 'خیر'
+                            }else if(value === "1"){
+                                return 'بله'
                             }
                         }
                     },
@@ -442,6 +477,16 @@
                             }
                         }
                     },
+                    'وضعیت پاداش' : {
+                        field: 'reward',
+                        callback: (value) => {
+                            if (value === "0"){
+                                return 'خیر'
+                            }else if(value === "1"){
+                                return 'بله'
+                            }
+                        }
+                    },
                     'امتیاز' : 'score',
                     'ترم' : 'term_name',
                     'تاریخ ثبت' : {
@@ -489,6 +534,7 @@
                 this.faculty_id=[];
                 this.department_id=[];
                 this.status=[];
+                this.reward=[];
                 this.perPage=5;
             },
            /* startDownload(){
@@ -508,12 +554,14 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.paperType == 0) {
                     const response = await axios.post('/api/journalReport?order=' + sortOrder + '&term_id=' + this.term_id + '&jtype_id=' + this.jtype_id +
-                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
+                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status+'&reward='+this.reward
+                        +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                     this.excelReport = 0;
                     return response.data.data;
                 } else {
                     const response = await  axios.post('/api/conferenceReport?order=' + sortOrder + '&term_id=' + this.term_id + '&conftype_id=' + this.conftype_id +
-                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
+                        '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status+'&reward='+this.reward
+                        +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
                     this.excelReport = 0;
 
                     return response.data.data;
@@ -532,8 +580,8 @@
                 if (this.paperType == 0) {
 
                     axios.post('/api/journalReport?order=' + sortOrder + '&term_id=' + this.term_id + '&jtype_id=' + this.jtype_id +
-                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status+'&faculty_id=' + this.faculty_id
-                        +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
+                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status+'&reward='+this.reward
+                        +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -548,8 +596,8 @@
                     });
                 } else {
                     axios.post('/api/conferenceReport?order=' + sortOrder + '&term_id=' + this.term_id + '&conftype_id=' + this.conftype_id +
-                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status +'&faculty_id=' + this.faculty_id
-                        +'&department_id=' + this.department_id+ '&page=' + page + '&perPage=' + this.perPage)
+                        '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status +'&reward='+this.reward
+                        +'&faculty_id=' + this.faculty_id +'&department_id=' + this.department_id+ '&page=' + page + '&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
