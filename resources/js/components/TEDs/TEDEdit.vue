@@ -23,7 +23,7 @@
                             <td class="font-16">
                                 <span class="blue">عنوان کرسی‌:</span>
                                 <span class="mr-3">{{ted.title}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان کرسی‌')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان کرسی‌')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('عنوان کرسی‌')"
@@ -37,7 +37,7 @@
                             <td class="font-16">
                                 <span class="blue">نوع کرسی‌:</span>
                                 <span class="mr-3">{{ted.ted_type}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع کرسی‌')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع کرسی‌')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('نوع کرسی‌')"
@@ -51,7 +51,7 @@
                             <td class="font-16">
                                 <span class="blue">نام ارائه دهنده:</span>
                                 <span class="mr-3">{{ted.Author_name}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام ارائه دهنده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام ارائه دهنده')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('نام ارائه دهنده')"
@@ -65,7 +65,7 @@
                             <td class="font-16">
                                 <span class="blue">محل برگزاری:</span>
                                 <span class="mr-3">{{ted.location}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('محل برگزاری')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('محل برگزاری')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('محل برگزاری')"
@@ -82,7 +82,7 @@
                                 <span class="blue ">تاریخ ارائه:</span>
                                 <span class="mr-3 "> {{ted.presentation_date | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{ted.presentation_date | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ ارائه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ ارائه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -107,7 +107,7 @@
 
                                     </div>
                             </span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -138,7 +138,7 @@
 
                                 </div>
 
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -189,10 +189,10 @@
                                 </form>
                             </td>
                         </tr>
-                        <tr  v-show="checkList">
+                        <tr  v-show="checkList && checkListForm.status == 1">
                             <td colspan="2">
                                 <form  data-vv-scope="checkListForm">
-                                    <div v-if="checkListForm.status == 1" class="form-inline">
+                                    <div  class="form-inline">
                                         <div class="form-group w-25 text-right">
                                             <label class="blue ml-3">امتیاز:</label>
                                             <input type="number" :min="ted.minScore" :max="ted.maxScore" name="score"
@@ -428,7 +428,7 @@
                                 </span>
                                 </td>
                                 <td style="vertical-align: middle">
-                                    <a  v-if="$gate.isAdminOrAuthor()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                                    <a  v-if="$gate.isAdmin()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         </table>
@@ -447,9 +447,11 @@
         data(){
             return{
                 options: { // tinyMce toolbar options
+                    directionality : 'rtl',
+
                     language_url: '../js/fa_IR.js', //This url points to location of persian language file.
                     toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat',
-                    toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
+                    toolbar2: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
                 ted:{},

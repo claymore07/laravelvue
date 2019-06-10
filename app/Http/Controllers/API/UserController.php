@@ -245,7 +245,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $user['name'] = $input['name'];
-            $user['password'] = bcrypt($input['password']);
+            $user['password'] = $input['password'];
             $user['email']=$input['email'];
             $user['type']=$input['type'];
             $user['bio']=$input['bio'];
@@ -340,7 +340,7 @@ class UserController extends Controller
             $user['name'] = $input['name'];
             if($request->has('password')){
 
-                $user['password'] = bcrypt($input['password']);
+                $user['password'] =$input['password'];
             }
             $user['email']=$input['email'];
             $user['type']=$input['type'];
@@ -405,7 +405,7 @@ class UserController extends Controller
             $user['name'] = $input['name'];
             if($request->has('password')){
 
-                $user['password'] = bcrypt($input['password']);
+                $user['password'] = $input['password'];
             }
             $user['email']=$input['email'];
             $user['type']=$input['type'];

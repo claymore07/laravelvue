@@ -23,7 +23,7 @@
                             <td class="font-16">
                                 <span class="blue">عنوان طرح پژوهشی:</span>
                                 <span class="mr-3">{{project.title}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان طرح پژوهشی')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان طرح پژوهشی')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('عنوان طرح پژوهشی')"
@@ -40,7 +40,7 @@
                                <span v-if="author.corresponding == '-1'">{{author.name}}،</span>
                                <span v-else style="text-decoration: underline red">{{author.name}}<i class="red">*</i>،</span>
                             </span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسندگان')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسندگان')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -56,7 +56,7 @@
                             <td class="font-16">
                                 <span class="blue">نوع طرح پژوهشی:</span>
                                 <span class="mr-3">{{project.project_type}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع طرح پژوهشی')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع طرح پژوهشی')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('نوع طرح پژوهشی')"
@@ -72,7 +72,7 @@
                             <td class="font-16">
                                 <span class="blue">سازمان طرف قرارداد:</span>
                                 <span class="mr-3">{{project.organization}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('سازمان طرف قرارداد')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('سازمان طرف قرارداد')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('سازمان طرف قرارداد')"
@@ -87,7 +87,7 @@
                             <td class="font-16">
                                 <span class="blue">بودجه طرح پژوهشی:</span>
                                 <span  class="mr-3">{{project.budget | currency}} </span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('بودجه طرح پژوهشی')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('بودجه طرح پژوهشی')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('بودجه طرح پژوهشی')"
@@ -102,7 +102,7 @@
                                 <span class="blue ">تاریخ تصویب در شورای پژوهشی:</span>
                                 <span class="mr-3 "> {{project.council_aprovedate | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{project.council_aprovedate | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ تصویب')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ تصویب')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -118,7 +118,7 @@
                                 <span class="blue ">تاریخ دفاع:</span>
                                 <span class="mr-3 "> {{project.defense_date | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{project.defense_date | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ دفاع')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ دفاع')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -143,7 +143,7 @@
 
                                     </div>
                             </span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -174,7 +174,7 @@
 
                                 </div>
 
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -225,10 +225,10 @@
                                 </form>
                             </td>
                         </tr>
-                        <tr  v-show="checkList">
+                        <tr  v-show="checkList && checkListForm.status == 1">
                             <td colspan="2">
                                 <form  data-vv-scope="checkListForm">
-                                    <div v-if="checkListForm.status == 1" class="form-inline">
+                                    <div class="form-inline">
                                         <div class="form-group w-25 text-right">
                                             <label class="blue ml-3">امتیاز:</label>
                                             <input type="number" :min="project.minScore" :max="project.maxScore" name="score"
@@ -553,7 +553,7 @@
                                 </span>
                                 </td>
                                 <td style="vertical-align: middle">
-                                    <a  v-if="$gate.isAdminOrAuthor()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                                    <a  v-if="$gate.isAdmin()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         </table>
@@ -572,9 +572,10 @@
         data(){
             return {
                 options: { // tinyMce toolbar options
+                    directionality : 'rtl',
                     language_url: '../js/fa_IR.js', //This url points to location of persian language file.
                     toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat',
-                    toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
+                    toolbar2: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
                 project:{},

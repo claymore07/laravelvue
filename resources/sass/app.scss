@@ -723,3 +723,26 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 .captcha.pretty.p-switch.p-fill input:checked ~ .state label:after{
     left: 2.4em;
 }
+
+
+
+@keyframes shadow-pulse
+{
+    0% {
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+    }
+}
+.fe-pulse-w-pause {
+    animation-name: shadow-pulse;
+    border-radius: 50%;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    cursor: pointer;
+}
+.fe-pulse-w-pause:hover,
+.fe-pulse-w-pause:focus {
+    animation-name: unset;
+}

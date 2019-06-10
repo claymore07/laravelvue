@@ -33,8 +33,11 @@ class AuthController extends Controller
         $captcha = request('captcha');
 
         if ($captcha === true) {
+
             if (!$token = auth()->attempt($credentials)) {
+
                 return response()->json(['error' => 'Unauthorized'], 401);
+
             }
             return $this->respondWithToken($token);
         }

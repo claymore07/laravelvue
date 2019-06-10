@@ -23,7 +23,7 @@
                             <td class="font-16">
                                 <span class="blue">عنوان جشنواره، رقابت یا مراسم:</span>
                                 <span class="mr-3">{{reward.name}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان جشنواره')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان جشنواره')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('عنوان جشنواره')"
@@ -37,7 +37,7 @@
                             <td class="font-16">
                                 <span class="blue">نام برنده جایزه:</span>
                                 <span class="mr-3">{{reward.Author_name}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام برنده جایزه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام برنده جایزه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('نام برنده جایزه')"
@@ -51,7 +51,7 @@
                             <td class="font-16">
                                 <span class="blue">عنوان جایزه:</span>
                                 <span class="mr-3">{{reward.title}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان جایزه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('عنوان جایزه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check :checked="checkListForm.list && checkListForm.list.includes('عنوان جایزه')"
@@ -67,7 +67,7 @@
                                 <span class="blue ">نوع جشنواره:</span>
                                 <span class="mr-3">{{reward.type}}</span>
 
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع جشنواره')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع جشنواره')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -85,7 +85,7 @@
                                 <span v-else-if="reward.place == 2" class="mr-3">رتبه دوم</span>
                                 <span v-else-if="reward.place == 3" class="mr-3">رتبه سوم</span>
 
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('رتبه کسب شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('رتبه کسب شده')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -100,7 +100,7 @@
                             <td class="font-16">
                                 <span class="blue ">دوره برگزاری:</span>
                                 <span class="mr-3">{{reward.period}}</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('دوره برگزاری')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('دوره برگزاری')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -117,7 +117,7 @@
                                 <span class="blue ">تاریخ دریافت جایزه:</span>
                                 <span class="mr-3 "> {{reward.holding_date | myDate}} هجری شمسی</span>
                                 <span class="mr-3 "> {{reward.holding_date | myDateEN}} میلادی</span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ دریافت جایزه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تاریخ دریافت جایزه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -142,7 +142,7 @@
 
                                     </div>
                             </span>
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('فایل های ضمیمه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -173,7 +173,7 @@
 
                                 </div>
 
-                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i class="fa fa-times-circle"></i></span>
+                                <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ترم ثبت شده')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
                                 <p-check
@@ -224,10 +224,10 @@
                                 </form>
                             </td>
                         </tr>
-                        <tr  v-show="checkList">
+                        <tr  v-show="checkList && checkListForm.status == 1">
                             <td colspan="2">
                                 <form  data-vv-scope="checkListForm">
-                                    <div v-if="checkListForm.status == 1" class="form-inline">
+                                    <div  class="form-inline">
                                         <div class="form-group w-25 text-right">
                                             <label class="blue ml-3">امتیاز:</label>
                                             <input type="number" :min="reward.minScore" :max="reward.maxScore" name="score"
@@ -490,7 +490,7 @@
                                 </span>
                                 </td>
                                 <td style="vertical-align: middle">
-                                    <a  v-if="$gate.isAdminOrAuthor()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
+                                    <a  v-if="$gate.isAdmin()" @click="deleteCheckListItem(checkListItem.id, index)"><i class="red fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         </table>
@@ -508,9 +508,10 @@
         data(){
             return{
                 options: { // tinyMce toolbar options
+                    directionality : 'rtl',
                     language_url: '../js/fa_IR.js', //This url points to location of persian language file.
                     toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat',
-                    toolbar1: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
+                    toolbar2: ' cut copy paste | ltr rtl | | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
                 reward:{},

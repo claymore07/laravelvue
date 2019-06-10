@@ -189,8 +189,8 @@
                                    :class="{ 'is-invalid': form.errors.has('type') }">
                                <option selected disabled value="">نوع دسترسی به سامانه</option>
                                <option value="admin">مسئول سیستم</option>
-                               <option value="user">کارشناس</option>
-                               <option value="author">کاربر</option>
+                               <option value="author">کارشناس</option>
+                               <option value="user">کاربر</option>
                            </select>
                            <has-error :form="form" field="type"></has-error>
                        </div>

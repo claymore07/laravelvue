@@ -81,7 +81,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <span v-else-if="type === 'author'">کارشناس سیستم</span>
 
                         <span v-else >کاربر</span>
+                    <router-link to="/logout"  class="d-block btn btn-link text-right pr-0 ">
 
+                        <i class=" fas fa-sign-out red"></i>
+
+                            خروج
+
+                    </router-link>
                 </div>
             </div>
 
