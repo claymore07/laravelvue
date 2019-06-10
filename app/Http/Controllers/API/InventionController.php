@@ -33,6 +33,8 @@ class InventionController extends Controller
     {
         //
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
+
         $user = Auth::user('api')->load('profile');
         $inventions = Invention::where(function ($query) use ($user) {
             if ($user->type == 'admin') {
@@ -49,6 +51,8 @@ class InventionController extends Controller
         //$this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
+        $this->perPage = \Request::get('perPage');
+
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {

@@ -61,6 +61,14 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                                <th>
+                                    <select v-model="perPage" @change="getResults()">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </th>
                             </tr>
                             <tr v-if="courses.length <= 0">
                                 <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
@@ -78,7 +86,7 @@
                                 <td v-else-if="course.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                                 <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
                                 <td>{{ course.created_at | myDate  }}</td>
-                                <td>
+                                <td colspan="2">
                                     <router-link :to="{ name: 'courseEdit', params: { id: course.id }}">
                                         <i class="fa fa-edit blue"></i>
                                     </router-link>
@@ -255,6 +263,7 @@
         data(){
             return{
                 filter:5,
+                perPage:5,
                 regulation:'',
                 courses:{},
                 allData :{},
@@ -401,7 +410,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.searchResult) {
                     que = this.search;
-                    axios.get('/api/findCourse?order=' + sortOrder + '&q=' + que +'&filter='+this.filter +'&page=' + page)
+                    axios.get('/api/findCourse?order=' + sortOrder + '&q=' + que +'&filter='+this.filter
+                        +'&page=' + page +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -414,7 +424,8 @@
                         loader1.hide();
                     });
                 } else {
-                    axios.get('/api/course?order=' + sortOrder + '&page=' + page +'&filter='+this.filter)
+                    axios.get('/api/course?order=' + sortOrder + '&page=' + page
+                        +'&filter='+this.filter +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;

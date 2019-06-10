@@ -59,6 +59,14 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                                <th>
+                                    <select v-model="perPage" @change="getResults()">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </th>
                             </tr>
                             <tr v-if="inventions.length <= 0">
                                 <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
@@ -76,7 +84,7 @@
                                 <td v-else-if="invention.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                                 <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
                                 <td>{{ invention.created_at | myDate  }}</td>
-                                <td>
+                                <td colspan="2">
                                     <router-link :to="{ name: 'inventionEdit', params: { id: invention.id }}">
                                         <i class="fa fa-edit blue"></i>
                                     </router-link>
@@ -343,39 +351,7 @@
                             </button>
                         </div>
                         <div class="modal-body" style="height: 600px; overflow-y: scroll" >
-                            <table class="table table-bordered table-hover text-right">
-                                <thead>
-                                <td class="align-middle text-center">شماره بند</td>
-                                <td class="align-middle text-center" colspan="1">موضوعات</td>
-                                <td class="align-middle text-center" colspan="1">حداکثرامتیاز در واحد کار یا نیم سال</td>
-                                <td class="align-middle text-center" colspan="1">حداکثر امتیاز در هر موضوع</td>
-                                <td class="align-middle text-center" colspan="1">حداقل امتیاز لازم در هر دوره ارتقاء</td>
-                                </thead>
-                                <tr>
-                                    <td class="align-middle text-center"  rowspan="2">بند 8</td>
-                                    <td width="40%" class="align-middle" rowspan="1">1. گزارش های علمی طرح های پژوهشی و فناوری خاتمه یافته در داخل موسسه با تایید معاون پژوهشی
-                                    </td>
-                                    <td class="align-middle  text-center">تا 2</td>
-                                    <td class="align-middle  text-center" rowspan="1"> 6 </td>
-                                    <td class="align-middle  text-center" rowspan="1"> - </td>
-                                </tr>
-                                <tr>
-                                    <td width="40%" class="align-middle" rowspan="1">2. گزارش های علمی طرح های پژوهشی و فناوری با طرف قرارداد خارج از موسسه تایید شده نهاد سفارش دهنده، که تا حدامکان نکات زیر در نظر گرفته شود: <br>
-                                        - استانی، منطقه ای، ملی یا بین المللی بودن موضوع طرح
-                                        <br>
-                                        - گزارش طرح های تحقیقاتی مشترک با دانشگاه ها و موسسه های علمی خارج از کشور تا 1/2 برار.
-                                    </td>
-                                    <td class="align-middle  text-center">تا 15</td>
-                                    <td class="align-middle  text-center" rowspan="1"> - </td>
-                                    <td class="align-middle  text-center" rowspan="1"> - </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5">
-                                        تبصره 1. ویژه اعضای هیات علمی موسسه های تحت نظارت وزارت علوم<br/>
-                                        تبصره 2. طرح های که نتیجه مسئولیت اجرایی یا حقوقی باشد امتیازی تعلق نمی گیرد.
-                                    </td>
-                                </tr>
-                            </table>
+                            <div v-html="regulation"></div>
                         </div><!-- modal-body -->
                     </div><!-- /modal-content -->
                 </div><!-- /modal-dialog -->
@@ -396,6 +372,8 @@
         data(){
             return{
                 filter:5,
+                perPage:5,
+                regulation:'',
                 inventions:{},
                 invention_types:[],
                 allData :{},
@@ -558,7 +536,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.searchResult) {
                     que = this.search;
-                    axios.get('/api/findInvention?order=' + sortOrder + '&q=' + que +'&filter='+this.filter +'&page=' + page)
+                    axios.get('/api/findInvention?order=' + sortOrder + '&q=' + que +'&filter='+this.filter
+                        +'&page=' + page +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -571,7 +550,8 @@
                         loader1.hide();
                     });
                 } else {
-                    axios.get('/api/invention?order=' + sortOrder + '&page=' + page +'&filter='+this.filter)
+                    axios.get('/api/invention?order=' + sortOrder + '&page=' + page
+                        +'&filter='+this.filter +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -595,6 +575,13 @@
                             //  console.log(e);
                         }
                     );
+            },
+            prepareRegulation() {
+                axios.get(`/api/regulationDetail/7`).then((response)=>{
+                    this.regulation = response.data.data.detail;
+                }).catch(()=>{
+                    this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
+                });
             },
 
         },
@@ -633,6 +620,7 @@
                 this.form.reset();
                 this.getResults();
             });
+            this.prepareRegulation();
             this.getResults();
             this.getInventionRelation();
             this.form.reset();

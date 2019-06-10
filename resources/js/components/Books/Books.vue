@@ -62,6 +62,14 @@
                                 <th>وضعیت بررسی</th>
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
+                                <th>
+                                    <select v-model="perPage" @change="getResults()">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </th>
                             </tr>
                             <tr v-if="books.length <= 0">
                                 <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
@@ -79,7 +87,7 @@
                                 <td v-else-if="book.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                                 <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
                                 <td>{{ book.created_at | myDate  }}</td>
-                                <td>
+                                <td colspan="2">
                                     <router-link :to="{ name: 'bookEdit', params: { id: book.id }}">
                                         <i class="fa fa-edit blue"></i>
                                     </router-link>
@@ -453,6 +461,7 @@
         data(){
             return {
                 filter:5,
+                perPage:5,
                 regulation:'',
                 books:{},
                 allData :{},
@@ -643,7 +652,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.searchResult) {
                     que = this.search;
-                    axios.get('/api/findBook?order=' + sortOrder + '&q=' + que +'&filter='+this.filter +'&page=' + page)
+                    axios.get('/api/findBook?order=' + sortOrder + '&q=' + que +'&filter='+this.filter
+                        +'&page=' + page +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -656,7 +666,8 @@
                         loader1.hide();
                     });
                 } else {
-                    axios.get('/api/book?order=' + sortOrder + '&page=' + page +'&filter='+this.filter)
+                    axios.get('/api/book?order=' + sortOrder + '&page=' + page +
+                        '&filter='+this.filter +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;

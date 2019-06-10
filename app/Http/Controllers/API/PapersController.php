@@ -43,6 +43,7 @@ class PapersController extends Controller
         //
        // $this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
         $user = Auth::user('api')->load('profile');
 
         $papers = Paper::where(function ($query) use ($user) {
@@ -62,6 +63,8 @@ class PapersController extends Controller
        // $this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
+        $this->perPage = \Request::get('perPage');
+
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {

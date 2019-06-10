@@ -32,6 +32,7 @@ class GrantController extends Controller
     public function index()
     {
         //
+        $this->perPage = \Request::get('perPage');
         $order = \Request::get('order');
         $user = Auth::user('api')->load('profile');
         $grants = Grant::where(function ($query) use ($user) {
@@ -47,6 +48,7 @@ class GrantController extends Controller
     }
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
+        $this->perPage = \Request::get('perPage');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
         $user = Auth::user('api')->load('profile');

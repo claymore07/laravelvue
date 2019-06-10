@@ -34,6 +34,7 @@ class ProjectController extends Controller
     {
         //
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
 
         $user = Auth::user('api')->load('profile');
         $projects = Project::where(function ($query) use ($user) {
@@ -49,9 +50,11 @@ class ProjectController extends Controller
 
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
+        $this->perPage = \Request::get('perPage');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
         $user = Auth::user('api')->load('profile');
+
         if($filter == '5') {
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();

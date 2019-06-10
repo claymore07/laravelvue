@@ -37,6 +37,8 @@ class ThesisController extends Controller
     {
         //
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
+
         $user = Auth::user('api')->load('profile');
         $theses = Thesis::where(function ($query) use ($user) {
             if ($user->type == 'admin') {
@@ -52,7 +54,9 @@ class ThesisController extends Controller
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
         $filter = \Request::get('filter');
+
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {
             if ($search = \Request::get('q')) {

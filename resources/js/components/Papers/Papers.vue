@@ -61,7 +61,15 @@
                             <th>نام صاحب مقاله</th>
                             <th>وضعیت بررسی</th>
                             <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
-                            <th>ابزارهای ویرایشی</th>
+                            <th>ابزارهای ویرایشی </th>
+                            <th>
+                                <select v-model="perPage" @change="getResults()">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </th>
                         </tr>
                         <tr v-if="papers.length <= 0">
                             <td colspan="8"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
@@ -79,7 +87,7 @@
                             <td v-else-if="paper.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
                             <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
                             <td>{{ paper.created_at | myDate  }}</td>
-                            <td>
+                            <td colspan="2">
                                 <router-link :to="{ name: 'paperedit', params: { id: paper.id }}">
                                 <i class="fa fa-edit blue"></i>
                                 </router-link>
@@ -579,7 +587,7 @@
                     plugins:['advlist autolink lists link image charmap print preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code fullscreen', 'insertdatetime media nonbreaking save table contextmenu directionality','template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'],
                 },
                 filter:5,
-
+                perPage:5,
                 regulation:'',
                 papers:{},      // papers list object received from server
                 allData:{},
@@ -817,7 +825,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 if (this.searchResult) {
                     que = this.search;
-                    axios.get('/api/findPaper?order=' + sortOrder + '&q=' + que +'&filter='+this.filter +'&page=' + page)
+                    axios.get('/api/findPaper?order=' + sortOrder + '&q=' + que +'&filter='+this.filter
+                        +'&page=' + page+'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;
@@ -830,7 +839,8 @@
                             loader1.hide();
                         });
                 } else {
-                    axios.get('/api/paper?order=' + sortOrder + '&page=' + page +'&filter='+this.filter)
+                    axios.get('/api/paper?order=' + sortOrder + '&page=' + page +'&filter='+this.filter
+                        +'&perPage=' + this.perPage)
                         .then(response => {
                             loader1.hide();
                             this.allData = response.data;

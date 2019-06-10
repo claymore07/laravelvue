@@ -35,6 +35,7 @@ class RefereeController extends Controller
         //
         //
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
 
         $user = Auth::user('api')->load('profile');
         $referees = Referee::where(function ($query) use ($user) {
@@ -51,6 +52,8 @@ class RefereeController extends Controller
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
+
         $filter = \Request::get('filter');
         $user = Auth::user('api')->load('profile');
         if($filter == '5') {

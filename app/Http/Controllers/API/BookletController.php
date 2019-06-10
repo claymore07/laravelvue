@@ -35,6 +35,7 @@ class BookletController extends Controller
     {
         //
         $order = \Request::get('order');
+        $this->perPage = \Request::get('perPage');
 
         $user = Auth::user('api')->load('profile');
         $booklets = Booklet::where(function ($query) use ($user) {
@@ -49,6 +50,7 @@ class BookletController extends Controller
     }
     public function search(){
         //$this->authorize('IsUserOrIsAdmin');
+        $this->perPage = \Request::get('perPage');
         $order = \Request::get('order');
         $filter = \Request::get('filter');
         $user = Auth::user('api')->load('profile');
