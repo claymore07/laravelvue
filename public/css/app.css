@@ -33351,3 +33351,7 @@ div.form-control.is-invalid > span.select2-container--bootstrap4 .select2-select
           animation-name: unset;
 }
 
+.vpd-month-label {
+  width: 100px !important;
+}
+

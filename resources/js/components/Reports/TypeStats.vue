@@ -12,7 +12,7 @@
                 </div><!-- /.card-header -->
                 <div class="card-body  p-4">
 
-                    <div class="row justify-content-start no-gutters mt-3">
+                    <div class="row justify-content-start  mt-3">
 
                         <div class="col-lg-4  mt-3 mr-2" >
                             <div class="form-group mb-3 text-right">

@@ -14,7 +14,7 @@
                     </div><!-- /.card-header -->
                     <div class="card-body  p-4">
 
-                        <div class="row justify-content-start no-gutters mt-3">
+                        <div class="row justify-content-start  mt-3">
 
                             <div class="col-lg-4  mt-3" >
                                 <div class="form-group mb-3 text-right">
@@ -70,7 +70,22 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 mt-3 ">
+                            <div class="col-lg-4 mt-3  ">
+                                <div class="form-group my-3 py-3 text-right">
+                                    <label class="blue text-right">گزارش براساس:<i class="red mx-1">*</i>:</label>
+
+                                    <p-radio v-model="dateType" name="license_to" value="0" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
+                                        <i slot="extra" class="icon far fa-check"></i>
+                                        تاریخ ثبت
+                                    </p-radio>
+                                    <p-radio v-validate="'required'" v-model="dateType"
+                                             name="license_to" value="1" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                        <i slot="extra" class="icon far fa-check"></i>
+                                        تاریخ ثبت پتنت / تایید
+                                    </p-radio>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mt-3 ">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">از تاریخ :</label>
 
@@ -78,7 +93,7 @@
                                     <date-picker format="YYYY-MM-DD" v-model="start_date" name="start_date" locale="fa,en"></date-picker>
                                 </div>
                             </div>
-                            <div class="col-lg-3 mt-3  ">
+                            <div class="col-lg-4 mt-3  ">
                                 <div  style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تا تاریخ :</label>
 
@@ -226,6 +241,7 @@
                 inventionType_id:[],
                 faculty_id:[],
                 department_id:[],
+                dateType:"0",
                 perPage:5,
                 loader : Vue.$loading,
                 statuses:[
@@ -333,7 +349,8 @@
                 let sortOrder = this.order === 1 ? 'asc' : 'desc';
                 const response = await axios.post('/api/inventionReport?order=' + sortOrder + '&term_id=' + this.term_id + '&inventionType_id=' + this.inventionType_id +
                     '&start_date=' + this.start_date+ '&end_date=' + this.end_date +'&status='+this.status  +'&faculty_id=' + this.faculty_id
-                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport);
+                    +'&department_id=' + this.department_id +'&excelReport=' + this.excelReport
+                    +'&dateType=' + this.dateType);
                 this.excelReport = 0;
                 return response.data.data;
 
@@ -350,7 +367,8 @@
                 let loader1 = Vue.$loading.show();
                 axios.post('/api/inventionReport?order=' + sortOrder + '&term_id=' + this.term_id + '&inventionType_id=' + this.inventionType_id  +
                     '&start_date=' + this.start_date + '&end_date=' + this.end_date + '&status=' + this.status  +'&faculty_id=' + this.faculty_id
-                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage)
+                    +'&department_id=' + this.department_id + '&page=' + page + '&perPage=' + this.perPage
+                    +'&dateType=' + this.dateType)
                     .then(response => {
                         loader1.hide();
                         this.allData = response.data;

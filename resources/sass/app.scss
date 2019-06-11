@@ -744,5 +744,9 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 }
 .fe-pulse-w-pause:hover,
 .fe-pulse-w-pause:focus {
+
     animation-name: unset;
+}
+.vpd-month-label{
+    width: 100px !important;
 }

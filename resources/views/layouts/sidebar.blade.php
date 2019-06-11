@@ -234,6 +234,20 @@
                         <p>گزارش جزوات یا اسلایدها</p>
                     </router-link>
                 </li>
+
+
+            </ul>
+        </li>
+        <li v-if="type === 'admin' && $gate.hasProfile()"  class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-analytics orange"></i>
+                <p>
+                    گزارشات آماری و نموداری
+                    <i class="right fa fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+
                 <li class="nav-item">
                     <router-link to="/facultyStats" class="nav-link ">
                         <i class="nav-icon fal fa-university  "></i>
