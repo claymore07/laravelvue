@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li class="page-item pagination-page-nav" v-for="(page, key) in computed.pageRange" :key="key" :class="{ 'active': page == computed.currentPage }">
-                <a class="page-link" v-if="page !== '...'" href="#" v-on="pageButtonEvents(page)">{{ page | faDigit }}</a>
+                <a class="page-link persian-num" v-if="page !== '...'" href="#" v-on="pageButtonEvents(page)">{{ page  }}</a>
                 <a class="page-link" v-else href="#" v-on="pageButtonEvents(page)">{{ page  }}</a>
             </li>
             <li class="page-item pagination-next-nav" :class="{'disabled': !computed.nextPageUrl}" v-if="computed.nextPageUrl || showDisabled">

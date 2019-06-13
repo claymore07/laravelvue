@@ -82,7 +82,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue ">مدت دوره:</span>
-                                <span class="mr-3">{{course.duration}}</span>
+                                <span class="mr-3 persian-num">{{course.duration}}</span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('مدت دوره')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -139,10 +139,10 @@
 
                         <tr>
                             <td class="font-16">
-                                <span class="orange ">ترم ثبت شده:</span>
-                                <span  v-show="!TermChange" class="mr-3">{{course.term_name}}</span>
+                                <span class="orange  ">ترم ثبت شده:</span>
+                                <span  v-show="!TermChange" class="mr-3 persian-num">{{course.term_name}}</span>
                                 <div class="d-inline-block" v-if="$gate.isAdminOrAuthor()">
-                                    <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                    <select class="persian-num" v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
                                             id="term_id"
                                             v-model="term_form.term_id"
                                             @change="removeError('term_id')"
@@ -183,7 +183,7 @@
                             <td class="font-16">
                                 <span class="blue ">امتیاز کسب شده:</span>
                                 <span v-if="course.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
-                                <span v-else >  {{course.score | faDigits }}</span>
+                                <span v-else class=" persian-num">  {{course.score  }}</span>
                             </td>
                             <td v-if="checkList">
                             </td>
@@ -219,7 +219,7 @@
                                                    class="form-control w-50" v-model="checkListForm.score" >
                                         </div>
                                         <div class="form-group mb-2">
-                                            <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{course.minScore}} و {{course.maxScore}} در نظر گرفته میشود.</span>
+                                            <span class="persian-num">توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{course.minScore}} و {{course.maxScore}} در نظر گرفته میشود.</span>
                                         </div>
                                     </div>
                                     <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>

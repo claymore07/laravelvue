@@ -62,8 +62,8 @@
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
                                 <th>
-                                    <select v-model="perPage" @change="getResults()">
-                                        <option value="5">5</option>
+                                    <select class="persian-num" v-model="perPage" @change="getResults()">
+                                        <option style="font-family: 'IRANSans2', sans-serif !important;" value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
@@ -75,7 +75,7 @@
                                 <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(ted, index) in teds" :key="ted.id">
-                                <td>{{counter(index) | faDigit}}</td>
+                                <td class="persian-num">{{counter(index) }}</td>
                                 <td>{{ ted.title | truncate(40) }}</td>
                                 <td>{{ ted.ted_type  }}</td>
 
@@ -106,11 +106,11 @@
                             <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                             <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                         </pagination>
-                        <span class="table-detail">
+                        <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)  }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total  }}                   </span>
                     </div><!-- /card-footer --->
                 </div>
             </div><!-- /col-md-12 --->

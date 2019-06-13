@@ -133,9 +133,9 @@
                         </td>
                     </tr>
                     <tr v-if="paper.excerpt_id == '3'">
-                        <td class="font-16">
+                        <td class="font-16" >
                             <span class="blue ">توضیحات مجوز:</span>
-                            <span class="mr-3 "> {{paper.license}} </span>
+                            <span class="mr-3 persian-num"> {{paper.license}} </span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('توضیحات مجوز')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                         </td>
                         <td v-if="checkList">
@@ -478,7 +478,7 @@
                     <tr v-if="confType">
                         <td class="font-16">
                             <span class="blue d-inline-block">دوره برگزاری:</span>
-                            <span class="mr-3 d-inline-block"> {{paper.period}}</span>
+                            <span class="mr-3 d-inline-block persian-num"> {{paper.period}}</span>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('دوره برگزاری')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                         </td>
                         <td v-if="checkList">
@@ -495,8 +495,8 @@
                     <tr>
                         <td class="font-16">
                             <span class="orange ">ترم ثبت شده:</span>
-                            <span v-show="!TermChange"  class="mr-3">{{paper.term_name}}</span>
-                            <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                            <span v-show="!TermChange"  class="mr-3 persian-num">{{paper.term_name}}</span>
+                            <select class="persian-num" v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
                                     id="term_id"
                                     v-model="term_form.term_id"
                                     @change="removeError('term_id')"
@@ -536,7 +536,7 @@
                         <td class="font-16">
                             <span class="blue ">امتیاز کسب شده:</span>
                             <span v-if="paper.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
-                            <span v-else >  {{paper.score | faDigits }}</span>
+                            <span v-else  class="persian-num">  {{paper.score  }}</span>
                         </td>
                         <td v-if="checkList">
                         </td>
@@ -603,10 +603,10 @@
                                                placeholder=""
                                                :class="[( errors.has('checkListForm.score') || checkListForm.errors.has('score') ? 'is-invalid': ''  )]"
                                                v-validate="{min_value:paper.minScore,max_value:paper.maxScore}"
-                                               class="form-control w-50" v-model="checkListForm.score" >
+                                               class="form-control w-50 " v-model="checkListForm.score" >
                                     </div>
                                     <div class="form-group mb-2">
-                                        <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{paper.minScore}} و {{paper.maxScore}} در نظر گرفته میشود.</span>
+                                        <span class="persian-num">توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{paper.minScore}} و {{paper.maxScore}} در نظر گرفته میشود.</span>
                                     </div>
                                 </div>
                                 <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>

@@ -92,6 +92,7 @@
                                             <th>نام ناشر</th>
                                             <th>نوع ژورنال</th>
                                             <th>نوع مستخرج بودن</th>
+                                            <th>امتیاز</th>
                                             <th>ترم</th>
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
@@ -104,7 +105,7 @@
                                             <td colspan="21"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(paper, index) in allDatas" :key="paper.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ paper.title | truncate(40) }}</td>
                                             <td>{{ paper.Authors }}</td>
                                             <td>{{ paper.paper_type }}</td>
@@ -112,7 +113,8 @@
                                             <td >{{paper.publisher_name }} </td>
                                             <td >{{paper.jtype_name}} </td>
                                             <td >{{paper.excerpt_name}} </td>
-                                            <td >{{paper.term_name}} </td>
+                                            <td  class="persian-num">{{paper.score}} </td>
+                                            <td  class="persian-num">{{paper.term_name}} </td>
                                             <td v-if="paper.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -154,6 +156,7 @@
                                             <th>نوع کنفرانس</th>
                                             <th>دوره برگزاری</th>
                                             <th>نوع مستخرج بودن</th>
+                                            <th>امتیاز</th>
                                             <th>ترم</th>
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
@@ -166,16 +169,17 @@
                                             <td colspan="17"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr  v-for="(paper, index) in allDatas" >
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ paper.title | truncate(40) }}</td>
                                             <td>{{ paper.Authors }}</td>
                                             <td>{{ paper.paper_type }}</td>
                                             <td >{{paper.conf_name }} </td>
                                             <td >{{paper.conftype_name}} </td>
-                                            <td >{{paper.period}} </td>
+                                            <td  class="persian-num">{{paper.period}} </td>
                                             <td >{{paper.excerpt_name}} </td>
 
-                                            <td >{{paper.term_name}} </td>
+                                            <td  class="persian-num">{{paper.score}} </td>
+                                            <td  class="persian-num">{{paper.term_name}} </td>
                                             <td v-if="paper.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -214,6 +218,7 @@
                                             <th>نام ناشر</th>
                                             <th>موضوع کتاب</th>
                                             <th>تاریخ چاپ</th>
+                                            <th>امتیاز</th>
                                             <th>ترم</th>
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
@@ -226,14 +231,15 @@
                                             <td colspan="19"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(book, index) in allDatas" :key="book.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ book.title | truncate(40) }}</td>
                                             <td>{{ book.Authors }}</td>
                                             <td >{{book.publisher_name | truncate(50)}} </td>
                                             <td>{{ book.subject }}</td>
                                             <td>{{ book.booktype_name }}</td>
                                             <td >{{book.publish_year | myDate}} </td>
-                                            <td >{{book.term_name}} </td>
+                                            <td  class="persian-num">{{book.score}} </td>
+                                            <td  class="persian-num">{{book.term_name}} </td>
                                             <td v-if="book.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="book.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="book.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -273,6 +279,7 @@
                                             <th>بودجه طرح پژوهشی(ریال)</th>
                                             <th>سازمان طرف قرارداد</th>
                                             <th>تاریخ دفاع</th>
+                                            <th>امتیاز</th>
                                             <th>ترم</th>
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
@@ -285,14 +292,15 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(project, index) in allDatas" :key="project.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ project.title | truncate(40) }}</td>
                                             <td>{{ project.Authors }}</td>
                                             <td>{{ project.project_type_name }}</td>
                                             <td>{{ project.budget | currency }}</td>
                                             <td >{{project.organization}} </td>
                                             <td>{{ project.defense_date  | myDate  }}</td>
-                                            <td >{{project.term_name}} </td>
+                                            <td class="persian-num">{{ project.score  }}</td>
+                                            <td  class="persian-num">{{project.term_name}} </td>
                                             <td v-if="project.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="project.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="project.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -329,6 +337,7 @@
                                             <th>نوع اختراع</th>
                                             <th>سمت در تیم</th>
                                             <th>مرحع تایید کننده</th>
+                                            <th>امتیاز</th>
                                             <th>ترم</th>
                                             <th>وضعیت بررسی</th>
                                             <th>تاریخ ثبت</th>
@@ -341,12 +350,13 @@
                                             <td colspan="19"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(invention, index) in allDatas" :key="invention.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ invention.title | truncate(40) }}</td>
                                             <td>{{ invention.inventiontype_name }}</td>
                                             <td >{{invention.post}} </td>
                                             <td>{{ invention.authorities }}</td>
-                                            <td >{{invention.term_name}} </td>
+                                            <td class="persian-num">{{ invention.score }}</td>
+                                            <td  class="persian-num">{{invention.term_name}} </td>
                                             <td v-if="invention.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="invention.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="invention.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -382,8 +392,9 @@
                                             <th>عنوان اثر داوری شده</th>
                                             <th>نوع اثر داوری شده</th>
                                             <th>تاریخ داوری</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th>تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -395,12 +406,13 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(referee, index) in allDatas" :key="referee.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ referee.title | truncate(40) }}</td>
                                             <td>{{ referee.referee_type_name }}</td>
                                             <td>{{ referee.referee_date  | myDate  }}</td>
-                                            <td >{{referee.term_name}} </td>
-                                            <td >{{referee.score}} </td>
+                                            <td  class="persian-num">{{referee.score}} </td>
+                                            <td  class="persian-num">{{referee.term_name}} </td>
+
                                             <td v-if="referee.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="referee.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="referee.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -436,10 +448,11 @@
                                             <th>عنوان جشنواره، رقابت و یا مراسم</th>
                                             <th>عنوان جایزه</th>
                                             <th>نوع جشنواره، رقابت یا مراسم</th>
-                                            <th>رتبه کسب شده</th>
+                                            <th>رتبه </th>
                                             <th>تاریخ برگزاری</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th>تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -451,8 +464,8 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(reward, index) in allDatas" :key="reward.id">
-                                            <td>{{counter(index) | faDigit}}</td>
-                                            <td>{{ reward.name | truncate(40) }}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
+                                            <td>{{ reward.name  }}</td>
                                             <td>{{ reward.title }}</td>
                                             <td>{{ reward.type_name }}</td>
                                             <td><span v-if="reward.place == 1" class="mr-3">رتبه اول</span>
@@ -462,9 +475,9 @@
 
                                             <td>{{ reward.holding_date  | myDate  }}</td>
 
+                                            <td  class="persian-num">{{reward.score}} </td>
+                                            <td  class="persian-num">{{reward.term_name}} </td>
 
-                                            <td >{{reward.term_name}} </td>
-                                            <td >{{reward.score}} </td>
                                             <td v-if="reward.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="reward.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="reward.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -500,8 +513,9 @@
                                             <th>عنوان پایان نامه</th>
                                             <th>نوع پایان نامه</th>
                                             <th>تاریخ دفاع</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -513,13 +527,13 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(thesis, index) in allDatas" :key="thesis.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ thesis.title | truncate(40) }}</td>
                                             <td>{{ thesis.thesis_type_name }}</td>
                                             <td>{{ thesis.defense_date  | myDate  }}</td>
+                                            <td  class="persian-num">{{thesis.score}} </td>
+                                            <td  class="persian-num">{{thesis.term_name}} </td>
 
-                                            <td >{{thesis.term_name}} </td>
-                                            <td >{{thesis.score}} </td>
                                             <td v-if="thesis.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="thesis.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="thesis.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -541,7 +555,7 @@
                                 <div class="card-header" id="heading9">
                                     <h2 class="mb-0">
                                         <button ref="TEDChair" @click="getDashboardData('TEDChair')" class="btn btn-link collapsed"
-                                                :class="[query_type==='TEDChair'||Stats['Thesis']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                                :class="[query_type==='TEDChair'||Stats['TEDChair']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
                                             <i class="nav-icon fal fa-lightbulb-on nav-icon  "></i>
                                             کرسی های نظریه پردازی <span class="badge badge-info">{{Stats['TEDChair'] | faDigit}}</span>
                                         </button>
@@ -556,8 +570,9 @@
                                             <th>نوع کرسی</th>
                                             <th>محل برگزاری</th>
                                             <th>تاریخ ارائه</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -569,14 +584,14 @@
                                             <td colspan="14"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(ted, index) in allDatas" :key="ted.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ ted.title | truncate(40) }}</td>
                                             <td>{{ ted.ted_type_name }}</td>
                                             <td>{{ ted.location  }}</td>
                                             <td>{{ ted.presentation_date  | myDate  }}</td>
+                                            <td  class="persian-num">{{ted.score}} </td>
+                                            <td  class="persian-num">{{ted.term_name}} </td>
 
-                                            <td >{{ted.term_name}} </td>
-                                            <td >{{ted.score}} </td>
                                             <td v-if="ted.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="ted.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="ted.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -613,8 +628,9 @@
                                             <th>میزان بودجه</th>
                                             <th>نوع بودجه</th>
                                             <th>تاریخ تصویب</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -626,7 +642,7 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(grant, index) in allDatas" :key="grant.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ grant.title | truncate(40) }}</td>
                                             <td>{{ grant.budget | currency }}
                                                 <span v-if="grant.type ==0">ریال</span>
@@ -636,9 +652,9 @@
 
                                             <td>{{ grant.submit_date  | myDate  }}</td>
 
+                                            <td  class="persian-num">{{grant.score}} </td>
+                                            <td  class="persian-num">{{grant.term_name}} </td>
 
-                                            <td >{{grant.term_name}} </td>
-                                            <td >{{grant.score}} </td>
                                             <td v-if="grant.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="grant.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="grant.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -676,8 +692,9 @@
                                             <th>سازمان برگزار کننده</th>
                                             <th>مدت دوره</th>
                                             <th>تاریخ برگزاری</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th>تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -689,15 +706,15 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(course, index) in allDatas" :key="course.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ course.title | truncate(40) }}</td>
                                             <td>{{ course.role }}</td>
                                             <td>{{ course.organization }}</td>
                                             <td>{{ course.duration }}</td>
                                             <td>{{ course.holding_date  | myDate  }}</td>
+                                            <td  class="persian-num">{{course.score}} </td>
+                                            <td  class="persian-num">{{course.term_name}} </td>
 
-                                            <td >{{course.term_name}} </td>
-                                            <td >{{course.score}} </td>
                                             <td v-if="course.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="course.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="course.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -735,8 +752,9 @@
                                             <th>نوع جزوه یا اسلاید</th>
                                             <th>مقطع</th>
                                             <th>تاریخ تالیف</th>
+                                            <th>امتیاز </th>
                                             <th>ترم</th>
-                                            <th>امتیاز کسب شده</th>
+
                                             <th>وضعیت بررسی</th>
                                             <th >تاریخ ثبت</th>
                                             <th> ویرایش</th>
@@ -748,7 +766,7 @@
                                             <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                         </tr>
                                         <tr v-for="(booklet, index) in allDatas" :key="booklet.id">
-                                            <td>{{counter(index) | faDigit}}</td>
+                                            <td class="persian-num">{{counter(index)}}</td>
                                             <td>{{ booklet.title | truncate(40) }}</td>
                                             <td>{{ booklet.name  }}</td>
 
@@ -756,9 +774,9 @@
                                             <td>{{ booklet.degree }}</td>
                                             <td>{{ booklet.compilation_date  | myDate  }}</td>
 
+                                            <td  class="persian-num">{{booklet.score}} </td>
+                                            <td  class="persian-num">{{booklet.term_name}} </td>
 
-                                            <td >{{booklet.term_name}} </td>
-                                            <td >{{booklet.score}} </td>
                                             <td v-if="booklet.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                             <td v-else-if="booklet.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                             <td v-else-if="booklet.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -1069,7 +1087,7 @@
 
                         this.optionsUserChart = {...this.optionsUserChart,...{
                                 title: {
-                                    text: `نمودار وضعیت تعداد آثار ثبت شده و امتیازات کسب شده`,
+                                    text: `نمودار وضعیت تعداد آثار ثبت شده و امتیازات `,
                                     align: 'center'
                                 },
                                 xaxis: {

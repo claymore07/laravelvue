@@ -135,10 +135,10 @@
 
                         <tr>
                             <td class="font-16">
-                                <span class="orange ">ترم ثبت شده:</span>
-                                <span v-show="!TermChange" class="mr-3">{{booklet.term_name}}</span>
+                                <span class="orange persian-num">ترم ثبت شده:</span>
+                                <span v-show="!TermChange" class="mr-3 persian-num">{{booklet.term_name}}</span>
                                 <div class="d-inline-block" v-if="$gate.isAdminOrAuthor()">
-                                    <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                    <select class="persian-num" v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
                                             id="term_id"
                                             v-model="term_form.term_id"
                                             @change="removeError('term_id')"
@@ -177,9 +177,9 @@
                         </tr>
                         <tr>
                             <td class="font-16">
-                                <span class="blue ">امتیاز کسب شده:</span>
+                                <span class="blue persian-num">امتیاز کسب شده:</span>
                                 <span v-if="booklet.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
-                                <span v-else >  {{booklet.score | faDigits }}</span>
+                                <span v-else class=" persian-num">  {{booklet.score  }}</span>
                             </td>
                             <td v-if="checkList">
                             </td>
@@ -212,10 +212,10 @@
                                                    placeholder=""
                                                    :class="[( errors.has('checkListForm.score') || checkListForm.errors.has('score') ? 'is-invalid': ''  )]"
                                                    v-validate="{min_value:booklet.minScore,max_value:booklet.maxScore}"
-                                                   class="form-control w-50" v-model="checkListForm.score" >
+                                                   class="form-control w-50 " v-model="checkListForm.score" >
                                         </div>
                                         <div class="form-group mb-2">
-                                            <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{booklet.minScore}} و {{booklet.maxScore}} در نظر گرفته میشود.</span>
+                                            <span class="persian-num">توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{booklet.minScore}} و {{booklet.maxScore}} در نظر گرفته میشود.</span>
                                         </div>
                                     </div>
                                     <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>

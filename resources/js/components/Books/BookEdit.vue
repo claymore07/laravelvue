@@ -115,7 +115,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">شابک:</span>
-                                <span  class="mr-3">{{book.isbn}} </span>
+                                <span  class="mr-3 persian-num">{{book.isbn}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('شابک')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -145,7 +145,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">نوبت چاپ:</span>
-                                <span class="mr-3">{{book.publish_number}}</span>
+                                <span class="mr-3 persian-num">{{book.publish_number}}</span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوبت چاپ')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -174,7 +174,7 @@
                         <tr>
                             <td v-if="book.edited == 1" class="font-16">
                                 <span class="blue">نوبت ویرایش:</span>
-                                <span  class="mr-3">{{book.edited_number}} </span>
+                                <span  class="mr-3 persian-num">{{book.edited_number}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوبت ویرایش')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList && book.edited == 1">
@@ -214,7 +214,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">تیراژ کتاب:</span>
-                                <span  class="mr-3">{{book.copy_number}} </span>
+                                <span  class="mr-3 persian-num">{{book.copy_number}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تیراژ کتاب')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -228,7 +228,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">تعداد صفحات:</span>
-                                <span  class="mr-3">{{book.pages}} </span>
+                                <span  class="mr-3 persian-num">{{book.pages}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تعداد صفحات')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -242,7 +242,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">شماره کتابخانه ملی:</span>
-                                <span  class="mr-3">{{book.national_code}} </span>
+                                <span  class="mr-3 persian-num">{{book.national_code}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('شماره کتابخانه ملی')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -256,7 +256,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">رتبه بندی گنگره:</span>
-                                <span  class="mr-3">{{book.congress_code}} </span>
+                                <span  class="mr-3 persian-num">{{book.congress_code}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('رتبه بندی گنگره')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -270,7 +270,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">رتبه دیویی:</span>
-                                <span  class="mr-3">{{book.dewey_code}} </span>
+                                <span  class="mr-3 persian-num">{{book.dewey_code}} </span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('رتبه دیویی')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -284,10 +284,10 @@
 
                         <tr>
                             <td class="font-16">
-                                <span class="orange ">ترم ثبت شده:</span>
-                                <span v-show="!TermChange" class="mr-3">{{book.term_name}}</span>
+                                <span class="orange  persian-num">ترم ثبت شده:</span>
+                                <span v-show="!TermChange" class="mr-3 persian-num">{{book.term_name}}</span>
                                 <div class="d-inline-block" v-if="$gate.isAdminOrAuthor()">
-                                    <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                    <select class=" persian-num" v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
                                             id="term_id"
                                             v-model="term_form.term_id"
                                             @change="removeError('term_id')"
@@ -330,7 +330,7 @@
                             <td class="font-16">
                                 <span class="blue ">امتیاز کسب شده:</span>
                                 <span v-if="book.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
-                                <span v-else >  {{book.score | faDigits }}</span>
+                                <span v-else class=" persian-num" >  {{book.score  }}</span>
                             </td>
                             <td v-if="checkList">
                             </td>
@@ -366,7 +366,7 @@
                                                    class="form-control w-50" v-model="checkListForm.score" >
                                         </div>
                                         <div class="form-group mb-2">
-                                            <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{book.minScore}} و {{book.maxScore}} در نظر گرفته میشود.</span>
+                                            <span class=" persian-num">توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{book.minScore}} و {{book.maxScore}} در نظر گرفته میشود.</span>
                                         </div>
                                     </div>
                                     <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>

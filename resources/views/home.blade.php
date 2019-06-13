@@ -44,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" style="align-self: center;">
                 ترم فعال:
-                <u><?php
+                <u class="persian-num"><?php
                     $term = \App\Models\Term::whereStatus(1)->first();
                     echo $term->name;
                     ?></u>
@@ -148,7 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         </div>
         <!-- Default to the left -->
-        <strong>کلیه حقوق متعلق به دانشگاه می باشد &copy; @{{ 1397|faDigit }}-@{{ 1398|faDigit }}</strong>
+        <strong class="persian-num">کلیه حقوق متعلق به دانشگاه می باشد &copy;  1397 - 1398</strong>
     </footer>
 
 </div>

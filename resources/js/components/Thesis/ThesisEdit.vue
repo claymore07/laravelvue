@@ -132,9 +132,9 @@
                         <tr>
                             <td class="font-16">
                                 <span class="orange ">ترم ثبت شده:</span>
-                                <span v-show="!TermChange" class="mr-3">{{thesis.term_name}}</span>
+                                <span v-show="!TermChange" class="mr-3 persian-num">{{thesis.term_name}}</span>
                                 <div class="d-inline-block" v-if="$gate.isAdminOrAuthor()">
-                                    <select v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
+                                    <select class="persian-num" v-show="TermChange" v-validate="'required'" data-vv-name="term_id"
                                             id="term_id"
                                             v-model="term_form.term_id"
                                             @change="removeError('term_id')"
@@ -175,7 +175,7 @@
                             <td class="font-16">
                                 <span class="blue ">امتیاز کسب شده:</span>
                                 <span v-if="thesis.status != '1'"  ><i class="fal fa-question"></i>  {{'امتیازی ثبت نشده' }}</span>
-                                <span v-else >  {{thesis.score | faDigits }}</span>
+                                <span v-else class="persian-num">  {{thesis.score }}</span>
                             </td>
                             <td v-if="checkList">
                             </td>
@@ -211,7 +211,7 @@
                                                    class="form-control w-50" v-model="checkListForm.score" >
                                         </div>
                                         <div class="form-group mb-2">
-                                            <span>توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{thesis.minScore}} و {{thesis.maxScore}} در نظر گرفته میشود.</span>
+                                            <span class="persian-num">توجه: امتیاز این آیتم با توجه به بخشنامه در بازه {{thesis.minScore}} و {{thesis.maxScore}} در نظر گرفته میشود.</span>
                                         </div>
                                     </div>
                                     <i v-show="errors.has('checkListForm.score')||checkListForm.errors.has('score')" class="red far fa-exclamation-triangle"></i>

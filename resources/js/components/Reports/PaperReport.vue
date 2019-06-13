@@ -192,7 +192,7 @@
                                         <th>وضعیت بررسی</th>
                                         <th>وضعیت پاداش</th>
                                         <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
-                                        <th><select v-model="perPage" @change="getResults()">
+                                        <th><select  class="persian-num" v-model="perPage" @change="getResults()">
                                             <option value="5">5</option>
                                             <option value="10">10</option>
                                             <option value="20">20</option>
@@ -206,7 +206,7 @@
                                     <td colspan="24"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(paper, index) in papers" :key="paper.id">
-                                    <td>{{counter(index) | faDigit}}</td>
+                                    <td class="persian-num">{{counter(index) }}</td>
                                     <td>{{ paper.title | truncate(40) }}</td>
                                     <td>{{ paper.Authors }}</td>
                                     <td>{{ paper.Author_name }}</td>
@@ -218,7 +218,7 @@
                                     <td >{{paper.publisher_name | truncate(50)}} </td>
                                     <td >{{paper.jtype_name}} </td>
                                     <td >{{paper.excerpt_name}} </td>
-                                    <td >{{paper.license}} </td>
+                                    <td  class="persian-num">{{paper.license}} </td>
                                     <td >{{paper.license_to}} </td>
                                     <td >{{paper.accept_date | myDate}} </td>
                                     <td >{{paper.publish_date | myDate}} </td>
@@ -226,7 +226,7 @@
                                     <td >{{paper.doi}} </td>
                                     <td >{{paper.issn}} </td>
                                     <td >{{paper.IFactor}} </td>
-                                    <td >{{paper.term_name}} </td>
+                                    <td  class="persian-num">{{paper.term_name}} </td>
                                     <td v-if="paper.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                     <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                     <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -263,7 +263,7 @@
                                         <th>وضعیت بررسی</th>
                                         <th>وضعیت پاداش</th>
                                         <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
-                                        <th><select v-model="perPage" @change="getResults()">
+                                        <th><select  class="persian-num" v-model="perPage" @change="getResults()">
                                             <option value="5">5</option>
                                             <option value="10">10</option>
                                             <option value="20">20</option>
@@ -277,7 +277,7 @@
                                     <td colspan="22"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(paper, index) in papers" :key="paper.id">
-                                    <td>{{counter(index) | faDigit}}</td>
+                                    <td  class="persian-num">{{counter(index) }}</td>
                                     <td>{{ paper.title | truncate(40) }}</td>
                                     <td>{{ paper.Authors }}</td>
                                     <td>{{ paper.Author_name }}</td>
@@ -288,14 +288,14 @@
                                     <td >{{paper.conf_name | truncate(50)}} </td>
                                     <td >{{paper.organizer | truncate(50)}} </td>
                                     <td >{{paper.conftype_name}} </td>
-                                    <td >{{paper.period}} </td>
+                                    <td  class="persian-num">{{paper.period}} </td>
                                     <td >{{paper.excerpt_name}} </td>
                                     <td >{{paper.license}} </td>
                                     <td >{{paper.license_to}} </td>
                                     <td >{{paper.accept_date | myDate}} </td>
                                     <td >{{paper.publish_date | myDate}} </td>
 
-                                    <td >{{paper.term_name}} </td>
+                                    <td  class="persian-num">{{paper.term_name}} </td>
                                     <td v-if="paper.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                     <td v-else-if="paper.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                     <td v-else-if="paper.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -317,11 +317,11 @@
                             <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                             <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                         </pagination>
-                        <span class="table-detail">
+                        <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)   }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total }}                   </span>
                     </div><!-- /card-footer --->
                 </div>
             </div><!-- /col-md-12 --->

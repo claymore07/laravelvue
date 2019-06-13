@@ -40,7 +40,7 @@
                             <th>ابزارهای ویرایشی</th>
                         </tr>
                         <tr v-for="(faculty, index) in faculties.data" :key="faculty.id">
-                            <td>{{counter(index) | faDigit}}</td>
+                            <td class="persian-num">{{counter(index) }}</td>
                             <td>{{ faculty.name  }}</td>
                             <td>{{ faculty.created_at | myDate  }}</td>
                             <td>
@@ -62,11 +62,11 @@
                         <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                         <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                     </pagination>
-                    <span class="table-detail">
+                    <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)  }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total }}                   </span>
                 </div><!-- /card-footer --->
             </div>
         </div>

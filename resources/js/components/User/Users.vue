@@ -36,8 +36,8 @@
                         </tr>
 
                         <tr v-for="(user, index) in users.data" :key="user.id">
-                            <td>{{counter(index) | faDigit}}</td>
-                            <td>{{ user.id | faDigit}}</td>
+                            <td class="persian-num">{{counter(index) }}</td>
+                            <td class="persian-num">{{ user.id }}</td>
                             <td v-if="user.profile" :class="{'blue': user.profile}">{{user.profile.Fname +' ' +
                                 user.profile.Lname }}
                             </td>
@@ -71,11 +71,11 @@
                         <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                         <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                     </pagination>
-                    <span class="table-detail">
+                    <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)   }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total  }}                   </span>
                 </div><!-- /card-footer --->
             </div> <!-- /.card -->
         </div><!--- col-md-12 --->
@@ -150,9 +150,8 @@
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">شماره سیبا:</label>
-                           <input v-model="form.siba" type="text" maxlength="13" name="siba" id="siba" placeholder="0000000000000"
+                           <input v-model="form.siba" type="tel" maxlength="13" name="siba" id="siba" placeholder="0000000000000"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('siba') }"
-                                  pattern="[0-9]{13}"
                                   data-error-pattern-mismatch="شماره حساب سیبا باید عدد و بطول 13 باشد!"
                                   required>
                            <has-error :form="form" field="siba"></has-error>
@@ -161,16 +160,15 @@
                            <label class="blue">شماره موبایل:</label>
                            <input v-model="form.phone" type="tel" maxlength="11" name="phone" id="phone" placeholder="09111111111"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }"
-                                  pattern="[0-9]{11}"
+
                                   data-error-pattern-mismatch="شماره موبایل باید عدد و بطول 11 باشد!"
                                   required>
                            <has-error :form="form" field="phone"></has-error>
                        </div>
                        <div class="form-group my-5 text-right">
                            <label class="blue">شماره پرسنلی:</label>
-                           <input   v-model="form.personal_id" type="text" name="personal_id" placeholder="111"
+                           <input   v-model="form.personal_id" type="tel" name="personal_id" placeholder="111"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('personal_id') }"
-                                  pattern="[0-9]{3,12}"
                                   data-error-pattern-mismatch="شماره پرسنلی باید عدد و حداقل به طول 3  باشد!"
                                   required>
                            <has-error :form="form" field="personal_id"></has-error>

@@ -130,7 +130,7 @@
                                     <th>امتیاز کسب شده</th>
                                     <th>وضعیت بررسی</th>
                                     <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
-                                    <th><select v-model="perPage" @change="getResults()">
+                                    <th><select  class="persian-num" v-model="perPage" @change="getResults()">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
@@ -144,18 +144,18 @@
                                     <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(course, index) in courses" :key="course.id">
-                                    <td>{{counter(index) | faDigit}}</td>
+                                    <td class="persian-num">{{counter(index) }}</td>
                                     <td>{{ course.title | truncate(40) }}</td>
                                     <td>{{ course.Author_name }}</td>
                                     <td>{{ course.faculty }}</td>
                                     <td>{{ course.department }}</td>
                                     <td>{{ course.role }}</td>
                                     <td>{{ course.organization }}</td>
-                                    <td>{{ course.duration }}</td>
+                                    <td  class="persian-num">{{ course.duration }}</td>
                                     <td>{{ course.holding_date  | myDate  }}</td>
 
-                                    <td >{{course.term_name}} </td>
-                                    <td >{{course.score}} </td>
+                                    <td  class="persian-num">{{course.term_name}} </td>
+                                    <td  class="persian-num">{{course.score}} </td>
                                     <td v-if="course.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                     <td v-else-if="course.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                     <td v-else-if="course.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -175,11 +175,11 @@
                             <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                             <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                         </pagination>
-                        <span class="table-detail">
+                        <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)   }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total}}                   </span>
                     </div><!-- /card-footer --->
                 </div>
             </div><!-- /col-md-12 --->

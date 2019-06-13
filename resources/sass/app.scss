@@ -81,6 +81,46 @@ $fa-font-path: "../webfonts";
     url('../fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
     url('../fonts/ttf/IRANSansWeb.ttf') format('truetype');
 }
+@font-face {
+    font-family: IRANSans2;
+    font-style: normal;
+    font-weight: bold;
+    font-display: fallback;
+    src: url('../fonts/IRANSansWeb(FaNum)_Bold.eot');
+    src: url('../fonts/IRANSansWeb(FaNum)_Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/IRANSansWeb(FaNum)_Bold.woff2') format('woff2'),
+    url('../fonts/IRANSansWeb(FaNum)_Bold.woff') format('woff'),
+    url('../fonts/IRANSansWeb(FaNum)_Bold.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: IRANSans2;
+    font-style: normal;
+    font-weight: normal;
+    font-display: fallback;
+    src: url('../fonts/IRANSansWeb(FaNum).eot');
+    src: url('../fonts/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),
+    url('../fonts/IRANSansWeb(FaNum).woff2') format('woff2'),
+    url('../fonts/IRANSansWeb(FaNum).woff') format('woff'),
+    url('../fonts/IRANSansWeb(FaNum).ttf') format('truetype');
+}
+
+@font-face {
+    font-family: IRANSans2;
+    font-style: normal;
+    font-weight: 300;
+    font-display: fallback;
+    src: url('../fonts/IRANSansWeb(FaNum)_Light.eot');
+    src: url('../fonts/IRANSansWeb(FaNum)_Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/IRANSansWeb(FaNum)_Light.woff2') format('woff2'),
+    url('../fonts/IRANSansWeb(FaNum)_Light.woff') format('woff'),
+    url('../fonts/IRANSansWeb(FaNum)_Light.ttf') format('truetype');
+}
+
+body, html, h1, h2, h3, h4, h5, h6,input, textarea, body, table, tr, td, p, a, select {
+    font-family: IRANSans, sans-serif !important;
+}
 .font-20{
     font-size: 20px !important;
 }
@@ -229,9 +269,7 @@ $fa-font-path: "../webfonts";
     padding: 1rem 1rem;
     margin:  -1rem -1rem -1rem -1rem !important;
 }
-h1, h2, h3, h4, h5, h6,input, textarea, body, table, tr, td, p, a, select{
-    font-family: IRANSans !important;
-}
+
 .page-item:last-child .page-link {
     border-top-left-radius: 0.25rem !important;
     border-bottom-left-radius: 0.25rem !important;
@@ -701,6 +739,10 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 }
 .select2-container .select2-search--inline, .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice{
     float: right !important;
+    font-family: IRANSans2, Tahoma, sans-serif;
+}
+.select2-results__option{
+    font-family: IRANSans2, Tahoma, sans-serif;
 }
 .select2-results__option[aria-selected=true]:before {
     font-family: "Font Awesome 5 Pro";
@@ -749,4 +791,19 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 }
 .vpd-month-label{
     width: 100px !important;
+}
+.vpd-wrapper  {
+    font-family:   IRANSans2,Tahoma,sans-serif !important;
+}
+.persian-num,.persian-num option, input[type=number] , input[type=tel]  {
+    font-family:  IRANSans2,Tahoma,sans-serif !important;
+
+}
+
+.vpd-dir-ltr .vpd-content {
+    text-align: left;
+    font-family: sans-serif !important;
+}
+.btn .badge {
+    font-size: 0.85rem;
 }

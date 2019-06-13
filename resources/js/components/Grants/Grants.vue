@@ -61,7 +61,7 @@
                                 <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
                                 <th>ابزارهای ویرایشی</th>
                                 <th>
-                                    <select v-model="perPage" @change="getResults()">
+                                    <select class="persian-num" v-model="perPage" @change="getResults()">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
@@ -73,7 +73,7 @@
                                 <td colspan="7"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                             </tr>
                             <tr v-for="(grant, index) in grants" :key="grant.id">
-                                <td>{{counter(index) | faDigit}}</td>
+                                <td class="persian-num">{{counter(index)}}</td>
                                 <td>{{ grant.title | truncate(40) }}</td>
                                 <td >{{ grant.type  }}</td>
 
@@ -104,11 +104,11 @@
                             <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                             <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                         </pagination>
-                        <span class="table-detail">
+                        <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)   }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total }}                   </span>
                     </div><!-- /card-footer --->
                 </div>
             </div><!-- /col-md-12 --->
@@ -168,7 +168,7 @@
                                         </div>
                                         <div  class="form-group my-3 text-right">
                                             <span class="red">میزان جذب شده بصورت ریال یا دلار در نظر گرفته می شود</span><br>
-                                            <label class="blue ">میزان بودجه جذب شده <i class="red mx-1">*</i>:{{ form.budget | currency}}
+                                            <label class="blue persian-num">میزان بودجه جذب شده <i class="red mx-1">*</i>:{{ form.budget | currency}}
                                                 <span v-if="form.type == 0">ریال</span>
                                                 <span v-if="form.type == 1">$</span>
                                             </label>

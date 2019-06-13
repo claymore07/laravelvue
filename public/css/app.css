@@ -32566,6 +32566,53 @@ readers do not read off random characters that represent icons */
   src: url(/fonts/IRANSansWeb.eot?d3931868176480f01fd4524cbd48b667) format("embedded-opentype"), url(/fonts/IRANSansWeb.woff2?0b5055ac357359f8c23320ea3dc0f78b) format("woff2"), url(/fonts/IRANSansWeb.woff?66b5cb30e2efe84dab915617acd39041) format("woff"), url(/fonts/IRANSansWeb.ttf?c26a9eb202b3ef6455281f0335cfffe9) format("truetype");
 }
 
+@font-face {
+  font-family: IRANSans2;
+  font-style: normal;
+  font-weight: bold;
+  font-display: fallback;
+  src: url("/fonts/IRANSansWeb(FaNum)_Bold.eot?a97ff63f432049ada562b2d4cda681ff");
+  src: url("/fonts/IRANSansWeb(FaNum)_Bold.eot?a97ff63f432049ada562b2d4cda681ff") format("embedded-opentype"), url("/fonts/IRANSansWeb(FaNum)_Bold.woff2?3589a3ce688ae8bb4844695fc99486db") format("woff2"), url("/fonts/IRANSansWeb(FaNum)_Bold.woff?e836ee3ec82a8794c92cc132e6351695") format("woff"), url("/fonts/IRANSansWeb(FaNum)_Bold.ttf?8f812ea61c00dbbd63226a4e5604e0c6") format("truetype");
+}
+
+@font-face {
+  font-family: IRANSans2;
+  font-style: normal;
+  font-weight: normal;
+  font-display: fallback;
+  src: url("/fonts/IRANSansWeb(FaNum).eot?5d86e75ed549612bd40352e5f50b3f1b");
+  src: url("/fonts/IRANSansWeb(FaNum).eot?5d86e75ed549612bd40352e5f50b3f1b") format("embedded-opentype"), url("/fonts/IRANSansWeb(FaNum).woff2?e8ef20357ee97e45a8d93cd1e0d1330f") format("woff2"), url("/fonts/IRANSansWeb(FaNum).woff?a1233cc118c5257c1add132a786df256") format("woff"), url("/fonts/IRANSansWeb(FaNum).ttf?bab5e043e4fc4bcce51699f943003c85") format("truetype");
+}
+
+@font-face {
+  font-family: IRANSans2;
+  font-style: normal;
+  font-weight: 300;
+  font-display: fallback;
+  src: url("/fonts/IRANSansWeb(FaNum)_Light.eot?368618b75bce7491df78cfc6de038248");
+  src: url("/fonts/IRANSansWeb(FaNum)_Light.eot?368618b75bce7491df78cfc6de038248") format("embedded-opentype"), url("/fonts/IRANSansWeb(FaNum)_Light.woff2?c0efd1108540ff4bfe02c234b41d5034") format("woff2"), url("/fonts/IRANSansWeb(FaNum)_Light.woff?1affe2af4bb70abb35723371a8d8dbaf") format("woff"), url("/fonts/IRANSansWeb(FaNum)_Light.ttf?d7db9d342d2c3e35d74e1e7f8ebca034") format("truetype");
+}
+
+body,
+html,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+body,
+table,
+tr,
+td,
+p,
+a,
+select {
+  font-family: IRANSans, sans-serif !important;
+}
+
 .font-20 {
   font-size: 20px !important;
 }
@@ -32746,24 +32793,6 @@ readers do not read off random characters that represent icons */
 .modal-header .close {
   padding: 1rem 1rem;
   margin: -1rem -1rem -1rem -1rem !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-input,
-textarea,
-body,
-table,
-tr,
-td,
-p,
-a,
-select {
-  font-family: IRANSans !important;
 }
 
 .page-item:last-child .page-link {
@@ -33288,6 +33317,11 @@ div.form-control.is-invalid > span.select2-container--bootstrap4 .select2-select
 .select2-container .select2-search--inline,
 .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
   float: right !important;
+  font-family: IRANSans2, Tahoma, sans-serif;
+}
+
+.select2-results__option {
+  font-family: IRANSans2, Tahoma, sans-serif;
 }
 
 .select2-results__option[aria-selected=true]:before {
@@ -33353,5 +33387,25 @@ div.form-control.is-invalid > span.select2-container--bootstrap4 .select2-select
 
 .vpd-month-label {
   width: 100px !important;
+}
+
+.vpd-wrapper {
+  font-family: IRANSans2, Tahoma, sans-serif !important;
+}
+
+.persian-num,
+.persian-num option,
+input[type=number],
+input[type=tel] {
+  font-family: IRANSans2, Tahoma, sans-serif !important;
+}
+
+.vpd-dir-ltr .vpd-content {
+  text-align: left;
+  font-family: sans-serif !important;
+}
+
+.btn .badge {
+  font-size: 0.85rem;
 }
 

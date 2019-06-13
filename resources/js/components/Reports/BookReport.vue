@@ -150,7 +150,7 @@
                                     <th>ترم</th>
                                     <th>وضعیت بررسی</th>
                                     <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت</th>
-                                    <th><select v-model="perPage" @change="getResults()">
+                                    <th><select class="persian-num" v-model="perPage" @change="getResults()">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
@@ -164,7 +164,7 @@
                                     <td colspan="19"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
                                 </tr>
                                 <tr v-for="(book, index) in books" :key="book.id">
-                                    <td>{{counter(index) | faDigit}}</td>
+                                    <td class="persian-num">{{counter(index)}}</td>
                                     <td>{{ book.title | truncate(40) }}</td>
                                     <td>{{ book.Authors }}</td>
                                     <td>{{ book.Author_name }}</td>
@@ -178,11 +178,11 @@
 
                                     <td >{{book.isbn}} </td>
                                     <td >{{book.edited}} </td>
-                                    <td >{{book.edited_number}} </td>
-                                    <td >{{book.publish_number}} </td>
-                                    <td >{{book.copy_number}} </td>
-                                    <td >{{book.pages}} </td>
-                                    <td >{{book.term_name}} </td>
+                                    <td class="persian-num">{{book.edited_number}} </td>
+                                    <td class="persian-num">{{book.publish_number}} </td>
+                                    <td class="persian-num">{{book.copy_number}} </td>
+                                    <td class="persian-num">{{book.pages}} </td>
+                                    <td class="persian-num">{{book.term_name}} </td>
                                     <td v-if="book.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
                                     <td v-else-if="book.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
                                     <td v-else-if="book.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
@@ -202,11 +202,11 @@
                             <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                             <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                         </pagination>
-                        <span class="table-detail">
+                        <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1)   }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total }}                   </span>
                     </div><!-- /card-footer --->
                 </div>
             </div><!-- /col-md-12 --->
