@@ -320,7 +320,7 @@
                                     <div class=" my-3" style="direction: ltr; text-align: right" >
                                         <label class="blue text-right  text-rtl">تاریخ تصویب در شورای پژوهشی<i class="red mx-1">*</i>:</label>
                                         <br> <span class="float-left font-16 "> {{form.council_aprovedate | myDate}}</span>
-                                        <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD"
+                                        <date-picker @change="removeError('council_aprovedate')" format="YYYY-MM-DD" :min="form.group_aprovedate"
                                                      :class="[ form.errors.has('council_aprovedate') ? 'is-invalid': ''  ] "
                                                      v-validate="'required'"
                                                      name="council_aprovedate" v-model="form.council_aprovedate" locale="fa,en"></date-picker>
@@ -333,7 +333,7 @@
                                     <div class=" my-3" style="direction: ltr; text-align: right" >
                                         <label class="blue text-right  text-rtl">تاریخ دریافت کد<i class="red mx-1">*</i>:</label>
                                         <br> <span class="float-left font-16 "> {{form.code_date | myDate}}</span>
-                                        <date-picker @change="removeError('code_date')" format="YYYY-MM-DD"
+                                        <date-picker @change="removeError('code_date')" format="YYYY-MM-DD" :min="form.council_aprovedate"
                                                      :class="[ form.errors.has('code_date') ? 'is-invalid': ''  ] "
                                                      v-validate="'required'"
                                                      name="code_date" v-model="form.code_date" locale="fa,en"></date-picker>
@@ -346,7 +346,7 @@
                                     <div class=" my-3" style="direction: ltr; text-align: right" >
                                         <label class="blue text-right  text-rtl">تاریخ تصویب دفاع<i class="red mx-1">*</i>:</label>
                                         <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
-                                        <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"
+                                        <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD" :min="form.code_date"
                                                      :class="[ form.errors.has('defense_date') ? 'is-invalid': ''  ] "
                                                      v-validate="'required'"
                                                      name="defense_date" v-model="form.defense_date" locale="fa,en"></date-picker>

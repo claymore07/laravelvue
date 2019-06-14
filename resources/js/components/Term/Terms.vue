@@ -31,9 +31,9 @@
                             <th>ابزارهای ویرایشی</th>
                         </tr>
                         <tr v-for="(term, index) in terms.data" :key="term.id">
-                            <td>{{counter(index) | faDigit}}</td>
-                            <td>{{counter(term.id) | faDigit}}</td>
-                            <td>{{ term.name  }}</td>
+                            <td class="persian-num">{{counter(index)}}</td>
+                            <td class="persian-num">{{counter(term.id)}}</td>
+                            <td class="persian-num">{{ term.name  }}</td>
                             <td v-if="term.status == '1'"><span class="green"><i class="fal fa-check ml-2"></i>فعال</span></td>
                             <td v-else><span class="red"><i class="fal fa-times ml-2"></i>غیر فعال</span></td>
                             <td>
@@ -63,11 +63,11 @@
                         <span slot="prev-nav"><i class="fa fa-angle-double-right"></i></span>
                         <span slot="next-nav"><i class="fa fa-fw fa-angle-double-left"></i></span>
                     </pagination>
-                    <span class="table-detail">
+                    <span class="table-detail persian-num">
                         تعداد
-                        {{(this.numTo - this.numStart + 1) | faDigit  }}
+                        {{(this.numTo - this.numStart + 1) }}
                         از
- {{this.total | faDigit}}                   </span>
+ {{this.total  }}                   </span>
                 </div><!-- /card-footer --->
             </div>
         </div><!-- /col-md-12 -->
@@ -101,8 +101,8 @@
                                     </select>
                                 </div>
                                 <div class="col-auto my-1">
-                                    <input v-model="termName"  type="text"  name="name" placeholder="98-97"
-                                            class="form-control"
+                                    <input  v-model="termName"  type="text"  name="name" placeholder="98-97"
+                                            class="form-control persian-num"
                                             pattern="[^A-Za-z._+*/×]{1,30}"
                                             data-error-pattern-mismatch="عنوان ترم باید شامل سال شروع و پایان باشد!"
                                             required
@@ -122,7 +122,8 @@
                             <div class=" mt-4" style="direction: ltr; text-align: right"  >
                                 <label class="blue text-right text-rtl">تاریخ پایان<i class="red mx-1">*</i>:{{form.ends_at | myDate}}</label>
                                 <br> <span class="float-left font-16 "> {{form.ends_at | myDate}}</span>
-                                <date-picker @change="removeError('ends_at')"  format="YYYY-MM-DD" :class="[(  form.errors.has('ends_at') ? 'is-invalid': ''  )]"  v-validate="'required'" name="ends_at" v-model="form.ends_at" locale="fa,en"></date-picker>
+                                <date-picker @change="removeError('ends_at')"  format="YYYY-MM-DD"  :min="form.starts_at"
+                                             :class="[(  form.errors.has('ends_at') ? 'is-invalid': ''  )]"  v-validate="'required'" name="ends_at" v-model="form.ends_at" locale="fa,en"></date-picker>
                                 <div class="text-rtl">
                                     <i v-show=" form.errors.has('ends_at')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="form.errors.has('ends_at')" class="red d-inline-block text-rtl">{{ form.errors.get('ends_at') }}</span>

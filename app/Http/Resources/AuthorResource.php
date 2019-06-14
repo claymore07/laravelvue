@@ -18,7 +18,6 @@ class AuthorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'affiliation' => $this->affiliation,
-            'corresponding' => $this->corresponding,
         ];
     }
 }

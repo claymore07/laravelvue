@@ -196,7 +196,7 @@ class PapersController extends Controller
                 $fileBag = $request->files;
                 $authors = $request->authors;
                 $affiliations = $request->affiliations;
-                $isresposible = $request->isresponsible;
+
                 $tags = $request->tags;
                 $request['profile_id'] = auth('api')->user()->profile['id'];
                 $request['term_id'] = $term->id;
@@ -215,11 +215,7 @@ class PapersController extends Controller
                     $paper_db->tags()->create(['name' => $tag]);
                 }
                 foreach ($authors as $key => $author) {
-                    if ($key == $isresposible) {
-                        $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                    } else {
                         $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-                    }
                 }
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {
@@ -283,7 +279,7 @@ class PapersController extends Controller
             $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
-            $isresposible = $request->isresponsible;
+
             $tags = $request->tags;
             // after every update on paper its status will be changed to 4 or اصلاح شده
             $request['status'] = 4;
@@ -303,11 +299,8 @@ class PapersController extends Controller
             }
             $paper_db->authors()->delete();
            foreach ($authors as $key => $author) {
-                if ($key == $isresposible) {
-                    $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key], 'corresponding' => $key]);
-                } else {
                     $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
-                }
+
             }
             if ($request->has('fileChangeType')) {
                 if ($request->fileChangeType == '0') {

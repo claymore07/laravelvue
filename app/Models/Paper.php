@@ -11,7 +11,7 @@ class Paper extends Model
     protected $fillable=[
         'title', 'abstract', 'profile_id', 'doi','link', 'paperable_id', 'paperable_type',
         'accept_date','status', 'reward', 'publish_date', 'excerpt_id', 'license','license_to', 'lang',
-        'score', 'term_id'
+        'score', 'term_id','isresponsible', 'author_count', 'author_place'
     ];
 
     // Forward

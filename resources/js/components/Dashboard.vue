@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <div class="row justify-content-between no-gutters ">
 
-                            <div class="col-lg-6  mt-3 mr-2" >
+                            <div class="col-lg-5  mt-3 mr-2" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
@@ -28,7 +28,7 @@
                                     </Select2>
                                 </div>
                             </div>
-                            <div class="col-lg-4  mt-3 mr-2" >
+                            <div class="col-lg-5  mt-3 mr-2" >
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">دسته ها :</label>
                                     <!-- @change="searchit" -->
@@ -55,7 +55,7 @@
                             <apexchart ref="charting" id="chart1" class="col-lg-7 mt-5 order-lg-1"  type="bar" :options="options" :series="series"></apexchart>
 
                             <div class="col-sm-8 col-lg-5 mt-2 order-lg-0" >
-                                <div class="mr-5">
+                                <div class="d-flex justify-content-center">
                                     <button @click="changeDate(0)"  class="btn btn-success btn-sm">تایید شده</button>
                                     <button @click="changeDate(1)" class="btn btn-secondary btn-sm mr-1">بررسی نشده</button>
                                     <button @click="changeDate(2)"  class="btn btn-danger btn-sm mr-1">تایید نشده</button>

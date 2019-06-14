@@ -200,7 +200,7 @@
                                         <div class=" my-3" style="direction: ltr; text-align: right" >
                                             <label class="blue text-right  text-rtl">تاریخ دفاع<i class="red mx-1">*</i>:</label>
                                             <br> <span class="float-left font-16 "> {{form.defense_date | myDate}}</span>
-                                            <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD"
+                                            <date-picker @change="removeError('defense_date')" format="YYYY-MM-DD" :min="form.council_aprovedate"
                                                          v-validate="'required'"
                                                          :class="[ errors.has('form.defense_date') || form.errors.has('defense_date') ? 'is-invalid': ''  ] "
                                                          name="defense_date" v-model="form.defense_date" locale="fa,en"></date-picker>

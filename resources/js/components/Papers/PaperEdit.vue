@@ -54,8 +54,7 @@
                          <td class="font-16">
                              <span class="blue ">نویسندگان:</span>
                              <span v-for="author of paper.Authors" class="mr-3 ">
-                                <span v-if="author.corresponding == '-1'">{{author.name}}،</span>
-                                <span v-else style="text-decoration: underline red">{{author.name}}<i class="red">*</i>،</span>
+                                <span>{{author.name}}،</span>
                              </span>
                              <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسندگان')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                          </td>
@@ -63,6 +62,52 @@
                              <p-check
                                  :checked="checkListForm.list && checkListForm.list.includes('نویسندگان')"
                                  @change.native="onChange('نویسندگان', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                 <tr>
+                         <td class="font-16">
+                             <span class="blue ">نام صاحب مقاله:</span>
+                                <span>{{paper.Author_name}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نام صاحب مقاله')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('نام صاحب مقاله')"
+                                 @change.native="onChange('نام صاحب مقاله', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                    <tr>
+                         <td class="font-16">
+                             <span class="blue ">تعداد نویسندگان:</span>
+                                <span class="persian-num">{{paper.author_count}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('تعداد نویسندگان')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('تعداد نویسندگان')"
+                                 @change.native="onChange('تعداد نویسندگان', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                    <tr>
+                         <td class="font-16">
+                             <span class="blue ">آیا نویسنده مسئول می باشد:</span>
+                                <span v-if="paper.author_place != 0">بله</span>
+                                <span v-else>خیر</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نویسنده مسئول')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('نویسنده مسئول')"
+                                 @change.native="onChange('نویسنده مسئول', $event)"
                                  type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                  <i slot="extra" class="icon far fa-check"></i>
                              </p-check>
@@ -771,7 +816,7 @@
                                 <div class=" my-3" style="direction: ltr; text-align: right" >
                                     <label class="blue text-right  text-rtl">تاریخ پذیرش<i class="red mx-1">*</i>:</label>
                                     <br> <span class="float-left font-16 "> {{form.accept_date | myDate}}</span>
-                                    <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD"
+                                    <date-picker @change="removeError('accept_date')" format="YYYY-MM-DD" :max="form.publish_date"
                                                  :class="[( errors.has('form-1.accept_date') || form.errors.has('accept_date') ? 'is-invalid': ''  )] "
                                                  v-validate="'required'" name="accept_date" v-model="form.accept_date" locale="fa,en"></date-picker>
                                     <div class="text-rtl">
@@ -1010,9 +1055,9 @@
                                     </div>
                                     <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">JCR</label>
-                                        <input v-if="journalForm"  type="text"  name="JCR"
-                                               placeholder="Q1"
-                                               v-mask="'##'"
+                                        <input v-if="journalForm"  type="number"  name="JCR"
+                                               min="0"
+                                                max="100"
                                                class="form-control" v-model="form.JCR" >
                                     </div>
 
@@ -1030,55 +1075,91 @@
                         <tab-content title="اطلاعات نویسندگان"  icon="fa fa-user-plus" :before-change="authorValidation"   >
                             <form @submit.prevent="addAuthor"
                                   @keydown="form.onKeydown($event)" @change="form.onKeydown($event)"  data-vv-scope="form-4" id="Form4">
-                                <div class="text-right ">
-                                    <span>لیست نویسندگان:</span><br>
-                                    <i v-show="errors.has('form-4.isresponsible')||form.errors.has('isresponsible')||form.errors.has('authors')" class="red far fa-exclamation-triangle"></i>
-                                    <span v-show="errors.has('form-4.isresponsible')" class="red d-inline-block">{{ errors.first('form-4.isresponsible') }}</span>
-                                    <span v-show="form.errors.has('isresponsible')" class="red d-inline-block">{{ form.errors.get('isresponsible') }}</span>
-                                    <span v-show="form.errors.has('authors')" class="red d-inline-block">{{ form.errors.get('authors') }}</span>
+                                <div>
+                                    <div class="form-group my-3  text-right">
+                                        <label class="blue ">تعداد نویسندگان<i class="red mx-1">*</i>:</label>
+                                        <input ref="تعداد_نویسندگان" v-validate="'required'" type="number" name="author_count"
+                                               class="form-control"  v-model="form.author_count" min="1">
+                                        <i v-show="errors.has('form-4.author_count')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form-4.author_count')" class="red d-inline-block">{{ errors.first('form-4.author_count') }}</span>
+                                        <span v-show="form.errors.has('author_count')" class="red d-inline-block">{{ form.errors.get('author_count') }}</span>
+
+                                    </div>
+                                    <div class="form-group my-3   text-right">
+                                        <label class="blue ">شما نفر چندم هستید<i class="red mx-1">*</i>:</label>
+                                        <input v-validate="'required|max_value:'+form.author_count"  type="number" name="author_place"
+                                               class="form-control "  v-model="form.author_place" min="1" :max="form.author_count">
+                                        <i v-show="errors.has('form-4.author_place')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form-4.author_place')" class="red d-inline-block">{{ errors.first('form-4.author_place') }}</span>
+                                        <span v-show="form.errors.has('author_place')" class="red d-inline-block">{{ form.errors.get('author_place') }}</span>
+
+                                    </div>
+                                    <div class="form-group my-3 text-right">
+                                        <label class="blue ">آیا نویسنده مسئول هستید<i class="red mx-1">*</i>:</label>
+                                        <p-radio v-model="form.isresponsible" name="isresponsible" value="0" class="p-icon p-curve p-bigger p-pulse text-ltr"  color="info-o">
+                                            <i slot="extra" class="icon far fa-check"></i>
+                                            خیر
+                                        </p-radio>
+                                        <p-radio v-validate="'required'" v-model="form.isresponsible"
+                                                 name="isresponsible" value="1" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                            <i slot="extra" class="icon far fa-check"></i>
+                                            بله
+                                        </p-radio>
+                                        <br>
+                                        <i v-show="errors.has('form-4.isresponsible')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form-4.isresponsible')" class="red d-inline-block">{{ errors.first('form-4.isresponsible') }}</span>
+                                        <span v-show="form.errors.has('isresponsible')" class="red d-inline-block">{{ form.errors.get('isresponsible') }}</span>
+
+                                    </div>
 
                                 </div>
-                                <table class="table table-sm table-hover mt-2 mb-5 table-striped text-right text-rtl">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">نام و نام خانوادگی</th>
-                                        <th scope="col">آدرس</th>
-                                        <th scope="col"> نویسنده مسئول<i class="red mx-1">*</i></th>
-                                        <th></th>
-                                        <th scope="col"> حذف</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(author, index) of form.authors">
-                                        <th scope="row">{{index+1 | faDigit}}</th>
-                                        <td><span v-show="editOffset != index">{{author}}</span>
+                                <div class="text-right ">
+                                    <span>لیست نویسندگان:</span><br>
+                                    <i v-show="form.errors.has('authors')" class="red far fa-exclamation-triangle"></i>
+                                    <span v-show="form.errors.has('authors')" class="red d-inline-block">{{ form.errors.get('authors') }}</span>
+                                    <span  class="red d-inline-block">در صورت نیار به تغییر ترتیب نویسندگان می توانید با کشیدن و رها کردن (drag & drop) در لیست اسامی ترتیب آنها را تغییر دهید.</span>
+
+                                </div>
+                                <ul class="list-group mt-5 p-0">
+
+                                    <li class="list-group-item d-flex justify-content-between align-items-center" >
+                                        <span class="w-25 text-right">#</span>
+                                        <span class="w-25 text-right">نام و نام خانوادگی</span>
+                                        <span class="w-25 text-right">آدرس</span>
+                                        <span class="w-25"> حذف</span>
+                                    </li>
+
+                                </ul>
+                                <draggable v-model="authors"
+                                           v-bind="dragOptions"
+                                           @start="drag = true"
+                                           @end="drag = false"
+                                           class="list-group mt-0 p-0"
+                                           tag="ul">
+                                    <transition-group type="transition" name="flip-list">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                                            v-for="(author, index) of authors" :key="index+1">
+                                            <span class="w-25 text-right">{{index+1 | faDigit}}</span>
+                                            <span class="w-25 text-right" v-show="editOffset != index">{{author.name}}</span>
                                             <input :id = "'item-author-'+index" v-show="editOffset == index"  type="text" name="author"
                                                    :placeholder="'نام و نام خانواگی نویسنده'"
-                                                   class="form-control"  v-model="form.authors[index]">
-                                        </td>
-                                        <td ><label  v-show="editOffset != index">{{form.affiliations[index]}}</label>
+                                                   class="form-control"  v-model="authors[index].name">
+                                            <label class="w-25 text-right"  v-show="editOffset != index">{{author.affiliation}}</label>
                                             <input :id = "'item-affiliation-'+index" v-show="editOffset == index"  type="text" name="author"
                                                    :placeholder="'نام و نام خانواگی نویسنده'"
                                                    class="form-control"
                                                    @keydown.enter="updateAuthor"
-                                                   v-model="form.affiliations[index]">
-                                        </td>
-                                        <td><label class="radio"> </label>
-                                            <p-radio v-validate="'required'" v-model="form.isresponsible"
-                                                     name="isresponsible" :value="index" type="radio" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
-                                                <i slot="extra" class="icon far fa-check"></i>
-                                            </p-radio>
+                                                   v-model="authors[index].affiliation">
 
-                                        </td>
-                                        <td> <button v-show="editOffset == index" class="btn btn-primary" @click="updateAuthor">ثبت تغییرات</button></td>
-                                        <td>
-                                            <a class="" @click="startEditing(index)"><i class=" green far fa-edit fa-fw"></i> </a> /
-                                            <a class="" @click="removeAuthor(index)"><i class=" red far fa-user-times fa-fw"></i> </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                            <button v-show="editOffset == index" class="btn btn-primary" @click="updateAuthor">ثبت تغییرات</button>
+                                            <span class="w-25">
+                                                     <a class="" @click="startEditing(index)"><i class=" green far fa-edit fa-fw"></i> </a> /
+                                                      <a class="" @click="removeAuthor(index)"><i class=" red far fa-user-times fa-fw"></i> </a>
+                                            </span>
+                                        </li>
+                                    </transition-group>
+                                </draggable>
+
                                 <div id="authorsContainer">
                                     <div class="form-group mb-3 mt-5  text-right">
                                         <label class="blue ">نام و نام خانواگی نویسنده<i class="red mx-1">*</i>:</label>
@@ -1160,6 +1241,8 @@
 <script>
     import Select2 from 'v-select2-component';
     import farsi from 'vee-validate/dist/locale/fa';
+    import draggable from "vuedraggable";
+
     export default {
         name: "PaperEdit",
         data(){
@@ -1190,6 +1273,7 @@
                 formBlacklistFlag:false,
                 attachments:[],
                 paperType:'',
+                authors:[],
                 author:'',
                 affiliation:'',
 
@@ -1236,6 +1320,8 @@
                     FIF:'',
                     JRK:'',
                     JCR:'',
+                    author_count:'',
+                    author_place:'',
                     authors:[],
                     affiliations:[],
                     isresponsible:'',
@@ -1255,6 +1341,14 @@
           confType(){
               return this.type == '1';
           },
+        dragOptions() {
+            return {
+                animation: 200,
+                group: "description",
+                disabled: false,
+                ghostClass: "ghost"
+            };
+        }
         },
         methods:{
 
@@ -1436,9 +1530,9 @@
 
             // prepares the edit form data
             editFormPrepare(){
-
                 this.form.fill(this.paper);
                 this.form.paperType = this.paper.type;
+
                 if(this.paper.blacklistFlag){
                     this.form.blacklist_id = this.paper.blacklist.id;
                     this.blacklistFlag = this.paper.blacklistFlag;
@@ -1447,7 +1541,6 @@
                 this.form.fileChangeType = '';
                 this.form.authors = [];
                 this.form.affiliations = [];
-                this.form.isresponsible='';
                 this.form.files =[];
                 if(this.paper.license_to != null){
                     this.form.license_to = this.paper.license_to.toString();
@@ -1465,9 +1558,7 @@
                 for(var j=0; j<this.paper.Authors.length; j++){
                     this.form.authors.push(this.paper.Authors[j].name);
                     this.form.affiliations.push(this.paper.Authors[j].affiliation);
-                    if(this.paper.Authors[j].corresponding != '-1'){
-                        this.form.isresponsible = this.paper.Authors[j].corresponding;
-                    }
+                    this.authors.push({name:this.paper.Authors[j].affiliation, affiliation:this.paper.Authors[j].affiliation })
                 }
 
             },
@@ -1482,6 +1573,7 @@
                         this.errorSwal('اطلاعات مقاله دارای خطا می باشد!');
                         return false;
                     }
+
                     return true;
                 });
             },
@@ -1499,8 +1591,15 @@
             authorValidation(){
                 return this.$validator.validateAll('form-4').then(result => {
                     if (!result) {
-                        this.errorSwal('باید نویسنده مسئول انتخاب شود!');
+                        this.errorSwal('اطلاعات نویسندگان دارای خطا می باشد!');
                         return false;
+                    }
+                    this.form.authors = [];
+                    this.form.affiliations = [];
+                    for(var i =0; i<this.authors.length; i++){
+                        console.log(this.authors[i].name);
+                        this.form.authors.push(this.authors[i].name);
+                        this.form.affiliations.push(this.authors[i].affiliation);
                     }
                     return true;
                 });
@@ -1525,8 +1624,7 @@
             // push or add the author detail to form.authors array
             addAuthor () {
                 if(this.author.trim() && this.affiliation.trim()){
-                    this.form.authors.push(this.author);
-                    this.form.affiliations.push(this.affiliation);
+                    this.authors.push({name:this.author, affiliation:this.affiliation });
                     this.author = '';
                     this.affiliation = '';
                 }
@@ -1544,9 +1642,7 @@
             },
             // removes author from form.authors array
             removeAuthor(index){
-                this.$delete(this.form.authors,index);
-                this.$delete(this.form.affiliations,index);
-                this.form.isresponsible = '';
+                this.$delete(this.authors,index);
             },
             // sets of the file change type, whether it is addition to previous files or replacement
             fileChange(term){
@@ -1653,11 +1749,30 @@
         },
         components:{
             Select2,
+            draggable
         }
 
     }
 </script>
 
 <style scoped>
-
+    .flip-list-move {
+        transition: transform 0.5s;
+    }
+    .no-move {
+        transition: transform 0s;
+    }
+    .ghost {
+        opacity: 0.5;
+        background: #c8ebfb;
+    }
+    .list-group {
+        min-height: 20px;
+    }
+    .list-group-item {
+        cursor: move;
+    }
+    .list-group-item i {
+        cursor: pointer;
+    }
 </style>

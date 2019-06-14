@@ -47,6 +47,8 @@ class PaperRequest extends FormRequest
             'publisher'=>'required_if:paperType,==,jur',
             'issn'=>'required_if:paperType,==,jur',
             'isresponsible'=>'required',
+            'author_count'=>'required',
+            'author_place'=>'required',
             'authors' => 'required',
 
 
@@ -81,6 +83,8 @@ class PaperRequest extends FormRequest
             'jname.required_if'=>'نام مجله الزامی است.',
             'issn.required_if'=>'شماره ISSN الزامی است.',
             'isresponsible.required'=>'انتخاب نویسنده مسئول الزامی است.',
+            'author_count.required'=>'تعداد نویسندگان الزامی است.',
+            'author_place.required'=>'جایگاه شما در میان نویسندگان الزامی است.',
             'authors.required' => 'نام نویسندگان الزامی است.',
             'authorsjson.min' => 'نام نویسندگان الزامی است.',
 
