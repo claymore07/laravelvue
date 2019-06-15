@@ -3,7 +3,7 @@
 
    @include('layouts.pdfStyle')
 </header>
-<body>
+<body style="border: black 10px solid">
 
 <?php
 function arabic_w2e($str) {
@@ -13,16 +13,16 @@ function arabic_w2e($str) {
 }
 ?>
 <htmlpagefooter name="page-footer">
-    {nb}/{PAGENO}
+    <span class="persian-num">{nb}/{PAGENO}</span>
 </htmlpagefooter>
 <table class="table border table-sm">
     <tr>
         <td colspan="2" style="border: none; font-size: 12pt"><b>مشخصات فردی</b></td>.
         <td rowspan="8" style="border: none; vertical-align: middle; text-align: center">
             @if($user->photo == 'profile.png')
-                <img class="img-thumbnail" src="{{  base_path().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile.png' }}" alt="" width="100" height="100"> </td>
+                <img class="img-thumbnail" src="{{  '.'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile.png' }}" alt="" width="100" height="100"> </td>
             @else
-                <img class="img-thumbnail" src="{{ base_path().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR."$user->photo" }}" alt="" width="100" height="100"> </td>
+                <img class="img-thumbnail" src="{{ '.'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR."$user->photo" }}" alt="" width="100" height="100"> </td>
             @endif
     </tr>
     <tr>
@@ -54,8 +54,8 @@ function arabic_w2e($str) {
         </td>
     </tr>
     <tr>
-        <td >
-            ردیف تماس: {{$user->profile->phone}} <br>
+        <td class="persian-num">
+            شماره تماس: {{$user->profile->phone}} <br>
         </td>
     </tr>
 
@@ -84,25 +84,21 @@ function arabic_w2e($str) {
         @endphp
     @foreach($journals as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->paper->title}}  </td>
             <td style=" vertical-align: middle">
                 @foreach($item->paper->authors as $author)
-                    @if($author->corresponding == -1)
                         {{$author->name}},
-                    @else
-                        {{$author->name}}*,
-                    @endif
                 @endforeach
             </td>
             <td style=" vertical-align: middle">{{$item->name}}</td>
             <td style=" vertical-align: middle">{{$item->publisher}}</td>
             <td style=" vertical-align: middle">{{$item->paper->excerpt->name}}</td>
             <td style=" vertical-align: middle">{{$item->jtype->name}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->paper->publish_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{$item->issn}}</td>
-            <td style=" vertical-align: middle">{{$item->IFactor}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->paper->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->paper->publish_date)->format('Y/m/d')}}</td>
+            <td class="persian-num"  style=" vertical-align: middle">{{$item->issn}}</td>
+            <td class="persian-num"  style=" vertical-align: middle">{{$item->IFactor}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->paper->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -130,24 +126,20 @@ function arabic_w2e($str) {
         @endphp
     @foreach($conferences as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->paper->title}}  </td>
             <td style=" vertical-align: middle">
                 @foreach($item->paper->authors as $author)
-                    @if($author->corresponding == -1)
                         {{$author->name}},
-                    @else
-                        {{$author->name}}*,
-                    @endif
                 @endforeach
             </td>
             <td style=" vertical-align: middle">{{$item->name}}</td>
             <td style=" vertical-align: middle">{{$item->organizer}}</td>
             <td style=" vertical-align: middle">{{$item->paper->excerpt->name}}</td>
             <td style=" vertical-align: middle">{{$item->conftype->name}}</td>
-            <td style=" vertical-align: middle">{{$item->period}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->paper->publish_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->paper->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->period}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->paper->publish_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->paper->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -177,7 +169,7 @@ function arabic_w2e($str) {
         @endphp
     @foreach($books as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">
                 @foreach($item->authors as $author)
@@ -188,11 +180,11 @@ function arabic_w2e($str) {
             <td style=" vertical-align: middle">{{$item->publisher}}</td>
             <td style=" vertical-align: middle">{{$item->subject}}</td>
             <td style=" vertical-align: middle">{{$item->excerpt->name}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->publish_year)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->publish_number)}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->copy_number)}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->pages)}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->publish_year)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->publish_number}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->copy_number}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->pages}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -218,7 +210,7 @@ function arabic_w2e($str) {
         @endphp
     @foreach($projects as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">
                 @foreach($item->authors as $author)
@@ -226,10 +218,10 @@ function arabic_w2e($str) {
                 @endforeach
             </td>
             <td style=" vertical-align: middle">{{$item->projectType->name}}</td>
-            <td style=" vertical-align: middle">{{$item->budget}}</td>
+            <td  class="persian-num" style=" vertical-align: middle">{{$item->budget}}</td>
             <td style=" vertical-align: middle">{{$item->organization}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->defense_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->defense_date)->format('Y/m/d')}}</td>
+            <td  class="persian-num" style=" vertical-align: middle">{{ $item->term->name }}</td>
         </tr>
     @endforeach
     </tbody>
@@ -254,13 +246,13 @@ function arabic_w2e($str) {
         @endphp
     @foreach($inventions as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->inventionType->name}}</td>
             <td style=" vertical-align: middle">{{$item->post}}</td>
             <td style=" vertical-align: middle">{{$item->authorities}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->submit_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->submit_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -285,13 +277,13 @@ function arabic_w2e($str) {
         @endphp
     @foreach($referes as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->refereeType->name}}</td>
             <td style=" vertical-align: middle">{{is_null($item->journal_name) ? '-' : $item->journal_name}}</td>
             <td style=" vertical-align: middle">{{is_null($item->journal_issn) ? '-' : $item->journal_name}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->referee_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->referee_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -315,12 +307,12 @@ function arabic_w2e($str) {
         @endphp
     @foreach($teds as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->TEDType->name}}</td>
             <td style=" vertical-align: middle">{{$item->location}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->presentation_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->presentation_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -345,12 +337,12 @@ function arabic_w2e($str) {
         @endphp
     @foreach($theses as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->thesisType->name}}</td>
-            <td style=" vertical-align: middle">{{is_null($item->council_aprovedate)? '-':\Carbon\Carbon::parse($item->council_aprovedate)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{is_null($item->defense_date)? '-':\Carbon\Carbon::parse($item->defense_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{is_null($item->council_aprovedate)? '-':\Morilog\Jalali\Jalalian::forge($item->council_aprovedate)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{is_null($item->defense_date)? '-':\Morilog\Jalali\Jalalian::forge($item->defense_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -376,7 +368,7 @@ function arabic_w2e($str) {
         @endphp
     @foreach($rewards as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->name}}</td>
             <td style=" vertical-align: middle">{{$item->type}}</td>
@@ -389,9 +381,9 @@ function arabic_w2e($str) {
                     سوم
                 @endif
             </td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->period)}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->holding_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->period}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->holding_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -415,9 +407,14 @@ function arabic_w2e($str) {
         @endphp
     @foreach($grants as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
-            <td style=" vertical-align: middle">{{$item->budget}}</td>
+            <td class="persian-num"  style=" vertical-align: middle">{{$item->budget}}
+                @if($item->type==0)
+                    ریال
+                @else
+                    دلار
+                @endif</td>
             <td style=" vertical-align: middle">
                 @if($item->type==0)
                     داخلی
@@ -425,8 +422,8 @@ function arabic_w2e($str) {
                     خارجی
                 @endif
             </td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->submit_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num"  style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->submit_date)->format('Y-m-d')}}</td>
+            <td class="persian-num"  style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -451,13 +448,13 @@ function arabic_w2e($str) {
         @endphp
     @foreach($courses as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->role}}</td>
             <td style=" vertical-align: middle">{{$item->organization}}</td>
-            <td style=" vertical-align: middle">{{$item->duration}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->holding_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->duration}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->holding_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>
@@ -482,13 +479,13 @@ function arabic_w2e($str) {
         @endphp
     @foreach($booklets as $item)
         <tr>
-            <td style="text-align: center; vertical-align: middle">{{arabic_w2e($counter++)}}  </td>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
             <td style=" vertical-align: middle">{{$item->title}}  </td>
             <td style=" vertical-align: middle">{{$item->name}}</td>
             <td style=" vertical-align: middle">{{$item->booklet_type}}</td>
             <td style=" vertical-align: middle">{{$item->degree->name}}</td>
-            <td style=" vertical-align: middle">{{\Carbon\Carbon::parse($item->compilation_date)->format('Y-m-d')}}</td>
-            <td style=" vertical-align: middle">{{arabic_w2e($item->term->name)}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->compilation_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
         </tr>
     @endforeach
     </tbody>

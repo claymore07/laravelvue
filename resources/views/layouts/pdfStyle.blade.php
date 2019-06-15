@@ -12,6 +12,10 @@
         text-align: right;
         direction: rtl;
     }
+
+    .persian-num{
+        font-family: 'iransans2', sans-serif;
+    }
     h1, h2, h3, h4, h5, h6 {
         margin-top: 0;
         margin-bottom: 0.5rem;
@@ -71,7 +75,9 @@
         margin-bottom: 1rem;
         background-color: transparent;
     }
-
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
     .table th,
     .table td {
         padding: 0.75rem;
@@ -870,5 +876,119 @@
         border-radius: 0.25rem;
         max-width: 100%;
         height: auto;
+    }
+
+    .w-25 {
+        width: 25% !important;
+    }
+    .w-20 {
+        width: 20% !important;
+    }
+    .w-15 {
+        width: 15% !important;
+    }
+
+    .w-50 {
+        width: 50% !important;
+    }
+    .w-60 {
+        width: 60% !important;
+    }
+    .w-70 {
+        width: 70% !important;
+    }
+
+    .w-75 {
+        width: 75% !important;
+    }
+
+    .w-100 {
+        width: 100% !important;
+    }
+
+    .w-auto {
+        width: auto !important;
+    }
+
+    .h-25 {
+        height: 25% !important;
+    }
+
+    .h-50 {
+        height: 50% !important;
+    }
+
+    .h-75 {
+        height: 75% !important;
+    }
+
+    .h-100 {
+        height: 100% !important;
+    }
+
+    .h-auto {
+        height: auto !important;
+    }
+
+    .mw-100 {
+        max-width: 100% !important;
+    }
+
+    .mh-100 {
+        max-height: 100% !important;
+    }
+
+    .m-0 {
+        margin: 0 !important;
+    }
+    .font-20{
+        font-size: 20px !important;
+    }
+    .font-18{
+        font-size: 18px !important;
+    }
+    .font-16{
+        font-size: 16px !important;
+    }
+    .font-15{
+        font-size: 15px !important;
+    }
+    .font-12{
+        font-size: 12px !important;
+    }
+    .font-11{
+        font-size: 11px !important;
+    }
+    .font-10{
+        font-size: 10px !important;
+    }
+    .font-9{
+        font-size: 9px !important;
+    }
+    .text-ltr{
+        direction: ltr !important;
+    }
+    .text-rtl{
+        direction: rtl !important;
+    }
+    .text-right{
+        text-align: right;
+    }
+    .text-center{
+        text-align: center;
+    }
+    .text-left{
+        text-align: left;
+    }
+    .v-text-middle{
+        vertical-align: middle;
+    }
+    .dottedUnderline { border-bottom: 1px dotted; }
+    .ul-disc {
+        list-style-type: circle;
+    }
+    .li-inline{
+        display: inline-block;
+        margin-right: 10px;
     }
 </style>

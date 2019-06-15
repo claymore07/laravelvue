@@ -22,10 +22,8 @@ class JournalReportResource extends JsonResource
         $authors_name ='';
         foreach ($authors as $author){
 
-            $authors_name = $authors_name.' '.$author->name;
-            if($author->corresponding != -1){
-                $authors_name = $authors_name.'*';
-            }
+            $authors_name = $authors_name.', '.$author->name;
+
         }
         $license_to = '';
         if($paper->license_to != null && $paper->license_to == 0) {
@@ -40,6 +38,9 @@ class JournalReportResource extends JsonResource
             'title' => $paper->title,
             'Authors' => $authors_name,
             'Author_name'=> $name,
+            'author_count'=> $paper->author_count,
+            'author_place'=> $paper->author_place,
+            'isresponsible'=> $paper->isresponsible == 0? 'خیر':'بله',
             'lang' => $paper->lang == 0 ? 'فارسی':'لاتین',
             'paper_type' =>  'ژونالی' ,
             'journal_name' => $this->name,//str_limit($this->name,20,' ...'),

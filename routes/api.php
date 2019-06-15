@@ -185,6 +185,8 @@ Route::post('userChart','API\ReportController@personalChart');
 Route::post('userReport','API\ReportController@personalReport');
 Route::post('presonalExportPdf','API\UserController@presonalExportPdf');
 Route::post('userExportPdf','API\UserController@presonalExportPdf');
+Route::post('researchClubPaperPdf/{paper}','API\PapersController@researchClub');
+Route::post('researchPrizePaperPdf/{paper}','API\PapersController@researchPrize');
 
 // Regulations Route
 Route::get('regulationDetail/{regulation}','API\RegulationController@show');

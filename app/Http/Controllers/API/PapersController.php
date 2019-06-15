@@ -23,6 +23,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
+use PDF;
 
 class PapersController extends Controller
 {
@@ -180,6 +181,14 @@ class PapersController extends Controller
         }
     }
 
+    public function researchClub(Request $request, $id){
+        $paper = Paper::with(['paperable','profile','profile.position','profile.member','profile.rank','authors','tags','excerpt'])->findOrFail($id);
+        $pdf = PDF::loadView('researchClubٍExportPdf', compact('paper'))->download('FILE.pdf');
+    }
+    public function researchPrize(Request $request, $id){
+        $paper = Paper::with(['paperable','profile','profile.position','profile.member','profile.rank','authors','tags','excerpt'])->findOrFail($id);
+        $pdf = PDF::loadView('prizeExportPdf', compact('paper'))->download('FILE.pdf');
+    }
     /**
      * Store a newly created resource in storage.
      *
