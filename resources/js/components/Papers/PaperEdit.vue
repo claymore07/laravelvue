@@ -68,6 +68,24 @@
                          </td>
                      </tr>
                  <tr>
+                    <tr>
+                         <td class="font-16">
+                             <span class="blue ">آدرس نویسندگان:</span>
+                             <span v-for="author of paper.Authors" class="mr-3 ">
+                                <br><span>{{author.affiliation}}،</span>
+                             </span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('آدرس نویسندگان')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('آدرس نویسندگان')"
+                                 @change.native="onChange('آدرس نویسندگان', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                 <tr>
                          <td class="font-16">
                              <span class="blue ">نام صاحب مقاله:</span>
                                 <span>{{paper.Author_name}}</span>
@@ -684,6 +702,8 @@
             <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
                 <button v-if="paper.status != 3 && paper.status != 1" @click="paperEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  مقاله</button>
                 <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
+                <button @click="getPdf('Prize')" v-if="paper.status == '1' && paper.reward == '1' && paper.type == 0" class="btn btn-lg mx-1 btn-info"><i class="fal fa-file-pdf fa-fw mx-2"></i>دریافت فرم پاداش</button>
+                <button @click="getPdf('Club')" v-if="paper.status == '1' && paper.reward == '1' && paper.type == 0" class="btn btn-lg mx-1 btn-info"><i class="fal fa-file-pdf fa-fw mx-2"></i>دریافت فرم باشگاه</button>
                 <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
                 <button v-if="$gate.isAdminOrAuthor()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
             </div>
@@ -1352,6 +1372,29 @@
         },
         methods:{
 
+            getPdf(type){
+                let loader1 = Vue.$loading.show();
+                let url = '';
+                if(type == 'Club'){
+                    url = 'researchClubPaperPdf';
+                }else{
+                    url = 'researchPrizePaperPdf';
+                }
+                axios({
+                    url: `/api/${url}/${this.id}`,
+                    method: 'POST',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'file.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                    loader1.hide();
+                });
+
+            },
             blacklistCheck(){
                 if(this.form.issn.length ===9){
                     axios.get('/api/blackListCheck?q=' + this.form.issn )

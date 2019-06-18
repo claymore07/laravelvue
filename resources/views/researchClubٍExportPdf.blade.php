@@ -41,14 +41,7 @@
                 نوع عضویت:
                 </b>
 
-                <span>
-                    <img src="{{  '.'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'checkbox.png' }}" alt="" width="10" height="10">
-                    عادی
-                </span>
-                <span>
-                    <img src="{{  '.'.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'checkbox.png' }}" alt="" width="10" height="10">
-                    استعداد درخشان
-                </span>
+                <span class="dottedUnderline">{{$paper->profile->member->name}}</span>
             </td>
         </tr>
         <tr>

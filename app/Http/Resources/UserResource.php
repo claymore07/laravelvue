@@ -30,6 +30,7 @@ class UserResource extends JsonResource
             'photo' => $this->photo,
             'name' => $name,
             'hasProfile' => $hasProfile,
+            'member_id' => $hasProfile? $this->profile->member_id:3,
             'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
