@@ -38,6 +38,7 @@ class PaperRequest extends FormRequest
             'files'=>'required',
             'files.*'=>'mimes:rar,zip,pdf',
             'confname'=>'required_if:paperType,==,conf',
+            'presentation_type'=>'required_if:paperType,==,conf',
             'city'=>'required_if:paperType,==,conf',
             'organizer'=>'required_if:paperType,==,conf',
             'conftype_id'=>'required_if:paperType,==,conf',

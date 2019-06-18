@@ -46,6 +46,7 @@ class conferenceReportResource extends JsonResource
             'faculty'=>$paper->profile->faculty->name,
             'department'=>$paper->profile->department->name,
             'organizer' => $this->organizer ,
+            'presentation_type' => $this->presentation_type ,
             'period' => $this->period,
             'conftype_name' => $this->conftype->name,
             'excerpt_name' => $paper->excerpt->name,

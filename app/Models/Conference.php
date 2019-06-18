@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Conference extends Model
 {
     //
-    protected $fillable=['name','organizer','conftype_id', 'period', 'city'];
+    protected $fillable=[
+        'name','organizer','conftype_id', 'period', 'city','presentation_type'
+    ];
 
     //forward
     public function papers(){

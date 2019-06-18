@@ -181,13 +181,21 @@ class PapersController extends Controller
         }
     }
 
-    public function researchClub(Request $request, $id){
+    public function jurResearchClub(Request $request, $id){
         $paper = Paper::with(['paperable','profile','profile.position','profile.member','profile.rank','authors','tags','excerpt'])->findOrFail($id);
-        $pdf = PDF::loadView('researchClubٍExportPdf', compact('paper'))->download('FILE.pdf');
+        $pdf = PDF::loadView('jurResearchClubExportPdf', compact('paper'))->download('FILE.pdf');
     }
-    public function researchPrize(Request $request, $id){
+    public function confResearchClub(Request $request, $id){
         $paper = Paper::with(['paperable','profile','profile.position','profile.member','profile.rank','authors','tags','excerpt'])->findOrFail($id);
-        $pdf = PDF::loadView('prizeExportPdf', compact('paper'))->download('FILE.pdf');
+        $pdf = PDF::loadView('confResearchClubExportPdf', compact('paper'))->download('FILE.pdf');
+    }
+    public function jurResearchPrize(Request $request, $id){
+        $paper = Paper::with(['paperable','profile','profile.position','profile.member','profile.rank','authors','tags','excerpt'])->findOrFail($id);
+        $pdf = PDF::loadView('jurPrizeExportPdf', compact('paper'))->download('FILE.pdf');
+    }
+    public function confResearchPrize(Request $request, $id){
+        $paper = Paper::with(['paperable','profile','profile.position','profile.member','profile.rank','authors','tags','excerpt'])->findOrFail($id);
+        $pdf = PDF::loadView('confPrizeExportPdf', compact('paper'))->download('FILE.pdf');
     }
     /**
      * Store a newly created resource in storage.
@@ -213,11 +221,11 @@ class PapersController extends Controller
                 if ($paperType == 'jur') {
                     $request['name'] = $request->jname;
                     $journal_db = Journal::create($request->all(['jtype_id', 'name', 'publisher','blacklist_id', 'issn', 'pissn', 'IFactor', 'FIF',
-                        'JRK', 'JCR']));
+                        'JRK', 'JCR', 'volume', 'pages', 'issue', 'scopus']));
                     $paper_db = $journal_db->papers()->create($request->all());
                 } else {
                     $request['name'] = $request->confname;
-                    $conference_db = Conference::create($request->all(['conftype_id', 'name', 'period', 'city', 'organizer']));
+                    $conference_db = Conference::create($request->all(['conftype_id', 'name', 'period', 'city', 'organizer','presentation_type']));
                     $paper_db = $conference_db->papers()->create($request->all());
                 }
                 foreach ($tags as $tag) {
@@ -297,10 +305,10 @@ class PapersController extends Controller
            if ($paperType == 'jur') {
                $request['name'] = $request->jname;
                 $paper_db->paperable->update($request->all(['jtype_id','name','publisher','blacklist_id','issn','pissn', 'IFactor','FIF',
-                    'JRK', 'JCR']));
+                    'JRK', 'JCR', 'volume', 'pages', 'issue', 'scopus']));
             } else {
                $request['name'] = $request->confname;
-               $paper_db->paperable()->update($request->all(['conftype_id','name', 'period', 'city', 'organizer']));
+               $paper_db->paperable()->update($request->all(['conftype_id','name', 'period', 'city', 'organizer','presentation_type']));
             }
             $paper_db->tags()->delete();
             foreach ($tags as $tag) {

@@ -351,6 +351,22 @@
                                                 <span v-show="errors.has('form2.confname')" class="red d-inline-block">{{ errors.first('form2.confname') }}</span>
                                                 <span v-show="form.errors.has('confname')" class="red d-inline-block">{{ form.errors.get('confname') }}</span>
                                             </div>
+                                            <div  v-if="confForm" class="form-group my-3 text-right">
+                                                <label   class="blue">نوع ارائه :</label>
+                                                <select
+                                                    v-validate="'required'" data-vv-name="presentation_type"
+                                                    class="form-control" id="presentation_type"
+                                                    v-model="form.presentation_type"
+                                                    :class="[( errors.has('form2.presentation_type') || form.errors.has('presentation_type') ? 'is-invalid': ''  ) ]"
+                                                >
+                                                    <option selected disabled value="">انتخاب نوع ارائه ...</option>
+                                                    <option value="پوستر">پوستر</option>
+                                                    <option value="سخنرانی">سخنرانی</option>
+                                                </select>
+                                                <i v-show="errors.has('form2.presentation_type') || form.errors.has('presentation_type')" class="red far fa-exclamation-triangle"></i>
+                                                <span v-show="errors.has('form2.presentation_type')" class="red d-inline-block">{{ errors.first('form2.presentation_type') }}</span>
+                                                <span v-show="form.errors.has('presentation_type')" class="red d-inline-block">{{ form.errors.get('presentation_type') }}</span>
+                                            </div>
 
                                             <div v-if="confForm" class="form-group my-3 text-right">
                                                 <label class="blue ">برگزار کننده<i class="red mx-1">*</i>:</label>
@@ -457,6 +473,25 @@
                                                         v-mask="'####-###X'"
                                                         class="form-control" v-model="form.pissn" >
                                             </div>
+
+                                            <div class="form-group my-3 text-right">
+                                                <label v-if="journalForm"  class="blue ">شماره مجله(Issue):</label>
+                                                <input v-if="journalForm"  type="number" min="0" name="issue"
+                                                        placeholder=""
+                                                        class="form-control" v-model="form.issue" >
+                                            </div>
+                                            <div class="form-group my-3 text-right">
+                                                <label v-if="journalForm"  class="blue ">شماره مجلد(Vol):</label>
+                                                <input v-if="journalForm"  type="number" min="0" name="volume"
+                                                        placeholder=""
+                                                        class="form-control" v-model="form.volume" >
+                                            </div>
+                                            <div class="form-group my-3 text-right">
+                                                <label v-if="journalForm"  class="blue ">شماره صفحه(Pages):</label>
+                                                <input v-if="journalForm"  type="number" min="0" name="Pages"
+                                                        placeholder=""
+                                                        class="form-control" v-model="form.pages" >
+                                            </div>
                                             <div class="form-group my-3 text-right">
                                                 <label v-if="journalForm"  class="blue ">IF:</label>
                                                 <input v-if="journalForm"  type="number" min="0" name="IFactor"
@@ -468,6 +503,21 @@
                                                 <input v-if="journalForm"  type="number" min="0" name="FIF"
                                                         placeholder=""
                                                         class="form-control" v-model="form.FIF" >
+                                            </div>
+                                            <div v-if="journalForm" class="form-group my-3 text-right">
+                                                <label   class="blue">رتبه scopus :</label>
+                                                <select
+                                                        class="form-control" id="scopus"
+                                                        v-model="form.scopus"
+
+                                                >
+                                                    <option selected disabled value="">انتخاب رتبه ...</option>
+                                                    <option value="Q1">Q1</option>
+                                                    <option value="Q2">Q2</option>
+                                                    <option value="Q3">Q3</option>
+                                                    <option value="Q4">Q4</option>
+                                                </select>
+
                                             </div>
                                             <div class="form-group my-3 text-right">
                                                 <label v-if="journalForm"  class="blue ">JCR</label>
@@ -667,6 +717,7 @@
                     excerpt_id: '',
                     files:[],
                     confname:'',
+                    presentation_type:'',
                     city:'',
                     organizer:'',
                     period:'',
@@ -677,8 +728,12 @@
                     issn:'',
                     blacklist_id:'',
                     pissn:'',
+                    volume:'',
+                    issue:'',
+                    pages:'',
                     IFactor:'',
                     FIF:'',
+                    scopus:'',
                     JRK:'',
                     JCR:'',
                     author_count:'',
@@ -995,6 +1050,7 @@
                     isresponsible:'انتخاب نویسنده مسئول',
                     author_place:'جایگاه شما در میان نویسندگان',
                     author_count:'تعداد نویسندگان',
+                    presentation_type:'نوع ارائه'
                 }
             });
             Fire.$on('searching', () => {

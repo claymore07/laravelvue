@@ -10,7 +10,8 @@ class Journal extends Model
     //
     protected $fillable=[
         'name', 'issn', 'IFactor', 'FIF', 'JCR', 'jtype_id','JRK', 'publisher',
-        'city', 'period', 'organizer', 'conf_name','conf_type_name','pissn','blacklist_id'
+        'city', 'period', 'organizer', 'conf_name','conf_type_name','pissn','blacklist_id',
+        'issue', 'pages', 'volume', 'scopus'
     ];
 
     //forward

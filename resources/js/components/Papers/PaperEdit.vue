@@ -417,8 +417,53 @@
                      </tr>
                      <tr v-if="jourType">
                          <td class="font-16">
+                             <span class="blue d-inline-block">شماره مجله (Issue):</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.issue}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('issue')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('issue')"
+                                 @change.native="onChange('issue', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">شماره مجلد (Vol):</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.volume}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('volume')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('volume')"
+                                 @change.native="onChange('volume', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
+                             <span class="blue d-inline-block">شماره صفحه (Pages):</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.pages}}</span>
+                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('شماره صفحه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                         </td>
+                         <td v-if="checkList">
+                             <p-check
+                                 :checked="checkListForm.list && checkListForm.list.includes('شماره صفحه')"
+                                 @change.native="onChange('شماره صفحه', $event)"
+                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                 <i slot="extra" class="icon far fa-check"></i>
+                             </p-check>
+                         </td>
+                     </tr>
+                     <tr v-if="jourType">
+                         <td class="font-16">
                              <span class="blue d-inline-block">ضریب IF:</span>
-                             <span class="mr-3 d-inline-block"> {{paper.IFactor}}</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.IFactor}}</span>
                              <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('IF')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                          </td>
                          <td v-if="checkList">
@@ -433,7 +478,7 @@
                      <tr v-if="jourType">
                          <td class="font-16">
                              <span class="blue d-inline-block">ضریب پنج ساله IF:</span>
-                             <span class="mr-3 d-inline-block"> {{paper.FIF}}</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.FIF}}</span>
                              <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('ضریب پنج ساله IF')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                          </td>
                          <td v-if="checkList">
@@ -445,10 +490,26 @@
                              </p-check>
                          </td>
                      </tr>
+
+                    <tr v-if="jourType">
+                        <td class="font-16">
+                            <span class="blue d-inline-block">رتبه scopus:</span>
+                            <span class="mr-3 d-inline-block"> {{paper.scopus}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('scopus')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('scopus')"
+                                @change.native="onChange('scopus', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
+                        </td>
+                    </tr>
                      <tr v-if="jourType">
                          <td class="font-16">
                              <span class="blue d-inline-block">رتبه JCR:</span>
-                             <span class="mr-3 d-inline-block"> {{paper.JCR}}</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.JCR}}</span>
                              <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JCR')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                          </td>
                          <td v-if="checkList">
@@ -463,7 +524,7 @@
                      <tr v-if="jourType">
                          <td class="font-16">
                              <span class="blue d-inline-block">ضریب JRK:</span>
-                             <span class="mr-3 d-inline-block"> {{paper.JRK}}</span>
+                             <span class="mr-3 d-inline-block persian-num"> {{paper.JRK}}</span>
                              <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('JRK')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                          </td>
                          <td v-if="checkList">
@@ -488,6 +549,21 @@
                             <p-check
                                 :checked="checkListForm.list && checkListForm.list.includes('نوع کنفرانس')"
                                 @change.native="onChange('نوع کنفرانس', $event)"
+                                type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
+                                <i slot="extra" class="icon far fa-check"></i>
+                            </p-check>
+                        </td>
+                    </tr>
+                    <tr v-if="confType">
+                        <td class="font-16">
+                            <span class="blue d-inline-block">نوع ارائه:</span>
+                            <span class="mr-3 d-inline-block"> {{paper.presentation_type}}</span>
+                            <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('نوع ارائه')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
+                        </td>
+                        <td v-if="checkList">
+                            <p-check
+                                :checked="checkListForm.list && checkListForm.list.includes('نوع ارائه')"
+                                @change.native="onChange('نوع ارائه', $event)"
                                 type="checkbox" class="p-icon p-curve p-pulse p-bigger text-ltr" color="info-o">
                                 <i slot="extra" class="icon far fa-check"></i>
                             </p-check>
@@ -702,8 +778,8 @@
             <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
                 <button v-if="paper.status != 3 && paper.status != 1" @click="paperEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  مقاله</button>
                 <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
-                <button @click="getPdf('Prize')" v-if="paper.status == '1' && paper.reward == '1' && paper.type == 0" class="btn btn-lg mx-1 btn-info"><i class="fal fa-file-pdf fa-fw mx-2"></i>دریافت فرم پاداش</button>
-                <button @click="getPdf('Club')" v-if="paper.status == '1' && paper.reward == '1' && paper.type == 0" class="btn btn-lg mx-1 btn-info"><i class="fal fa-file-pdf fa-fw mx-2"></i>دریافت فرم باشگاه</button>
+                <button @click="getPdf('Prize')" v-if="paper.status == '1' && paper.reward == '1' " class="btn btn-lg mx-1 btn-info"><i class="fal fa-file-pdf fa-fw mx-2"></i>دریافت فرم پاداش</button>
+                <button @click="getPdf('Club')" v-if="paper.status == '1' && paper.reward == '1' " class="btn btn-lg mx-1 btn-info"><i class="fal fa-file-pdf fa-fw mx-2"></i>دریافت فرم باشگاه</button>
                 <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
                 <button v-if="$gate.isAdminOrAuthor()" @click="toggleCheckList"  class="btn btn-lg mx-1 btn-warning">چک لیست بررسی</button>
             </div>
@@ -940,7 +1016,22 @@
                                         <span v-show="errors.has('form2.conftype_id')" class="red d-inline-block">{{ errors.first('form2.conftype_id') }}</span>
                                         <span v-show="form.errors.has('conftype_id')" class="red d-inline-block">{{ form.errors.get('conftype_id') }}</span>
                                     </div>
-
+                                    <div  v-if="confForm" class="form-group my-3 text-right">
+                                        <label   class="blue">نوع ارائه :</label>
+                                        <select
+                                            v-validate="'required'" data-vv-name="presentation_type"
+                                            class="form-control" id="presentation_type"
+                                            v-model="form.presentation_type"
+                                            :class="[( errors.has('form2.presentation_type') || form.errors.has('presentation_type') ? 'is-invalid': ''  ) ]"
+                                        >
+                                            <option selected disabled value="">انتخاب نوع ارائه ...</option>
+                                            <option value="پوستر">پوستر</option>
+                                            <option value="سخنرانی">سخنرانی</option>
+                                        </select>
+                                        <i v-show="errors.has('form2.presentation_type') || form.errors.has('presentation_type')" class="red far fa-exclamation-triangle"></i>
+                                        <span v-show="errors.has('form2.presentation_type')" class="red d-inline-block">{{ errors.first('form2.presentation_type') }}</span>
+                                        <span v-show="form.errors.has('presentation_type')" class="red d-inline-block">{{ form.errors.get('presentation_type') }}</span>
+                                    </div>
                                     <div  v-if="confForm" class="form-group my-3 text-right">
                                         <label class="blue ">نام کنفرانس<i class="red mx-1">*</i>:</label>
                                         <input  type="text" name="confname"
@@ -1062,6 +1153,24 @@
                                                class="form-control" v-model="form.pissn" >
                                     </div>
                                     <div class="form-group my-3 text-right">
+                                        <label v-if="journalForm"  class="blue ">شماره مجله(Issue):</label>
+                                        <input v-if="journalForm"  type="number" min="0" name="issue"
+                                               placeholder=""
+                                               class="form-control" v-model="form.issue" >
+                                    </div>
+                                    <div class="form-group my-3 text-right">
+                                        <label v-if="journalForm"  class="blue ">شماره مجلد(Vol):</label>
+                                        <input v-if="journalForm"  type="number" min="0" name="volume"
+                                               placeholder=""
+                                               class="form-control" v-model="form.volume" >
+                                    </div>
+                                    <div class="form-group my-3 text-right">
+                                        <label v-if="journalForm"  class="blue ">شماره صفحه(Pages):</label>
+                                        <input v-if="journalForm"  type="number" min="0" name="Pages"
+                                               placeholder=""
+                                               class="form-control" v-model="form.pages" >
+                                    </div>
+                                    <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">IF:</label>
                                         <input v-if="journalForm"  type="number" min="0" name="IFactor"
                                                placeholder=""
@@ -1072,6 +1181,21 @@
                                         <input v-if="journalForm"  type="number" min="0" name="FIF"
                                                placeholder=""
                                                class="form-control" v-model="form.FIF" >
+                                    </div>
+                                    <div v-if="journalForm" class="form-group my-3 text-right">
+                                        <label   class="blue">رتبه scopus :</label>
+                                        <select
+                                            class="form-control" id="scopus"
+                                            v-model="form.scopus"
+
+                                        >
+                                            <option selected disabled value="">انتخاب رتبه ...</option>
+                                            <option value="Q1">Q1</option>
+                                            <option value="Q2">Q2</option>
+                                            <option value="Q3">Q3</option>
+                                            <option value="Q4">Q4</option>
+                                        </select>
+
                                     </div>
                                     <div class="form-group my-3 text-right">
                                         <label v-if="journalForm"  class="blue ">JCR</label>
@@ -1326,6 +1450,7 @@
                     files:[],
                     fileChangeType:'',    // sets of the file change type, whether it is addition to previous files or replacement
                     confname:'',
+                    presentation_type:'',
                     city:'',
                     organizer:'',
                     period:'',
@@ -1336,8 +1461,12 @@
                     blacklist_id:'',
                     issn:'',
                     pissn:'',
+                    volume:'',
+                    issue:'',
+                    pages:'',
                     IFactor:'',
                     FIF:'',
+                    scopus:'',
                     JRK:'',
                     JCR:'',
                     author_count:'',
@@ -1375,10 +1504,14 @@
             getPdf(type){
                 let loader1 = Vue.$loading.show();
                 let url = '';
-                if(type == 'Club'){
-                    url = 'researchClubPaperPdf';
-                }else{
-                    url = 'researchPrizePaperPdf';
+                if(type == 'Club' && this.paper.type == 0){
+                    url = 'jurResearchClubPaperPdf';
+                }else if(type == 'Prize' && this.paper.type == 0){
+                    url = 'jurResearchPrizePaperPdf';
+                }else if(type == 'Club' && this.paper.type == 1){
+                    url = 'confResearchClubPaperPdf';
+                }else if(type == 'Prize' && this.paper.type == 1){
+                    url = 'confResearchPrizePaperPdf';
                 }
                 axios({
                     url: `/api/${url}/${this.id}`,
@@ -1782,6 +1915,7 @@
                     issn:'شماره ISSN',
                     isresponsible:'انتخاب نویسنده مسئول',
                     score: 'امتیاز',
+                    presentation_type:'نوع ارائه'
                 }
             });
             this.id = this.$route.params.id;

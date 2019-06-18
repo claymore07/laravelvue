@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,6 +34,12 @@ class JournalReportResource extends JsonResource
         }else{
             $license_to = '-';
         }
+        $blacklistFlag = false;
+        if($this->blacklist_id != null){
+            $blacklistFlag = true;
+        }else{
+            $blacklist = null;
+        }
         return [
             'id' => $paper->id,
             'title' => $paper->title,
@@ -55,8 +62,13 @@ class JournalReportResource extends JsonResource
             'accept_date' => $paper->accept_date,
             'doi' => $paper->doi != null ? $paper->doi : '-',
             'link' => $paper->link != null ? $paper->link : '-',
+            'blacklistFlag' =>$blacklistFlag?'بله':'خیر',
+            'volume' => $this->volume != null ? $this->volume : '-',
+            'pages' => $this->pages != null ? $this->pages : '-',
+            'issue' => $this->issue != null ? $this->issue : '-',
             'IFactor' => $this->IFactor != null ? $this->IFactor : '-',
             'FIF' => $this->FIF != null ? $this->FIF : '-',
+            'scopus' => $this->scopus != null ? $this->scopus : '-',
             'JRK' => $this->JRK != null ? $this->JRK : '-',
             'JCR' => $this->JCR != null ? $this->JCR : '-',
             'issn' => $this->issn,
