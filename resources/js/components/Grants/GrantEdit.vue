@@ -515,7 +515,7 @@
                 this.editFormPrepare();
                 // UI modal Hide, progress bar finish , show the toase
                 $('#grantEditModal').modal('hide');
-                this.successToast('اطلاعات دوره با موفقیت ویرایش شد.');
+                this.successToast('اطلاعات گرنت با موفقیت ویرایش شد.');
                 this.$Progress.finish();
             }).catch((e) => {
                     loader1.hide();
@@ -550,7 +550,7 @@
         grantValidation(){
             return this.$validator.validateAll('form').then(result => {
                 if (!result) {
-                    this.errorSwal('اطلاعات دوره دارای خطا می باشد!');
+                    this.errorSwal('اطلاعات بودجه جذب شده دارای خطا می باشد!');
                     return false;
                 }
                 return true;

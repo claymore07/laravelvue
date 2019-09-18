@@ -36,9 +36,7 @@ class GrantController extends Controller
         $order = \Request::get('order');
         $user = Auth::user('api')->load('profile');
         $grants = Grant::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user')  {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
@@ -57,7 +55,7 @@ class GrantController extends Controller
 
                 // \DB::enableQueryLog();
                 $grants = Grant::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -71,7 +69,7 @@ class GrantController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
@@ -79,7 +77,7 @@ class GrantController extends Controller
                 //dd(\DB::getQueryLog());
             } else {
                 $grants = Grant::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -90,7 +88,7 @@ class GrantController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $grants = Grant::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -106,7 +104,7 @@ class GrantController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search,$filter,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
@@ -116,7 +114,7 @@ class GrantController extends Controller
 
             } else {
                 $grants = Grant::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })

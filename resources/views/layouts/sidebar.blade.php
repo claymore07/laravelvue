@@ -70,6 +70,12 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/researchActivity" class="nav-link ">
+                        <i class="nav-icon fal fa-user-secret nav-icon  "></i>
+                        <p>فعالیت های اجرایی پژوهشی</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/inventions" class="nav-link ">
                         <i class="nav-icon fal fa-microscope nav-icon  "></i>
                         <p>اختراعات و اکتشافات</p>
@@ -101,7 +107,7 @@
             </ul>
         </li>
 
-        <li v-if="type === 'admin' && $gate.hasProfile()" class="nav-item has-treeview ">
+        <li v-if="(type === 'admin' ||type === 'author' )  && $gate.hasProfile()" class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-server blue"></i>
                 <p>
@@ -110,7 +116,7 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li class="nav-item">
+                <li v-if="(type === 'admin' )  && $gate.hasProfile()" class="nav-item">
                     <router-link to="/users" class="nav-link ">
                         <i class="nav-icon fal fa-users nav-icon  "></i>
                         <p>کاربران</p>
@@ -156,7 +162,7 @@
             </ul>
         </li>
 
-        <li v-if="type === 'admin' && $gate.hasProfile()"  class="nav-item has-treeview ">
+        <li v-if="(type === 'admin' ||type === 'author' ) && $gate.hasProfile()"  class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-newspaper orange"></i>
                 <p>
@@ -238,7 +244,7 @@
 
             </ul>
         </li>
-        <li v-if="type === 'admin' && $gate.hasProfile()"  class="nav-item has-treeview ">
+        <li v-if="(type === 'admin' ||type === 'author' ) && $gate.hasProfile()"  class="nav-item has-treeview ">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-analytics orange"></i>
                 <p>

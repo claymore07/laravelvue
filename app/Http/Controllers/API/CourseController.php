@@ -37,9 +37,7 @@ class CourseController extends Controller
 
         $user = Auth::user('api')->load('profile');
         $courses = Course::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user') {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
@@ -59,7 +57,7 @@ class CourseController extends Controller
 
                 // \DB::enableQueryLog();
                 $courses = Course::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -73,7 +71,7 @@ class CourseController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
@@ -82,7 +80,7 @@ class CourseController extends Controller
                 //dd(\DB::getQueryLog());
             } else {
                 $courses = Course::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -94,7 +92,7 @@ class CourseController extends Controller
                 // \DB::enableQueryLog();
 
                 $courses = Course::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -110,7 +108,7 @@ class CourseController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search,$filter,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
@@ -122,7 +120,7 @@ class CourseController extends Controller
             } else {
 
                 $courses = Course::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })

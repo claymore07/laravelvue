@@ -50,6 +50,7 @@ Route::apiResources([
     'booklet'=>'API\BookletController',
     'invention'=>'API\InventionController',
     'grant'=>'API\GrantController',
+    'researchActivity'=>'API\ResearchActivityController',
     'blacklist'=>'API\BlackListController',
 ]);
 
@@ -68,6 +69,7 @@ Route::post('courseUpdate/{course}','API\CourseController@update');
 Route::post('bookletUpdate/{booklet}','API\BookletController@update');
 Route::post('inventionUpdate/{invention}','API\InventionController@update');
 Route::post('grantUpdate/{grant}','API\GrantController@update');
+Route::post('researchActivityUpdate/{researchactivity}','API\ResearchActivityController@update');
 
 // helper routes to get relations collections
 Route::get('profileRelation','API\UserController@profileRelation');
@@ -82,6 +84,7 @@ Route::get('inventionRelation','API\InventionController@inventionRelation');
 Route::get('rewardRelation','API\RewardController@rewardRelation');
 Route::get('courseRelation','API\CourseController@courseRelation');
 Route::get('grantRelation','API\GrantController@grantRelation');
+Route::get('researchActivityRelation','API\ResearchActivityController@researchActivityRelation');
 
 // Search Routes
 Route::post('findPaper','API\PapersController@search');
@@ -95,6 +98,7 @@ Route::get('findCourse','API\CourseController@search');
 Route::get('findBooklet','API\BookletController@search');
 Route::get('findInvention','API\InventionController@search');
 Route::get('findGrant','API\GrantController@search');
+Route::get('findResearchActivity','API\ResearchActivityController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
@@ -113,6 +117,7 @@ Route::post('courseCheckList','API\CheckListController@store');
 Route::post('bookletCheckList','API\CheckListController@store');
 Route::post('inventionCheckList','API\CheckListController@store');
 Route::post('grantCheckList','API\CheckListController@store');
+Route::post('researchActivityCheckList','API\CheckListController@store');
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
@@ -162,6 +167,7 @@ Route::post('projectReport','API\ReportController@projectReport');
 Route::post('tedReport','API\ReportController@tedReport');
 Route::post('thesesReport','API\ReportController@thesesReport');
 Route::post('grantsReport','API\ReportController@grantsReport');
+Route::post('researchActivityReport','API\ReportController@researchActivityReport');
 Route::post('refereesReport','API\ReportController@refereesReport');
 Route::post('rewardsReport','API\ReportController@rewardsReport');
 Route::post('bookletsReport','API\ReportController@bookletsReport');

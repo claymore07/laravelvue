@@ -26,6 +26,7 @@ class User{
             }else{
                 window.location = '/profile';
             }
+            console.log('isvalid')
         }
     }
     hasToken(){

@@ -50,7 +50,7 @@ class PaperRequest extends FormRequest
             'isresponsible'=>'required',
             'author_count'=>'required',
             'author_place'=>'required',
-            'authors' => 'required',
+           // 'authors' => 'required',
 
 
         ];

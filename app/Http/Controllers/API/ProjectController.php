@@ -38,9 +38,7 @@ class ProjectController extends Controller
 
         $user = Auth::user('api')->load('profile');
         $projects = Project::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user') {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
@@ -59,7 +57,7 @@ class ProjectController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $Projects = Project::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -73,13 +71,13 @@ class ProjectController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
                         $query->orWhere('organization', 'LIKE', "%$search%");
                     })->orWhereHas ('projectType',function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%");
@@ -87,7 +85,7 @@ class ProjectController extends Controller
                 //dd(\DB::getQueryLog());
             } else {
                 $Projects = Project::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -98,7 +96,7 @@ class ProjectController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $Projects = Project::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -114,14 +112,14 @@ class ProjectController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                         $query->orWhere('organization', 'LIKE', "%$search%")->where('status', $filter);
 
                     })->orWhereHas ('projectType',function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
@@ -131,7 +129,7 @@ class ProjectController extends Controller
             } else {
 
                 $Projects = Project::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -254,7 +252,7 @@ class ProjectController extends Controller
             $affiliations = $request->affiliations;
             $isresposible = $request->isresponsible;
 
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
+            //$request['profile_id'] =  auth('api')->user()->profile['id'];
             $request['status'] = 4;
 
             $project_db = $project->update($request->all());

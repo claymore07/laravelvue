@@ -11,6 +11,7 @@ use App\Models\Invention;
 use App\Models\Paper;
 use App\Models\Project;
 use App\Models\Referee;
+use App\Models\ResearchActivity;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\Thesis;
@@ -88,6 +89,8 @@ class CheckListController extends Controller
             $item_db = Grant::findOrFail($request->id);
         }elseif ($path == 'api/bookletCheckList') {
             $item_db = Booklet::findOrFail($request->id);
+        }elseif ($path == 'api/researchActivityCheckList') {
+            $item_db = ResearchActivity::findOrFail($request->id);
         }else{
             return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
         }

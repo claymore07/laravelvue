@@ -45,6 +45,9 @@ class Profile extends Model
     public function referees(){
         return $this->hasMany(Referee::class);
     }
+    public function researchActivity(){
+        return $this->hasMany(ResearchActivity::class);
+    }
 
     // Backward Relations
     public function user(){

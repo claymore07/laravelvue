@@ -39,9 +39,7 @@ class TEDChairController extends Controller
 
         $user = Auth::user('api')->load('profile');
         $theses = TEDChair::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user')  {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })
@@ -60,7 +58,7 @@ class TEDChairController extends Controller
 
                 // \DB::enableQueryLog();
                 $TEDChairs = TEDChair::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -74,12 +72,12 @@ class TEDChairController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
                     })->orWhereHas ('TEDType',function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%");
@@ -88,7 +86,7 @@ class TEDChairController extends Controller
             } else {
 
                 $TEDChairs = TEDChair::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -99,7 +97,7 @@ class TEDChairController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $TEDChairs = TEDChair::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -115,12 +113,12 @@ class TEDChairController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                     })->orWhereHas ('TEDType',function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
@@ -130,7 +128,7 @@ class TEDChairController extends Controller
             } else {
 
                 $TEDChairs = TEDChair::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })

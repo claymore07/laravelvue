@@ -37,9 +37,7 @@ class InventionController extends Controller
 
         $user = Auth::user('api')->load('profile');
         $inventions = Invention::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user') {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
@@ -59,7 +57,7 @@ class InventionController extends Controller
 
                 // \DB::enableQueryLog();
                 $inventions = Invention::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -73,12 +71,12 @@ class InventionController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
                     })->orWhereHas ('inventionType',function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%");
@@ -87,7 +85,7 @@ class InventionController extends Controller
             } else {
 
                 $inventions = Invention::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -98,7 +96,7 @@ class InventionController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $inventions = Invention::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -114,12 +112,12 @@ class InventionController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                     })->orWhereHas ('inventionType',function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
@@ -129,7 +127,7 @@ class InventionController extends Controller
             } else {
 
                 $inventions = Invention::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })

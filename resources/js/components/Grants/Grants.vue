@@ -10,7 +10,7 @@
                                 <h4 class=" text-right"><i class="fal fa-dollar-sign fa-fw"></i> آرشیو بودجه های جذب شده</h4>
                             </div>
                             <div class="col-xl-4  " >
-                                <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن دوره</button>
+                                <button class="btn btn-block-only btn-success ripple mt-3 mx-xl-2 float-left" @click="newModal"><i style="font-size: 16px" class="fal fa-file-plus"></i> افزودن گرنت</button>
                                 <button class="btn btn-block-only btn-info ripple mt-3 mx-xl-2 float-left" @click="infoModal"><i style="font-size: 16px" class="far fa-info-circle"></i> راهنمای بخشنامه</button>
                             </div>
 
@@ -133,8 +133,8 @@
                             @on-complete="onComplete"
                             ref="wizard">
                             <h2 slot="title">تکمیل اطلاعات گرنت</h2>
-                            <!-- :before-change="grantValidation" -->
-                            <tab-content title="اطلاعات گرنت"   icon="far fa-dollar-sign">
+                            <!--  -->
+                            <tab-content title="اطلاعات گرنت" :before-change="grantValidation"  icon="far fa-dollar-sign">
                                 <form @submit.prevent="createGrant()" @keydown="form.onKeydown($event)" @change="form.onKeydown($event)" data-vv-scope="form" id="Form">
 
                                     <div class="modal-body">
@@ -318,7 +318,7 @@
             grantValidation(){
                 return this.$validator.validateAll('form').then(result => {
                     if (!result) {
-                        this.errorSwal('اطلاعات دوره دارای خطا می باشد!');
+                        this.errorSwal('اطلاعات بودجه جذب شده دارای خطا می باشد!');
                         return false;
                     }
                     return true;

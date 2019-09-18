@@ -48,6 +48,8 @@ class Files extends Model
                 $path = 'files/inventions/';
             }elseif ($fileable_type == 'App\Models\Grant'){
                 $path = 'files/grants/';
+            }elseif ($fileable_type == 'App\Models\ResearchActivity'){
+                $path = 'files/research_activity/';
             }
 
             $filePath = public_path($path).$item->name;

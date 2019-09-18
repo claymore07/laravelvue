@@ -39,9 +39,7 @@ class BookletController extends Controller
 
         $user = Auth::user('api')->load('profile');
         $booklets = Booklet::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user')  {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
@@ -59,7 +57,7 @@ class BookletController extends Controller
 
                 // \DB::enableQueryLog();
                 $booklets = Booklet::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -73,13 +71,13 @@ class BookletController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
                         $query->orWhere('name', 'LIKE', "%$search%");
                     })->orWhereHas ('degree',function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%");
@@ -87,7 +85,7 @@ class BookletController extends Controller
                 //dd(\DB::getQueryLog());
             } else {
                 $booklets = Booklet::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -99,7 +97,7 @@ class BookletController extends Controller
                 // \DB::enableQueryLog();
 
                 $booklets = Booklet::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -115,14 +113,14 @@ class BookletController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search,$filter,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                         $query->orWhere('name', 'LIKE', "%$search%")->where('status', $filter);
 
                     })->orWhereHas ('degree',function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
@@ -132,7 +130,7 @@ class BookletController extends Controller
             } else {
 
                 $booklets = Booklet::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })

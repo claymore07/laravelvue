@@ -11,6 +11,8 @@ use App\Http\Resources\InventionReportResource;
 use App\Http\Resources\JournalReportResource;
 use App\Http\Resources\ProjectReportResource;
 use App\Http\Resources\RefereeReportResource;
+use App\Http\Resources\ResearchActivityReportResource;
+use App\Http\Resources\ResearchActivityResource;
 use App\Http\Resources\RewardReportResource;
 use App\Http\Resources\TEDReportResource;
 use App\Http\Resources\ThesesReportResource;
@@ -33,6 +35,7 @@ use App\Models\Project;
 use App\Models\ProjectType;
 use App\Models\Referee;
 use App\Models\RefereeType;
+use App\Models\ResearchActivity;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\TEDType;
@@ -656,6 +659,66 @@ class ReportController extends Controller
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
+    public function researchActivityReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
+
+        $this->perPage = $request->get('perPage');
+        $research_activity_Type_id = $request->get('research_activity_Type_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $term = $request->get('term_id');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+        $dateType = $request->get('dateType');
+
+        $researchAtivityQuery = ResearchActivity::with(['profile','term','ResearchActivityType'])
+            ->where(function ($query) use($status, $term, $start_date,$end_date,$dateType) {
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+                if ( $start_date != '' &&  $end_date != '' ) {
+                    if( $dateType == 0){
+                        $query->whereBetween('created_at',[$start_date, $end_date]);
+                    }elseif ( $dateType == 1){
+                        $query->whereBetween('submit_date',[$start_date, $end_date]);
+                    }
+                }
+                if (isset($status)) {
+                    $query->whereIn('status',  explode(',',$status));
+                }
+
+            })->whereHas('ResearchActivityType', function ($query) use ($research_activity_Type_id){
+                if (isset($research_activity_Type_id)) {
+                    $query->whereIn('id',  explode(',',$research_activity_Type_id));
+                }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
+                }
+            })
+            ->orderBy('created_at', $order);
+
+        if(\Request::get('excelReport') !=0){
+            $researchActivities =  $researchAtivityQuery->get();
+        }else{
+            $researchActivities =  $researchAtivityQuery->paginate($this->perPage);
+        }
+
+        //return \Response::json(['books'=>$inventions]);
+        return ResearchActivityReportResource::collection($researchActivities);
+
+    }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function bookletsReport(Request $request){
         $this->authorize('IsAdminOrIsAuthor');
 
@@ -872,6 +935,22 @@ class ReportController extends Controller
                 $success[] = $query->where('status' ,1)->count();
                 $uncheck[] = $query->where('status' ,0)->count();
             }
+        }elseif($query_type == 'ResearchActivity'){
+            foreach ($faculties as $faculty){
+                $query = ResearchActivity::join('profiles', 'research_activities.profile_id', '=', 'profiles.id')
+                    ->where(function ($query) use ($faculty,$term, $start_date, $end_date) {
+                        if (isset($term)) {
+                            $query->whereIn('research_activities.term_id',  explode(',',$term));
+                        }
+                        if ($start_date != '' && $end_date != '') {
+                            $query->whereBetween('research_activities.created_at', [$start_date, $end_date]);
+                        }
+                        $query->where('profiles.faculty_id', $faculty->id);
+                    })->get();
+                $faild[] = $query->where('status' ,3)->count();
+                $success[] = $query->where('status' ,1)->count();
+                $uncheck[] = $query->where('status' ,0)->count();
+            }
         }elseif($query_type == 'TEDChair'){
             foreach ($faculties as $faculty){
                 $query = TEDChair::join('profiles', 'tedchairs.profile_id', '=', 'profiles.id')
@@ -1068,6 +1147,22 @@ class ReportController extends Controller
                         }
                         if ($start_date != '' && $end_date != '') {
                             $query->whereBetween('inventions.created_at', [$start_date, $end_date]);
+                        }
+                        $query->where('profiles.position_id', $position->id);
+                    })->get();
+                $faild[] = $query->where('status' ,3)->count();
+                $success[] = $query->where('status' ,1)->count();
+                $uncheck[] = $query->where('status' ,0)->count();
+            }
+        }elseif($query_type == 'ResearchActivity'){
+            foreach ($positions as $position){
+                $query = ResearchActivity::join('profiles', 'research_activities.profile_id', '=', 'profiles.id')
+                    ->where(function ($query) use ($position,$term, $start_date, $end_date) {
+                        if (isset($term)) {
+                            $query->whereIn('research_activities.term_id',  explode(',',$term));
+                        }
+                        if ($start_date != '' && $end_date != '') {
+                            $query->whereBetween('research_activities.created_at', [$start_date, $end_date]);
                         }
                         $query->where('profiles.position_id', $position->id);
                     })->get();
@@ -1471,6 +1566,9 @@ class ReportController extends Controller
         $query[] = Profile::where('user_id','=',$user_id)->join('rewards','profiles.id','=','rewards.profile_id')
             ->where('rewards.status','=',1)->
             select(\DB::raw('count(rewards.id) as `data`'),\DB::raw('SUM(rewards.score) as `scores`'), 'term_id')->groupBy('term_id')->get();
+        $query[] = Profile::where('user_id','=',$user_id)->join('research_activities','profiles.id','=','research_activities.profile_id')
+            ->where('	research_activities.status','=',1)->
+            select(\DB::raw('count(research_activities.id) as `data`'),\DB::raw('SUM(research_activities.score) as `scores`'), 'term_id')->groupBy('term_id')->get();
 
         $counts = [];
         $scores = [];
@@ -1532,6 +1630,12 @@ class ReportController extends Controller
             }
         })->count();
         $result['Invention'] = Invention::where(function ($query) use ($role,$profile_id,$term) {
+            $query->where('profile_id',$profile_id);
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
+            }
+        })->count();
+        $result['ResearchActivity'] = ResearchActivity::where(function ($query) use ($role,$profile_id,$term) {
             $query->where('profile_id',$profile_id);
             if (isset($term)) {
                 $query->whereIn('term_id',  explode(',',$term));
@@ -1654,6 +1758,17 @@ class ReportController extends Controller
                         }
                     })->get();
               return InventionReportResource::collection($query);
+        }elseif($query_type == 'ResearchActivity' ){
+                $query = ResearchActivity::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
+                        $query->where('profile_id',$profile_id);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
+                        }
+                        if ($start_date != '' && $end_date != '') {
+                            $query->whereBetween('created_at', [$start_date, $end_date]);
+                        }
+                    })->get();
+              return ResearchActivityReportResource::collection($query);
         }elseif($query_type == 'Referee' ){
                 $query = Referee::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);
@@ -1750,7 +1865,7 @@ class ReportController extends Controller
         if($query_type == 'Journal' ){
             $query = Journal::with(['paper'])
                 ->whereHas('paper',function ($query) use ($role,$profile_id,$term) {
-                    if($role != 'admin'){
+                    if($role == 'user'){
                         $query->where('profile_id',$profile_id);
                         $query->whereIn('status',[1,2,3]);
                     }else{
@@ -1765,7 +1880,7 @@ class ReportController extends Controller
         }elseif($query_type == 'Conference' ){
                 $query = Conference::with(['paper'])
                     ->whereHas('paper',function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1779,7 +1894,7 @@ class ReportController extends Controller
               return conferenceReportResource::collection($query);
         }elseif($query_type == 'Book' ){
                 $query = Book::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1793,7 +1908,7 @@ class ReportController extends Controller
               return BookReportResource::collection($query);
         }elseif($query_type == 'Project' ){
                 $query = Project::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1807,7 +1922,7 @@ class ReportController extends Controller
               return ProjectReportResource::collection($query);
         }elseif($query_type == 'Invention' ){
                 $query = Invention::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1819,9 +1934,23 @@ class ReportController extends Controller
                     })->get();
 
               return InventionReportResource::collection($query);
+        }elseif($query_type == 'ResearchActivity' ){
+                $query = ResearchActivity::where(function ($query) use ($role,$profile_id,$term) {
+                        if($role == 'user'){
+                            $query->where('profile_id',$profile_id);
+                            $query->whereIn('status',[1,2,3]);
+                        }else{
+                            $query->whereIn('status',[0,4]);
+                        }
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
+                        }
+                    })->get();
+
+              return ResearchActivityReportResource::collection($query);
         }elseif($query_type == 'Referee' ){
                 $query = Referee::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1835,7 +1964,7 @@ class ReportController extends Controller
               return RefereeReportResource::collection($query);
         }elseif($query_type == 'TEDChair' ){
                 $query = TEDChair::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1849,7 +1978,7 @@ class ReportController extends Controller
               return TEDReportResource::collection($query);
         }elseif($query_type == 'Thesis' ){
                 $query = Thesis::where(function ($query)  use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1863,7 +1992,7 @@ class ReportController extends Controller
               return ThesesReportResource::collection($query);
         }elseif($query_type == 'Reward' ){
                 $query = Reward::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1877,7 +2006,7 @@ class ReportController extends Controller
               return RewardReportResource::collection($query);
         }elseif($query_type == 'Grant' ){
                 $query = Grant::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1891,7 +2020,7 @@ class ReportController extends Controller
               return GrantReportResource::collection($query);
         }elseif($query_type == 'Course' ){
                 $query = Course::where(function ($query)use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1905,7 +2034,7 @@ class ReportController extends Controller
               return CourseReportResource::collection($query);
         }elseif($query_type == 'Booklet' ){
                 $query = Booklet::where(function ($query) use ($role,$profile_id,$term) {
-                        if($role != 'admin'){
+                        if($role == 'user'){
                             $query->where('profile_id',$profile_id);
                             $query->whereIn('status',[1,2,3]);
                         }else{
@@ -1930,7 +2059,7 @@ class ReportController extends Controller
         $term = $request->get('term_id');
         $result['Journal'] = Journal::with(['paper'])
                 ->whereHas('paper',function ($query) use ($role,$profile_id,$term) {
-                    if($role != 'admin'){
+                    if($role == 'user'){
                         $query->where('profile_id',$profile_id);
                         $query->whereIn('status',[1,2,3]);
                     }else{
@@ -1942,7 +2071,7 @@ class ReportController extends Controller
                 })->count();
         $result['Conference']= Conference::with(['paper'])
             ->whereHas('paper',function ($query) use ($role,$profile_id,$term) {
-                if($role != 'admin'){
+                if($role == 'user'){
                     $query->where('profile_id',$profile_id);
                     $query->whereIn('status',[1,2,3]);
                 }else{
@@ -1953,7 +2082,7 @@ class ReportController extends Controller
                 }
             })->count();
         $result['Book']= Book::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -1964,7 +2093,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Project']= Project::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -1975,7 +2104,18 @@ class ReportController extends Controller
             }
         })->count();
         $result['Invention'] = Invention::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
+                $query->where('profile_id',$profile_id);
+                $query->whereIn('status',[1,2,3]);
+            }else{
+                $query->whereIn('status',[0,4]);
+            }
+            if (isset($term)) {
+                $query->whereIn('term_id',  explode(',',$term));
+            }
+        })->count();
+        $result['ResearchActivity'] = ResearchActivity::where(function ($query) use ($role,$profile_id,$term) {
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -1986,7 +2126,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Referee']= Referee::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -1997,7 +2137,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['TEDChair']= TEDChair::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -2008,7 +2148,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Thesis']= Thesis::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -2019,7 +2159,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Reward']= Reward::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -2030,7 +2170,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Grant']= Grant::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -2041,7 +2181,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Course']= Course::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{
@@ -2052,7 +2192,7 @@ class ReportController extends Controller
             }
         })->count();
         $result['Booklet']= Booklet::where(function ($query) use ($role,$profile_id,$term) {
-            if($role != 'admin'){
+            if($role == 'user'){
                 $query->where('profile_id',$profile_id);
                 $query->whereIn('status',[1,2,3]);
             }else{

@@ -40,9 +40,7 @@ class BookController extends Controller
         $order = \Request::get('order');
         $user = Auth::user('api')->load('profile');
         $books = Book::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user') {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })->orderBy('created_at', $order)->paginate($this->perPage);
@@ -60,7 +58,7 @@ class BookController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $books = Book::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -74,13 +72,13 @@ class BookController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
                         $query->orWhere('subject', 'LIKE', "%$search%");
                     })->orWhereHas ('booktype',function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%");
@@ -89,7 +87,7 @@ class BookController extends Controller
                 //dd(\DB::getQueryLog());
             } else {
                 $books = Book::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -100,7 +98,7 @@ class BookController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $books = Book::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -116,14 +114,14 @@ class BookController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search,$filter,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
                         $query->orWhere('subject', 'LIKE', "%$search%")->where('status', $filter);
 
                     })->orWhereHas ('booktype',function ($query) use ($search, $filter, $user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('name', 'LIKE', "%$search%")->where('status', $filter);
@@ -133,7 +131,7 @@ class BookController extends Controller
             } else {
 
                 $books = Book::where(function ($query) use ($user) {
-                    if ($user->type != 'admin') {
+                    if ($user->type == 'user') {
                         $query->where('profile_id', '=', $user->profile->id);
                     }
                 })
@@ -248,7 +246,7 @@ class BookController extends Controller
               $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
-            $request['profile_id'] =  auth('api')->user()->profile['id'];
+          //  $request['profile_id'] =  auth('api')->user()->profile['id'];
             $request['status'] = 4;
 
             $book_db = $book->update($request->all());

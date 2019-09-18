@@ -37,6 +37,8 @@ let routes = [
     { path: '/refereeEdit/:id', name:'refereeEdit', component: require('../components/Referees/RefereeEdit.vue').default },
     { path: '/inventions', component: require('../components/Inventions/Inventions.vue').default },
     { path: '/inventionEdit/:id', name:'inventionEdit', component: require('../components/Inventions/InventionEdit.vue').default },
+    { path: '/researchActivity', component: require('../components/ResearchActivity/ResearchActivity.vue').default },
+    { path: '/researchActivityEdit/:id', name:'researchActivityEdit', component: require('../components/ResearchActivity/ResearchActivityEdit.vue').default },
     { path: '/booklets', component: require('../components/Booklets/Booklets.vue').default },
     { path: '/bookletEdit/:id', name:'bookletEdit', component: require('../components/Booklets/BookletEdit.vue').default },
     { path: '/grants', component: require('../components/Grants/Grants.vue').default },

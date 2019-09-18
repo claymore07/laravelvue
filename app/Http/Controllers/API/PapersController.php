@@ -48,9 +48,7 @@ class PapersController extends Controller
         $user = Auth::user('api')->load('profile');
 
         $papers = Paper::where(function ($query) use ($user) {
-                if ($user->type == 'admin') {
-
-                } else {
+                if ($user->type == 'user')  {
                     $query->where('profile_id', '=', $user->profile->id);
                 }
             })
@@ -71,7 +69,7 @@ class PapersController extends Controller
             if ($search = \Request::get('q')) {
                   // \DB::enableQueryLog();
                 $papers = Paper::where(function ($query) use ($user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
@@ -85,7 +83,7 @@ class PapersController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
@@ -94,9 +92,7 @@ class PapersController extends Controller
                    //dd(\DB::getQueryLog());
             } else {
                 $papers = Paper::where(function ($query) use ($user) {
-                        if ($user->type == 'admin') {
-
-                        } else {
+                        if ($user->type == 'user')  {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
@@ -109,7 +105,7 @@ class PapersController extends Controller
                // \DB::enableQueryLog();
 
                 $papers = Paper::where(function ($query) use ($user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
@@ -125,7 +121,7 @@ class PapersController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search,$filter,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")->where('status', $filter);
@@ -135,9 +131,7 @@ class PapersController extends Controller
             } else {
 
                 $papers = Paper::where(function ($query) use ($user) {
-                        if ($user->type == 'admin') {
-
-                        } else {
+                        if ($user->type == 'user')  {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })

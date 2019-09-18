@@ -119,7 +119,7 @@
                 this.form.post('/api/auth/signup')
                     .then(res => {
                         User.responseAfterLogin(res);
-                        this.$router.push('/home');
+                        //this.$router.push('/home');
                     })
                     .catch(error => {})
             },

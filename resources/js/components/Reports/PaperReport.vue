@@ -670,7 +670,7 @@
             },
         },
         created() {
-            this.$parent.pageName = 'آرشیو مقالات';
+            this.$parent.pageName = 'گزارش مقالات';
             Fire.$on('searching', () => {
                 let page = 1;
                 let query = this.search;

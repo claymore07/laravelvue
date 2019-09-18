@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div v-if="showResult&&$gate.isAdmin()" class="row justify-content-center  no-gutters mt-2">
+                        <div v-if="showResult&&$gate.isAdminOrAuthor()" class="row justify-content-center  no-gutters mt-2">
                             <apexchart ref="charting" id="chart1" class="col-lg-7 mt-5 order-lg-1"  type="bar" :options="options" :series="series"></apexchart>
 
                             <div class="col-sm-8 col-lg-5 mt-2 order-lg-0" >
@@ -1038,7 +1038,7 @@
             getDashboardData(type = 'Journal') {
                 let loader1 = Vue.$loading.show();
 
-                if(this.$gate.isAdmin()){
+                if(this.$gate.isAdminOrAuthor()){
                     this.query_type=type;
                     this.getResults();
                 }
@@ -1216,7 +1216,7 @@
             this.getTermsList();
             this.getDashboardStats();
             this.getDashboardData();
-            if(this.$gate.isAdmin()){
+            if(this.$gate.isAdminOrAuthor()){
                 this.getResults();
             }else{
                 this.getChartData();

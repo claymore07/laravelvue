@@ -10,6 +10,7 @@ use App\Models\Invention;
 use App\Models\Paper;
 use App\Models\Project;
 use App\Models\Referee;
+use App\Models\ResearchActivity;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\Term;
@@ -104,6 +105,8 @@ class TermsController extends Controller
             $item_db = Booklet::findOrFail($request->id);
         }elseif ($request->model == 'Grant'){
             $item_db = Grant::findOrFail($request->id);
+        }elseif ($request->model == 'ResearchActivity'){
+            $item_db = ResearchActivity::findOrFail($request->id);
         }
 
         $item_db->update(['term_id'=>$request['term_id']]);

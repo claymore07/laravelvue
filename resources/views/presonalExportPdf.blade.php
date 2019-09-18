@@ -259,6 +259,37 @@ function arabic_w2e($str) {
 </table>
 <table class="table table-bordered table-sm"  style=" border-collapse: collapse;" >
     <tr>
+        <td colspan="7" style="border: none; font-size: 12pt" class="border-bottom"><b>فعالیت های اجرایی پژوهشی</b></td>
+    </tr>
+
+    <tr >
+        <td style="text-align: center; vertical-align: middle">ردیف</td>
+        <td style=" vertical-align: middle">عنوان فعالیت</td>
+        <td style=" vertical-align: middle">نوع فعالیت</td>
+        <td style=" vertical-align: middle">مرحع تایید کننده</td>
+        <td style=" vertical-align: middle">تاریخ شروع</td>
+        <td style=" vertical-align: middle">تاریخ اتمام</td>
+        <td style=" vertical-align: middle">ترم</td>
+    </tr>
+    <tbody>
+    @php
+        $counter = 1;
+    @endphp
+    @foreach($researchActivities as $item)
+        <tr>
+            <td class="persian-num" style="text-align: center; vertical-align: middle">{{$counter++}}  </td>
+            <td style=" vertical-align: middle">{{$item->title}}  </td>
+            <td style=" vertical-align: middle">{{$item->ResearchActivityType->name}}</td>
+            <td style=" vertical-align: middle">{{$item->authorities}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->start_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{\Morilog\Jalali\Jalalian::forge($item->end_date)->format('Y/m/d')}}</td>
+            <td class="persian-num" style=" vertical-align: middle">{{$item->term->name}}</td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+<table class="table table-bordered table-sm"  style=" border-collapse: collapse;" >
+    <tr>
         <td colspan="7" style="border: none; font-size: 12pt" class="border-bottom"><b>داوری مجلات و نظارت بر طرح های پژوهشی</b></td>
     </tr>
 

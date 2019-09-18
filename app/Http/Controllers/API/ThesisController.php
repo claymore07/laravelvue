@@ -41,9 +41,7 @@ class ThesisController extends Controller
 
         $user = Auth::user('api')->load('profile');
         $theses = Thesis::where(function ($query) use ($user) {
-            if ($user->type == 'admin') {
-
-            } else {
+            if ($user->type == 'user')  {
                 $query->where('profile_id', '=', $user->profile->id);
             }
         })
@@ -62,7 +60,7 @@ class ThesisController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $theses = Thesis::where(function ($query) use ($user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
@@ -76,7 +74,7 @@ class ThesisController extends Controller
                                 ->orWhere('Lname', 'LIKE', "%$search%");
                         }
                     })->orWhere(function ($query) use ($search,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%");
@@ -85,7 +83,7 @@ class ThesisController extends Controller
                 //dd(\DB::getQueryLog());
             } else {
                 $theses = Thesis::where(function ($query) use ($user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
@@ -96,7 +94,7 @@ class ThesisController extends Controller
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $theses = Thesis::where(function ($query) use ($user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })
@@ -112,7 +110,7 @@ class ThesisController extends Controller
 
                         }
                     })->orWhere(function ($query) use ($search,$filter,$user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                         $query->where('title', 'LIKE', "%$search%")
@@ -123,7 +121,7 @@ class ThesisController extends Controller
             } else {
 
                 $theses = Thesis::where(function ($query) use ($user) {
-                        if ($user->type != 'admin') {
+                        if ($user->type == 'user') {
                             $query->where('profile_id', '=', $user->profile->id);
                         }
                     })

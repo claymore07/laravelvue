@@ -21,6 +21,7 @@ use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Rank;
 use App\Models\Referee;
+use App\Models\ResearchActivity;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\Thesis;
@@ -30,6 +31,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+
 use Response;
 use Session;
 use niklasravnsborg\LaravelPdf\PdfWrapper;
@@ -95,6 +97,13 @@ class UserController extends Controller
                     $query->whereIn('term_id',  explode(',',$term));
                 }
         })->get();
+        $researchActivities = ResearchActivity::with(['ResearchActivityType'])
+            ->where(function ($query) use ($profile_id, $term) {
+                $query->where('profile_id',$profile_id);
+                if (isset($term)) {
+                    $query->whereIn('term_id',  explode(',',$term));
+                }
+        })->get();
         $referes = Referee::with(['refereeType'])
             ->where(function ($query) use ($profile_id, $term) {
                 $query->where('profile_id',$profile_id);
@@ -141,7 +150,7 @@ class UserController extends Controller
             }
         })->get();
         $pdf = PDF::loadView('presonalExportPdf', compact('user','journals','conferences',
-            'books', 'projects','inventions','referes','teds','theses','rewards',
+            'books', 'projects','inventions','researchActivities','referes','teds','theses','rewards',
             'grants','courses', 'booklets'))->download('FILE.pdf');
        /* $pdf->loadView('pdf',compact('data'),[],[
             'mode' => 'utf-8', 'format' => 'A4'
