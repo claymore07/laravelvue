@@ -174,6 +174,7 @@ Route::post('refereesReport','API\ReportController@refereesReport');
 Route::post('rewardsReport','API\ReportController@rewardsReport');
 Route::post('bookletsReport','API\ReportController@bookletsReport');
 Route::post('coursesReport','API\ReportController@coursesReport');
+Route::post('researchActivityReport','API\ReportController@researchActivityReport');
 
 // stats report
 Route::post('termsList','API\ReportController@termsList');
@@ -215,5 +216,6 @@ Route::get('inventionReportRelation','API\InventionController@inventionRelation'
 Route::get('rewardReportRelation','API\RewardController@rewardRelation');
 Route::get('courseReportRelation','API\CourseController@courseRelation');
 Route::get('grantReportRelation','API\GrantController@grantRelation');
+Route::get('researchActivityReportRelation','API\ResearchActivityController@researchActivityRelation');
 
 

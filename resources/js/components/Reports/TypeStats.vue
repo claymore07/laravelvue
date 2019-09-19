@@ -270,7 +270,7 @@
                         loader1.hide();
                         this.options = {...this.options,...{
                                 title: {
-                                    text: `نمودار وضعیت رسیدگی براساس نوع ${this.chartTitle}} `,
+                                    text: `نمودار وضعیت رسیدگی براساس نوع ${this.chartTitle} `,
                                     align: 'center'
                                 },
                                 xaxis: {

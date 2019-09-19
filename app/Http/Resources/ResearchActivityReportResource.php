@@ -18,7 +18,7 @@ class ResearchActivityReportResource extends JsonResource
         $name = $this->profile->Fname.' '.$this->profile->Lname;
         $resource = [
             'id' => $this->id,
-            'research_activity_type' => $this->ResearchActivityType->name,
+            'research_activity_type_name' => $this->ResearchActivityType->name,
             'Author_name'=> $name,
             'title' => $this->title,
             'authorities' => $this->authorities,

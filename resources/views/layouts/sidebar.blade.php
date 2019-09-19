@@ -222,6 +222,12 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/researchActivityReport" class="nav-link ">
+                        <i class="nav-icon fal fa-user-secret nav-icon  "></i>
+                        <p>گزارش فعالیت های اجرایی</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/inventionReport" class="nav-link ">
                         <i class="nav-icon fal fa-microscope nav-icon  "></i>
                         <p>اختراعات و اکتشافات</p>

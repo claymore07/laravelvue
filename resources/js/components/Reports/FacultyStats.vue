@@ -37,6 +37,7 @@
                                     <option selected value="Invention">اختراعات</option>
                                     <option selected value="TEDChair">کرسی های نظریه پردازی</option>
                                     <option selected value="Referee">داوری ها</option>
+                                    <option selected value="ResearchActivity">فعالیت های اجرایی پژوهشی</option>
                                     <option selected value="Thesis">پایان نامه ها</option>
                                     <option selected value="Reward">جوایز</option>
                                     <option selected value="Grant">بودجه های جذب شده</option>

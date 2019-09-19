@@ -682,7 +682,7 @@ class ReportController extends Controller
                     if( $dateType == 0){
                         $query->whereBetween('created_at',[$start_date, $end_date]);
                     }elseif ( $dateType == 1){
-                        $query->whereBetween('submit_date',[$start_date, $end_date]);
+                        $query->whereBetween('start_date',[$start_date, $end_date]);
                     }
                 }
                 if (isset($status)) {
@@ -1372,8 +1372,8 @@ class ReportController extends Controller
             $titles = $projecttypes->pluck('name')->toArray();
             foreach ($projecttypes as $projecttype){
 
-                $query = Book::select('id','booktype_id','status')
-                    ->where('booktype_id', '=', $projecttype->id)
+                $query = Project::select('id','project_types_id','status')
+                    ->where('project_types_id', '=', $projecttype->id)
                     ->where(function ($query) use ($term, $start_date, $end_date) {
                         if (isset($term)) {
                             $query->whereIn('term_id',  explode(',',$term));
@@ -1567,7 +1567,7 @@ class ReportController extends Controller
             ->where('rewards.status','=',1)->
             select(\DB::raw('count(rewards.id) as `data`'),\DB::raw('SUM(rewards.score) as `scores`'), 'term_id')->groupBy('term_id')->get();
         $query[] = Profile::where('user_id','=',$user_id)->join('research_activities','profiles.id','=','research_activities.profile_id')
-            ->where('	research_activities.status','=',1)->
+            ->where('research_activities.status','=',1)->
             select(\DB::raw('count(research_activities.id) as `data`'),\DB::raw('SUM(research_activities.score) as `scores`'), 'term_id')->groupBy('term_id')->get();
 
         $counts = [];

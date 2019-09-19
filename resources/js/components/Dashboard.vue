@@ -40,6 +40,7 @@
                                         <option selected value="Invention">اختراعات</option>
                                         <option selected value="TEDChair">کرسی های نظریه پردازی</option>
                                         <option selected value="Referee">داوری ها</option>
+                                        <option selected value="ResearchActivity">فعالیت های اجرایی پژوهشی</option>
                                         <option selected value="Thesis">پایان نامه ها</option>
                                         <option selected value="Reward">جوایز</option>
                                         <option selected value="Grant">بودجه های جذب شده</option>
@@ -421,6 +422,62 @@
                                             <td colspan="1">{{ referee.created_at | myDate  }}</td>
                                             <td>
                                                 <router-link :to="{ name: 'refereeEdit', params: { id: referee.id }}">
+                                                    <i class="fa fa-edit blue"></i>
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="heading13">
+                                    <h2 class="mb-0">
+                                        <button   ref="ResearchActivity" @click="getDashboardData('ResearchActivity')" class="btn btn-link collapsed"
+                                                :class="[query_type==='ResearchActivity'||Stats['ResearchActivity']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+                                            <i class="nav-icon fal fa-user-secret nav-icon  "></i>
+                                            فعالیت های اجرایی پژوهشی <span class="badge badge-info">{{Stats['ResearchActivity'] | faDigit}}</span>
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapse13" class="collapse  table-responsive" aria-labelledby="heading13" data-parent="#accordionExample">
+                                    <table v-if="query_type === 'ResearchActivity'" class="table table-sm table-striped table-hover text-right">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th>شماره</th>
+                                            <th>عنوان سمت یا مسئولیت</th>
+                                            <th>نام ثبت کننده</th>
+                                            <th>نوع فعالیت</th>
+                                            <th>امتیاز </th>
+                                            <th>ترم</th>
+
+                                            <th>وضعیت بررسی</th>
+                                            <th>تاریخ ثبت</th>
+                                            <th> ویرایش</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr v-if="allDatas.length <= 0">
+                                            <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                        </tr>
+                                        <tr v-for="(researchActivity, index) in allDatas" :key="researchActivity.id">
+                                            <td class="persian-num">{{counter(index)}}</td>
+                                            <td>{{ researchActivity.title | truncate(40) }}</td>
+                                            <td>{{ researchActivity.Author_name  }}</td>
+                                            <td>{{ researchActivity.research_activity_type_name  }}</td>
+                                            <td  class="persian-num">{{researchActivity.score}} </td>
+                                            <td  class="persian-num">{{researchActivity.term_name}} </td>
+
+                                            <td v-if="researchActivity.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
+                                            <td v-else-if="researchActivity.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
+                                            <td v-else-if="researchActivity.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
+                                            <td v-else-if="researchActivity.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
+                                            <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
+                                            <td colspan="1">{{ researchActivity.created_at | myDate  }}</td>
+                                            <td>
+                                                <router-link :to="{ name: 'researchActivityEdit', params: { id: researchActivity.id }}">
                                                     <i class="fa fa-edit blue"></i>
                                                 </router-link>
                                             </td>
@@ -1197,6 +1254,8 @@
                     return 'کرسی های نظریه پردازی';
                 }else if(this.query_type === 'Referee'){
                     return 'داوری ها';
+                }else if(this.query_type === 'ResearchActivity'){
+                    return 'فعالیت های اجرایی پژوهشی';
                 }else if(this.query_type === 'Thesis'){
                     return 'پایان نامه ها';
                 }else if(this.query_type === 'Reward'){
