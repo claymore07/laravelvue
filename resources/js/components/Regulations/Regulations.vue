@@ -126,6 +126,15 @@
                                 </a>
                             </td>
                         </tr>
+                        <tr>
+                            <td> {{12|faDigit}}</td>
+                            <td>  فعالیت های اجرایی پژوهشی</td>
+                            <td>
+                                <a class="mr-2" href="#" >
+                                    <i class="fa fa-edit blue" @click="prepareEditModal('researchActivity',12)"></i>
+                                </a>
+                            </td>
+                        </tr>
 
                         </tbody>
                     </table>
@@ -212,6 +221,8 @@
                     this.title = 'دوره ها';
                 }else  if(type === 'booklets'){
                     this.title = 'جزوات و اسلایدها';
+                }else  if(type === 'researchActivity'){
+                    this.title = 'فعالیت های اجرایی پژوهشی';
                 }
             },
             removeError(field){

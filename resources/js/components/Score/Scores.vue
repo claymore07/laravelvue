@@ -135,7 +135,15 @@
                                 </a>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td> {{13|faDigit}}</td>
+                            <td>  فهرست فعالیت های اجرایی پژوهشی</td>
+                            <td>
+                                <a class="mr-2" href="#" >
+                                    <i class="fa fa-edit blue" @click="perpareResearchActivityTypeList"></i>
+                                </a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div><!-- card-body -->
@@ -712,6 +720,77 @@
 
                 </div><!-- /modal-content -->
             </div><!-- /modal-dialog -->
+        </div>
+        <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="researchActivityTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel111"><i
+                            class="fas fa-building fa-fw"></i>فهرست عناوین فعالیت های اجرایی پژوهشی</h5>
+                        <button type="button" class="close float-left" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                        <div class="modal-body" >
+                            <div class="text-right text-rtl">
+                                <i v-show="researchActivityTypeForm.errors.has('minscore')" class="red far fa-exclamation-triangle "></i>
+                                <span v-show="researchActivityTypeForm.errors.has('minscore')" class="red d-inline-block ">{{ researchActivityTypeForm.errors.get('minscore') }}</span>
+                            </div>
+                            <table class="table table-sm table-hover mt-2 mb-5 table-striped text-right text-rtl">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col"> نوع طرح فعالیت</th>
+                                    <th scope="col">کف امتیاز</th>
+                                    <th scope="col">سقف امتیاز</th>
+                                    <th></th>
+                                    <th scope="col"> ویرایش</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(researchActivityType, index) of researchActivityTypeList">
+                                    <th scope="row">{{index+1 | faDigit}}</th>
+                                    <td><span>{{researchActivityType.name}}</span> </td>
+                                    <td ><label  v-show="editOffset != index">{{researchActivityType.minscore | faDigits }}</label>
+                                        <input :id = "'item-researchActivityType-'+index" v-show="editOffset == index"  type="number" name="minscore"
+                                               :placeholder="'کف امتیاز'"
+                                               min="0"
+                                               step="0.01"
+                                               class="form-control"
+                                               @keyup="removeError('minscore', 'inventionType')"
+                                               @keydown.enter.pervent=""
+                                               :class="{ 'is-invalid': researchActivityTypeForm.errors.has('minscore') }"
+                                               v-model.number="researchActivityTypeForm.minscore"
+                                               >
+                                    </td>
+                                    <td>
+                                        <label  v-show="editOffset != index">{{researchActivityType.maxscore | faDigits  }}</label>
+                                        <input  v-show="editOffset == index"  type="number" name="maxscore"
+                                               :placeholder="'سقف امتیاز'"
+                                                min="0" step="0.01"
+                                               class="form-control"
+                                                @keyup="removeError('maxscore', 'inventionType')"
+                                                @keydown.enter.pervent=""
+                                                :class="{ 'is-invalid': researchActivityTypeForm.errors.has('maxscore') }"
+                                               v-model.number="researchActivityTypeForm.maxscore"
+
+                                        >
+                                    </td><!--   -->
+                                    <td> <button  v-show="editOffset == index" class="btn btn-primary" @click="updateResearchActivityType(index)">ثبت تغییرات</button></td>
+                                    <td>
+                                        <a class="" @click="startEditing(index, researchActivityType.id, 'researchActivityType')"><i class=" green far fa-edit fa-fw"></i> </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- modal-body -->
+                        <div class="modal-footer">
+
+                        </div>
+
+                </div><!-- /modal-content -->
+            </div><!-- /modal-dialog -->
         </div><!-- /checkList History show modal  -->
         <div v-if="$gate.isAdminOrAuthor()" class="modal  fade" id="RewardTypeListModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
@@ -1017,6 +1096,7 @@
                 refereeTypeList:{},
                 projectTypeList:{},
                 inventionTypeList:{},
+                researchActivityTypeList:{},
                 rewardTypeList:{},
                 grantTypeList:{},
                 courseTypeList:{},
@@ -1078,6 +1158,11 @@
                     maxscore:'',
                 }),
                 bookletTypeForm: new Form({
+                    id:'',
+                    minscore:'',
+                    maxscore:'',
+                }),
+                researchActivityTypeForm: new Form({
                     id:'',
                     minscore:'',
                     maxscore:'',
@@ -1230,6 +1315,18 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
+            perpareResearchActivityTypeList(){
+                let loader = Vue.$loading.show();
+                axios.get('/api/getresearchActivityType').then((response)=>{
+                    loader.hide();
+                    this.researchActivityTypeList = response.data.researchActivityTypes;
+                    this.editOffset = -1;
+                    $('#researchActivityTypeListModal').modal('show');
+                }).catch(()=>{
+                    loader.hide();
+                    this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
+                });
+            },
             // enables author editing form
             startEditing(index, id, type){
                 this.editOffset = index;
@@ -1290,6 +1387,11 @@
                     }.bind(this));
                 }else if(type == "bookletType"){
                     this.bookletTypeForm.fill(this.bookletTypeList[index]);
+                    this.$nextTick(function(){
+                        document.getElementById('item-'+type+'-'+this.editOffset).focus()
+                    }.bind(this));
+                }else if(type == "researchActivityType"){
+                    this.researchActivityTypeForm.fill(this.researchActivityTypeList[index]);
                     this.$nextTick(function(){
                         document.getElementById('item-'+type+'-'+this.editOffset).focus()
                     }.bind(this));
@@ -1453,6 +1555,25 @@
                     this.errorSwal('کف یا سقف امتیاز نمی تواند خالی باشد!');
                 }
             },
+            updateResearchActivityType(index) {
+                if(this.isIntOrFloat(this.researchActivityTypeForm.minscore) && this.isIntOrFloat(this.researchActivityTypeForm.maxscore)  ){
+                    this.researchActivityTypeForm.minscore = this.researchActivityTypeForm.minscore.toFixed(2);
+                    this.researchActivityTypeForm.maxscore = this.researchActivityTypeForm.maxscore.toFixed(2);
+                    this.researchActivityTypeForm.put('/api/updateResearchActivityType/' + this.researchActivityTypeForm.id)
+                        .then((response) => {
+                            this.researchActivityTypeList[index]['minscore'] = response.data.minscore;
+                            this.researchActivityTypeList[index]['maxscore'] = response.data.maxscore;
+                            this.researchActivityTypeForm.reset();
+                            this.editOffset = -1;
+                        }).catch(() => {
+                        this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                        this.researchActivityTypeForm.minscore = Number(this.researchActivityTypeForm.minscore);
+                        this.researchActivityTypeForm.maxscore = Number(this.researchActivityTypeForm.maxscore);
+                    });
+                }else {
+                    this.errorSwal('کف یا سقف امتیاز نمی تواند خالی باشد!');
+                }
+            },
             updateRewardType(index) {
                 if(this.isIntOrFloat(this.rewardTypeForm.minscore) && this.isIntOrFloat(this.rewardTypeForm.maxscore)  ){
                     this.rewardTypeForm.minscore = this.rewardTypeForm.minscore.toFixed(2);
@@ -1554,6 +1675,8 @@
                     this.courseTypeForm.errors.clear(field)
                 }else if(type == "bookletType"){
                     this.bookletTypeForm.errors.clear(field)
+                }else if(type == "reseachActivityType"){
+                    this.reseachActivityType.errors.clear(field)
                 }
             },
         },

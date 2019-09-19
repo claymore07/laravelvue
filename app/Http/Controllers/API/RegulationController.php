@@ -32,7 +32,7 @@ class RegulationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Regulation  $regulation
+     * @param Regulation $regulation
      * @return RegulationResource
      */
     public function edit(Regulation $regulation)
@@ -45,7 +45,7 @@ class RegulationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Regulation $regulation
+     * @param Regulation $regulation
      * @return RegulationResource
      * @throws \Illuminate\Validation\ValidationException
      */

@@ -136,6 +136,7 @@ Route::get('getRewardType','API\ScoreController@getRewardType');
 Route::get('getGrantType','API\ScoreController@getGrantType');
 Route::get('getCourseType','API\ScoreController@getCourseType');
 Route::get('getBookletType','API\ScoreController@getBookletType');
+Route::get('getresearchActivityType','API\ScoreController@getresearchActivityType');
 
 Route::put('updateConfType/{confType}','API\ScoreController@updateConfType');
 Route::put('updateJType/{JType}','API\ScoreController@updateJType');
@@ -149,6 +150,7 @@ Route::put('updateRewardType/{RewardType}','API\ScoreController@updateRewardType
 Route::put('updateGrantType/{GrantType}','API\ScoreController@updateGrantType');
 Route::put('updateCourseType/{CourseType}','API\ScoreController@updateCourseType');
 Route::put('updateBookletType/{CourseType}','API\ScoreController@updateBookletType');
+Route::put('updateResearchActivityType/{ResearchActivityType}','API\ScoreController@updateResearchActivityType');
 
 // Terms Update route
 Route::post('termChange','API\TermsController@termChange');

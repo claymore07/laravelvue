@@ -9,6 +9,7 @@ use App\Models\Jtype;
 use App\Models\ProjectType;
 use App\Models\Referee;
 use App\Models\RefereeType;
+use App\Models\ResearchActivityType;
 use App\Models\Score;
 use App\Models\TEDType;
 use App\Models\ThesesType;
@@ -468,5 +469,41 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
         $bookletType = score::findOrFail(3);
         return Response::json(['bookletTypes'=>[$bookletType]], 200);
+    }
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws AuthorizationException
+     */
+    public function getresearchActivityType(){
+        $this->authorize('IsAdminOrIsAuthor');
+
+        $researchActivityTypes = ResearchActivityType::all();
+        return Response::json(['researchActivityTypes'=>$researchActivityTypes], 200);
+    }
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updateResearchActivityType(Request $request, $id){
+        $this->authorize('IsAdminOrIsAuthor');
+
+        $this->validate($request,
+            [
+                'maxscore'=>'required|numeric',
+                'minscore'=>'required|numeric|lte:maxscore'
+            ],
+            [
+                'maxscore.required'=>'سقف امتیاز باید وارد شود',
+                'minscore.required'=>'کف امتیاز باید وارد شود',
+                'minscore.lte'=>'کف امتیاز باید از سف آن کمتر باشد.',
+            ]
+        );
+        $researchActivityType = ResearchActivityType::findOrFail($id);
+        $researchActivityType->update($request->all());
+        $researchActivityType = ResearchActivityType::findOrFail($id);
+        return Response::json($researchActivityType);
     }
 }
