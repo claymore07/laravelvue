@@ -826,26 +826,186 @@ class ReportController extends Controller
         $start_date = $request->get('start_date');
         $end_date = $request->get('end_date');
         $statuses = [0,1,2,3,4];
-        $papers =[];
-        $books =[];
-        $projects =[];
-        $theses =[];
-        $inventions =[];
+        $total =0;
+        $failed = 0;
+        $success = 0;
+        $uncheck = 0;
+        $failed_temporarily =0;
+        $edited = 0 ;
         $term = Term::where('status',1)->first()->id;
        // dd($term);
-        foreach ($statuses as $index => $status){
-            $papers[$index] = Paper::where('term_id','=',$term)
-                ->where('status','=',$status)->count();
-            $books[$index] = Book::where('term_id','=',$term)
-                ->where('status','=',$status)->count();
-            $projects[$index] = Project::where('term_id','=',$term)
-                ->where('status','=',$status)->count();
-           /* $theses[$index] = Thesis::where('term_id','=',$term)
-                ->where('status','=',$status)->count();
-            $inventions[$index] = Invention::where('term_id','=',$term)
-                ->where('status','=',$status)->count();*/
-        }
-        return  \Response::json(['papers'=>$papers,'projects'=>$projects,'books'=>$books/*,'theses'=>$theses,'inventions'=>$inventions*/]);
+
+        $papers = Paper::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('papers.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('papers.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $papers->where('status' ,3)->count();
+        $success += $papers->where('status' ,1)->count();
+        $uncheck += $papers->where('status' ,0)->count();
+        $failed_temporarily += $papers->where('status' ,2)->count();
+        $edited += $papers->where('status' ,4)->count();
+
+        $books = Book::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('books.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('books.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $books->where('status' ,3)->count();
+        $success += $books->where('status' ,1)->count();
+        $uncheck += $books->where('status' ,0)->count();
+        $failed_temporarily += $books->where('status' ,2)->count();
+        $edited += $books->where('status' ,4)->count();
+
+        $projects = Project::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('projects.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('projects.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $projects->where('status' ,3)->count();
+        $success += $projects->where('status' ,1)->count();
+        $uncheck += $projects->where('status' ,0)->count();
+        $failed_temporarily += $projects->where('status' ,2)->count();
+        $edited += $projects->where('status' ,4)->count();
+
+        $theses = Thesis::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('theses.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('theses.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $theses->where('status' ,3)->count();
+        $success += $theses->where('status' ,1)->count();
+        $uncheck += $theses->where('status' ,0)->count();
+        $failed_temporarily += $theses->where('status' ,2)->count();
+        $edited += $theses->where('status' ,4)->count();
+
+        $inventions = Invention::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('inventions.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('inventions.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $inventions->where('status' ,3)->count();
+        $success += $inventions->where('status' ,1)->count();
+        $uncheck += $inventions->where('status' ,0)->count();
+        $failed_temporarily += $inventions->where('status' ,2)->count();
+        $edited += $inventions->where('status' ,4)->count();
+
+        $referees = Referee::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('referees.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('referees.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $referees->where('status' ,3)->count();
+        $success += $referees->where('status' ,1)->count();
+        $uncheck += $referees->where('status' ,0)->count();
+        $failed_temporarily += $referees->where('status' ,2)->count();
+        $edited += $referees->where('status' ,4)->count();
+
+        $researchActivities = ResearchActivity::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('research_activities.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('research_activities.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $researchActivities->where('status' ,3)->count();
+        $success += $researchActivities->where('status' ,1)->count();
+        $uncheck += $researchActivities->where('status' ,0)->count();
+        $failed_temporarily += $researchActivities->where('status' ,2)->count();
+        $edited += $researchActivities->where('status' ,4)->count();
+
+        $teds = TEDChair::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('tedchairs.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('tedchairs.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $teds->where('status' ,3)->count();
+        $success += $teds->where('status' ,1)->count();
+        $uncheck += $teds->where('status' ,0)->count();
+        $failed_temporarily += $teds->where('status' ,2)->count();
+        $edited += $teds->where('status' ,4)->count();
+
+        $rewards = Reward::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('rewards.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('rewards.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $rewards->where('status' ,3)->count();
+        $success += $rewards->where('status' ,1)->count();
+        $uncheck += $rewards->where('status' ,0)->count();
+        $failed_temporarily += $rewards->where('status' ,2)->count();
+        $edited += $rewards->where('status' ,4)->count();
+
+        $grants = Grant::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('grants.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('grants.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $grants->where('status' ,3)->count();
+        $success += $grants->where('status' ,1)->count();
+        $uncheck += $grants->where('status' ,0)->count();
+        $failed_temporarily += $grants->where('status' ,2)->count();
+        $edited += $grants->where('status' ,4)->count();
+
+        $courses = Course::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('courses.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('courses.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $courses->where('status' ,3)->count();
+        $success += $courses->where('status' ,1)->count();
+        $uncheck += $courses->where('status' ,0)->count();
+        $failed_temporarily += $courses->where('status' ,2)->count();
+        $edited += $courses->where('status' ,4)->count();
+
+        $booklets = Booklet::where(function ($query) use ($term, $start_date, $end_date) {
+            if (isset($term)) {
+                $query->whereIn('booklets.term_id',  explode(',',$term));
+            }
+            if ($start_date != '' && $end_date != '') {
+                $query->whereBetween('booklets.created_at', [$start_date, $end_date]);
+            }
+        })->get();
+        $failed += $booklets->where('status' ,3)->count();
+        $success += $booklets->where('status' ,1)->count();
+        $uncheck += $booklets->where('status' ,0)->count();
+        $failed_temporarily += $booklets->where('status' ,2)->count();
+        $edited += $booklets->where('status' ,4)->count();
+
+        $total = $failed + $failed_temporarily + $success + $uncheck + $edited;
+        $result = [$success,$failed,$uncheck,$failed_temporarily,$edited];
+        return  \Response::json(['total'=>$total,'result'=>$result]);
     }
 
     /**

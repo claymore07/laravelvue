@@ -261,6 +261,12 @@
             <ul class="nav nav-treeview">
 
                 <li class="nav-item">
+                    <router-link to="/totalStats" class="nav-link ">
+                        <i class="nav-icon fal fa-abacus  "></i>
+                        <p>گزارش نموداری وضعیت رسیدگی کلی آثار</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/facultyStats" class="nav-link ">
                         <i class="nav-icon fal fa-university  "></i>
                         <p>گزارش نموداری دانشکده ها</p>

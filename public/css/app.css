@@ -33409,3 +33409,7 @@ input[type=tel] {
   font-size: 0.85rem;
 }
 
+.apexcharts-title-text {
+  font-family: IRANSans2, Tahoma, sans-serif !important;
+}
+
