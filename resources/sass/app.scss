@@ -223,7 +223,7 @@ body, html, h1, h2, h3, h4, h5, h6,input, textarea, body, table, tr, td, p, a, s
 }
 */
 .swal2-container {
-    z-index:2000 !important;
+    z-index:20000 !important;
 }
 
 .vpd-input-group input {
@@ -810,4 +810,8 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 
 .apexcharts-title-text{
     font-family: IRANSans2, Tahoma, sans-serif !important;
+}
+
+.main-sidebar {
+    z-index: 2100 !important;
 }

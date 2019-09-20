@@ -58,7 +58,6 @@ class User{
             });
     }
 
-
     name(){
         if(this.loggedIn()){
            return AppStorage.getUser();
@@ -72,7 +71,12 @@ class User{
     }
     lastSeen(){
         if(this.loggedIn()){
-            return AppStorage.getUserDetail().updated_at;
+            return AppStorage.getUserDetail().last_login;
+        }
+    }
+    IPAddress(){
+        if(this.loggedIn()){
+            return AppStorage.getUserDetail().ip_address;
         }
     }
     hasProfile(){

@@ -1210,6 +1210,10 @@
             lastSeen(){
                 return User.lastSeen();
             },
+            IPAddress(){
+                return User.IPAddress();
+            },
+
 
             series: function() {
                 return [{
@@ -1272,6 +1276,19 @@
         },
         created() {
             User.forceLogOut();
+            if(localStorage.getItem('flag') != 1){
+                localStorage.setItem('flag', 1);
+                swal.fire({
+                    title: 'توجه!!',
+                    html: `شما آخرین بار در ${this.lastSeen} وارد سیستم شده اید. <br>
+آدرس سیستم کنونی شما : ${this.IPAddress}
+`,
+                    type: 'info',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+
             this.getTermsList();
             this.getDashboardStats();
             this.getDashboardData();

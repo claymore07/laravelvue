@@ -24,11 +24,15 @@ class User extends Authenticatable implements JWTSubject
         'name', 'email', 'password','bio','photo','type','created_at'
     ];
 
+    protected $dates = [
+      'last_login', 'current_login','created_at'
+    ];
     //protected $with = ['profile'];
 
     public function setPasswordAttribute($value){
         $this->attributes['password'] = bcrypt($value);
     }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -37,7 +41,7 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
-    protected $dates=['created_at'];
+
    /* public function getCreatedAtAttribute($value){
         return  Carbon::parse($value)->diffForHumans();
     }*/

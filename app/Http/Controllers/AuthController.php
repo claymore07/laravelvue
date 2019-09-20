@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SignupRequest;
 use App\Http\Resources\UserResource;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -39,6 +40,10 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
 
             }
+            auth()->user()->last_login = auth()->user()->current_login? auth()->user()->current_login : Carbon::now();
+            auth()->user()->current_login = Carbon::now();
+            auth()->user()->ip_address=\Request::getClientIp();
+            auth()->user()->save();
             return $this->respondWithToken($token);
         }
         return response()->json(['error' => 'Unauthorized'], 401);

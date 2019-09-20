@@ -31,6 +31,9 @@
                             <th>نام</th>
                             <th>رایانامه</th>
                             <th>نوع دسترسی</th>
+                            <th>آخرین ورود</th>
+                            <th>آدرس IP</th>
+
                             <th @click="toggle()" :class="['sort-control', sortType]">تاریخ ثبت نام</th>
                             <th>ابزارهای ویرایشی</th>
                         </tr>
@@ -43,7 +46,11 @@
                             </td>
                             <td v-else :class="{'red': !user.profile}">{{'پروفایل ناقص' }}</td>
                             <td>{{ user.email }}</td>
-                            <td>{{ user.type | upText }}</td>
+                            <td v-if="user.type == 'admin'" >مسئول سیستم</td>
+                            <td v-else-if="user.type == 'author'" >کارشناس سیستم</td>
+                            <td v-else="user.type == 'author'" >کاربر عادی</td>
+                            <td>{{ user.last_login | myDate }}</td>
+                            <td>{{ user.ip_address  }}</td>
                             <td>{{ user.created_at | myDate }}</td>
                             <td>
                                 <router-link :to="{ name: 'userView', params: { id: user.id }}">

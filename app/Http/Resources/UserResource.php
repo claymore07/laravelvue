@@ -31,7 +31,8 @@ class UserResource extends JsonResource
             'name' => $name,
             'hasProfile' => $hasProfile,
             'member_id' => $hasProfile? $this->profile->member_id:3,
-            'updated_at' => $this->updated_at->diffForHumans(),
+            'last_login' => $this->last_login == null ?'ثبت نشده':$this->last_login->diffForHumans(),
+            'ip_address' => $this->ip_address == null ?'ثبت نشده':$this->ip_address,
         ];
     }
 }

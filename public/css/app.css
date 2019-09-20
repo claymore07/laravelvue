@@ -32743,7 +32743,7 @@ select {
 */
 
 .swal2-container {
-  z-index: 2000 !important;
+  z-index: 20000 !important;
 }
 
 .vpd-input-group input {
@@ -33411,5 +33411,9 @@ input[type=tel] {
 
 .apexcharts-title-text {
   font-family: IRANSans2, Tahoma, sans-serif !important;
+}
+
+.main-sidebar {
+  z-index: 2100 !important;
 }
 
