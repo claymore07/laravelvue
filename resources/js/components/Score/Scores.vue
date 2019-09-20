@@ -1199,7 +1199,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getBookType').then((response)=>{
                     loader.hide();
-                    this.bookTypeList = response.data.bookTypes;
+                    this.bookTypeList = response.data.bookTypeList;
                     this.editOffset = -1;
                     $('#bookTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1211,7 +1211,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getThesesType').then((response)=>{
                     loader.hide();
-                    this.thesesTypeList = response.data.thesesTypes;
+                    this.thesesTypeList = response.data.thesesTypeList;
                     this.editOffset = -1;
                     $('#ThesisTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1223,7 +1223,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getTEDType').then((response)=>{
                     loader.hide();
-                    this.tedTypeList = response.data.tedTypes;
+                    this.tedTypeList = response.data.tedTypeList;
                     this.editOffset = -1;
                     $('#TedTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1235,7 +1235,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getRefereeType').then((response)=>{
                     loader.hide();
-                    this.refereeTypeList = response.data.refereeTypes;
+                    this.refereeTypeList = response.data.refereeTypeList;
                     this.editOffset = -1;
                     $('#RefereeTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1247,7 +1247,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getProjectType').then((response)=>{
                     loader.hide();
-                    this.projectTypeList = response.data.projectTypes;
+                    this.projectTypeList = response.data.projectTypeList;
                     this.editOffset = -1;
                     $('#ProjectTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1259,7 +1259,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getInventionType').then((response)=>{
                     loader.hide();
-                    this.inventionTypeList = response.data.inventionTypes;
+                    this.inventionTypeList = response.data.inventionTypeList;
                     this.editOffset = -1;
                     $('#InventionTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1271,7 +1271,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getRewardType').then((response)=>{
                     loader.hide();
-                    this.rewardTypeList = response.data.rewardTypes;
+                    this.rewardTypeList = response.data.rewardTypeList;
                     this.editOffset = -1;
                     $('#RewardTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1283,7 +1283,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getGrantType').then((response)=>{
                     loader.hide();
-                    this.grantTypeList = response.data.grantTypes;
+                    this.grantTypeList = response.data.grantTypeList;
                     this.editOffset = -1;
                     $('#GrantTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1295,7 +1295,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getCourseType').then((response)=>{
                     loader.hide();
-                    this.courseTypeList = response.data.courseTypes;
+                    this.courseTypeList = response.data.courseTypeList;
                     this.editOffset = -1;
                     $('#CourseTypeListModal').modal('show');
                 }).catch(()=>{
@@ -1319,7 +1319,7 @@
                 let loader = Vue.$loading.show();
                 axios.get('/api/getresearchActivityType').then((response)=>{
                     loader.hide();
-                    this.researchActivityTypeList = response.data.researchActivityTypes;
+                    this.researchActivityTypeList = response.data.researchActivityTypeList;
                     this.editOffset = -1;
                     $('#researchActivityTypeListModal').modal('show');
                 }).catch(()=>{

@@ -147,6 +147,12 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/subType" class="nav-link ">
+                        <i class="nav-icon fal fa-boxes-alt  "></i>
+                        <p>مدیریت زیر عناوین آثار</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/blacklist" class="nav-link ">
                         <i class="nav-icon fal fa-shield-check  "></i>
                         <p>لیست مجلات غیرمجاز</p>

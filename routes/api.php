@@ -122,7 +122,58 @@ Route::get('paperCheckList/{paper}','API\CheckListController@index');
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
 
+/***
 
+SubType title Update, Add, and Delete routes
+
+ ***/
+
+
+Route::get('getJournalTypes','API\SubTypeController@getJournalType');
+Route::get('getConfTypes','API\SubTypeController@getConfType');
+Route::get('getBookTypes','API\SubTypeController@getBookType');
+Route::get('getThesesTypes','API\SubTypeController@getThesesType');
+Route::get('getTEDTypes','API\SubTypeController@getTEDType');
+Route::get('getRefereeTypes','API\SubTypeController@getRefereeType');
+Route::get('getProjectTypes','API\SubTypeController@getProjectType');
+Route::get('getInventionTypes','API\SubTypeController@getInventionType');
+Route::get('getResearchActivityTypes','API\SubTypeController@getResearchActivityType');
+
+Route::put('updateConfTypeTitle/{confType}','API\SubTypeController@updateConfTypeTitle');
+Route::put('updateJTypeTitle/{JType}','API\SubTypeController@updateJTypeTitle');
+Route::put('updateBookTypeTitle/{BookType}','API\SubTypeController@updateBookTypeTitle');
+Route::put('updateThesesTypeTitle/{ThesesType}','API\SubTypeController@updateThesesTypeTitle');
+Route::put('updateTEDTypeTitle/{TEDType}','API\SubTypeController@updateTEDTypeTitle');
+Route::put('updateRefereeTypeTitle/{RefereeType}','API\SubTypeController@updateRefereeTypeTitle');
+Route::put('updateProjectTypeTitle/{ProjectType}','API\SubTypeController@updateProjectTypeTitle');
+Route::put('updateInventionTypeTitle/{InventionType}','API\SubTypeController@updateInventionTypeTitle');
+Route::put('updateResearchActivityTypeTitle/{ResearchActivityType}','API\SubTypeController@updateResearchActivityTypeTitle');
+
+Route::post('addConfTypeTitle','API\SubTypeController@addConfTypeTitle');
+Route::post('addJTypeTitle','API\SubTypeController@addJTypeTitle');
+Route::post('addBookTypeTitle','API\SubTypeController@addBookTypeTitle');
+Route::post('addThesesTypeTitle','API\SubTypeController@addThesesTypeTitle');
+Route::post('addTEDTypeTitle','API\SubTypeController@addTEDTypeTitle');
+Route::post('addRefereeTypeTitle','API\SubTypeController@addRefereeTypeTitle');
+Route::post('addProjectTypeTitle','API\SubTypeController@addProjectTypeTitle');
+Route::post('addInventionTypeTitle','API\SubTypeController@addInventionTypeTitle');
+Route::post('addResearchActivityTypeTitle','API\SubTypeController@addResearchActivityTypeTitle');
+
+Route::delete('deleteConfTypeTitle/{confType}','API\SubTypeController@deleteConfTypeTitle');
+Route::delete('deleteJTypeTitle/{JType}','API\SubTypeController@deleteJTypeTitle');
+Route::delete('deleteBookTypeTitle/{BookType}','API\SubTypeController@deleteBookTypeTitle');
+Route::delete('deleteThesesTypeTitle/{ThesesType}','API\SubTypeController@deleteThesesTypeTitle');
+Route::delete('deleteTEDTypeTitle/{TEDType}','API\SubTypeController@deleteTEDTypeTitle');
+Route::delete('deleteRefereeTypeTitle/{RefereeType}','API\SubTypeController@deleteRefereeTypeTitle');
+Route::delete('deleteProjectTypeTitle/{ProjectType}','API\SubTypeController@deleteProjectTypeTitle');
+Route::delete('deleteInventionTypeTitle/{InventionType}','API\SubTypeController@deleteInventionTypeTitle');
+Route::delete('deleteResearchActivityTypeTitle/{ResearchActivityType}','API\SubTypeController@deleteResearchActivityTypeTitle');
+
+/***
+
+SubType Score Update routes
+
+ ***/
 
 Route::get('getJournalType','API\ScoreController@getJournalType');
 Route::get('getConfType','API\ScoreController@getConfType');
@@ -149,7 +200,7 @@ Route::put('updateInventionType/{InventionType}','API\ScoreController@updateInve
 Route::put('updateRewardType/{RewardType}','API\ScoreController@updateRewardType');
 Route::put('updateGrantType/{GrantType}','API\ScoreController@updateGrantType');
 Route::put('updateCourseType/{CourseType}','API\ScoreController@updateCourseType');
-Route::put('updateBookletType/{CourseType}','API\ScoreController@updateBookletType');
+Route::put('updateBookletType/{BookletType}','API\ScoreController@updateBookletType');
 Route::put('updateResearchActivityType/{ResearchActivityType}','API\ScoreController@updateResearchActivityType');
 
 // Terms Update route

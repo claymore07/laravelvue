@@ -135,7 +135,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $bookTypes = BookType::all();
-        return Response::json(['bookTypes'=>$bookTypes], 200);
+        return Response::json(['bookTypeList'=>$bookTypes], 200);
     }
 
     /**
@@ -173,7 +173,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $thesesTypes = ThesesType::all();
-        return Response::json(['thesesTypes'=>$thesesTypes], 200);
+        return Response::json(['thesesTypeList'=>$thesesTypes], 200);
     }
     /**
      * @param Request $request
@@ -210,7 +210,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $tedTypes = TEDType::all();
-        return Response::json(['tedTypes'=>$tedTypes], 200);
+        return Response::json(['tedTypeList'=>$tedTypes], 200);
     }
     /**
      * @param Request $request
@@ -247,7 +247,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $refereeTypes = RefereeType::all();
-        return Response::json(['refereeTypes'=>$refereeTypes], 200);
+        return Response::json(['refereeTypeList'=>$refereeTypes], 200);
     }
     /**
      * @param Request $request
@@ -284,7 +284,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $projectTypes = ProjectType::all();
-        return Response::json(['projectTypes'=>$projectTypes], 200);
+        return Response::json(['projectTypeList'=>$projectTypes], 200);
     }
     /**
      * @param Request $request
@@ -321,7 +321,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $inventionTypes = InventionType::all();
-        return Response::json(['inventionTypes'=>$inventionTypes], 200);
+        return Response::json(['inventionTypeList'=>$inventionTypes], 200);
     }
     /**
      * @param Request $request
@@ -358,7 +358,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $rewardType = score::findOrFail(1);
-        return Response::json(['rewardTypes'=>[$rewardType]], 200);
+        return Response::json(['rewardTypeList'=>[$rewardType]], 200);
     }
     /**
      * @param Request $request
@@ -395,7 +395,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $grantType = score::findOrFail(4);
-        return Response::json(['grantTypes'=>[$grantType]], 200);
+        return Response::json(['grantTypeList'=>[$grantType]], 200);
     }
     /**
      * @param Request $request
@@ -432,7 +432,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $courseType = score::findOrFail(2);
-        return Response::json(['courseTypes'=>[$courseType]], 200);
+        return Response::json(['courseTypeList'=>[$courseType]], 200);
     }
     /**
      * @param Request $request
@@ -468,7 +468,7 @@ class ScoreController extends Controller
     public function getBookletType(){
         $this->authorize('IsAdminOrIsAuthor');
         $bookletType = score::findOrFail(3);
-        return Response::json(['bookletTypes'=>[$bookletType]], 200);
+        return Response::json(['bookletTypeList'=>[$bookletType]], 200);
     }
     /**
      * @return \Illuminate\Http\JsonResponse
@@ -478,7 +478,7 @@ class ScoreController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
 
         $researchActivityTypes = ResearchActivityType::all();
-        return Response::json(['researchActivityTypes'=>$researchActivityTypes], 200);
+        return Response::json(['researchActivityTypeList'=>$researchActivityTypes], 200);
     }
     /**
      * @param Request $request
