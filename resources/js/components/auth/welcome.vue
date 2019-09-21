@@ -3,7 +3,7 @@
 
 
         <div class="content" >
-            <div class="title m-b-md">
+            <div class="title welcome m-b-md">
                 سامانه جامع علمی پژوهشی
             </div>
 
@@ -62,7 +62,16 @@
     .title {
         font-size: 84px;
     }
-
+    @media (max-width: 500px) {
+        .title {
+            font-size: 60px;
+        }
+    }
+    @media (max-width: 350px) {
+        .title {
+            font-size: 50px;
+        }
+    }
     .links > a {
         padding: 0 25px;
         font-weight: 600;

@@ -25,7 +25,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="term_id"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="term_id"
                                               v-model="term_id"
                                               :options="terms"
 
@@ -37,7 +37,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">وضعیت بررسی :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="status"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="status"
                                               v-model="status"
                                               :options="statuses"
 
@@ -50,7 +50,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">وضعیت پاداش :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="reward"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="reward"
                                               v-model="reward"
                                               :options="rewards"
 
@@ -63,7 +63,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع مجله :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="jtype_id"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="jtype_id"
                                               v-model="jtype_id"
                                               :options="jtypes"
 
@@ -76,7 +76,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع کنفرانس :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="conftype_id"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="conftype_id"
                                               v-model="conftype_id"
                                               :options="conftypes"
 
@@ -86,7 +86,7 @@
                             </div>
                             <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">نام دانشکده:</label>
-                                <Select2  class="form-control select2-form-control" id="faculty_id"
+                                <Select2  class="form-control select2-form-control non-modal-select2" id="faculty_id"
                                          v-model="faculty_id"
                                          :options="faculties"
                                          :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%',multiple: true}">
@@ -95,7 +95,7 @@
                             </div>
                             <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">گروه آموزشی:</label>
-                                <Select2 class="form-control select2-form-control" id="department_id"
+                                <Select2 class="form-control select2-form-control non-modal-select2" id="department_id"
                                          v-model="department_id"
                                          :options="departments"
                                          :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' ,multiple: true}">

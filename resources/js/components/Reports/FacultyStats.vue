@@ -18,7 +18,7 @@
                             <div class="form-group mb-3 text-right">
                                 <label class="blue text-right  text-rtl">ترم :</label>
                                 <!-- @change="searchit" -->
-                                <Select2  class="form-control select2-form-control" id="term_id"
+                                <Select2  class="form-control select2-form-control non-modal-select2" id="term_id"
                                           v-model="term_id"
                                           :options="terms"
                                           :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">

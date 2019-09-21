@@ -33421,3 +33421,22 @@ input[type=tel] {
   z-index: 999 !important;
 }
 
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 94%;
+    margin: 1.75rem auto;
+  }
+}
+
+@media (max-width: 990px) {
+  .container-fluid {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .col-md-12 {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+

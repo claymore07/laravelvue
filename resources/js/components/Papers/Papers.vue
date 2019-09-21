@@ -140,17 +140,17 @@
                                     <div class="col-md-10 mx-auto my-5 text-center ">
 
                                         <button @click="changePaperType('fajur', 0)"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-3 text-white ripple"><i v-if="paperSelected === 0" class="fal fa-check text-white"></i> ژورنال فارسی
+                                                class="btn btn-lg  mt-3 mx-1 btn-info order-3 text-white ripple"><i v-if="paperSelected === 0" class="fal fa-check text-white"></i> ژورنال فارسی
                                         </button>
                                         <button @click="changePaperType('enjur', 1)"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-0 text-white ripple"><i v-if="paperSelected === 1" class="fal fa-check text-white"></i> ژورنال لاتین
+                                                class="btn btn-lg  mt-3 mx-1 btn-info order-0 text-white ripple"><i v-if="paperSelected === 1" class="fal fa-check text-white"></i> ژورنال لاتین
                                         </button>
 
                                         <button @click="changePaperType('faconf', 2)"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-2 text-white ripple"><i v-if="paperSelected === 2" class="fal fa-check text-white"></i> کنفرانس فارسی
+                                                class="btn btn-lg  mt-3 mx-1 btn-info order-2 text-white ripple"><i v-if="paperSelected === 2" class="fal fa-check text-white"></i> کنفرانس فارسی
                                         </button>
                                         <button  @click="changePaperType('enconf', 3)"
-                                                class="btn btn-lg w-20 mt-3 mx-1 btn-info order-1 text-white ripple"><i v-if="paperSelected === 3" class="fal fa-check text-white"></i> کنفرانس لاتین
+                                                class="btn btn-lg  mt-3 mx-1 btn-info order-1 text-white ripple"><i v-if="paperSelected === 3" class="fal fa-check text-white"></i> کنفرانس لاتین
                                         </button>
                                     </div>
                                 </tab-content><!-- /fitst-tab -->

@@ -20,7 +20,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">ترم :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="term_id"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="term_id"
                                               v-model="term_id"
                                               :options="terms"
                                               :settings="{theme: 'bootstrap4', placeholder: 'انتخاب ترم', width: '100%' ,multiple: true}">
@@ -31,7 +31,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">وضعیت بررسی :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="status"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="status"
                                               v-model="status"
                                               :options="statuses"
                                               :settings="{theme: 'bootstrap4', placeholder: 'انتخاب وضعیت بررسی', width: '100%' ,multiple: true}">
@@ -43,7 +43,7 @@
                                 <div class="form-group mb-3 text-right">
                                     <label class="blue text-right  text-rtl">نوع طرح پژوهشی :</label>
                                     <!-- @change="searchit" -->
-                                    <Select2  class="form-control select2-form-control" id="project_type_id"
+                                    <Select2  class="form-control select2-form-control non-modal-select2" id="project_type_id"
                                               v-model="project_type_id"
                                               :options="project_types"
                                               :settings="{theme: 'bootstrap4', placeholder: 'انتخاب نوع طرح پژوهشی', width: '100%' ,multiple: true}">
@@ -53,7 +53,7 @@
                             </div>
                             <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">نام دانشکده:</label>
-                                <Select2  class="form-control select2-form-control" id="faculty_id"
+                                <Select2  class="form-control select2-form-control non-modal-select2" id="faculty_id"
                                           v-model="faculty_id"
                                           :options="faculties"
                                           :settings="{theme: 'bootstrap4', placeholder: 'نام دانشکده', width: '100%',multiple: true}">
@@ -62,7 +62,7 @@
                             </div>
                             <div  class="col-lg-4  mt-3  text-right" >
                                 <label class="blue">گروه آموزشی:</label>
-                                <Select2 class="form-control select2-form-control" id="department_id"
+                                <Select2 class="form-control select2-form-control non-modal-select2" id="department_id"
                                          v-model="department_id"
                                          :options="departments"
                                          :settings="{theme: 'bootstrap4', placeholder: 'گروه آموزشی', width: '100%' ,multiple: true}">
