@@ -270,12 +270,6 @@ class RefereeController extends Controller
         //
         DB::beginTransaction();
         try {
-            $referee->checklists()->delete();
-            $files = $referee->files;
-
-            foreach ($files as $file){
-                $file->delete();
-            }
             $referee->delete();
         }catch (\Exception $e){
             DB::rollback();

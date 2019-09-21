@@ -12,6 +12,17 @@ class Project extends Model
         'budget', 'council_aprovedate', 'defense_date', 'score', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($project) { // called BEFORE delete()
+            $project->checklists()->delete();
+            $project->authors()->delete();
+            $files = $project->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function authors(){
         return $this->morphMany( Author::class, 'authorable');

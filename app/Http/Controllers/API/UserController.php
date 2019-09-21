@@ -474,12 +474,43 @@ class UserController extends Controller
         try {
             if($user->profile != '') {
                 $profile = $user->profile;
-                /* $papers = $profile->papers;
-                 foreach ($papers as $paper) {
-                     $paper->authors()->delete();
-                     $paper->journal()->delete();
-                     $paper->delete();
-                 }*/
+                foreach ($profile->papers as $paper){
+                    $paper->delete();
+                }
+                foreach ($profile->books as $book){
+                    $book->delete();
+                }
+                foreach ($profile->booklets as $booklet){
+                    $booklet->delete();
+                }
+                foreach ($profile->courses as $course){
+                    $course->delete();
+                }
+                foreach ($profile->grants as $grant){
+                    $grant->delete();
+                }
+                foreach ($profile->theses as $thesis){
+                    $thesis->delete();
+                }
+                foreach ($profile->inventions as $invention){
+                    $invention->delete();
+                }
+                foreach ($profile->projects as $project){
+                    $project->delete();
+                }
+                foreach ($profile->rewards as $reward){
+                    $reward->delete();
+                }
+                foreach ($profile->tedChairs as $tedChair){
+                    $tedChair->delete();
+                }
+                foreach ($profile->referees as $referee){
+                    $referee->delete();
+                }
+                foreach ($profile->researchActivity as $item){
+                    $item->delete();
+                }
+
                 $profile->delete();
             }
             $user->delete();

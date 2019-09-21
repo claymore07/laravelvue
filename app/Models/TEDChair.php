@@ -13,6 +13,16 @@ class TEDChair extends Model
         'council_aprovedate', 'status', 'score', 'presentation_date', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($tEDChair) { // called BEFORE delete()
+            $tEDChair->checklists()->delete();
+            $files = $tEDChair->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function files(){
         return $this->morphMany(Files::class, 'fileable');

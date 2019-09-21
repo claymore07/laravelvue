@@ -11,7 +11,16 @@ class Referee extends Model
         'profile_id', 'referee_types_id', 'title', 'status',
         'score', 'journal_name', 'journal_issn', 'referee_date', 'term_id'
     ];
-
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($referee) { // called BEFORE delete()
+            $referee->checklists()->delete();
+            $files = $referee->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function files(){
         return $this->morphMany(Files::class, 'fileable');

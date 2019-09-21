@@ -14,6 +14,16 @@ class ResearchActivity extends Model
         'authorities', 'start_date', 'end_date', 'score', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($researchActivity) { // called BEFORE delete()
+            $researchActivity->checklists()->delete();
+            $files = $researchActivity->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function checklists(){
         return $this->morphMany('App\Models\Checklist', 'checkable');

@@ -273,12 +273,7 @@ class BookletController extends Controller
     {
         DB::beginTransaction();
         try {
-            $booklet->checklists()->delete();
-            $files = $booklet->files;
 
-            foreach ($files as $file){
-                $file->delete();
-            }
             $booklet->delete();
         }catch (\Exception $e){
             DB::rollback();

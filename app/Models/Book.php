@@ -14,6 +14,17 @@ class Book extends Model
         'publish_year', 'pages', 'copy_number','national_code', 'congress_code', 'dewey_code', 'score', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($book) { // called BEFORE delete()
+            $files = $book->files;
+            $book->checklists()->delete();
+            $book->authors()->delete();
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function authors(){
         return $this->morphMany( Author::class, 'authorable');

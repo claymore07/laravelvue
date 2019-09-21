@@ -355,16 +355,7 @@ class PapersController extends Controller
         $paper = Paper::findOrFail($id);
         DB::beginTransaction();
         try {
-            $files = $paper->files;
-            $paper->tags()->delete();
-            $paper->authors()->delete();
-            $paper->checklists()->delete();
-            $paperable = $paper->paperable;
-            $paperable->papers()->delete();
-            $paperable->delete();
-            foreach ($files as $file){
-                    $file->delete();
-            }
+            $paper->delete();
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);

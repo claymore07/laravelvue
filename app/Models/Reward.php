@@ -12,6 +12,16 @@ class Reward extends Model
         'place', 'period', 'holding_date', 'score', 'status', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($reward) { // called BEFORE delete()
+            $reward->checklists()->delete();
+            $files = $reward->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function checklists(){
         return $this->morphMany('App\Models\Checklist', 'checkable');

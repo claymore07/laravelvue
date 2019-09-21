@@ -16,6 +16,12 @@ class Thesis extends Model
         'defense_date', 'score', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($thesis) { // called BEFORE delete()
+            $thesis->checklists()->delete();
+        });
+    }
     // Forward
     public function checklists(){
         return $this->morphMany(Checklist::class, 'checkable');

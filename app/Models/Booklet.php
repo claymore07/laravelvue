@@ -12,6 +12,16 @@ class Booklet extends Model
         'title', 'name', 'compilation_date', 'score', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($booklet) { // called BEFORE delete()
+            $booklet->checklists()->delete();
+            $files = $booklet->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function files(){
         return $this->morphMany(Files::class, 'fileable');

@@ -262,12 +262,6 @@ class RewardController extends Controller
         //
         DB::beginTransaction();
         try {
-            $reward->checklists()->delete();
-            $files = $reward->files;
-
-            foreach ($files as $file){
-                $file->delete();
-            }
             $reward->delete();
         }catch (\Exception $e){
             DB::rollback();

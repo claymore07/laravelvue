@@ -278,12 +278,6 @@ class TEDChairController extends Controller
         DB::beginTransaction();
         try {
             $tEDChair = TEDChair::findOrFail($id);
-            $tEDChair->checklists()->delete();
-            $files = $tEDChair->files;
-
-            foreach ($files as $file){
-                $file->delete();
-            }
             $tEDChair->delete();
         }catch (\Exception $e){
             DB::rollback();

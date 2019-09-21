@@ -272,11 +272,6 @@ class InventionController extends Controller
         //
         DB::beginTransaction();
         try {
-            $files = $invention->files;
-            $invention->checklists()->delete();
-            foreach ($files as $file){
-                $file->delete();
-            }
             $invention->delete();
         }catch (\Exception $e){
             DB::rollback();

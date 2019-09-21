@@ -14,6 +14,20 @@ class Paper extends Model
         'score', 'term_id','isresponsible', 'author_count', 'author_place'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($paper) { // called BEFORE delete()
+            $files = $paper->files;
+            $paper->tags()->delete();
+            $paper->authors()->delete();
+            $paper->checklists()->delete();
+            $paper->paperable->delete();
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
+
     // Forward
     public function authors(){
         return $this->morphMany('App\Models\Author', 'authorable');

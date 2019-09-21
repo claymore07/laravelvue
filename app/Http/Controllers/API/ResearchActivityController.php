@@ -307,12 +307,6 @@ class ResearchActivityController extends Controller
         $ResearchActivity = ResearchActivity::findOrFail($id);
         DB::beginTransaction();
         try {
-            $files = $ResearchActivity->files;
-            $ResearchActivity->checklists()->delete();
-
-            foreach ($files as $file){
-                $file->delete();
-            }
             $ResearchActivity->delete();
         }catch (\Exception $e){
             DB::rollback();

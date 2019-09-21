@@ -39,6 +39,9 @@ class Profile extends Model
     public function tedChairs(){
         return $this->hasMany(TEDChair::class);
     }
+    public function grants(){
+        return $this->hasMany(Grant::class);
+    }
     public function courses(){
         return $this->hasMany(Course::class);
     }

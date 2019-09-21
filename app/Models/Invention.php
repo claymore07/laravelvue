@@ -13,6 +13,16 @@ class Invention extends Model
         'company_name', 'company_type', 'company_address', 'submit_date', 'score', 'term_id'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($invention) { // called BEFORE delete()
+            $invention->checklists()->delete();
+            $files = $invention->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function checklists(){
         return $this->morphMany('App\Models\Checklist', 'checkable');

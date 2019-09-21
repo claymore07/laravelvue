@@ -301,12 +301,6 @@ class ProjectController extends Controller
     {
         DB::beginTransaction();
         try {
-            $files = $project->files;
-            $project->checklists()->delete();
-            $project->authors()->delete();
-            foreach ($files as $file){
-                $file->delete();
-            }
             $project->delete();
         }catch (\Exception $e){
             DB::rollback();

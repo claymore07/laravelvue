@@ -262,12 +262,6 @@ class CourseController extends Controller
         //
         DB::beginTransaction();
         try {
-            $course->checklists()->delete();
-            $files = $course->files;
-
-            foreach ($files as $file){
-                $file->delete();
-            }
             $course->delete();
         }catch (\Exception $e){
             DB::rollback();

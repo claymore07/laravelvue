@@ -269,12 +269,6 @@ class GrantController extends Controller
         //
         DB::beginTransaction();
         try {
-            $grant->checklists()->delete();
-            $files = $grant->files;
-
-            foreach ($files as $file){
-                $file->delete();
-            }
             $grant->delete();
         }catch (\Exception $e){
             DB::rollback();

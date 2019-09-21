@@ -12,6 +12,16 @@ class Grant extends Model
         'type','submit_date','score', 'status',
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($grant) { // called BEFORE delete()
+            $grant->checklists()->delete();
+            $files = $grant->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
     // Forward
     public function files(){
         return $this->morphMany(Files::class, 'fileable');

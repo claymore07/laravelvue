@@ -813,5 +813,8 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 }
 
 .main-sidebar {
-    z-index: 2100 !important;
+    z-index: 1100 !important;
+}
+.non-modal-select2 > .select2-container{
+    z-index: 999 !important;
 }
