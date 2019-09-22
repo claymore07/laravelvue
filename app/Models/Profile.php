@@ -51,6 +51,12 @@ class Profile extends Model
     public function researchActivity(){
         return $this->hasMany(ResearchActivity::class);
     }
+    public function researchProposals(){
+        return $this->hasMany(ResearchProposal::class);
+    }
+    public function ProposalReviews(){
+        return $this->hasMany(ProposalReview::class);
+    }
 
     // Backward Relations
     public function user(){
