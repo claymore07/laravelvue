@@ -205,8 +205,7 @@ class PapersController extends Controller
             DB::beginTransaction();
             try {
                 $fileBag = $request->files;
-                $authors = $request->authors;
-                $affiliations = $request->affiliations;
+
 
                 $tags = $request->tags;
                 $request['profile_id'] = auth('api')->user()->profile['id'];
@@ -225,8 +224,11 @@ class PapersController extends Controller
                 foreach ($tags as $tag) {
                     $paper_db->tags()->create(['name' => $tag]);
                 }
-                foreach ($authors as $key => $author) {
+                if ($authors = \Request::get('authors')) {
+                    $affiliations = $request->affiliations;
+                    foreach ($authors as $key => $author) {
                         $paper_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
+                    }
                 }
                 foreach ($fileBag as $files) {
                     foreach ($files as $file) {

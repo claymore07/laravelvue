@@ -14,6 +14,17 @@ class ResearchProposal extends Model
         'value', 'budget', 'duration', 'project_location'
     ];
 
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($researchProposal) { // called BEFORE delete()
+            $researchProposal->authors()->delete();
+            $files = $researchProposal->files;
+            foreach ($files as $file){
+                $file->delete();
+            }
+        });
+    }
+
     // Forward
     public function authors(){
         return $this->morphMany( Author::class, 'authorable');
@@ -25,7 +36,7 @@ class ResearchProposal extends Model
         return $this->morphMany(Files::class, 'fileable');
     }
     public function reviews(){
-        return $this->hasMany(ProposalReview::class);
+        return $this->hasMany(ProposalReview::class, 'research_proposal_id');
     }
 
     // Backward

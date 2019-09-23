@@ -14,7 +14,7 @@ class ProposalReview extends Model
 
     // backward
     public function proposal(){
-        return $this->belongsTo(ResearchProposal::class);
+        return $this->belongsTo(ResearchProposal::class,'research_proposal_id');
     }
     public function profile(){
         return $this->belongsTo(Profile::class);

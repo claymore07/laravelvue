@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-        <link  type="text/css"  href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link  type="text/css"  href="{{ mix('css/app.css') }}" rel="stylesheet">
         <!-- Styles -->
         <style>
             html, body {
@@ -73,7 +73,7 @@ sd
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/app.js') }}" ></script>
+        <script src="{{ mix('js/app.js') }}" ></script>
     </body>
 
 </html>

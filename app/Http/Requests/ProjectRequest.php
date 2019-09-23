@@ -44,7 +44,7 @@ class ProjectRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'عنوان جایزه الزامی است.',
+            'title.required' => 'عنوان طرح پژوهشی الزامی است.',
             'project_types_id.required' => 'انتخاب نوع طرح الزامی است.',
             'organization.required' => 'سازمان طرف قرارداد الزامی است.',
             'budget.required' => 'بودجه طرح الزامی است.',

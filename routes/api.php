@@ -52,6 +52,7 @@ Route::apiResources([
     'grant'=>'API\GrantController',
     'researchActivity'=>'API\ResearchActivityController',
     'blacklist'=>'API\BlackListController',
+    'researchProposal'=>'API\ResearchProposalController',
 ]);
 
 Route::get('profile','API\UserController@profile');
@@ -70,6 +71,7 @@ Route::post('bookletUpdate/{booklet}','API\BookletController@update');
 Route::post('inventionUpdate/{invention}','API\InventionController@update');
 Route::post('grantUpdate/{grant}','API\GrantController@update');
 Route::post('researchActivityUpdate/{researchactivity}','API\ResearchActivityController@update');
+Route::post('researchProposalUpdate/{researchProposal}','API\ResearchProposalController@update');
 
 // helper routes to get relations collections
 Route::get('profileRelation','API\UserController@profileRelation');
@@ -85,6 +87,7 @@ Route::get('rewardRelation','API\RewardController@rewardRelation');
 Route::get('courseRelation','API\CourseController@courseRelation');
 Route::get('grantRelation','API\GrantController@grantRelation');
 Route::get('researchActivityRelation','API\ResearchActivityController@researchActivityRelation');
+Route::get('researchProposalRelation','API\ResearchProposalController@researchProposalRelation');
 
 // Search Routes
 Route::post('findPaper','API\PapersController@search');
@@ -102,6 +105,7 @@ Route::get('findResearchActivity','API\ResearchActivityController@search');
 Route::get('findUser','API\UserController@search');
 Route::get('findFaculty','API\FacultiesController@search');
 Route::get('findDepartment','API\DepartmentsController@search');
+Route::get('findResearchProposal','API\ResearchProposalController@search');
 Route::get('findBlackList','API\BlackListController@search');
 Route::get('blackListCheck','API\BlackListController@blackListCheck');
 
@@ -123,6 +127,36 @@ Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
 
 /***
+ *
+ * Proposal Routes
+ *
+ */
+
+Route::get('getResearchProposalTypes','API\ProposalRelationController@getProposalType');
+Route::get('getProposalUsageTypes','API\ProposalRelationController@getProposalUsageTypes');
+
+Route::put('updateResearchProposalTypeTitle/{ResearchActivityType}','API\ProposalRelationController@updateResearchProposalTypeTitle');
+Route::put('updateResearchProposalUsageTitle/{ResearchProposalUsage}','API\ProposalRelationController@updateResearchProposalUsageTitle');
+
+Route::post('addResearchProposalTypeTitle','API\ProposalRelationController@addResearchProposalTypeTitle');
+Route::post('addResearchProposalUsageTitle','API\ProposalRelationController@addResearchProposalUsageTitle');
+
+Route::delete('deleteResearchProposalTypeTitle/{ResearchActivityType}','API\ProposalRelationController@deleteResearchProposalTypeTitle');
+Route::delete('deleteResearchProposalUsageTitle/{ResearchActivityType}','API\ProposalRelationController@deleteResearchProposalUsageTitle');
+
+
+Route::get('getUserReviewList','API\ProposalReviewController@index');
+Route::get('getProposalReviewList/{researchProposal}','API\ProposalReviewController@show');
+
+Route::post('assignReviewer','API\ProposalReviewController@assign');
+Route::post('ReviewerComment/{ProposalReview}','API\ProposalReviewController@comment');
+
+Route::delete('deleteReview/{ProposalReview}','API\ProposalReviewController@destroy');
+
+
+
+
+/***
 
 SubType title Update, Add, and Delete routes
 
@@ -139,6 +173,7 @@ Route::get('getProjectTypes','API\SubTypeController@getProjectType');
 Route::get('getInventionTypes','API\SubTypeController@getInventionType');
 Route::get('getResearchActivityTypes','API\SubTypeController@getResearchActivityType');
 
+
 Route::put('updateConfTypeTitle/{confType}','API\SubTypeController@updateConfTypeTitle');
 Route::put('updateJTypeTitle/{JType}','API\SubTypeController@updateJTypeTitle');
 Route::put('updateBookTypeTitle/{BookType}','API\SubTypeController@updateBookTypeTitle');
@@ -149,6 +184,7 @@ Route::put('updateProjectTypeTitle/{ProjectType}','API\SubTypeController@updateP
 Route::put('updateInventionTypeTitle/{InventionType}','API\SubTypeController@updateInventionTypeTitle');
 Route::put('updateResearchActivityTypeTitle/{ResearchActivityType}','API\SubTypeController@updateResearchActivityTypeTitle');
 
+
 Route::post('addConfTypeTitle','API\SubTypeController@addConfTypeTitle');
 Route::post('addJTypeTitle','API\SubTypeController@addJTypeTitle');
 Route::post('addBookTypeTitle','API\SubTypeController@addBookTypeTitle');
@@ -158,6 +194,7 @@ Route::post('addRefereeTypeTitle','API\SubTypeController@addRefereeTypeTitle');
 Route::post('addProjectTypeTitle','API\SubTypeController@addProjectTypeTitle');
 Route::post('addInventionTypeTitle','API\SubTypeController@addInventionTypeTitle');
 Route::post('addResearchActivityTypeTitle','API\SubTypeController@addResearchActivityTypeTitle');
+
 
 Route::delete('deleteConfTypeTitle/{confType}','API\SubTypeController@deleteConfTypeTitle');
 Route::delete('deleteJTypeTitle/{JType}','API\SubTypeController@deleteJTypeTitle');

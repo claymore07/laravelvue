@@ -150,8 +150,8 @@
                     <tr>
                         <td class="font-16">
                             <span class="blue ">لینک:</span>
-                            <button class="mr-3 btn btn-info btn-lg" target="_blank" :href="paper.link">لینک صفحه مقاله
-                            </button>
+                            <a class="mr-3 btn btn-info btn-lg" target="_blank" :href="paper.link">لینک صفحه مقاله
+                            </a>
                             <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('لینک')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
 
                         </td>
