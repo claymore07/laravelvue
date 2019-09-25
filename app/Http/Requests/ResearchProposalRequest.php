@@ -43,7 +43,7 @@ class ResearchProposalRequest extends FormRequest
             'files.*'=>'mimes:rar,zip,pdf',
             'files'=>'required',
         ];
-        if ($this->is('api/projectUpdate/*')) {
+        if ($this->is('api/researchProposalUpdate/*')) {
             $rules['files'] = 'required_if:fileChangeType,0|required_if:fileChangeType,1';
             $rules['files.*'] = 'sometimes|mimes:rar,zip,pdf';
         }
@@ -62,8 +62,8 @@ class ResearchProposalRequest extends FormRequest
             'introduction.required' => 'مقدمه پروپوزال الزامی است.',
             'problem.required' => 'بیان مسئله پروپوزال الزامی است.',
             'innovation.required' => 'نوآوری پروپوزال پیشنهادی الزامی است.',
-            'requirements.required' => 'نیازمندی های پروپوزال الزامی است.',
-            'value.required' => 'ارزش تخمینی پروپوزال الزامی است.',
+            'requirements.required' => 'نیازمندی های طرح الزامی است.',
+            'value.required' => 'ارزش تخمینی طرح الزامی است.',
             'budget.required' => 'بودجه مورد نیاز پروپوزال الزامی است.',
             'duration.required' => 'مدت زمان مورد نیاز اجرای پروپوزال الزامی است.',
             'project_location.required' => 'محل اجرا و انجام پروپوزال الزامی است.',

@@ -18,6 +18,8 @@ class ResearchProposal extends Model
         parent::boot();
         static::deleting(function($researchProposal) { // called BEFORE delete()
             $researchProposal->authors()->delete();
+            $researchProposal->tags()->delete();
+            $researchProposal->checklists()->delete();
             $files = $researchProposal->files;
             foreach ($files as $file){
                 $file->delete();
@@ -38,7 +40,12 @@ class ResearchProposal extends Model
     public function reviews(){
         return $this->hasMany(ProposalReview::class, 'research_proposal_id');
     }
-
+    public function checklists(){
+        return $this->morphMany('App\Models\Checklist', 'checkable');
+    }
+    public function tags(){
+        return $this->morphMany('App\Models\Tag', 'taggable');
+    }
     // Backward
     public function proposalType(){
         return $this->belongsTo(ProposalType::class,'proposal_type_id');

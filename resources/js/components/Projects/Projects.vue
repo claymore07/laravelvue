@@ -404,6 +404,10 @@
                     this.affiliation = '';
                 }
             },
+            removeAuthor(index){
+                this.$delete(this.form.authors,index);
+                this.$delete(this.form.affiliations,index);
+            },
             // validate the authors detail in last step
             authorValidation(){
                 return this.$validator.validateAll('form-4').then(result => {

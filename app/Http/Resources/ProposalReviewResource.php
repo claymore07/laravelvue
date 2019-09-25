@@ -23,7 +23,7 @@ class ProposalReviewResource extends JsonResource
             'reviewer_name'=> $name,
             'status' => $this->status,
             'assigned_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
-            'reviewed_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
+            'reviewed_at' => $this->reviewed_at != null ? Carbon::parse($this->reviewed_at)->format('Y-m-d'):'',
         ];
         return $resource;
     }

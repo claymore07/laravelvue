@@ -106,6 +106,31 @@
                 </li>
             </ul>
         </li>
+        <li  v-if="$gate.hasProfile()" class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-scroll-old purple"></i>
+                <p>
+                    پروپوزال طرح های پژوهشی
+                    <i class="right fa fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/researchProposal" class="nav-link ">
+                        <i class="nav-icon fal fa-scroll-old nav-icon  "></i>
+                        <p>پروپوزال های پژوهشی</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/ReviewList" class="nav-link ">
+
+                        <i class="nav-icon fal fa-search nav-icon  "></i>
+                        <p>لیست داوری ها</p>
+                    </router-link>
+                </li>
+
+            </ul>
+        </li>
 
         <li v-if="(type === 'admin' ||type === 'author' )  && $gate.hasProfile()" class="nav-item has-treeview ">
             <a href="#" class="nav-link">
@@ -150,6 +175,12 @@
                     <router-link to="/subType" class="nav-link ">
                         <i class="nav-icon fal fa-boxes-alt  "></i>
                         <p>مدیریت زیر عناوین آثار</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/booklets" class="nav-link ">
+                        <i class="nav-icon fal fa-edit nav-icon  "></i>
+                        <p>مدیریت انواع پروپوزال</p>
                     </router-link>
                 </li>
                 <li class="nav-item">

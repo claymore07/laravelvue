@@ -27,10 +27,18 @@ class ResearchProposalResource extends JsonResource
             ];
         }elseif ($request->isMethod('PUT')||$request->isMethod('PATCH')
             ||$request->is('api/researchProposal/*')||$request->is('api/researchProposalUpdate/*')){
+
+            $reviewers = $this->reviews;
+            $reviewers_count = count($reviewers);
+            $checkList = $this->checklists()->latest()->get();
+            foreach ($checkList as $key => $item){
+                $checkList[$key]['list'] = explode(",",$item['list']);
+            }
             $resource = [
                 'id' => $this->id,
                 'title' => $this->title,
                 'en_title' => $this->en_title,
+                'tags' => $this->tags,
                 'budget' => $this->budget,
                 'value' => $this->value,
                 'faculty_id' => $this->faculty_id,
@@ -50,6 +58,9 @@ class ResearchProposalResource extends JsonResource
                 'status' => $this->status,
                 'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
                 'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d'),
+                'checkList' => $checkList,
+                'reviewers' =>$reviewers_count > 0 ? ProposalReviewResource::collection($reviewers):[],
+                'reviewers_count' =>$reviewers_count,
                 'Authors' => AuthorResource::collection($this->authors),
                 'files' => FileResource::collection($this->files),
             ];

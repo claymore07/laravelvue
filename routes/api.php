@@ -122,7 +122,10 @@ Route::post('bookletCheckList','API\CheckListController@store');
 Route::post('inventionCheckList','API\CheckListController@store');
 Route::post('grantCheckList','API\CheckListController@store');
 Route::post('researchActivityCheckList','API\CheckListController@store');
+Route::post('researchProposalCheckList','API\CheckListController@store');
+
 Route::get('paperCheckList/{paper}','API\CheckListController@index');
+
 Route::delete('paperCheckList/{checklist}','API\CheckListController@destroy');
 Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy');
 
@@ -131,9 +134,11 @@ Route::delete('deleteCheckListItem/{checklist}','API\CheckListController@destroy
  * Proposal Routes
  *
  */
+Route::put('updateProposalStatus/{researchProposal}','API\ResearchProposalController@updateProposalStatus');
 
 Route::get('getResearchProposalTypes','API\ProposalRelationController@getProposalType');
 Route::get('getProposalUsageTypes','API\ProposalRelationController@getProposalUsageTypes');
+
 
 Route::put('updateResearchProposalTypeTitle/{ResearchActivityType}','API\ProposalRelationController@updateResearchProposalTypeTitle');
 Route::put('updateResearchProposalUsageTitle/{ResearchProposalUsage}','API\ProposalRelationController@updateResearchProposalUsageTitle');
@@ -144,12 +149,14 @@ Route::post('addResearchProposalUsageTitle','API\ProposalRelationController@addR
 Route::delete('deleteResearchProposalTypeTitle/{ResearchActivityType}','API\ProposalRelationController@deleteResearchProposalTypeTitle');
 Route::delete('deleteResearchProposalUsageTitle/{ResearchActivityType}','API\ProposalRelationController@deleteResearchProposalUsageTitle');
 
-
+Route::get('getReviewersList','API\ProposalReviewController@getReviewersList');
 Route::get('getUserReviewList','API\ProposalReviewController@index');
 Route::get('getProposalReviewList/{researchProposal}','API\ProposalReviewController@show');
+Route::get('showProposalToReview/{ProposalReview}','API\ProposalReviewController@showProposalToReview');
 
 Route::post('assignReviewer','API\ProposalReviewController@assign');
 Route::post('ReviewerComment/{ProposalReview}','API\ProposalReviewController@comment');
+
 
 Route::delete('deleteReview/{ProposalReview}','API\ProposalReviewController@destroy');
 

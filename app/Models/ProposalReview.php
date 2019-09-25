@@ -9,9 +9,10 @@ class ProposalReview extends Model
     //
     protected $table = 'proposal_reviews';
     protected $fillable = [
-        'research_proposal_id', 'profile_id', 'status', 'comment'
+        'research_proposal_id', 'profile_id', 'status', 'comment', 'reviewed_at', 'deadline'
     ];
 
+    protected $dates = ['reviewed_at', 'deadline'];
     // backward
     public function proposal(){
         return $this->belongsTo(ResearchProposal::class,'research_proposal_id');

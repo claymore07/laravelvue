@@ -205,8 +205,6 @@ class PapersController extends Controller
             DB::beginTransaction();
             try {
                 $fileBag = $request->files;
-
-
                 $tags = $request->tags;
                 $request['profile_id'] = auth('api')->user()->profile['id'];
                 $request['term_id'] = $term->id;

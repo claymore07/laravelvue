@@ -639,7 +639,7 @@
                     this.editFormPrepare();
                     // UI modal Hide, progress bar finish , show the toase
                     $('#projectEditModal').modal('hide');
-                    this.successToast('مقاله با موفقیت ویرایش شد.');
+                    this.successToast('طرح پژوهشی با موفقیت ویرایش شد.');
                     this.$Progress.finish();
                 }).catch((e) => {
                         loader1.hide();

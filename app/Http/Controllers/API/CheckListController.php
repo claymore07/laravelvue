@@ -12,6 +12,7 @@ use App\Models\Paper;
 use App\Models\Project;
 use App\Models\Referee;
 use App\Models\ResearchActivity;
+use App\Models\ResearchProposal;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\Thesis;
@@ -91,12 +92,13 @@ class CheckListController extends Controller
             $item_db = Booklet::findOrFail($request->id);
         }elseif ($path == 'api/researchActivityCheckList') {
             $item_db = ResearchActivity::findOrFail($request->id);
+        }elseif ($path == 'api/researchProposalCheckList') {
+            $item_db = ResearchProposal::findOrFail($request->id);
         }else{
             return Response::json(['dberror' => ["خطای در پایگاه داده رخ داده است"]], 402);
         }
 
-
-       DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $input = [];
             $input['status'] = $request->status;
@@ -120,8 +122,12 @@ class CheckListController extends Controller
         }
 
         DB::commit();
-        return Response::json(['checkListItem' => $checkListItem, 'score'=> $item_db->score, 'reward'=> (string)$item_db->reward], 200);
-    }
+        if ($path == 'api/researchProposalCheckList') {
+            return Response::json(['checkListItem' => $checkListItem], 200);
+        }else{
+            return Response::json(['checkListItem' => $checkListItem, 'score' => $item_db->score, 'reward' => (string)$item_db->reward], 200);
+        }
+       }
 
     /**
      * Display the specified resource.

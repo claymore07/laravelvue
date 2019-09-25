@@ -12,6 +12,7 @@ use App\Models\ProposalType;
 use App\Models\ProposalUsage;
 use App\Models\ResearchProposal;
 use Carbon\Carbon;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -53,7 +54,7 @@ class ResearchProposalController extends Controller
         $filter = \Request::get('filter');
         $user = Auth::user('api')->load('profile');
 
-        if($filter == '5') {
+        if($filter == '8') {
             if ($search = \Request::get('q')) {
                 // \DB::enableQueryLog();
                 $researchProposals = ResearchProposal::where(function ($query) use ($user) {
@@ -185,7 +186,7 @@ class ResearchProposalController extends Controller
             $fileBag = $request->files;
             $authors = $request->authors;
             $affiliations = $request->affiliations;
-
+            $tags = $request->tags;
             $request['profile_id'] = auth('api')->user()->profile['id'];
             $request['status'] = 0;
 
@@ -194,6 +195,9 @@ class ResearchProposalController extends Controller
                 $researchProposal_db->authors()->create(['name' => $author, 'affiliation' => $affiliations[$key]]);
             }
 
+            foreach ($tags as $tag) {
+                $researchProposal_db->tags()->create(['name' => $tag]);
+            }
             foreach ($fileBag as $files) {
                 foreach ($files as $file) {
                     $name = time() . rand() . '.' . $file->getClientOriginalExtension();
@@ -224,6 +228,33 @@ class ResearchProposalController extends Controller
         return new ResearchProposalResource($researchProposal_db);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function updateProposalStatus(Request $request, $id){
+        $this->authorize('IsAdminOrIsAuthor');
+        $this->validate($request,
+            [
+                'status'=>'required',
+            ],
+            [
+                'status.required'=>'نظر نهایی باید انتخاب شود',
+            ]
+        );
+        DB::beginTransaction();
+        try {
+            $researchProposal_db = ResearchProposal::findOrFail($id);
+            $researchProposal_db->update($request->all());
+        }catch (\Exception $e){
+            DB::rollback();
+            return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);
+        }
+        DB::commit();
+        return Response::json(['message'=> ["وضعیت بررسی با موفقیت بروزرسانی شد."] ], 200);
+    }
 
     /**
      * Update the specified resource in storage.
