@@ -13583,7 +13583,7 @@ table.b-table > tbody > tr.b-table-details > td {
 }
 
 .red {
-  color: #dc3545;
+  color: #dc3545 !important;
 }
 
 .orange {
@@ -33419,6 +33419,12 @@ input[type=tel] {
 
 .non-modal-select2 > .select2-container {
   z-index: 999 !important;
+}
+
+@media (min-width: 1200px) {
+  .modal-xl {
+    max-width: 85% !important;
+  }
 }
 
 @media (max-width: 990px) {

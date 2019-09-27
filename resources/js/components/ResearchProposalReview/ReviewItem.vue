@@ -67,7 +67,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">مدت زمان مورد نیاز :</span>
-                                <span class="mr-3">{{proposal.duration}}</span>
+                                <span class="mr-3 persian-num">{{proposal.duration}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -181,7 +181,7 @@
                                     <label for="id00" class="blue mt-3">توضیحات: </label>
                                     <i v-show="checkListForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
                                     <span v-show="checkListForm.errors.has('comment')" class="red d-inline-block">{{ checkListForm.errors.get('comment') }}</span>
-                                    <tinymce dir="rtl" @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id00"></tinymce>
+                                    <tinymce dir="rtl"  @editorInit="e => e.setContent(checkListForm.comment)" v-model="checkListForm.comment" :other_options="options" name="comment" id="id00"></tinymce>
                                 </form>
                             </td>
                         </tr>
@@ -256,7 +256,7 @@
                 this.checkListForm.post('/api/ReviewerComment/'+this.id)
                     .then((response) => {
                         this.proposal.status = this.checkListForm.status;
-
+                        this.proposal.comment = this.checkListForm.comment;
                         this.successToast('نتایج بررسی با موفقیت ثبت شد.');
                         this.toggleCheckList();
                         this.$Progress.finish();
@@ -291,7 +291,9 @@
                 axios.get(`/api/showProposalToReview/${id}`)
                     .then(response => {
                         this.proposal = response.data.data;
-                        this.checkListForm.comment = this.proposal.comment;
+                        if(this.proposal.comment != null){
+                            this.checkListForm.comment = this.proposal.comment;
+                        }
                         //this.term_form.term_id = this.proposal.term_id;
 
                     })

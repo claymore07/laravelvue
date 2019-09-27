@@ -221,7 +221,7 @@
                                         <div class="form-group my-3 text-right">
                                             <label class="blue">مدت زمان مورد نیاز<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="duration" placeholder="مدت زمان مورد نیاز"
-                                                    class="form-control" v-model="form.duration"
+                                                    class="form-control persian-num" v-model="form.duration"
                                                     v-validate="'required'"
                                                     :class="{ 'is-invalid': form.errors.has('duration') || errors.has('form.duration')} " @input="() => {}">
                                             <i v-show="errors.has('form.duration') || form.errors.has('duration')" class="red far fa-exclamation-triangle"></i>

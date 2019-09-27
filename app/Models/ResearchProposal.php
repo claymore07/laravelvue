@@ -10,7 +10,7 @@ class ResearchProposal extends Model
     protected $table = 'research_proposals';
     protected $fillable = [
         'profile_id', 'proposal_type_id', 'proposal_usage_id', 'faculty_id', 'title', 'en_title',
-        'abstract', 'introduction', 'problem', 'innovation', 'requirements', 'status',
+        'abstract', 'introduction', 'problem', 'innovation', 'requirements', 'status','last_status','comment',
         'value', 'budget', 'duration', 'project_location'
     ];
 

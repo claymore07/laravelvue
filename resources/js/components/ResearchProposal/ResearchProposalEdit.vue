@@ -124,7 +124,7 @@
                         <tr>
                             <td class="font-16">
                                 <span class="blue">مدت زمان مورد نیاز :</span>
-                                <span class="mr-3">{{proposal.duration}}</span>
+                                <span class="mr-3 persian-num">{{proposal.duration}}</span>
                                 <span class="red float-left font-20" v-if="checkListForm.list && checkListForm.list.includes('مدت زمان مورد نیاز')" title="عدم تایید"><i @click="checkListHistory"  class="fa fa-times-circle fe-pulse-w-pause "></i></span>
                             </td>
                             <td v-if="checkList">
@@ -295,7 +295,33 @@
                                 <span v-else-if="proposal.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</span>
                                 <span v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</span>
                             </td>
-                            <td v-if="checkList">
+                        </tr>
+                        <tr v-if="$gate.isAdminOrAuthor()&& proposal.show_reviewer_comments">
+                            <td class="font-16">
+                                <span class="blue ">وضعیت بررسی پیشین:</span>
+                                <span v-if="proposal.last_status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
+                                <span v-else-if="proposal.last_status == '7'"  class="green"><i class="fal fa-search"></i>  {{'تایید شده با اصلاحات' }}</span>
+                                <span v-else  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</span>
+                            </td>
+                        </tr>
+                        <tr v-if="proposal.show_reviewer_comments">
+                            <td  class="font-16">
+                                <span class="blue ">نظر نهایی کارشناس<span> </span>:</span>
+                                <div v-html="proposal.comment"></div>
+                            </td>
+                        </tr>
+                        <tr v-if="proposal.show_reviewer_comments" v-for="(comment, index) of proposal.reviewer_comments">
+
+                            <td  class="font-16">
+
+                                <span class="blue ">نظر داور<span> {{index+1}}</span>:</span>
+
+                                <span v-if="comment.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
+                                <span v-else-if="comment.status == '2'"  class="green"><i class="fal fa-search"></i>  {{'تایید شده با اصلاحات' }}</span>
+                                <span v-else  class="red"><i class="fal fa-times"></i>  {{'عدم تایید' }}</span>
+                                <br>
+                                <span class="blue "> توضیحات :</span>
+                                <div v-html="comment.comment"></div>
                             </td>
                         </tr>
 
@@ -339,10 +365,11 @@
             </div><!-- /card -->
             <div class="row align-content-center">
                 <div class="fixed-bottom mx-auto d-md-flex bg-white   justify-content-center py-2">
-                    <button v-if="proposal.status != 3 && proposal.status != 1 && proposal.status != 5 && proposal.status != 6 && proposal.status != 7" @click="proposalEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  پروپوزال پژوهشی</button>
+                    <button v-if="proposal.status != 3 && proposal.status != 1 && proposal.status != 5 && proposal.status != 6 && proposal.last_status != 7" @click="proposalEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  پروپوزال پژوهشی</button>
+                    <button v-if="proposal.last_status == proposal.status && proposal.status == 7 && proposal.last_status == 7" @click="proposalEditModal" class="btn btn-lg mx-1 btn-secondary">ویرایش  پروپوزال پژوهشی</button>
 
                     <button v-if="$gate.isAdminOrAuthor()&& proposal.status == 6" @click="getReviewersList"  class="btn btn-lg btn-success mx-5">ارسال برای داوری</button>
-                    <button v-if="$gate.isAdminOrAuthor()&& proposal.status == 5" @click="getReviewersList"  class="btn btn-lg btn-success mx-5">مشاهده وضعیت داوری</button>
+                    <button v-if="$gate.isAdminOrAuthor()&& (proposal.status == 5 || proposal.status == 7 || proposal.last_status == 7)" @click="getReviewersList"  class="btn btn-lg btn-success mx-5">مشاهده وضعیت داوری</button>
                     <button v-if="checkList" @click="checkListSubmit" class="btn btn-lg btn-success mx-5"><i class="fal fa-check fa-fw"></i>ثبت نتبجه بررسی</button>
 
                     <button @click="checkListHistory" class="btn btn-lg mx-1 btn-secondary"><i class="fal fa-history fa-fw mx-2"></i>تاریخچه بررسی</button>
@@ -454,7 +481,7 @@
                                         <div class="form-group my-3 text-right">
                                             <label class="blue">مدت زمان مورد نیاز<i class="red mx-1">*</i>:</label>
                                             <input  type="text"  name="duration" placeholder="مدت زمان مورد نیاز"
-                                                    class="form-control" v-model="form.duration"
+                                                    class="form-control persian-num" v-model="form.duration"
                                                     v-validate="'required'"
                                                     :class="{ 'is-invalid': form.errors.has('duration') || errors.has('form.duration')} " @input="() => {}">
                                             <i v-show="errors.has('form.duration') || form.errors.has('duration')" class="red far fa-exclamation-triangle"></i>
@@ -564,35 +591,35 @@
                                             <i v-show="errors.has('form2.abstract')||form.errors.has('abstract')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form2.abstract')" class="red d-inline-block">{{ errors.first('form2.abstract') }}</span>
                                             <span v-show="form.errors.has('abstract')" class="red d-inline-block">{{ form.errors.get('abstract') }}</span>
-                                            <tinymce @editorChange="removeError('abstract')" :other_options="options" v-validate="'required'" name="abstract" v-model="form.abstract" id="d1"></tinymce>
+                                            <tinymce @editorInit="e => e.setContent(form.abstract)" @editorChange="removeError('abstract')" :other_options="options" v-validate="'required'" name="abstract" v-model="form.abstract" id="d1"></tinymce>
                                         </div>
                                         <div class="text-right mt-1 mb-4" >
                                             <label class="blue text-right">مقدمه<i class="red mx-1">*</i>:</label><br>
                                             <i v-show="errors.has('form2.introduction')||form.errors.has('introduction')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form2.introduction')" class="red d-inline-block">{{ errors.first('form2.introduction') }}</span>
                                             <span v-show="form.errors.has('introduction')" class="red d-inline-block">{{ form.errors.get('introduction') }}</span>
-                                            <tinymce @editorChange="removeError('introduction')" :other_options="options" v-validate="'required'" name="introduction" v-model="form.introduction" id="d2"></tinymce>
+                                            <tinymce @editorInit="e => e.setContent(form.introduction)" @editorChange="removeError('introduction')" :other_options="options" v-validate="'required'" name="introduction" v-model="form.introduction" id="d2"></tinymce>
                                         </div>
                                         <div class="text-right mt-1 mb-4" >
                                             <label class="blue text-right">بیان مسئله<i class="red mx-1">*</i>:</label><br>
                                             <i v-show="errors.has('form2.problem')||form.errors.has('problem')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form2.problem')" class="red d-inline-block">{{ errors.first('form2.problem') }}</span>
                                             <span v-show="form.errors.has('problem')" class="red d-inline-block">{{ form.errors.get('problem') }}</span>
-                                            <tinymce @editorChange="removeError('problem')" :other_options="options" v-validate="'required'" name="problem" v-model="form.problem" id="d3"></tinymce>
+                                            <tinymce @editorInit="e => e.setContent(form.problem)" @editorChange="removeError('problem')" :other_options="options" v-validate="'required'" name="problem" v-model="form.problem" id="d3"></tinymce>
                                         </div>
                                         <div class="text-right mt-1 mb-4" >
                                             <label class="blue text-right">نوآوری پروپوزال پیشنهادی<i class="red mx-1">*</i>:</label><br>
                                             <i v-show="errors.has('form2.innovation')||form.errors.has('innovation')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form2.innovation')" class="red d-inline-block">{{ errors.first('form2.innovation') }}</span>
                                             <span v-show="form.errors.has('innovation')" class="red d-inline-block">{{ form.errors.get('innovation') }}</span>
-                                            <tinymce @editorChange="removeError('innovation')" :other_options="options" v-validate="'required'" name="innovation" v-model="form.innovation" id="d4"></tinymce>
+                                            <tinymce @editorInit="e => e.setContent(form.innovation)" @editorChange="removeError('innovation')" :other_options="options" v-validate="'required'" name="innovation" v-model="form.innovation" id="d4"></tinymce>
                                         </div>
                                         <div class="text-right mt-1 mb-4" >
                                             <label class="blue text-right">نیازمندی ها<i class="red mx-1">*</i>:</label><br>
                                             <i v-show="errors.has('form2.requirements')||form.errors.has('requirements')" class="red far fa-exclamation-triangle"></i>
                                             <span v-show="errors.has('form2.requirements')" class="red d-inline-block">{{ errors.first('form2.requirements') }}</span>
                                             <span v-show="form.errors.has('requirements')" class="red d-inline-block">{{ form.errors.get('requirements') }}</span>
-                                            <tinymce @editorChange="removeError('requirements')" :other_options="options" v-validate="'required'" name="requirements" v-model="form.requirements" id="d5"></tinymce>
+                                            <tinymce @editorInit="e => e.setContent(form.requirements)" @editorChange="removeError('requirements')" :other_options="options" v-validate="'required'" name="requirements" v-model="form.requirements" id="d5"></tinymce>
                                         </div>
                                     </div>
 
@@ -729,7 +756,7 @@
                         </button>
                     </div>
                     <div class="modal-body" style="height: 600px; overflow-y: scroll" >
-                        <div class="col-lg-12  mt-3 mr-2" >
+                        <div v-if="proposal.status != 3 && proposal.status != 1 &&  proposal.status != 7 && proposal.last_status != 7" class="col-lg-12  mt-3 mr-2" >
                             <div class="form-group mb-3 text-right">
                                 <label class="blue text-right  text-rtl">لیست اسامی :</label>
                                 <!-- @change="searchit" -->
@@ -764,12 +791,12 @@
                                     <td>
                                         <span v-if="reviewer.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</span>
                                         <span v-else-if="reviewer.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</span>
-                                        <span v-else-if="reviewer.status == '2'"  class="cyan"><i class="fal fa-exclamation"></i>  {{'تایید شده' }}</span>
+                                        <span v-else-if="reviewer.status == '2'"  class="cyan"><i class="fal fa-exclamation"></i>  {{'تایید با اصلاحات' }}</span>
                                         <span v-else-if="reviewer.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید' }}</span>
                                     </td>
 
                                     <td>
-                                        <a class="" @click="removeReview(reviewer.id, index)"><i class=" red far fa-user-times fa-fw"></i> </a>
+                                        <a v-if="proposal.status != 3 && proposal.status != 1 && proposal.status != 7 && proposal.last_status != 7" class="" @click="removeReview(reviewer.id, index)"><i class=" red far fa-user-times fa-fw"></i> </a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -798,11 +825,17 @@
                                            عدم تایید
                                        </p-radio>
                                    </td>
-                                    <td>
-                                        <button class="btn btn-lg btn-primary" :disabled="isDisabled" @click="updateProposalStatus">ثبت نظر نهایی</button>
-                                    </td>
                                 </tr>
                             </table>
+                            <div class="text-right mt-1 mb-4" >
+                                <label class="blue text-right">توضیحات کارشناس<i class="red mx-1">*</i>:</label><br>
+                                <i v-show="proposalStatusForm.errors.has('comment')" class="red far fa-exclamation-triangle"></i>
+                                <span v-show="proposalStatusForm.errors.has('comment')" class="red d-inline-block">{{ proposalStatusForm.errors.get('comment') }}</span>
+                                <tinymce dir="rtl" @editorInit="e => e.setContent(proposalStatusForm.comment)" :other_options="options" v-validate="'required'" name="requirements" v-model="proposalStatusForm.comment" id="d15"></tinymce>
+                            </div>
+                            <div class="text-right mt-1 mb-4">
+                                <button class="btn btn-block btn-lg btn-primary" :disabled="isDisabled" @click="updateProposalStatus">ثبت نظر نهایی</button>
+                            </div>
                         </div>
                     </div><!-- modal-body -->
                 </div><!-- /modal-content -->
@@ -855,6 +888,7 @@
                 }),
                 proposalStatusForm: new Form({
                     status:0,
+                    comment:'',
                 }),
                 removeReviewForm: new Form({
                     id:''
@@ -889,6 +923,7 @@
                 this.proposalStatusForm.put('/api/updateProposalStatus/'+this.id)
                     .then((response)=>{
                         this.proposal.status = this.proposalStatusForm.status;
+                        this.proposal.comment = this.proposalStatusForm.comment;
                         this.successSwal('نظر نهایی در مورد پروپوزال با موفقیت ثبت شد.');
                     })
                     .catch((e)=>{
@@ -1082,7 +1117,6 @@
                 this.form.errors.clear(field)
             },
 
-
             deleteCheckListItem(id, index) {
 
                 if(this.checkListItems.length > 1){
@@ -1210,7 +1244,11 @@
                             this.show_reviewersList = true;
                             this.reviewersList = this.proposal.reviewers;
                             if(this.proposal.status == '1' ||this.proposal.status == '7' ||this.proposal.status == '3'){
-                                this.proposalStatusForm.status = this.proposal.status;
+                                this.proposalStatusForm.status = `${this.proposal.status}`;
+                                this.proposalStatusForm.comment = this.proposal.comment;
+                            }else if(this.proposal.last_status == '7'){
+                                this.proposalStatusForm.status = `${this.proposal.last_status}`;
+                                this.proposalStatusForm.comment = this.proposal.comment;
                             }
                         }
 

@@ -10,9 +10,12 @@ use App\Http\Resources\GrantReportResource;
 use App\Http\Resources\InventionReportResource;
 use App\Http\Resources\JournalReportResource;
 use App\Http\Resources\ProjectReportResource;
+use App\Http\Resources\ProposalReviewResource;
 use App\Http\Resources\RefereeReportResource;
 use App\Http\Resources\ResearchActivityReportResource;
 use App\Http\Resources\ResearchActivityResource;
+use App\Http\Resources\ResearchProposalForReviewResource;
+use App\Http\Resources\ResearchProposalReportResource;
 use App\Http\Resources\RewardReportResource;
 use App\Http\Resources\TEDReportResource;
 use App\Http\Resources\ThesesReportResource;
@@ -33,9 +36,11 @@ use App\Models\Position;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectType;
+use App\Models\ProposalReview;
 use App\Models\Referee;
 use App\Models\RefereeType;
 use App\Models\ResearchActivity;
+use App\Models\ResearchProposal;
 use App\Models\Reward;
 use App\Models\TEDChair;
 use App\Models\TEDType;
@@ -2205,6 +2210,25 @@ class ReportController extends Controller
                         }
                     })->get();
               return BookletReportResource::collection($query);
+        }elseif($query_type == 'ResearchProposal' ){
+                $query = ResearchProposal::where(function ($query) use ($role,$profile_id,$term) {
+                        if($role == 'user'){
+                            $query->where('profile_id',$profile_id);
+                            $query->whereIn('status',[1,2,3,5,7]);
+                        }else{
+                            $query->whereIn('status',[0,4]);
+                        }
+                    })->get();
+              return ResearchProposalReportResource::collection($query);
+        }elseif($query_type == 'ProposalReview' ){
+                $query = ProposalReview::where(function ($query) use ($role,$profile_id,$term) {
+                        $query->where('profile_id',$profile_id);
+                        $query->where('status',0);
+                        if (isset($term)) {
+                            $query->whereIn('term_id',  explode(',',$term));
+                        }
+                    })->get();
+              return ProposalReviewResource::collection($query);
         }
     }
 
@@ -2362,7 +2386,28 @@ class ReportController extends Controller
                 $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
-            return \Response::json(['data'=>$result]);
+        $result['ResearchProposal']= ResearchProposal::where(function ($query) use ($role,$profile_id,$term) {
+            if($role == 'user'){
+                $query->where('profile_id',$profile_id);
+                $query->whereIn('status',[1,2,3,5,7]);
+            }else{
+                $query->whereIn('status',[0,4]);
+            }
+
+        })->count();
+        $result['ProposalReview']= ProposalReview::where(function ($query) use ($role,$profile_id,$term) {
+            $query->where('profile_id',$profile_id);
+            $query->where('status',0);
+
+        })->count();
+        $show_result = false;
+        foreach ($result as $item){
+            if($item > 0){
+                $show_result = true;
+                break;
+            }
+        }
+        return \Response::json(['data'=>$result, 'show_result'=>$show_result], 200);
 
     }
 

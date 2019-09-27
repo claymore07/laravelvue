@@ -52,17 +52,22 @@ class ProposalReviewController extends Controller
     public function getReviewersList(Request $request){
         $proposal_id = $request->propsal_id;
         $facutly_id = $request->faculty_id;
-
+        $proposal = ResearchProposal::findOrFail($proposal_id);
+        $owner_id = $proposal->profile->id;
         $reviews = ProposalReview::where('research_proposal_id', $proposal_id);
+        $reviewers_ids = [];
+
         if($reviews->count()>0){
             $reviewers_ids = $reviews->select('profile_id')->get()->map(function ($item){
                 return $item['profile_id'];
             })->toArray();
+            $reviewers_ids[] = $owner_id;
             $reviewers = Profile::select(['id','Fname','Lname','faculty_id'])->whereNotIn('id',$reviewers_ids)->where('faculty_id', $facutly_id)->get()->map(function ($item){
                 return ['id'=> $item['id'], 'text'=>$item['Fname'].' '.$item['Lname']];
             })->toArray();
         }else{
-            $reviewers = Profile::select(['id','Fname','Lname','faculty_id'])->where('faculty_id', $facutly_id)->get()->map(function ($item){
+            $reviewers_ids[] = $owner_id;
+            $reviewers = Profile::select(['id','Fname','Lname','faculty_id'])->whereNotIn('id',$reviewers_ids)->where('faculty_id', $facutly_id)->get()->map(function ($item){
                 return ['id'=> $item['id'], 'text'=>$item['Fname'].' '.$item['Lname']];
             })->toArray();
         }
@@ -79,7 +84,7 @@ class ProposalReviewController extends Controller
      */
     public function assign(Request $request)
     {
-         $this->authorize('IsAdminOrIsAuthor');
+        $this->authorize('IsAdminOrIsAuthor');
         $this->validate($request,
             [
                 'research_proposal_id'=>'required',

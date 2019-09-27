@@ -300,7 +300,7 @@
                 <li class="nav-item">
                     <router-link to="/totalStats" class="nav-link ">
                         <i class="nav-icon fal fa-abacus  "></i>
-                        <p>گزارش نموداری وضعیت رسیدگی کلی آثار</p>
+                        <p>گزارش نموداری وضعیت<br> رسیدگی کلی آثار</p>
                     </router-link>
                 </li>
                 <li class="nav-item">

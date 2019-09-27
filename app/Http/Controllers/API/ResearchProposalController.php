@@ -238,16 +238,20 @@ class ResearchProposalController extends Controller
         $this->authorize('IsAdminOrIsAuthor');
         $this->validate($request,
             [
+                'comment'=>'required',
                 'status'=>'required',
             ],
             [
-                'status.required'=>'نظر نهایی باید انتخاب شود',
+                'comment.required'=>'توضیحات کارشناس الزامی است.',
+                'status.required'=>'نظر نهایی کارشناس الزامی است.',
             ]
         );
         DB::beginTransaction();
         try {
             $researchProposal_db = ResearchProposal::findOrFail($id);
-            $researchProposal_db->update($request->all());
+            $input = $request->all();
+            $input['last_status'] = $researchProposal_db->last_status ==null ?$input['status']:$researchProposal_db->last_status;
+            $researchProposal_db->update($input);
         }catch (\Exception $e){
             DB::rollback();
             return Response::json(['dberror'=> ["خطای در پایگاه داده رخ داده است"] ], 402);

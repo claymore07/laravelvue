@@ -821,6 +821,11 @@ div.form-control.is-invalid >  span.select2-container--bootstrap4 .select2-selec
 @media (min-width: 576px) {
 
 }
+@media (min-width: 1200px) {
+    .modal-xl {
+        max-width: 85% !important;
+    }
+}
 @media (max-width: 990px) {
     .modal-dialog {
         max-width: 94%;
