@@ -6,12 +6,21 @@ class User{
             .then(res => {
                 this.responseAfterLogin(res)
             }).catch(error => {
-            window.swal.fire({
-                title: 'خطا!',
-                type: 'error',
-                confirmButtonText: 'متوجه شدم!',
-                text: 'اطلاعات وارد شده صحیح نمی باشد، لطفا مجددا بررسی کنید!',
-            })
+                if((error.response.status == 406)){
+                    window.swal.fire({
+                        title: 'توجه',
+                        type: 'info',
+                        confirmButtonText: 'متوجه شدم!',
+                        text: `${error.response.data.error}`,
+                    })
+                }else{
+                    window.swal.fire({
+                        title: 'خطا!',
+                        type: 'error',
+                        confirmButtonText: 'متوجه شدم!',
+                        text: `اطلاعات ورودی دارای خطا می باشد، لطفا مجددا بررسی کنید.`,
+                    })
+                }
         })
     }
     responseAfterLogin(res){

@@ -40,6 +40,9 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
 
             }
+            if(auth()->user()->is_activated == 0){
+                return response()->json(['error' => ' ثبت نام اولیه شما ابتدا باید توسط کارشناس پژوهشی تایید شود. منتظر تایید باشید.'], 406);
+            }
             auth()->user()->last_login = auth()->user()->current_login? auth()->user()->current_login : Carbon::now();
             auth()->user()->current_login = Carbon::now();
             auth()->user()->ip_address=\Request::getClientIp();
@@ -52,6 +55,8 @@ class AuthController extends Controller
         $captcha = $request->get('captcha');
 
         if($captcha === true ){
+            $input = $request->all();
+            $input['is_activated'] = 0;
             User::create($request->all());
             return $this->login($request);
         }

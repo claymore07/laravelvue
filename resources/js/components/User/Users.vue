@@ -53,6 +53,11 @@
                             <td>{{ user.ip_address  }}</td>
                             <td>{{ user.created_at | myDate }}</td>
                             <td>
+                                <button class="btn btn-sm " :class="[user.is_activated == 0?'btn-success':'btn-danger']" href="#" @click="updateUserActivation(index,user.id)">
+                                    <span v-if="user.is_activated == 0"><i class="fa fa-check white"></i>فعال</span>
+                                    <span v-else><i class="fa fa-times white"></i>غیر فعال</span>
+                                </button>
+                                /
                                 <router-link :to="{ name: 'userView', params: { id: user.id }}">
                                     <i class="fa fa-eye green"></i>
                                 </router-link>
@@ -343,6 +348,23 @@
           console.log('hahah');
         },
         methods: {
+            updateUserActivation(index,id){
+                let loader1 = Vue.$loading.show();
+                axios.put('/api/userActivation/'+id)
+                  .then((reponse)=>{
+
+                      if(this.users.data[index].is_activated == 1){
+                          this.users.data[index].is_activated =  0;
+                      }else{
+                          this.users.data[index].is_activated =  1;
+                      }
+                      loader1.hide();
+                      this.successToast('برزوزسانی کاربر با موفقیت انجام شد.');
+                  }).catch((e)=>{
+                    loader1.hide();
+                    this.errorSwal('خطایی رخ داد، لطفا ورودی ها را مجدد بررسی کنید!');
+                  })
+            },
             // remove field error from form.errors bag onChange
             removeError(field){
                 this.form.errors.clear(field)

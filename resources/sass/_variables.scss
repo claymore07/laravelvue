@@ -8,6 +8,7 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
+$white: #ffffff !default;
 $blue:    #007bff !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
@@ -19,7 +20,9 @@ $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
 
-
+.white{
+    color: $white;
+}
 .blue{
     color:$blue;
 }

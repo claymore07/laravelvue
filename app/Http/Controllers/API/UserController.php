@@ -304,6 +304,36 @@ class UserController extends Controller
         return new UserResource($user);
 
     }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
+     */
+    public function updateUserActivation(Request $request, $id)
+    {
+        $this->authorize('IsAdminOrIsAuthor');
+        $user = User::findOrFail($id);
+        DB::beginTransaction();
+        try {
+            if ($user->is_activated == 0) {
+                $user->is_activated = 1;
+                $user->save();
+            } else {
+                $user->is_activated = 0;
+                $user->save();
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return Response::json(['message' => ["خطای در پایگاه داده رخ داده است"]], 403);
+        }
+        DB::commit();
+        return Response::json(['success' => ["اطلاعات کاربر با موفقیت بروزرسانی شد."]], 200);
+    }
+
+
     /**
      * Display the specified resource.
      *

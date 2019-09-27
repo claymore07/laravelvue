@@ -253,6 +253,7 @@ Route::put('termActive/{Term}','API\TermsController@termActivate');
 
 Route::get('findPaper','API\PapersController@search');
 Route::put('profile','API\UserController@updateProfile');
+Route::put('userActivation/{user}','API\UserController@updateUserActivation');
 
 
 // Reports
