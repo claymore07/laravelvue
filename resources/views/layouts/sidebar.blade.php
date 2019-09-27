@@ -178,7 +178,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/booklets" class="nav-link ">
+                    <router-link to="/proposalTypes" class="nav-link ">
                         <i class="nav-icon fal fa-edit nav-icon  "></i>
                         <p>مدیریت انواع پروپوزال</p>
                     </router-link>

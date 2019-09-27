@@ -31,7 +31,7 @@
                             <td> {{1|faDigit}}</td>
                             <td>  فهرست عناوین کنفرانسی</td>
                             <td>
-                                <a class="mr-2" href="#"  @click="perpareConfTypeList">
+                                <a class="mr-2" href="#"  @click="prepareConfTypeList">
                                     <i class="fa fa-edit blue"></i>
                                 </a>
                             </td>
@@ -41,7 +41,7 @@
                             <td>  فهرست عناوین ژونالی</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareJournalTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareJournalTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -50,7 +50,7 @@
                             <td>  فهرست عناوین کتب</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareBookTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareBookTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -59,7 +59,7 @@
                             <td>  فهرست عناوین پایان نامه</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareThesesTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareThesesTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -68,7 +68,7 @@
                             <td>  فهرست عناوین کرسی های نظریه پردازی</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareTedTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareTedTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -77,7 +77,7 @@
                             <td>  فهرست عناوین داوری</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareRefereeTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareRefereeTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -86,7 +86,7 @@
                             <td>  فهرست عناوین طرح های پژوهشی و فناوری</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareProjectTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareProjectTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -95,7 +95,7 @@
                             <td>  فهرست عناوین اختراعات و اکتشافات</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareInventionTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareInventionTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -104,7 +104,7 @@
                             <td>  فهرست فعالیت های اجرایی پژوهشی</td>
                             <td>
                                 <a class="mr-2" href="#" >
-                                    <i class="fa fa-edit blue" @click="perpareResearchActivityTypeList"></i>
+                                    <i class="fa fa-edit blue" @click="prepareResearchActivityTypeList"></i>
                                 </a>
                             </td>
                         </tr>
@@ -833,7 +833,7 @@
         },
         methods:{
             nothing(){},
-            perpareJournalTypeList(){
+            prepareJournalTypeList(){
                 let loader1 = Vue.$loading.show();
                 axios.get('/api/getJournalTypes').then((response)=>{
                     loader1.hide();
@@ -845,7 +845,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareConfTypeList(){
+            prepareConfTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getConfTypes').then((response)=>{
                     loader.hide();
@@ -857,7 +857,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareBookTypeList(){
+            prepareBookTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getBookTypes').then((response)=>{
                     loader.hide();
@@ -869,7 +869,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareThesesTypeList(){
+            prepareThesesTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getThesesTypes').then((response)=>{
                     loader.hide();
@@ -881,7 +881,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareTedTypeList(){
+            prepareTedTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getTEDTypes').then((response)=>{
                     loader.hide();
@@ -893,7 +893,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareRefereeTypeList(){
+            prepareRefereeTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getRefereeTypes').then((response)=>{
                     loader.hide();
@@ -905,7 +905,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareProjectTypeList(){
+            prepareProjectTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getProjectTypes').then((response)=>{
                     loader.hide();
@@ -917,7 +917,7 @@
                     this.errorSwal('خطایی رخ در شبکه یا سیستم رخ داده است. لطفا پس از مدتی مجددا تلاش کنید.');
                 });
             },
-            perpareInventionTypeList(){
+            prepareInventionTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getInventionTypes').then((response)=>{
                     loader.hide();
@@ -930,7 +930,7 @@
                 });
             },
 
-            perpareResearchActivityTypeList(){
+            prepareResearchActivityTypeList(){
                 let loader = Vue.$loading.show();
                 axios.get('/api/getResearchActivityTypes').then((response)=>{
                     loader.hide();
@@ -1472,7 +1472,7 @@
             });
         },
         created(){
-            this.$parent.pageName = 'مدیریت امتیازات'
+            this.$parent.pageName = 'مدیریت زیر عناوین آثار'
             swal.fire({
                 title: 'توجه!!',
                 text: 'اطلاعات این بخش دارای حساسیت بالایی می باشد و در صورت عدم دقت می تواند صحت کل اطلاعات سامانه را از بین ببرد!',

@@ -62,6 +62,7 @@ let routes = [
     { path: '/totalStats', component: require('../components/Reports/totalStats.vue').default },
     { path: '/regulations', component: require('../components/Regulations/Regulations.vue').default },
     { path: '/researchProposal', component: require('../components/ResearchProposal/ResearchProposal.vue').default },
+    { path: '/proposalTypes', component: require('../components/ProposalTypesAndUsages/ProposalTypes.vue').default },
     { path: '/researchProposalEdit/:id', name:'researchProposalEdit', component: require('../components/ResearchProposal/ResearchProposalEdit.vue').default },
     { path: '/ReviewList', component: require('../components/ResearchProposalReview/ReviewList.vue').default },
     { path: '/ReviewItem/:id', name:'ReviewItem', component: require('../components/ResearchProposalReview/ReviewItem.vue').default },
