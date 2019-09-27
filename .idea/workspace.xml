@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="58ad72a9-ac07-46e3-afcc-ed111ae5ada9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Helpers/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Helpers/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/User/Users.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/User/Users.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/Signup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/Signup.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,7 +31,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Users.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Users.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/User/Users.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="346">
@@ -65,8 +55,8 @@
       <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AuthController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="43" column="53" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
+            <state relative-caret-position="434">
+              <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -94,10 +84,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Signup.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Signup.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Signup.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3162" />
+            <state relative-caret-position="325">
+              <caret line="125" column="28" lean-forward="true" selection-start-line="125" selection-start-column="28" selection-end-line="125" selection-end-column="35" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -122,8 +114,8 @@
       <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/Helpers/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+            <state relative-caret-position="651">
+              <caret line="22" column="17" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="22" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -215,7 +207,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2019_09_22_063323_create_proposal_reviews_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_09_22_064413_add_proposal_related_foreign_keys_to_research_proposals.php" />
         <option value="$PROJECT_DIR$/app/Models/ProposalType.php" />
         <option value="$PROJECT_DIR$/app/Models/ProposalUsage.php" />
@@ -260,12 +251,13 @@
         <option value="$PROJECT_DIR$/resources/views/layouts/sidebar.blade.php" />
         <option value="$PROJECT_DIR$/resources/js/components/Reports/ResearchProposalReport.vue" />
         <option value="$PROJECT_DIR$/app/User.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" />
         <option value="$PROJECT_DIR$/resources/js/Helpers/User.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/resources/sass/_variables.scss" />
         <option value="$PROJECT_DIR$/resources/js/components/User/Users.vue" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" />
+        <option value="$PROJECT_DIR$/resources/js/components/auth/Signup.vue" />
       </list>
     </option>
   </component>
@@ -673,14 +665,7 @@
       <workItem from="1569036565919" duration="16668000" />
       <workItem from="1569130987869" duration="44171000" />
       <workItem from="1569297958284" duration="29305000" />
-      <workItem from="1569475913175" duration="33433000" />
-    </task>
-    <task id="LOCAL-00049" summary="Term added to Tables and Models and tested on Thesis for submitting">
-      <created>1555597105429</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1555597105429</updated>
+      <workItem from="1569475913175" duration="33740000" />
     </task>
     <task id="LOCAL-00050" summary="Term store and show for resume models done, next term edit for models">
       <created>1555660213088</created>
@@ -1018,11 +1003,18 @@
       <option name="project" value="LOCAL" />
       <updated>1569597317245</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="User activation done, next order of database selection in all components should be desc, which will be done by setting order to 0 in all components">
+      <created>1569603456667</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1569603456667</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1954785000" />
+    <option name="totallyTimeSpent" value="1955092000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -1047,7 +1039,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="npm" order="2" sideWeight="0.50159746" side_tool="true" weight="0.23081024" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49733475" weight="0.30620986" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49840257" visible="true" weight="0.17430703" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49840257" visible="true" weight="0.17430703" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" sideWeight="0.50159746" side_tool="true" weight="0.23081024" />
@@ -1098,7 +1090,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="login and sign up Captcha is done" />
     <MESSAGE value="Regulation part done" />
     <MESSAGE value="Paper Reward's status has been done" />
     <MESSAGE value="User password and role update bug fixed, edit pages minor change and bug fixed" />
@@ -1123,7 +1114,8 @@
     <MESSAGE value="Research Proposal and its review parts done, next its parameter management will be done." />
     <MESSAGE value="Research Proposal Types and usage management done. next user profile and Research Proposal report will be done" />
     <MESSAGE value="Research Proposal report done, next user activation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Research Proposal report done, next user activation" />
+    <MESSAGE value="User activation done, next order of database selection in all components should be desc, which will be done by setting order to 0 in all components" />
+    <option name="LAST_COMMIT_MESSAGE" value="User activation done, next order of database selection in all components should be desc, which will be done by setting order to 0 in all components" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1496,11 +1488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Signup.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3162" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
@@ -1512,13 +1499,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
           <caret line="101" column="18" selection-start-line="101" selection-start-column="18" selection-end-line="101" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -1543,13 +1523,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="43" column="53" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/API/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
@@ -1562,6 +1535,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Helpers/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="22" column="17" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="22" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/User/Users.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
@@ -1569,6 +1556,13 @@
           <folding>
             <element signature="n#div#1;n#div#0;n#template#0;n#!!top" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/auth/Signup.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="125" column="28" lean-forward="true" selection-start-line="125" selection-start-column="28" selection-end-line="125" selection-end-column="35" />
         </state>
       </provider>
     </entry>

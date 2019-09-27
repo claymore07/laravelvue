@@ -121,7 +121,23 @@
                         User.responseAfterLogin(res);
                         //this.$router.push('/home');
                     })
-                    .catch(error => {})
+                    .catch(error => {
+                        if((error.response.status == 406)){
+                            window.swal.fire({
+                                title: 'توجه',
+                                type: 'info',
+                                confirmButtonText: 'متوجه شدم!',
+                                text: `${error.response.data.error}`,
+                            })
+                        }else{
+                            window.swal.fire({
+                                title: 'خطا!',
+                                type: 'error',
+                                confirmButtonText: 'متوجه شدم!',
+                                text: `اطلاعات ورودی دارای خطا می باشد، لطفا مجددا بررسی کنید.`,
+                            })
+                        }
+                    })
             },
             removeError(field){
                 this.form.errors.clear(field)
