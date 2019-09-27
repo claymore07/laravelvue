@@ -127,7 +127,7 @@
 
                                     </div>
                                 </div>
-                                <div class="card">
+                                    <div class="card">
                                     <div class="card-header" id="headingTwo">
                                         <h2 class="mb-0">
                                             <button @click="getResults('Conference')" class="btn btn-link collapsed"
@@ -248,7 +248,57 @@
                                         </div>
 
                                     </div>
+                                    <div class="card">
+                                        <div class="card-header" id="heading154">
+                                            <h2 class="mb-0">
+                                                <button  @click="getResults('ResearchProposal')" class="btn btn-link collapsed"
+                                                         :class="[query_type==='ResearchProposal'||Stats['ResearchProposal']===0?'disabled':'']" type="button" data-toggle="collapse" data-target="#collapse14" aria-expanded="false" aria-controls="collapse14">
+                                                    <i class="nav-icon fal fa-scroll-old nav-icon  "></i>
+                                                    پروپوزال های پژوهشی <span class="badge badge-info">{{Stats['ResearchProposal'] | faDigit}}</span>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapse14" class="collapse  table-responsive" aria-labelledby="heading154" data-parent="#accordionExample">
+                                            <table v-if="query_type === 'ResearchProposal'" class="table table-sm table-striped table-hover text-right">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th>شماره</th>
+                                                    <th>عنوان پروپوزال پژوهشی</th>
+                                                    <th>ارسال کننده</th>
+                                                    <th>وضعیت بررسی</th>
+                                                    <th >تاریخ ثبت</th>
+                                                    <th> ویرایش</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
 
+                                                <tr v-if="allDatas.length <= 0">
+                                                    <td colspan="15"><h4 class="text-center">هیچ نتیجه ای یافت نشد.</h4></td>
+                                                </tr>
+                                                <tr v-for="(proposal, index) in allDatas" :key="proposal.id">
+                                                    <td class="persian-num">{{counter(index)}}</td>
+                                                    <td>{{ proposal.title | truncate(40) }}</td>
+                                                    <td>{{ proposal.Author_name }}</td>
+                                                    <td v-if="proposal.status == '0'"  class="teal"><i class="fal fa-question"></i>  {{'بررسی نشده' }}</td>
+                                                    <td v-else-if="proposal.status == '1'"  class="green"><i class="fal fa-check"></i>  {{'تایید شده' }}</td>
+                                                    <td v-else-if="proposal.status == '5'"  class="green"><i class="fal fa-search"></i>  {{'تحت داوری' }}</td>
+                                                    <td v-else-if="proposal.status == '6'"  class="green"><i class="fal fa-search"></i>  {{'تایید و ارسال برای داوری' }}</td>
+                                                    <td v-else-if="proposal.status == '7'"  class="green"><i class="fal fa-search"></i>  {{'تایید شده با اصلاحات' }}</td>
+                                                    <td v-else-if="proposal.status == '2'"  class="orange"><i class="far fa-exclamation-triangle"></i>  {{'عدم تایید موقت' }}</td>
+                                                    <td v-else-if="proposal.status == '3'"  class="red"><i class="fal fa-times"></i>  {{'عدم تایید قطعی' }}</td>
+                                                    <td v-else class="cyan"><i class="fal fa-exclamation"></i>  {{'اصلاح شده' }}</td>
+                                                    <td colspan="1">{{ proposal.created_at | myDate  }}</td>
+                                                    <td>
+                                                        <router-link :to="{ name: 'researchProposalEdit', params: { id: proposal.id }}">
+                                                            <i class="fa fa-edit blue"></i>
+                                                        </router-link>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
                                     <div class="card">
                                         <div class="card-header" id="heading4">
                                             <h2 class="mb-0">

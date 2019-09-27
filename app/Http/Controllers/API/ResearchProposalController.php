@@ -157,7 +157,7 @@ class ResearchProposalController extends Controller
         $faculties = Faculty::all()->map(function ($item){
             return ['id'=> $item['id'], 'text'=>$item['name']];
         })->toArray();
-        if($request->is('api/projectReportRelation')) {
+        if($request->is('api/researchProposalReportRelation')) {
             $departments = Department::all()->map(function ($item){
                 return ['id'=> $item['id'], 'text'=>$item['name']];
             })->toArray();

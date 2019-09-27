@@ -238,6 +238,12 @@
                         <p>طرحی های پژوهشی و فناوری</p>
                     </router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/researchProposalReport" class="nav-link ">
+                        <i class="nav-icon fal fa-scroll-old nav-icon  "></i>
+                        <p>پروپوزال های پژوهشی</p>
+                    </router-link>
+                </li>
 
                 <li class="nav-item">
                     <router-link to="/tedReport" class="nav-link ">

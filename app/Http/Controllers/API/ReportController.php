@@ -370,6 +370,64 @@ class ReportController extends Controller
 
     }
 
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function ResearchProposalReport(Request $request){
+        $this->authorize('IsAdminOrIsAuthor');
+
+        $this->perPage = $request->get('perPage');
+        $proposalType_id = $request->get('proposal_type_id');
+        $proposalUsage_id = $request->get('proposal_usage_id');
+        $faculty_id = $request->get('faculty_id');
+        $department_id = $request->get('department_id');
+        $status = $request->get('status');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $order = $request->get('order');
+        $dateType = $request->get('dateType');
+
+        $researchProposalQuery = ResearchProposal::with(['profile','authors','proposalType','proposalUsage'])
+           ->where(function ($query) use($status, $start_date,$end_date, $dateType) {
+               if ( $start_date != '' &&  $end_date != '' ) {
+                   $query->whereBetween('created_at',[$start_date, $end_date]);
+               }
+               if (isset($status)) {
+                   $query->whereIn('status',  explode(',',$status));
+               }
+
+            })->whereHas('proposalType', function ($query) use ($proposalType_id){
+                if (isset($proposalType_id)) {
+                    $query->whereIn('id',  explode(',',$proposalType_id));
+                }
+            })->whereHas('proposalUsage', function ($query) use ($proposalUsage_id){
+                if (isset($proposalUsage_id)) {
+                    $query->whereIn('id',  explode(',',$proposalUsage_id));
+                }
+            })->whereHas('profile', function ($query) use ($faculty_id){
+                if (isset($faculty_id)) {
+                    $query->whereIn('faculty_id',  explode(',',$faculty_id));
+                }
+            })->whereHas('profile', function ($query) use ($department_id){
+                if (isset($department_id)) {
+                    $query->whereIn('department_id',  explode(',',$department_id));
+                }
+            })
+            ->orderBy('created_at', $order);
+
+        if(\Request::get('excelReport') !=0){
+            $proposals =  $researchProposalQuery->get();
+        }else{
+            $proposals =  $researchProposalQuery->paginate($this->perPage);
+        }
+       // return \Response::json(['books'=>$projects]);
+        return ResearchProposalReportResource::collection($proposals);
+
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -1848,6 +1906,9 @@ class ReportController extends Controller
                 $query->whereIn('term_id',  explode(',',$term));
             }
         })->count();
+        $result['ResearchProposal']= ResearchProposal::where(function ($query) use ($role,$profile_id,$term) {
+            $query->where('profile_id',$profile_id);
+        })->count();
         return \Response::json(['data'=>$result]);
 
     }
@@ -1912,6 +1973,11 @@ class ReportController extends Controller
                         }
                     })->get();
               return ProjectReportResource::collection($query);
+        }elseif($query_type == 'ResearchProposal' ){
+            $query = ResearchProposal::where(function ($query) use ($profile_id,$term) {
+                    $query->where('profile_id',$profile_id);
+            })->get();
+            return ResearchProposalReportResource::collection($query);
         }elseif($query_type == 'Invention' ){
                 $query = Invention::where(function ($query) use ($profile_id,$term, $start_date, $end_date) {
                         $query->where('profile_id',$profile_id);

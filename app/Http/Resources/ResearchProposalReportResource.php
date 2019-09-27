@@ -27,10 +27,20 @@ class ResearchProposalReportResource extends JsonResource
         }
         $resource = [
             'id' => $this->id,
-            'title' => $this->title,
-            'proposal_type' => $this->proposalType->name,
             'Author_name'=> $name,
             'Authors' => $authors_name,
+
+            'title' => $this->title,
+            'en_title' => $this->en_title,
+            'proposal_type' => $this->proposalType->name,
+            'proposal_usage' => $this->proposalUsage->name,
+            'faculty'=>$this->profile->faculty->name,
+            'department'=>$this->profile->department->name,
+            'budget' => $this->budget,
+            'value' => $this->value,
+            'project_location' => $this->project_location,
+            'duration' => $this->duration,
+
             'status' => $this->status,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
         ];
