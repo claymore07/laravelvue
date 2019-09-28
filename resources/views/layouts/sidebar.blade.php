@@ -48,31 +48,31 @@
                 <li class="nav-item">
                     <router-link to="/projects" class="nav-link ">
                         <i class="nav-icon fal fa-project-diagram nav-icon  "></i>
-                        <p>طرحی های پژوهشی و فناوری</p>
+                        <p>طرحی&zwnj;های پژوهشی و فناوری</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/teds" class="nav-link ">
                         <i class="nav-icon fal fa-lightbulb-on nav-icon  "></i>
-                        <p>کرسی های نظریه پردازی</p>
+                        <p>کرسی&zwnj;های نظریه پردازی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/thesis" class="nav-link ">
                         <i class="nav-icon fal fa-book nav-icon  "></i>
-                        <p>پایان نامه ها</p>
+                        <p>پایان نامه&zwnj;ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/referees" class="nav-link ">
                         <i class="nav-icon fal fa-gavel nav-icon  "></i>
-                        <p>داوری و نظارت بر طرح ها</p>
+                        <p>داوری و نظارت بر طرح&zwnj;ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/researchActivity" class="nav-link ">
                         <i class="nav-icon fal fa-user-secret nav-icon  "></i>
-                        <p>فعالیت های اجرایی پژوهشی</p>
+                        <p>فعالیت&zwnj;های اجرایی پژوهشی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -84,7 +84,7 @@
                 <li class="nav-item">
                     <router-link to="/courses" class="nav-link ">
                         <i class="nav-icon fal fa-users-class nav-icon  "></i>
-                        <p>دوره ها</p>
+                        <p>دوره&zwnj;ها</p>
                     </router-link>
                 </li>
             </ul>
@@ -110,7 +110,7 @@
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-scroll-old purple"></i>
                 <p>
-                    پروپوزال طرح های پژوهشی
+                    پروپوزال طرح&zwnj;های پژوهشی
                     <i class="right fa fa-angle-left"></i>
                 </p>
             </a>
@@ -118,14 +118,14 @@
                 <li class="nav-item">
                     <router-link to="/researchProposal" class="nav-link ">
                         <i class="nav-icon fal fa-scroll-old nav-icon  "></i>
-                        <p>پروپوزال های پژوهشی</p>
+                        <p>پروپوزال&zwnj;های پژوهشی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/ReviewList" class="nav-link ">
 
                         <i class="nav-icon fal fa-search nav-icon  "></i>
-                        <p>لیست داوری ها</p>
+                        <p>لیست داوری&zwnj;ها</p>
                     </router-link>
                 </li>
 
@@ -150,13 +150,13 @@
                 <li class="nav-item">
                     <router-link to="/faculties" class="nav-link ">
                         <i class="nav-icon fal fa-university  "></i>
-                        <p>دانشکده ها</p>
+                        <p>دانشکده&zwnj;ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/departments" class="nav-link ">
                         <i class="nav-icon fal fa-building  "></i>
-                        <p>گروه های آموزشی</p>
+                        <p>گروه&zwnj;های آموزشی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -168,19 +168,25 @@
                 <li class="nav-item">
                     <router-link to="/term" class="nav-link ">
                         <i class="nav-icon fal fa-calendar-edit  "></i>
-                        <p>مدیریت ترم ها</p>
+                        <p>مدیریت ترم&zwnj;ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/subType" class="nav-link ">
                         <i class="nav-icon fal fa-boxes-alt  "></i>
-                        <p>مدیریت زیر عناوین آثار</p>
+                        <p>مدیریت زیر&zwnj;عناوین آثار</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/proposalTypes" class="nav-link ">
                         <i class="nav-icon fal fa-edit nav-icon  "></i>
                         <p>مدیریت انواع پروپوزال</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/userRelations" class="nav-link ">
+                        <i class="nav-icon fal fa-edit nav-icon  "></i>
+                        <p>مدیریت گزینه&zwnj;های کاربری</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -192,7 +198,7 @@
                 <li class="nav-item">
                     <router-link to="/regulations" class="nav-link ">
                         <i class="nav-icon fal fa-info-circle  "></i>
-                        <p>آیین نامه و بخشنامه ها</p>
+                        <p>آیین&zwnj;نامه و بخشنامه&zwnj;ها</p>
                     </router-link>
                 </li>
 
@@ -235,39 +241,39 @@
                 <li class="nav-item">
                     <router-link to="/projectReport" class="nav-link ">
                         <i class="nav-icon fal fa-project-diagram nav-icon  "></i>
-                        <p>طرحی های پژوهشی و فناوری</p>
+                        <p>طرحی&zwnj;های پژوهشی و فناوری</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/researchProposalReport" class="nav-link ">
                         <i class="nav-icon fal fa-scroll-old nav-icon  "></i>
-                        <p>پروپوزال های پژوهشی</p>
+                        <p>پروپوزال&zwnj;های پژوهشی</p>
                     </router-link>
                 </li>
 
                 <li class="nav-item">
                     <router-link to="/tedReport" class="nav-link ">
                         <i class="nav-icon fal fa-lightbulb-on nav-icon  "></i>
-                        <p>کرسی های نظریه پردازی</p>
+                        <p>کرسی&zwnj;های نظریه پردازی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/thesisReport" class="nav-link ">
                         <i class="nav-icon fal fa-book-reader  "></i>
-                        <p>گزارش پایان نامه ها</p>
+                        <p>گزارش پایان نامه&zwnj;ها</p>
                     </router-link>
                 </li>
 
                 <li class="nav-item">
                     <router-link to="/refereeReport" class="nav-link ">
                         <i class="nav-icon fal fa-gavel nav-icon  "></i>
-                        <p>گزارش داوری ها</p>
+                        <p>گزارش داوری&zwnj;ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/researchActivityReport" class="nav-link ">
                         <i class="nav-icon fal fa-user-secret nav-icon  "></i>
-                        <p>گزارش فعالیت های اجرایی</p>
+                        <p>گزارش فعالیت&zwnj;های اجرایی</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -312,7 +318,7 @@
                 <li class="nav-item">
                     <router-link to="/facultyStats" class="nav-link ">
                         <i class="nav-icon fal fa-university  "></i>
-                        <p>گزارش نموداری دانشکده ها</p>
+                        <p>گزارش نموداری دانشکده&zwnj;ها</p>
                     </router-link>
                 </li>
                 <li class="nav-item">

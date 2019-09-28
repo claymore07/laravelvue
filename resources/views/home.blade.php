@@ -113,7 +113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ol>
                     </div><!-- /.col -->
                     <div class="col-sm-6 text-right">
-                        <h1 class="m-0 text-dark">سامانه جامع پژوهشی</h1>
+                        <h1 class="m-0 text-dark">سامانه جامع ارزیابی پژوهشی</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -135,17 +135,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <aside v-if="is_loggedIn" class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
         <div class="p-3">
-            <h5>Title</h5>
-            <p>Sidebar content11111111</p>
+            <h5>عنوان</h5>
+            <p></p>
         </div>
     </aside>
     <!-- /.control-sidebar -->
-
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">درباره سامانه</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-justify text-rtl">
+                    <p>
+                        سامانه حاضر با هدف تسهیل فرآیند بررسی فعالیت های پژوهشی اعضای هیات علمی با تلاش های معاونت پژوهشی دانشگاه آزاد اسلامی واحد اردبیل طراحی و توسعه داده شده است.
+                        <br>
+                        <br>
+                        <br>
+                        طراحی و توسعه: <span class="blue"><i>بابک نوری مقدم</i></span> عضو هیات علمی
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن پنجره</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Main Footer -->
     <footer  :class="[is_loggedIn? 'main-footer' : 'main-footer-login fixed-bottom' ]" >
         <!-- To the right -->
-        <div class="float-right d-none d-sm-inline">
-
+        <div class="float-right d-none d-sm-inline ">
+            <a  class="btn btn-link my-0 py-0" data-toggle="modal" data-target="#exampleModalCenter">
+                درباره سامانه
+            </a>
         </div>
         <!-- Default to the left -->
         <strong class="persian-num">کلیه حقوق متعلق به دانشگاه می باشد &copy;  1397 - 1398</strong>

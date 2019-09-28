@@ -160,15 +160,28 @@ Route::post('ReviewerComment/{ProposalReview}','API\ProposalReviewController@com
 
 Route::delete('deleteReview/{ProposalReview}','API\ProposalReviewController@destroy');
 
+/*** User Relation CRUD routes ***/
+Route::get('getRanks','API\UserRelationController@getRanks');
+Route::get('getDegrees','API\UserRelationController@getDegrees');
+Route::get('getPositions','API\UserRelationController@getPositions');
+Route::get('getMembers','API\UserRelationController@getMembers');
 
+Route::put('updateRankTitle/{rank}','API\UserRelationController@updateRankTitle');
+Route::put('updateDegreeTitle/{degree}','API\UserRelationController@updateDegreeTitle');
+Route::put('updatePositionTitle/{position}','API\UserRelationController@updatePositionTitle');
+Route::put('updateMemberTitle/{member}','API\UserRelationController@updateMemberTitle');
 
+Route::post('addRankTitle','API\UserRelationController@addRankTitle');
+Route::post('addDegreeTitle','API\UserRelationController@addDegreeTitle');
+Route::post('addPositionTitle','API\UserRelationController@addPositionTitle');
+Route::post('addMemberTitle','API\UserRelationController@addMemberTitle');
 
-/***
+Route::delete('deleteRankTitle/{rank}','API\UserRelationController@deleteRankTitle');
+Route::delete('deleteDegreeTitle/{degree}','API\UserRelationController@deleteDegreeTitle');
+Route::delete('deletePositionTitle/{position}','API\UserRelationController@deletePositionTitle');
+Route::delete('deleteMemberTitle/{member}','API\UserRelationController@deleteMemberTitle');
 
-SubType title Update, Add, and Delete routes
-
- ***/
-
+/*** SubType title Update, Add, and Delete routes ***/
 
 Route::get('getJournalTypes','API\SubTypeController@getJournalType');
 Route::get('getConfTypes','API\SubTypeController@getConfType');
@@ -213,11 +226,7 @@ Route::delete('deleteProjectTypeTitle/{ProjectType}','API\SubTypeController@dele
 Route::delete('deleteInventionTypeTitle/{InventionType}','API\SubTypeController@deleteInventionTypeTitle');
 Route::delete('deleteResearchActivityTypeTitle/{ResearchActivityType}','API\SubTypeController@deleteResearchActivityTypeTitle');
 
-/***
-
-SubType Score Update routes
-
- ***/
+/*** SubType Score Update routes ***/
 
 Route::get('getJournalType','API\ScoreController@getJournalType');
 Route::get('getConfType','API\ScoreController@getConfType');
@@ -247,7 +256,7 @@ Route::put('updateCourseType/{CourseType}','API\ScoreController@updateCourseType
 Route::put('updateBookletType/{BookletType}','API\ScoreController@updateBookletType');
 Route::put('updateResearchActivityType/{ResearchActivityType}','API\ScoreController@updateResearchActivityType');
 
-// Terms Update route
+/*** Terms Update route **/
 Route::post('termChange','API\TermsController@termChange');
 Route::put('termActive/{Term}','API\TermsController@termActivate');
 
@@ -256,7 +265,7 @@ Route::put('profile','API\UserController@updateProfile');
 Route::put('userActivation/{user}','API\UserController@updateUserActivation');
 
 
-// Reports
+/***  Reports  **/
 Route::post('journalReport','API\ReportController@journalReport');
 Route::post('conferenceReport','API\ReportController@conferenceReport');
 Route::post('bookReport','API\ReportController@bookReport');
@@ -273,7 +282,7 @@ Route::post('coursesReport','API\ReportController@coursesReport');
 Route::post('researchActivityReport','API\ReportController@researchActivityReport');
 Route::post('researchProposalReport','API\ReportController@ResearchProposalReport');
 
-// stats report
+/*** stats report ***/
 Route::post('termsList','API\ReportController@termsList');
 Route::post('termStats','API\ReportController@termStats');
 Route::post('facultyStats','API\ReportController@facultyStats');
@@ -285,7 +294,7 @@ Route::post('personalReport','API\ReportController@personalReport');
 Route::post('dashboardReport','API\ReportController@dashboardReport');
 Route::post('dashboardStats','API\ReportController@dashboardStats');
 
-// User Reports
+/*** User Reports ***/
 Route::post('userStats','API\ReportController@personalStats');
 Route::post('userChart','API\ReportController@personalChart');
 Route::post('userReport','API\ReportController@personalReport');
