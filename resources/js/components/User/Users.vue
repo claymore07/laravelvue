@@ -305,7 +305,7 @@
 
                 modalID: '',
                 search: '',             // search term in search box
-                order: 1,               // order 1 for asc and -1 for desc
+                order: -1,               // order 1 for asc and -1 for desc
                 total: 0,               // total # of users
                 numToShow: 0,           // # of displayed users in current table
                 numStart: 0,            // row # start

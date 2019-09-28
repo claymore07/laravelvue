@@ -205,7 +205,7 @@
                 departments:[],
                 terms:[],
 
-                order: 1,       // order 1 for desc and 0  for asc
+                order: -1,       // order 1 for desc and 0  for asc
                 total: 0,       // total number of courses
                 numToShow: 0,   // number of courses shown in this page
                 numStart: 0,    // starting row number
