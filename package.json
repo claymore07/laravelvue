@@ -35,7 +35,7 @@
         "bootstrap-vue": "^2.0.0-rc.11",
         "js-file-download": "^0.4.7",
         "laravel-vue-pagination": "^2.2.0",
-        "moment": "^2.23.0",
+        "moment": "^2.29.4",
         "moment-jalaali": "^0.8.3",
         "persian": "^1.0.1",
         "pretty-checkbox-vue": "^1.1.9",
